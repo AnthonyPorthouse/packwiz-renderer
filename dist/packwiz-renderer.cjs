@@ -20212,6 +20212,495 @@ var {
 // package.json
 var version = "0.1.0";
 
+// node_modules/chalk/source/vendor/ansi-styles/index.js
+var ANSI_BACKGROUND_OFFSET = 10;
+var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
+var wrapAnsi256 = (offset = 0) => (code) => `\x1B[${38 + offset};5;${code}m`;
+var wrapAnsi16m = (offset = 0) => (red, green, blue) => `\x1B[${38 + offset};2;${red};${green};${blue}m`;
+var styles = {
+  modifier: {
+    reset: [0, 0],
+    // 21 isn't widely supported and 22 does the same thing
+    bold: [1, 22],
+    dim: [2, 22],
+    italic: [3, 23],
+    underline: [4, 24],
+    overline: [53, 55],
+    inverse: [7, 27],
+    hidden: [8, 28],
+    strikethrough: [9, 29]
+  },
+  color: {
+    black: [30, 39],
+    red: [31, 39],
+    green: [32, 39],
+    yellow: [33, 39],
+    blue: [34, 39],
+    magenta: [35, 39],
+    cyan: [36, 39],
+    white: [37, 39],
+    // Bright color
+    blackBright: [90, 39],
+    gray: [90, 39],
+    // Alias of `blackBright`
+    grey: [90, 39],
+    // Alias of `blackBright`
+    redBright: [91, 39],
+    greenBright: [92, 39],
+    yellowBright: [93, 39],
+    blueBright: [94, 39],
+    magentaBright: [95, 39],
+    cyanBright: [96, 39],
+    whiteBright: [97, 39]
+  },
+  bgColor: {
+    bgBlack: [40, 49],
+    bgRed: [41, 49],
+    bgGreen: [42, 49],
+    bgYellow: [43, 49],
+    bgBlue: [44, 49],
+    bgMagenta: [45, 49],
+    bgCyan: [46, 49],
+    bgWhite: [47, 49],
+    // Bright color
+    bgBlackBright: [100, 49],
+    bgGray: [100, 49],
+    // Alias of `bgBlackBright`
+    bgGrey: [100, 49],
+    // Alias of `bgBlackBright`
+    bgRedBright: [101, 49],
+    bgGreenBright: [102, 49],
+    bgYellowBright: [103, 49],
+    bgBlueBright: [104, 49],
+    bgMagentaBright: [105, 49],
+    bgCyanBright: [106, 49],
+    bgWhiteBright: [107, 49]
+  }
+};
+var modifierNames = Object.keys(styles.modifier);
+var foregroundColorNames = Object.keys(styles.color);
+var backgroundColorNames = Object.keys(styles.bgColor);
+var colorNames = [...foregroundColorNames, ...backgroundColorNames];
+function assembleStyles() {
+  const codes = /* @__PURE__ */ new Map();
+  for (const [groupName, group] of Object.entries(styles)) {
+    for (const [styleName, style] of Object.entries(group)) {
+      styles[styleName] = {
+        open: `\x1B[${style[0]}m`,
+        close: `\x1B[${style[1]}m`
+      };
+      group[styleName] = styles[styleName];
+      codes.set(style[0], style[1]);
+    }
+    Object.defineProperty(styles, groupName, {
+      value: group,
+      enumerable: false
+    });
+  }
+  Object.defineProperty(styles, "codes", {
+    value: codes,
+    enumerable: false
+  });
+  styles.color.close = "\x1B[39m";
+  styles.bgColor.close = "\x1B[49m";
+  styles.color.ansi = wrapAnsi16();
+  styles.color.ansi256 = wrapAnsi256();
+  styles.color.ansi16m = wrapAnsi16m();
+  styles.bgColor.ansi = wrapAnsi16(ANSI_BACKGROUND_OFFSET);
+  styles.bgColor.ansi256 = wrapAnsi256(ANSI_BACKGROUND_OFFSET);
+  styles.bgColor.ansi16m = wrapAnsi16m(ANSI_BACKGROUND_OFFSET);
+  Object.defineProperties(styles, {
+    rgbToAnsi256: {
+      value(red, green, blue) {
+        if (red === green && green === blue) {
+          if (red < 8) {
+            return 16;
+          }
+          if (red > 248) {
+            return 231;
+          }
+          return Math.round((red - 8) / 247 * 24) + 232;
+        }
+        return 16 + 36 * Math.round(red / 255 * 5) + 6 * Math.round(green / 255 * 5) + Math.round(blue / 255 * 5);
+      },
+      enumerable: false
+    },
+    hexToRgb: {
+      value(hex) {
+        const matches = /[a-f\d]{6}|[a-f\d]{3}/i.exec(hex.toString(16));
+        if (!matches) {
+          return [0, 0, 0];
+        }
+        let [colorString] = matches;
+        if (colorString.length === 3) {
+          colorString = [...colorString].map((character) => character + character).join("");
+        }
+        const integer = Number.parseInt(colorString, 16);
+        return [
+          /* eslint-disable no-bitwise */
+          integer >> 16 & 255,
+          integer >> 8 & 255,
+          integer & 255
+          /* eslint-enable no-bitwise */
+        ];
+      },
+      enumerable: false
+    },
+    hexToAnsi256: {
+      value: (hex) => styles.rgbToAnsi256(...styles.hexToRgb(hex)),
+      enumerable: false
+    },
+    ansi256ToAnsi: {
+      value(code) {
+        if (code < 8) {
+          return 30 + code;
+        }
+        if (code < 16) {
+          return 90 + (code - 8);
+        }
+        let red;
+        let green;
+        let blue;
+        if (code >= 232) {
+          red = ((code - 232) * 10 + 8) / 255;
+          green = red;
+          blue = red;
+        } else {
+          code -= 16;
+          const remainder = code % 36;
+          red = Math.floor(code / 36) / 5;
+          green = Math.floor(remainder / 6) / 5;
+          blue = remainder % 6 / 5;
+        }
+        const value = Math.max(red, green, blue) * 2;
+        if (value === 0) {
+          return 30;
+        }
+        let result = 30 + (Math.round(blue) << 2 | Math.round(green) << 1 | Math.round(red));
+        if (value === 2) {
+          result += 60;
+        }
+        return result;
+      },
+      enumerable: false
+    },
+    rgbToAnsi: {
+      value: (red, green, blue) => styles.ansi256ToAnsi(styles.rgbToAnsi256(red, green, blue)),
+      enumerable: false
+    },
+    hexToAnsi: {
+      value: (hex) => styles.ansi256ToAnsi(styles.hexToAnsi256(hex)),
+      enumerable: false
+    }
+  });
+  return styles;
+}
+var ansiStyles = assembleStyles();
+var ansi_styles_default = ansiStyles;
+
+// node_modules/chalk/source/vendor/supports-color/index.js
+var import_node_process = __toESM(require("node:process"), 1);
+var import_node_os = __toESM(require("node:os"), 1);
+var import_node_tty = __toESM(require("node:tty"), 1);
+function hasFlag(flag, argv = globalThis.Deno ? globalThis.Deno.args : import_node_process.default.argv) {
+  const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
+  const position = argv.indexOf(prefix + flag);
+  const terminatorPosition = argv.indexOf("--");
+  return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+}
+var { env } = import_node_process.default;
+var flagForceColor;
+if (hasFlag("no-color") || hasFlag("no-colors") || hasFlag("color=false") || hasFlag("color=never")) {
+  flagForceColor = 0;
+} else if (hasFlag("color") || hasFlag("colors") || hasFlag("color=true") || hasFlag("color=always")) {
+  flagForceColor = 1;
+}
+function envForceColor() {
+  if ("FORCE_COLOR" in env) {
+    if (env.FORCE_COLOR === "true") {
+      return 1;
+    }
+    if (env.FORCE_COLOR === "false") {
+      return 0;
+    }
+    return env.FORCE_COLOR.length === 0 ? 1 : Math.min(Number.parseInt(env.FORCE_COLOR, 10), 3);
+  }
+}
+function translateLevel(level) {
+  if (level === 0) {
+    return false;
+  }
+  return {
+    level,
+    hasBasic: true,
+    has256: level >= 2,
+    has16m: level >= 3
+  };
+}
+function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
+  const noFlagForceColor = envForceColor();
+  if (noFlagForceColor !== void 0) {
+    flagForceColor = noFlagForceColor;
+  }
+  const forceColor = sniffFlags ? flagForceColor : noFlagForceColor;
+  if (forceColor === 0) {
+    return 0;
+  }
+  if (sniffFlags) {
+    if (hasFlag("color=16m") || hasFlag("color=full") || hasFlag("color=truecolor")) {
+      return 3;
+    }
+    if (hasFlag("color=256")) {
+      return 2;
+    }
+  }
+  if ("TF_BUILD" in env && "AGENT_NAME" in env) {
+    return 1;
+  }
+  if (haveStream && !streamIsTTY && forceColor === void 0) {
+    return 0;
+  }
+  const min = forceColor || 0;
+  if (env.TERM === "dumb") {
+    return min;
+  }
+  if (import_node_process.default.platform === "win32") {
+    const osRelease = import_node_os.default.release().split(".");
+    if (Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
+      return Number(osRelease[2]) >= 14931 ? 3 : 2;
+    }
+    return 1;
+  }
+  if ("CI" in env) {
+    if ("GITHUB_ACTIONS" in env || "GITEA_ACTIONS" in env) {
+      return 3;
+    }
+    if (["TRAVIS", "CIRCLECI", "APPVEYOR", "GITLAB_CI", "BUILDKITE", "DRONE"].some((sign) => sign in env) || env.CI_NAME === "codeship") {
+      return 1;
+    }
+    return min;
+  }
+  if ("TEAMCITY_VERSION" in env) {
+    return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
+  }
+  if (env.COLORTERM === "truecolor") {
+    return 3;
+  }
+  if (env.TERM === "xterm-kitty") {
+    return 3;
+  }
+  if ("TERM_PROGRAM" in env) {
+    const version2 = Number.parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
+    switch (env.TERM_PROGRAM) {
+      case "iTerm.app": {
+        return version2 >= 3 ? 3 : 2;
+      }
+      case "Apple_Terminal": {
+        return 2;
+      }
+    }
+  }
+  if (/-256(color)?$/i.test(env.TERM)) {
+    return 2;
+  }
+  if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+    return 1;
+  }
+  if ("COLORTERM" in env) {
+    return 1;
+  }
+  return min;
+}
+function createSupportsColor(stream4, options = {}) {
+  const level = _supportsColor(stream4, {
+    streamIsTTY: stream4 && stream4.isTTY,
+    ...options
+  });
+  return translateLevel(level);
+}
+var supportsColor = {
+  stdout: createSupportsColor({ isTTY: import_node_tty.default.isatty(1) }),
+  stderr: createSupportsColor({ isTTY: import_node_tty.default.isatty(2) })
+};
+var supports_color_default = supportsColor;
+
+// node_modules/chalk/source/utilities.js
+function stringReplaceAll(string, substring, replacer) {
+  let index = string.indexOf(substring);
+  if (index === -1) {
+    return string;
+  }
+  const substringLength = substring.length;
+  let endIndex = 0;
+  let returnValue = "";
+  do {
+    returnValue += string.slice(endIndex, index) + substring + replacer;
+    endIndex = index + substringLength;
+    index = string.indexOf(substring, endIndex);
+  } while (index !== -1);
+  returnValue += string.slice(endIndex);
+  return returnValue;
+}
+function stringEncaseCRLFWithFirstIndex(string, prefix, postfix, index) {
+  let endIndex = 0;
+  let returnValue = "";
+  do {
+    const gotCR = string[index - 1] === "\r";
+    returnValue += string.slice(endIndex, gotCR ? index - 1 : index) + prefix + (gotCR ? "\r\n" : "\n") + postfix;
+    endIndex = index + 1;
+    index = string.indexOf("\n", endIndex);
+  } while (index !== -1);
+  returnValue += string.slice(endIndex);
+  return returnValue;
+}
+
+// node_modules/chalk/source/index.js
+var { stdout: stdoutColor, stderr: stderrColor } = supports_color_default;
+var GENERATOR = Symbol("GENERATOR");
+var STYLER = Symbol("STYLER");
+var IS_EMPTY = Symbol("IS_EMPTY");
+var levelMapping = [
+  "ansi",
+  "ansi",
+  "ansi256",
+  "ansi16m"
+];
+var styles2 = /* @__PURE__ */ Object.create(null);
+var applyOptions = (object, options = {}) => {
+  if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
+    throw new Error("The `level` option should be an integer from 0 to 3");
+  }
+  const colorLevel = stdoutColor ? stdoutColor.level : 0;
+  object.level = options.level === void 0 ? colorLevel : options.level;
+};
+var chalkFactory = (options) => {
+  const chalk2 = (...strings) => strings.join(" ");
+  applyOptions(chalk2, options);
+  Object.setPrototypeOf(chalk2, createChalk.prototype);
+  return chalk2;
+};
+function createChalk(options) {
+  return chalkFactory(options);
+}
+Object.setPrototypeOf(createChalk.prototype, Function.prototype);
+for (const [styleName, style] of Object.entries(ansi_styles_default)) {
+  styles2[styleName] = {
+    get() {
+      const builder = createBuilder(this, createStyler(style.open, style.close, this[STYLER]), this[IS_EMPTY]);
+      Object.defineProperty(this, styleName, { value: builder });
+      return builder;
+    }
+  };
+}
+styles2.visible = {
+  get() {
+    const builder = createBuilder(this, this[STYLER], true);
+    Object.defineProperty(this, "visible", { value: builder });
+    return builder;
+  }
+};
+var getModelAnsi = (model, level, type, ...arguments_) => {
+  if (model === "rgb") {
+    if (level === "ansi16m") {
+      return ansi_styles_default[type].ansi16m(...arguments_);
+    }
+    if (level === "ansi256") {
+      return ansi_styles_default[type].ansi256(ansi_styles_default.rgbToAnsi256(...arguments_));
+    }
+    return ansi_styles_default[type].ansi(ansi_styles_default.rgbToAnsi(...arguments_));
+  }
+  if (model === "hex") {
+    return getModelAnsi("rgb", level, type, ...ansi_styles_default.hexToRgb(...arguments_));
+  }
+  return ansi_styles_default[type][model](...arguments_);
+};
+var usedModels = ["rgb", "hex", "ansi256"];
+for (const model of usedModels) {
+  styles2[model] = {
+    get() {
+      const { level } = this;
+      return function(...arguments_) {
+        const styler = createStyler(getModelAnsi(model, levelMapping[level], "color", ...arguments_), ansi_styles_default.color.close, this[STYLER]);
+        return createBuilder(this, styler, this[IS_EMPTY]);
+      };
+    }
+  };
+  const bgModel = "bg" + model[0].toUpperCase() + model.slice(1);
+  styles2[bgModel] = {
+    get() {
+      const { level } = this;
+      return function(...arguments_) {
+        const styler = createStyler(getModelAnsi(model, levelMapping[level], "bgColor", ...arguments_), ansi_styles_default.bgColor.close, this[STYLER]);
+        return createBuilder(this, styler, this[IS_EMPTY]);
+      };
+    }
+  };
+}
+var proto = Object.defineProperties(() => {
+}, {
+  ...styles2,
+  level: {
+    enumerable: true,
+    get() {
+      return this[GENERATOR].level;
+    },
+    set(level) {
+      this[GENERATOR].level = level;
+    }
+  }
+});
+var createStyler = (open, close, parent) => {
+  let openAll;
+  let closeAll;
+  if (parent === void 0) {
+    openAll = open;
+    closeAll = close;
+  } else {
+    openAll = parent.openAll + open;
+    closeAll = close + parent.closeAll;
+  }
+  return {
+    open,
+    close,
+    openAll,
+    closeAll,
+    parent
+  };
+};
+var createBuilder = (self2, _styler, _isEmpty) => {
+  const builder = (...arguments_) => applyStyle(builder, arguments_.length === 1 ? "" + arguments_[0] : arguments_.join(" "));
+  Object.setPrototypeOf(builder, proto);
+  builder[GENERATOR] = self2;
+  builder[STYLER] = _styler;
+  builder[IS_EMPTY] = _isEmpty;
+  return builder;
+};
+var applyStyle = (self2, string) => {
+  if (self2.level <= 0 || !string) {
+    return self2[IS_EMPTY] ? "" : string;
+  }
+  let styler = self2[STYLER];
+  if (styler === void 0) {
+    return string;
+  }
+  const { openAll, closeAll } = styler;
+  if (string.includes("\x1B")) {
+    while (styler !== void 0) {
+      string = stringReplaceAll(string, styler.close, styler.open);
+      styler = styler.parent;
+    }
+  }
+  const lfIndex = string.indexOf("\n");
+  if (lfIndex !== -1) {
+    string = stringEncaseCRLFWithFirstIndex(string, closeAll, openAll, lfIndex);
+  }
+  return openAll + string + closeAll;
+};
+Object.defineProperties(createChalk.prototype, styles2);
+var chalk = createChalk();
+var chalkStderr = createChalk({ level: stderrColor ? stderrColor.level : 0 });
+var source_default = chalk;
+
 // node_modules/axios/lib/helpers/bind.js
 function bind(fn, thisArg) {
   return function wrap() {
@@ -23479,6 +23968,36 @@ function getCurseforgeClient() {
   });
 }
 
+// src/curseforge/getClasses.ts
+async function getClasses() {
+  const client = getCurseforgeClient();
+  const res = await client.get("/v1/categories", {
+    params: {
+      gameId: 432,
+      classesOnly: true
+    }
+  });
+  return res.data.data;
+}
+
+// src/curseforge/getFiles.ts
+async function getFiles(fileIds) {
+  const client = getCurseforgeClient();
+  try {
+    const res = await client.post("/v1/mods/files", {
+      fileIds
+    });
+    return res.data.data.reduce((obj, current) => (obj[current.modId] = current.displayName, obj), {});
+  } catch (e) {
+    if (axios_default.isAxiosError(e)) {
+      console.error(e.response);
+    } else {
+      console.error(e);
+    }
+    throw e;
+  }
+}
+
 // src/curseforge/getMods.ts
 async function getMods(modIds) {
   const client = getCurseforgeClient();
@@ -23491,6 +24010,56 @@ async function getMods(modIds) {
     console.error(e);
     throw e;
   }
+}
+
+// src/curseforge/normalizeCurseforgeModData.ts
+async function normalizeCurseforgeModData(mods) {
+  const modData = await getMods(mods.map((mod) => mod.update.curseforge["project-id"]));
+  const versions = await getFiles(mods.map((mod) => mod.update.curseforge["file-id"]));
+  const curseforgeCategories = await getClasses();
+  return modData.map((mod) => {
+    console.log(`${source_default.green("Mod:")} ${mod.name} ${source_default.gray(versions[mod.id])}`);
+    const category = curseforgeCategories.find(
+      (cat) => cat.id === mod.classId
+    );
+    return {
+      source: "curseforge",
+      title: mod.name,
+      summary: mod.summary,
+      logoUrl: mod.logo.thumbnailUrl,
+      url: `https://curseforge.com/minecraft/${category.slug}/${mod.slug}`,
+      type: (() => {
+        switch (category.slug) {
+          case "mc-mods":
+            return "mod";
+          case "shaders":
+            return "shader";
+          case "data-packs":
+            return "mod";
+          case "texture-packs":
+            return "resourcepack";
+          default:
+            return "mod";
+        }
+      })(),
+      version: versions[mod.id]
+    };
+  });
+}
+
+// src/external/normalizeExternalModData.ts
+function normalizeExternalModData(mods) {
+  return mods.map((mod) => {
+    console.log(`${source_default.green("Mod:")} ${mod.name}`);
+    return {
+      source: "external",
+      title: mod.name,
+      summary: "",
+      url: mod.download.url,
+      logoUrl: "",
+      type: "mod"
+    };
+  });
 }
 
 // src/getIndexFile.ts
@@ -23563,71 +24132,36 @@ async function getProjects(projectIds) {
   }
 }
 
-// src/curseforge/getClasses.ts
-async function getClasses() {
-  const client = getCurseforgeClient();
-  const res = await client.get("/v1/categories", {
-    params: {
-      gameId: 432,
-      classesOnly: true
-    }
-  });
-  return res.data.data;
+// src/modrinth/getVersions.ts
+async function getVersions(versions) {
+  const client = getModrinthClient();
+  try {
+    const res = await client.get("/v2/versions", {
+      params: {
+        ids: JSON.stringify(versions)
+      }
+    });
+    return res.data.reduce((obj, current) => (obj[current.project_id] = current.version_number, obj), {});
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
 }
 
-// src/normalizeModData.ts
-function isModrinthMod(mod) {
-  return "client_side" in mod;
-}
-function isExternalFile2(mod) {
-  return "download" in mod;
-}
-async function normalizeModData(mods) {
-  const curseforgeCategories = await getClasses();
-  return mods.map((mod) => {
-    if (isExternalFile2(mod)) {
-      return {
-        source: "external",
-        title: mod.name,
-        summary: "",
-        url: mod.download.url,
-        logoUrl: "",
-        type: "mod"
-      };
-    }
-    if (isModrinthMod(mod)) {
-      return {
-        source: "modrinth",
-        title: mod.title,
-        summary: mod.description,
-        logoUrl: mod.icon_url ?? "",
-        url: `https://modrinth.com/mod/${mod.id}`,
-        type: mod.project_type
-      };
-    }
-    const category = curseforgeCategories.find(
-      (cat) => cat.id === mod.classId
-    );
+// src/modrinth/normalizeModrinthModData.ts
+async function normalizeModrinthModData(mods) {
+  const modData = await getProjects(mods.map((mod) => mod.update.modrinth["mod-id"]));
+  const versions = await getVersions(mods.map((mod) => mod.update.modrinth["version"]));
+  return modData.map((mod) => {
+    console.log(`${source_default.green("Mod:")} ${mod.title} ${source_default.gray(versions[mod.id])}`);
     return {
-      source: "curseforge",
-      title: mod.name,
-      summary: mod.summary,
-      logoUrl: mod.logo.thumbnailUrl,
-      url: `https://curseforge.com/minecraft/${category.slug}/${mod.slug}`,
-      type: (() => {
-        switch (category.slug) {
-          case "mc-mods":
-            return "mod";
-          case "shaders":
-            return "shader";
-          case "data-packs":
-            return "mod";
-          case "texture-packs":
-            return "resourcepack";
-          default:
-            return "mod";
-        }
-      })()
+      source: "modrinth",
+      title: mod.title,
+      summary: mod.description,
+      logoUrl: mod.icon_url ?? "",
+      url: `https://modrinth.com/mod/${mod.id}`,
+      type: mod.project_type,
+      version: versions[mod.id]
     };
   });
 }
@@ -23637,55 +24171,13 @@ var Handlebars = require_lib();
 var template = Handlebars.template;
 var templates = Handlebars.templates = Handlebars.templates || {};
 templates["index"] = template({ "1": function(container, depth0, helpers, partials, data) {
-  var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+  var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
     if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
       return parent[propertyName];
     }
     return void 0;
   };
-  return '\n            <li style="display: flex; align-items: center; gap: 1rem">\n' + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0, { "name": "if", "hash": {}, "fn": container.program(2, data, 0), "inverse": container.program(7, data, 0), "data": data, "loc": { "start": { "line": 30, "column": 14 }, "end": { "line": 52, "column": 21 } } })) != null ? stack1 : "") + '              <div>\n                <h3>\n                  <a\n                    href="' + alias4((helper = (helper = lookupProperty(helpers, "url") || (depth0 != null ? lookupProperty(depth0, "url") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "url", "hash": {}, "data": data, "loc": { "start": { "line": 56, "column": 26 }, "end": { "line": 56, "column": 33 } } }) : helper)) + '"\n                    rel="noreferrer noopener"\n                    target="_blank"\n                  >' + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "title", "hash": {}, "data": data, "loc": { "start": { "line": 59, "column": 19 }, "end": { "line": 59, "column": 28 } } }) : helper)) + "</a>\n\n                </h3>\n                <p>" + alias4((helper = (helper = lookupProperty(helpers, "summary") || (depth0 != null ? lookupProperty(depth0, "summary") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "summary", "hash": {}, "data": data, "loc": { "start": { "line": 63, "column": 19 }, "end": { "line": 63, "column": 30 } } }) : helper)) + "</p>\n              </div>\n\n            </li>\n";
-}, "2": function(container, depth0, helpers, partials, data) {
-  var stack1, alias1 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return ((stack1 = lookupProperty(helpers, "if").call(alias1, (lookupProperty(helpers, "gte") || depth0 && lookupProperty(depth0, "gte") || container.hooks.helperMissing).call(alias1, data && lookupProperty(data, "index"), 8, { "name": "gte", "hash": {}, "data": data, "loc": { "start": { "line": 31, "column": 22 }, "end": { "line": 31, "column": 36 } } }), { "name": "if", "hash": {}, "fn": container.program(3, data, 0), "inverse": container.program(5, data, 0), "data": data, "loc": { "start": { "line": 31, "column": 16 }, "end": { "line": 48, "column": 23 } } })) != null ? stack1 : "") + "\n";
-}, "3": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '                  <img\n                    style="aspect-ratio: 1"\n                    width="128"\n                    height="128"\n                    src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 36, "column": 25 }, "end": { "line": 36, "column": 36 } } }) : helper)) + '"\n                    alt=""\n                    loading="lazy"\n                  />\n';
-}, "5": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '                  <img\n                    style="aspect-ratio: 1"\n                    width="128"\n                    height="128"\n                    src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 45, "column": 25 }, "end": { "line": 45, "column": 36 } } }) : helper)) + '"\n                    alt=""\n                  />\n';
-}, "7": function(container, depth0, helpers, partials, data) {
-  return '                <div style="width: 128px; height: 128px"></div>\n';
-}, "9": function(container, depth0, helpers, partials, data) {
-  var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '\n            <li style="display: flex; align-items: center; gap: 1rem">\n' + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0, { "name": "if", "hash": {}, "fn": container.program(10, data, 0), "inverse": container.program(7, data, 0), "data": data, "loc": { "start": { "line": 78, "column": 14 }, "end": { "line": 90, "column": 21 } } })) != null ? stack1 : "") + '              <div>\n                <h3>\n                  <a\n                    href="' + alias4((helper = (helper = lookupProperty(helpers, "url") || (depth0 != null ? lookupProperty(depth0, "url") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "url", "hash": {}, "data": data, "loc": { "start": { "line": 94, "column": 26 }, "end": { "line": 94, "column": 33 } } }) : helper)) + '"\n                    rel="noreferrer noopener"\n                    target="_blank"\n                  >' + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "title", "hash": {}, "data": data, "loc": { "start": { "line": 97, "column": 19 }, "end": { "line": 97, "column": 28 } } }) : helper)) + "</a>\n\n\n                </h3>\n                <p>" + alias4((helper = (helper = lookupProperty(helpers, "summary") || (depth0 != null ? lookupProperty(depth0, "summary") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "summary", "hash": {}, "data": data, "loc": { "start": { "line": 102, "column": 19 }, "end": { "line": 102, "column": 30 } } }) : helper)) + "</p>\n              </div>\n\n            </li>\n";
-}, "10": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '\n                <img\n                  style="aspect-ratio: 1"\n                  width="128"\n                  height="128"\n                  src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 84, "column": 23 }, "end": { "line": 84, "column": 34 } } }) : helper)) + '"\n                  alt=""\n                />\n\n';
+  return (stack1 = container.invokePartial(lookupProperty(partials, "item"), depth0, { "name": "item", "data": data, "indent": "            ", "helpers": helpers, "partials": partials, "decorators": container.decorators })) != null ? stack1 : "";
 }, "compiler": [8, ">= 4.3.0"], "main": function(container, depth0, helpers, partials, data) {
   var stack1, alias1 = container.lambda, alias2 = container.escapeExpression, alias3 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
     if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -23693,7 +24185,50 @@ templates["index"] = template({ "1": function(container, depth0, helpers, partia
     }
     return void 0;
   };
-  return '<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <meta name="description" content="A packwiz minecraft modpack" />\n    <meta name="generator" content="packwiz-renderer 0.1.0" />\n\n    <title>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</title>\n  </head>\n  <body>\n    <main style="max-width: 960px; margin: 0 auto">\n\n      <h1>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</h1>\n\n      <p>\n        To install this modpack use packwiz, and point at this url with\n        <a href="/pack.toml">pack.toml</a>\n        at the end.\n      </p>\n\n      <div>\n\n        <h2>Mods</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "mods") : depth0, { "name": "each", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 27, "column": 10 }, "end": { "line": 67, "column": 19 } } })) != null ? stack1 : "") + '\n        </ul>\n\n        <h2>Resource Packs</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "resourcePacks") : depth0, { "name": "each", "hash": {}, "fn": container.program(9, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 75, "column": 10 }, "end": { "line": 106, "column": 19 } } })) != null ? stack1 : "") + "\n        </ul>\n      </div>\n    </main>\n\n  </body>\n</html>\n";
+  return '<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <meta name="description" content="A packwiz minecraft modpack" />\n    <meta name="generator" content="packwiz-renderer 0.1.0" />\n\n    <title>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</title>\n  </head>\n  <body>\n    <main style="max-width: 960px; margin: 0 auto">\n\n      <h1>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</h1>\n\n      <p>\n        To install this modpack use packwiz, and point at this url with\n        <a href="/pack.toml">pack.toml</a>\n        at the end.\n      </p>\n\n      <div>\n\n        <h2>Mods</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "mods") : depth0, { "name": "each", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 27, "column": 10 }, "end": { "line": 29, "column": 19 } } })) != null ? stack1 : "") + '\n        </ul>\n\n        <h2>Resource Packs</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "resourcePacks") : depth0, { "name": "each", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 37, "column": 10 }, "end": { "line": 39, "column": 19 } } })) != null ? stack1 : "") + "\n        </ul>\n      </div>\n    </main>\n\n  </body>\n</html>\n";
+}, "usePartial": true, "useData": true });
+templates["item"] = template({ "1": function(container, depth0, helpers, partials, data) {
+  var stack1, alias1 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+      return parent[propertyName];
+    }
+    return void 0;
+  };
+  return ((stack1 = lookupProperty(helpers, "if").call(alias1, (lookupProperty(helpers, "gte") || depth0 && lookupProperty(depth0, "gte") || container.hooks.helperMissing).call(alias1, data && lookupProperty(data, "index"), 8, { "name": "gte", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 10 }, "end": { "line": 3, "column": 24 } } }), { "name": "if", "hash": {}, "fn": container.program(2, data, 0), "inverse": container.program(4, data, 0), "data": data, "loc": { "start": { "line": 3, "column": 4 }, "end": { "line": 20, "column": 11 } } })) != null ? stack1 : "") + "\n";
+}, "2": function(container, depth0, helpers, partials, data) {
+  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+      return parent[propertyName];
+    }
+    return void 0;
+  };
+  return '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 8, "column": 13 }, "end": { "line": 8, "column": 24 } } }) : helper)) + '"\n        alt=""\n        loading="lazy"\n      />\n';
+}, "4": function(container, depth0, helpers, partials, data) {
+  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+      return parent[propertyName];
+    }
+    return void 0;
+  };
+  return '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 17, "column": 13 }, "end": { "line": 17, "column": 24 } } }) : helper)) + '"\n        alt=""\n      />\n';
+}, "6": function(container, depth0, helpers, partials, data) {
+  return '    <div style="width: 128px; height: 128px"></div>\n';
+}, "8": function(container, depth0, helpers, partials, data) {
+  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+      return parent[propertyName];
+    }
+    return void 0;
+  };
+  return container.escapeExpression((helper = (helper = lookupProperty(helpers, "version") || (depth0 != null ? lookupProperty(depth0, "version") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "version", "hash": {}, "data": data, "loc": { "start": { "line": 29, "column": 28 }, "end": { "line": 29, "column": 41 } } }) : helper));
+}, "compiler": [8, ">= 4.3.0"], "main": function(container, depth0, helpers, partials, data) {
+  var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+      return parent[propertyName];
+    }
+    return void 0;
+  };
+  return '<li style="display: flex; align-items: center; gap: 1rem">\n' + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0, { "name": "if", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.program(6, data, 0), "data": data, "loc": { "start": { "line": 2, "column": 2 }, "end": { "line": 24, "column": 9 } } })) != null ? stack1 : "") + '  <div>\n    <h3>\n      <a href="' + alias4((helper = (helper = lookupProperty(helpers, "url") || (depth0 != null ? lookupProperty(depth0, "url") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "url", "hash": {}, "data": data, "loc": { "start": { "line": 27, "column": 15 }, "end": { "line": 27, "column": 22 } } }) : helper)) + '" rel="noreferrer noopener" target="_blank">' + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "title", "hash": {}, "data": data, "loc": { "start": { "line": 27, "column": 66 }, "end": { "line": 27, "column": 75 } } }) : helper)) + "</a>\n\n      <small>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "version") : depth0, { "name": "if", "hash": {}, "fn": container.program(8, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 29, "column": 13 }, "end": { "line": 29, "column": 48 } } })) != null ? stack1 : "") + "</small>\n    </h3>\n    <p>" + alias4((helper = (helper = lookupProperty(helpers, "summary") || (depth0 != null ? lookupProperty(depth0, "summary") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "summary", "hash": {}, "data": data, "loc": { "start": { "line": 31, "column": 7 }, "end": { "line": 31, "column": 18 } } }) : helper)) + "</p>\n  </div>\n</li>\n";
 }, "useData": true });
 
 // src/renderer.ts
@@ -23707,6 +24242,10 @@ function render(pack, sortedProjects) {
     "gte",
     (val1, val2) => val1 >= val2
   );
+  import_handlebars.default.registerPartial(
+    "item",
+    import_handlebars.default.templates["item"]
+  );
   const template2 = import_handlebars.default.templates["index"];
   return template2({
     pack,
@@ -23718,495 +24257,6 @@ function render(pack, sortedProjects) {
   });
 }
 
-// node_modules/chalk/source/vendor/ansi-styles/index.js
-var ANSI_BACKGROUND_OFFSET = 10;
-var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
-var wrapAnsi256 = (offset = 0) => (code) => `\x1B[${38 + offset};5;${code}m`;
-var wrapAnsi16m = (offset = 0) => (red, green, blue) => `\x1B[${38 + offset};2;${red};${green};${blue}m`;
-var styles = {
-  modifier: {
-    reset: [0, 0],
-    // 21 isn't widely supported and 22 does the same thing
-    bold: [1, 22],
-    dim: [2, 22],
-    italic: [3, 23],
-    underline: [4, 24],
-    overline: [53, 55],
-    inverse: [7, 27],
-    hidden: [8, 28],
-    strikethrough: [9, 29]
-  },
-  color: {
-    black: [30, 39],
-    red: [31, 39],
-    green: [32, 39],
-    yellow: [33, 39],
-    blue: [34, 39],
-    magenta: [35, 39],
-    cyan: [36, 39],
-    white: [37, 39],
-    // Bright color
-    blackBright: [90, 39],
-    gray: [90, 39],
-    // Alias of `blackBright`
-    grey: [90, 39],
-    // Alias of `blackBright`
-    redBright: [91, 39],
-    greenBright: [92, 39],
-    yellowBright: [93, 39],
-    blueBright: [94, 39],
-    magentaBright: [95, 39],
-    cyanBright: [96, 39],
-    whiteBright: [97, 39]
-  },
-  bgColor: {
-    bgBlack: [40, 49],
-    bgRed: [41, 49],
-    bgGreen: [42, 49],
-    bgYellow: [43, 49],
-    bgBlue: [44, 49],
-    bgMagenta: [45, 49],
-    bgCyan: [46, 49],
-    bgWhite: [47, 49],
-    // Bright color
-    bgBlackBright: [100, 49],
-    bgGray: [100, 49],
-    // Alias of `bgBlackBright`
-    bgGrey: [100, 49],
-    // Alias of `bgBlackBright`
-    bgRedBright: [101, 49],
-    bgGreenBright: [102, 49],
-    bgYellowBright: [103, 49],
-    bgBlueBright: [104, 49],
-    bgMagentaBright: [105, 49],
-    bgCyanBright: [106, 49],
-    bgWhiteBright: [107, 49]
-  }
-};
-var modifierNames = Object.keys(styles.modifier);
-var foregroundColorNames = Object.keys(styles.color);
-var backgroundColorNames = Object.keys(styles.bgColor);
-var colorNames = [...foregroundColorNames, ...backgroundColorNames];
-function assembleStyles() {
-  const codes = /* @__PURE__ */ new Map();
-  for (const [groupName, group] of Object.entries(styles)) {
-    for (const [styleName, style] of Object.entries(group)) {
-      styles[styleName] = {
-        open: `\x1B[${style[0]}m`,
-        close: `\x1B[${style[1]}m`
-      };
-      group[styleName] = styles[styleName];
-      codes.set(style[0], style[1]);
-    }
-    Object.defineProperty(styles, groupName, {
-      value: group,
-      enumerable: false
-    });
-  }
-  Object.defineProperty(styles, "codes", {
-    value: codes,
-    enumerable: false
-  });
-  styles.color.close = "\x1B[39m";
-  styles.bgColor.close = "\x1B[49m";
-  styles.color.ansi = wrapAnsi16();
-  styles.color.ansi256 = wrapAnsi256();
-  styles.color.ansi16m = wrapAnsi16m();
-  styles.bgColor.ansi = wrapAnsi16(ANSI_BACKGROUND_OFFSET);
-  styles.bgColor.ansi256 = wrapAnsi256(ANSI_BACKGROUND_OFFSET);
-  styles.bgColor.ansi16m = wrapAnsi16m(ANSI_BACKGROUND_OFFSET);
-  Object.defineProperties(styles, {
-    rgbToAnsi256: {
-      value(red, green, blue) {
-        if (red === green && green === blue) {
-          if (red < 8) {
-            return 16;
-          }
-          if (red > 248) {
-            return 231;
-          }
-          return Math.round((red - 8) / 247 * 24) + 232;
-        }
-        return 16 + 36 * Math.round(red / 255 * 5) + 6 * Math.round(green / 255 * 5) + Math.round(blue / 255 * 5);
-      },
-      enumerable: false
-    },
-    hexToRgb: {
-      value(hex) {
-        const matches = /[a-f\d]{6}|[a-f\d]{3}/i.exec(hex.toString(16));
-        if (!matches) {
-          return [0, 0, 0];
-        }
-        let [colorString] = matches;
-        if (colorString.length === 3) {
-          colorString = [...colorString].map((character) => character + character).join("");
-        }
-        const integer = Number.parseInt(colorString, 16);
-        return [
-          /* eslint-disable no-bitwise */
-          integer >> 16 & 255,
-          integer >> 8 & 255,
-          integer & 255
-          /* eslint-enable no-bitwise */
-        ];
-      },
-      enumerable: false
-    },
-    hexToAnsi256: {
-      value: (hex) => styles.rgbToAnsi256(...styles.hexToRgb(hex)),
-      enumerable: false
-    },
-    ansi256ToAnsi: {
-      value(code) {
-        if (code < 8) {
-          return 30 + code;
-        }
-        if (code < 16) {
-          return 90 + (code - 8);
-        }
-        let red;
-        let green;
-        let blue;
-        if (code >= 232) {
-          red = ((code - 232) * 10 + 8) / 255;
-          green = red;
-          blue = red;
-        } else {
-          code -= 16;
-          const remainder = code % 36;
-          red = Math.floor(code / 36) / 5;
-          green = Math.floor(remainder / 6) / 5;
-          blue = remainder % 6 / 5;
-        }
-        const value = Math.max(red, green, blue) * 2;
-        if (value === 0) {
-          return 30;
-        }
-        let result = 30 + (Math.round(blue) << 2 | Math.round(green) << 1 | Math.round(red));
-        if (value === 2) {
-          result += 60;
-        }
-        return result;
-      },
-      enumerable: false
-    },
-    rgbToAnsi: {
-      value: (red, green, blue) => styles.ansi256ToAnsi(styles.rgbToAnsi256(red, green, blue)),
-      enumerable: false
-    },
-    hexToAnsi: {
-      value: (hex) => styles.ansi256ToAnsi(styles.hexToAnsi256(hex)),
-      enumerable: false
-    }
-  });
-  return styles;
-}
-var ansiStyles = assembleStyles();
-var ansi_styles_default = ansiStyles;
-
-// node_modules/chalk/source/vendor/supports-color/index.js
-var import_node_process = __toESM(require("node:process"), 1);
-var import_node_os = __toESM(require("node:os"), 1);
-var import_node_tty = __toESM(require("node:tty"), 1);
-function hasFlag(flag, argv = globalThis.Deno ? globalThis.Deno.args : import_node_process.default.argv) {
-  const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
-  const position = argv.indexOf(prefix + flag);
-  const terminatorPosition = argv.indexOf("--");
-  return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
-}
-var { env } = import_node_process.default;
-var flagForceColor;
-if (hasFlag("no-color") || hasFlag("no-colors") || hasFlag("color=false") || hasFlag("color=never")) {
-  flagForceColor = 0;
-} else if (hasFlag("color") || hasFlag("colors") || hasFlag("color=true") || hasFlag("color=always")) {
-  flagForceColor = 1;
-}
-function envForceColor() {
-  if ("FORCE_COLOR" in env) {
-    if (env.FORCE_COLOR === "true") {
-      return 1;
-    }
-    if (env.FORCE_COLOR === "false") {
-      return 0;
-    }
-    return env.FORCE_COLOR.length === 0 ? 1 : Math.min(Number.parseInt(env.FORCE_COLOR, 10), 3);
-  }
-}
-function translateLevel(level) {
-  if (level === 0) {
-    return false;
-  }
-  return {
-    level,
-    hasBasic: true,
-    has256: level >= 2,
-    has16m: level >= 3
-  };
-}
-function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
-  const noFlagForceColor = envForceColor();
-  if (noFlagForceColor !== void 0) {
-    flagForceColor = noFlagForceColor;
-  }
-  const forceColor = sniffFlags ? flagForceColor : noFlagForceColor;
-  if (forceColor === 0) {
-    return 0;
-  }
-  if (sniffFlags) {
-    if (hasFlag("color=16m") || hasFlag("color=full") || hasFlag("color=truecolor")) {
-      return 3;
-    }
-    if (hasFlag("color=256")) {
-      return 2;
-    }
-  }
-  if ("TF_BUILD" in env && "AGENT_NAME" in env) {
-    return 1;
-  }
-  if (haveStream && !streamIsTTY && forceColor === void 0) {
-    return 0;
-  }
-  const min = forceColor || 0;
-  if (env.TERM === "dumb") {
-    return min;
-  }
-  if (import_node_process.default.platform === "win32") {
-    const osRelease = import_node_os.default.release().split(".");
-    if (Number(osRelease[0]) >= 10 && Number(osRelease[2]) >= 10586) {
-      return Number(osRelease[2]) >= 14931 ? 3 : 2;
-    }
-    return 1;
-  }
-  if ("CI" in env) {
-    if ("GITHUB_ACTIONS" in env || "GITEA_ACTIONS" in env) {
-      return 3;
-    }
-    if (["TRAVIS", "CIRCLECI", "APPVEYOR", "GITLAB_CI", "BUILDKITE", "DRONE"].some((sign) => sign in env) || env.CI_NAME === "codeship") {
-      return 1;
-    }
-    return min;
-  }
-  if ("TEAMCITY_VERSION" in env) {
-    return /^(9\.(0*[1-9]\d*)\.|\d{2,}\.)/.test(env.TEAMCITY_VERSION) ? 1 : 0;
-  }
-  if (env.COLORTERM === "truecolor") {
-    return 3;
-  }
-  if (env.TERM === "xterm-kitty") {
-    return 3;
-  }
-  if ("TERM_PROGRAM" in env) {
-    const version2 = Number.parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
-    switch (env.TERM_PROGRAM) {
-      case "iTerm.app": {
-        return version2 >= 3 ? 3 : 2;
-      }
-      case "Apple_Terminal": {
-        return 2;
-      }
-    }
-  }
-  if (/-256(color)?$/i.test(env.TERM)) {
-    return 2;
-  }
-  if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
-    return 1;
-  }
-  if ("COLORTERM" in env) {
-    return 1;
-  }
-  return min;
-}
-function createSupportsColor(stream4, options = {}) {
-  const level = _supportsColor(stream4, {
-    streamIsTTY: stream4 && stream4.isTTY,
-    ...options
-  });
-  return translateLevel(level);
-}
-var supportsColor = {
-  stdout: createSupportsColor({ isTTY: import_node_tty.default.isatty(1) }),
-  stderr: createSupportsColor({ isTTY: import_node_tty.default.isatty(2) })
-};
-var supports_color_default = supportsColor;
-
-// node_modules/chalk/source/utilities.js
-function stringReplaceAll(string, substring, replacer) {
-  let index = string.indexOf(substring);
-  if (index === -1) {
-    return string;
-  }
-  const substringLength = substring.length;
-  let endIndex = 0;
-  let returnValue = "";
-  do {
-    returnValue += string.slice(endIndex, index) + substring + replacer;
-    endIndex = index + substringLength;
-    index = string.indexOf(substring, endIndex);
-  } while (index !== -1);
-  returnValue += string.slice(endIndex);
-  return returnValue;
-}
-function stringEncaseCRLFWithFirstIndex(string, prefix, postfix, index) {
-  let endIndex = 0;
-  let returnValue = "";
-  do {
-    const gotCR = string[index - 1] === "\r";
-    returnValue += string.slice(endIndex, gotCR ? index - 1 : index) + prefix + (gotCR ? "\r\n" : "\n") + postfix;
-    endIndex = index + 1;
-    index = string.indexOf("\n", endIndex);
-  } while (index !== -1);
-  returnValue += string.slice(endIndex);
-  return returnValue;
-}
-
-// node_modules/chalk/source/index.js
-var { stdout: stdoutColor, stderr: stderrColor } = supports_color_default;
-var GENERATOR = Symbol("GENERATOR");
-var STYLER = Symbol("STYLER");
-var IS_EMPTY = Symbol("IS_EMPTY");
-var levelMapping = [
-  "ansi",
-  "ansi",
-  "ansi256",
-  "ansi16m"
-];
-var styles2 = /* @__PURE__ */ Object.create(null);
-var applyOptions = (object, options = {}) => {
-  if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
-    throw new Error("The `level` option should be an integer from 0 to 3");
-  }
-  const colorLevel = stdoutColor ? stdoutColor.level : 0;
-  object.level = options.level === void 0 ? colorLevel : options.level;
-};
-var chalkFactory = (options) => {
-  const chalk2 = (...strings) => strings.join(" ");
-  applyOptions(chalk2, options);
-  Object.setPrototypeOf(chalk2, createChalk.prototype);
-  return chalk2;
-};
-function createChalk(options) {
-  return chalkFactory(options);
-}
-Object.setPrototypeOf(createChalk.prototype, Function.prototype);
-for (const [styleName, style] of Object.entries(ansi_styles_default)) {
-  styles2[styleName] = {
-    get() {
-      const builder = createBuilder(this, createStyler(style.open, style.close, this[STYLER]), this[IS_EMPTY]);
-      Object.defineProperty(this, styleName, { value: builder });
-      return builder;
-    }
-  };
-}
-styles2.visible = {
-  get() {
-    const builder = createBuilder(this, this[STYLER], true);
-    Object.defineProperty(this, "visible", { value: builder });
-    return builder;
-  }
-};
-var getModelAnsi = (model, level, type, ...arguments_) => {
-  if (model === "rgb") {
-    if (level === "ansi16m") {
-      return ansi_styles_default[type].ansi16m(...arguments_);
-    }
-    if (level === "ansi256") {
-      return ansi_styles_default[type].ansi256(ansi_styles_default.rgbToAnsi256(...arguments_));
-    }
-    return ansi_styles_default[type].ansi(ansi_styles_default.rgbToAnsi(...arguments_));
-  }
-  if (model === "hex") {
-    return getModelAnsi("rgb", level, type, ...ansi_styles_default.hexToRgb(...arguments_));
-  }
-  return ansi_styles_default[type][model](...arguments_);
-};
-var usedModels = ["rgb", "hex", "ansi256"];
-for (const model of usedModels) {
-  styles2[model] = {
-    get() {
-      const { level } = this;
-      return function(...arguments_) {
-        const styler = createStyler(getModelAnsi(model, levelMapping[level], "color", ...arguments_), ansi_styles_default.color.close, this[STYLER]);
-        return createBuilder(this, styler, this[IS_EMPTY]);
-      };
-    }
-  };
-  const bgModel = "bg" + model[0].toUpperCase() + model.slice(1);
-  styles2[bgModel] = {
-    get() {
-      const { level } = this;
-      return function(...arguments_) {
-        const styler = createStyler(getModelAnsi(model, levelMapping[level], "bgColor", ...arguments_), ansi_styles_default.bgColor.close, this[STYLER]);
-        return createBuilder(this, styler, this[IS_EMPTY]);
-      };
-    }
-  };
-}
-var proto = Object.defineProperties(() => {
-}, {
-  ...styles2,
-  level: {
-    enumerable: true,
-    get() {
-      return this[GENERATOR].level;
-    },
-    set(level) {
-      this[GENERATOR].level = level;
-    }
-  }
-});
-var createStyler = (open, close, parent) => {
-  let openAll;
-  let closeAll;
-  if (parent === void 0) {
-    openAll = open;
-    closeAll = close;
-  } else {
-    openAll = parent.openAll + open;
-    closeAll = close + parent.closeAll;
-  }
-  return {
-    open,
-    close,
-    openAll,
-    closeAll,
-    parent
-  };
-};
-var createBuilder = (self2, _styler, _isEmpty) => {
-  const builder = (...arguments_) => applyStyle(builder, arguments_.length === 1 ? "" + arguments_[0] : arguments_.join(" "));
-  Object.setPrototypeOf(builder, proto);
-  builder[GENERATOR] = self2;
-  builder[STYLER] = _styler;
-  builder[IS_EMPTY] = _isEmpty;
-  return builder;
-};
-var applyStyle = (self2, string) => {
-  if (self2.level <= 0 || !string) {
-    return self2[IS_EMPTY] ? "" : string;
-  }
-  let styler = self2[STYLER];
-  if (styler === void 0) {
-    return string;
-  }
-  const { openAll, closeAll } = styler;
-  if (string.includes("\x1B")) {
-    while (styler !== void 0) {
-      string = stringReplaceAll(string, styler.close, styler.open);
-      styler = styler.parent;
-    }
-  }
-  const lfIndex = string.indexOf("\n");
-  if (lfIndex !== -1) {
-    string = stringEncaseCRLFWithFirstIndex(string, closeAll, openAll, lfIndex);
-  }
-  return openAll + string + closeAll;
-};
-Object.defineProperties(createChalk.prototype, styles2);
-var chalk = createChalk();
-var chalkStderr = createChalk({ level: stderrColor ? stderrColor.level : 0 });
-var source_default = chalk;
-
 // src/cli/actions/build.ts
 var import_fs = require("fs");
 async function buildAction(packPath, options) {
@@ -24216,30 +24266,20 @@ async function buildAction(packPath, options) {
   console.log(`${source_default.blue("Info: ")} Parsing Mod Files`);
   const mods = index.files.map((file) => getModFile(packPath, file.file));
   const projects = [];
-  try {
-    console.log(`${source_default.blue("Info: ")} Fetching Modrinth Metadata`);
-    const modrinthProjects = mods.filter(isModrinthFile).map((mod) => mod.update.modrinth["mod-id"]);
-    const modrinthMods = await getProjects(modrinthProjects);
-    console.log(`${source_default.blue("Info: ")} Fetching Curseforge Metadata`);
-    const curseforgeModIds = mods.filter(isCurseforgeFile).map((mod) => mod.update.curseforge["project-id"]);
-    const curseforgeMods = await getMods(curseforgeModIds);
-    projects.push(
-      ...await normalizeModData([
-        ...modrinthMods,
-        ...curseforgeMods,
-        ...mods.filter(isExternalFile)
-      ])
-    );
-  } catch (e) {
-    console.error(e);
-    return;
-  }
+  console.log(`${source_default.blue("Info: ")} Fetching Modrinth Metadata`);
+  projects.push(...await normalizeModrinthModData(mods.filter(isModrinthFile)));
+  console.log(`${source_default.blue("Info: ")} Fetching Cursforge Metadata`);
+  projects.push(...await normalizeCurseforgeModData(mods.filter(isCurseforgeFile)));
+  console.log(`${source_default.blue("Info: ")} Fetching External File Metadata`);
+  projects.push(...normalizeExternalModData(mods.filter(isExternalFile)));
   const sortedProjects = projects.sort(
     (a, b) => a.title.localeCompare(b.title)
   );
   console.log(`${source_default.blue("Info: ")} Rendering Template`);
   const output = render(pack, sortedProjects);
-  console.log(`${source_default.blue("Info: ")} Outputting to ${options.output}/index.html`);
+  console.log(
+    `${source_default.blue("Info: ")} Outputting to ${options.output}/index.html`
+  );
   (0, import_fs.mkdirSync)(options.output, { recursive: true });
   (0, import_fs.writeFileSync)(`${options.output}/index.html`, output);
 }

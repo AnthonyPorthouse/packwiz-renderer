@@ -2,6 +2,10 @@ export interface ModResponse {
   data: CurseforgeMod[];
 }
 
+export interface FileResponse {
+  data: File[]
+}
+
 interface ModLinks {
   websiteUrl: string;
   wikiUrl: string;

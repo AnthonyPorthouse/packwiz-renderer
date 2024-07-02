@@ -11,7 +11,7 @@ export async function getVersions(versions: string[]) {
       },
     });
 
-    return res.data;
+    return res.data.reduce((obj: {[key: string]: string}, current) => (obj[current.project_id]=current.version_number, obj) , {});
   } catch (e) {
     console.error(e);
     throw e;

@@ -1,7 +1,7 @@
-import '@templates/templates.js';
+import "@templates/templates.js";
 import Handlebars from "handlebars";
 import type { PackFile } from "./getPackFile.js";
-import type { NormalizedModData } from "./normalizeModData.js";
+import { NormalizedModData } from "./types.js";
 
 export function render(
   pack: PackFile,
@@ -16,7 +16,11 @@ export function render(
     (val1: number, val2: number) => val1 >= val2,
   );
 
-  const template = Handlebars.templates['index'];
+  Handlebars.registerPartial(
+    'item', Handlebars.templates['item']
+  )
+
+  const template = Handlebars.templates["index"];
 
   return template({
     pack: pack,
