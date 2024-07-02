@@ -24252,7 +24252,11 @@ program2.command("build").description("Build the static assets for the given pac
 var cli_default = program2;
 
 // bin/build.ts
-cli_default.parseAsync().then();
+cli_default.parseAsync().then(() => {
+  console.log("Complete");
+}).catch((e) => {
+  console.error(e);
+});
 /*! Bundled license information:
 
 mime-db/index.js:
