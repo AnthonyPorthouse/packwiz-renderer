@@ -1,0 +1,33 @@
+{
+  "name": "packwiz-renderer",
+  "version": "0.1.0",
+  "main": "index.js",
+  "bin": {
+    "packwiz-renderer": "./dist/packwiz-renderer.cjs"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild --format=cjs  --platform=node --bundle --outfile=dist/packwiz-renderer.cjs bin/build.ts",
+    "prebuild": "handlebars -e hbs -c 'handlebars' ./templates -f 'templates/templates.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@commander-js/extra-typings": "^12.1.0",
+    "axios": "^1.7.2",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "handlebars": "^4.7.8",
+    "smol-toml": "^1.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "prettier": "^3.3.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.2"
+  }
+}
