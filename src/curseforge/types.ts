@@ -3,7 +3,7 @@ export interface ModResponse {
 }
 
 export interface FileResponse {
-  data: File[]
+  data: File[];
 }
 
 interface ModLinks {

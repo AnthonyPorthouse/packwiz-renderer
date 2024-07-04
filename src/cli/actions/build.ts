@@ -5,7 +5,7 @@ import {
   getModFile,
   isCurseforgeFile,
   isExternalFile,
-  isModrinthFile
+  isModrinthFile,
 } from "@/getModFile.js";
 import { getPackFile } from "@/getPackFile.js";
 import { normalizeModrinthModData } from "@/modrinth/normalizeModrinthModData";
@@ -29,13 +29,17 @@ export async function buildAction(
   const projects: NormalizedModData[] = [];
 
   console.log(`${chalk.blue("Info: ")} Fetching Modrinth Metadata`);
-  projects.push(...await normalizeModrinthModData(mods.filter(isModrinthFile)))
+  projects.push(
+    ...(await normalizeModrinthModData(mods.filter(isModrinthFile))),
+  );
 
   console.log(`${chalk.blue("Info: ")} Fetching Cursforge Metadata`);
-  projects.push(...await normalizeCurseforgeModData(mods.filter(isCurseforgeFile)))
+  projects.push(
+    ...(await normalizeCurseforgeModData(mods.filter(isCurseforgeFile))),
+  );
 
   console.log(`${chalk.blue("Info: ")} Fetching External File Metadata`);
-  projects.push(...normalizeExternalModData(mods.filter(isExternalFile)))
+  projects.push(...normalizeExternalModData(mods.filter(isExternalFile)));
 
   const sortedProjects = projects.sort((a, b) =>
     a.title.localeCompare(b.title),

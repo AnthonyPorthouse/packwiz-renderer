@@ -6,29 +6,42 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
+var __commonJS = (cb, mod) =>
+  function __require() {
+    return (
+      mod ||
+        (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
+      mod.exports
+    );
+  };
 var __export = (target, all3) => {
   for (var name in all3)
     __defProp(target, name, { get: all3[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
+  if ((from && typeof from === "object") || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+        });
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
+var __toESM = (mod, isNodeMode, target) => (
+  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
+  __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule
+      ? __defProp(target, "default", { value: mod, enumerable: true })
+      : target,
+    mod,
+  )
+);
 
 // node_modules/dotenv/package.json
 var require_package = __commonJS({
@@ -43,7 +56,7 @@ var require_package = __commonJS({
         ".": {
           types: "./lib/main.d.ts",
           require: "./lib/main.js",
-          default: "./lib/main.js"
+          default: "./lib/main.js",
         },
         "./config": "./config.js",
         "./config.js": "./config.js",
@@ -51,7 +64,7 @@ var require_package = __commonJS({
         "./lib/env-options.js": "./lib/env-options.js",
         "./lib/cli-options": "./lib/cli-options.js",
         "./lib/cli-options.js": "./lib/cli-options.js",
-        "./package.json": "./package.json"
+        "./package.json": "./package.json",
       },
       scripts: {
         "dts-check": "tsc --project tests/types/tsconfig.json",
@@ -61,11 +74,11 @@ var require_package = __commonJS({
         test: "tap tests/*.js --100 -Rspec",
         "test:coverage": "tap --coverage-report=lcov",
         prerelease: "npm test",
-        release: "standard-version"
+        release: "standard-version",
       },
       repository: {
         type: "git",
-        url: "git://github.com/motdotla/dotenv.git"
+        url: "git://github.com/motdotla/dotenv.git",
       },
       funding: "https://dotenvx.com",
       keywords: [
@@ -75,7 +88,7 @@ var require_package = __commonJS({
         "environment",
         "variables",
         "config",
-        "settings"
+        "settings",
       ],
       readmeFilename: "README.md",
       license: "BSD-2-Clause",
@@ -89,16 +102,16 @@ var require_package = __commonJS({
         "standard-version": "^9.5.0",
         tap: "^16.3.0",
         tar: "^6.1.11",
-        typescript: "^4.8.4"
+        typescript: "^4.8.4",
       },
       engines: {
-        node: ">=12"
+        node: ">=12",
       },
       browser: {
-        fs: false
-      }
+        fs: false,
+      },
     };
-  }
+  },
 });
 
 // node_modules/dotenv/lib/main.js
@@ -110,18 +123,19 @@ var require_main = __commonJS({
     var crypto = require("crypto");
     var packageJson = require_package();
     var version2 = packageJson.version;
-    var LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg;
+    var LINE =
+      /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/gm;
     function parse4(src) {
       const obj = {};
       let lines = src.toString();
-      lines = lines.replace(/\r\n?/mg, "\n");
+      lines = lines.replace(/\r\n?/gm, "\n");
       let match;
       while ((match = LINE.exec(lines)) != null) {
         const key = match[1];
         let value = match[2] || "";
         value = value.trim();
         const maybeQuote = value[0];
-        value = value.replace(/^(['"`])([\s\S]*)\1$/mg, "$2");
+        value = value.replace(/^(['"`])([\s\S]*)\1$/gm, "$2");
         if (maybeQuote === '"') {
           value = value.replace(/\\n/g, "\n");
           value = value.replace(/\\r/g, "\r");
@@ -134,7 +148,9 @@ var require_main = __commonJS({
       const vaultPath = _vaultPath(options);
       const result = DotenvModule.configDotenv({ path: vaultPath });
       if (!result.parsed) {
-        const err = new Error(`MISSING_DATA: Cannot parse ${vaultPath} for an unknown reason`);
+        const err = new Error(
+          `MISSING_DATA: Cannot parse ${vaultPath} for an unknown reason`,
+        );
         err.code = "MISSING_DATA";
         throw err;
       }
@@ -179,7 +195,9 @@ var require_main = __commonJS({
         uri = new URL(dotenvKey);
       } catch (error) {
         if (error.code === "ERR_INVALID_URL") {
-          const err = new Error("INVALID_DOTENV_KEY: Wrong format. Must be in valid uri format like dotenv://:key_1234@dotenvx.com/vault/.env.vault?environment=development");
+          const err = new Error(
+            "INVALID_DOTENV_KEY: Wrong format. Must be in valid uri format like dotenv://:key_1234@dotenvx.com/vault/.env.vault?environment=development",
+          );
           err.code = "INVALID_DOTENV_KEY";
           throw err;
         }
@@ -200,7 +218,9 @@ var require_main = __commonJS({
       const environmentKey = `DOTENV_VAULT_${environment.toUpperCase()}`;
       const ciphertext = result.parsed[environmentKey];
       if (!ciphertext) {
-        const err = new Error(`NOT_FOUND_DOTENV_ENVIRONMENT: Cannot locate environment ${environmentKey} in your .env.vault file.`);
+        const err = new Error(
+          `NOT_FOUND_DOTENV_ENVIRONMENT: Cannot locate environment ${environmentKey} in your .env.vault file.`,
+        );
         err.code = "NOT_FOUND_DOTENV_ENVIRONMENT";
         throw err;
       }
@@ -212,11 +232,15 @@ var require_main = __commonJS({
         if (Array.isArray(options.path)) {
           for (const filepath of options.path) {
             if (fs.existsSync(filepath)) {
-              possibleVaultPath = filepath.endsWith(".vault") ? filepath : `${filepath}.vault`;
+              possibleVaultPath = filepath.endsWith(".vault")
+                ? filepath
+                : `${filepath}.vault`;
             }
           }
         } else {
-          possibleVaultPath = options.path.endsWith(".vault") ? options.path : `${options.path}.vault`;
+          possibleVaultPath = options.path.endsWith(".vault")
+            ? options.path
+            : `${options.path}.vault`;
         }
       } else {
         possibleVaultPath = path.resolve(process.cwd(), ".env.vault");
@@ -227,7 +251,9 @@ var require_main = __commonJS({
       return null;
     }
     function _resolveHome(envPath) {
-      return envPath[0] === "~" ? path.join(os2.homedir(), envPath.slice(1)) : envPath;
+      return envPath[0] === "~"
+        ? path.join(os2.homedir(), envPath.slice(1))
+        : envPath;
     }
     function _configVault(options) {
       _log("Loading env from encrypted .env.vault");
@@ -265,7 +291,9 @@ var require_main = __commonJS({
       const parsedAll = {};
       for (const path2 of optionPaths) {
         try {
-          const parsed = DotenvModule.parse(fs.readFileSync(path2, { encoding }));
+          const parsed = DotenvModule.parse(
+            fs.readFileSync(path2, { encoding }),
+          );
           DotenvModule.populate(parsedAll, parsed, options);
         } catch (e) {
           if (debug) {
@@ -291,7 +319,9 @@ var require_main = __commonJS({
       }
       const vaultPath = _vaultPath(options);
       if (!vaultPath) {
-        _warn(`You set DOTENV_KEY but you are missing a .env.vault file at ${vaultPath}. Did you forget to build it?`);
+        _warn(
+          `You set DOTENV_KEY but you are missing a .env.vault file at ${vaultPath}. Did you forget to build it?`,
+        );
         return DotenvModule.configDotenv(options);
       }
       return DotenvModule._configVault(options);
@@ -309,13 +339,18 @@ var require_main = __commonJS({
       } catch (error) {
         const isRange = error instanceof RangeError;
         const invalidKeyLength = error.message === "Invalid key length";
-        const decryptionFailed = error.message === "Unsupported state or unable to authenticate data";
+        const decryptionFailed =
+          error.message === "Unsupported state or unable to authenticate data";
         if (isRange || invalidKeyLength) {
-          const err = new Error("INVALID_DOTENV_KEY: It must be 64 characters long (or more)");
+          const err = new Error(
+            "INVALID_DOTENV_KEY: It must be 64 characters long (or more)",
+          );
           err.code = "INVALID_DOTENV_KEY";
           throw err;
         } else if (decryptionFailed) {
-          const err = new Error("DECRYPTION_FAILED: Please check your DOTENV_KEY");
+          const err = new Error(
+            "DECRYPTION_FAILED: Please check your DOTENV_KEY",
+          );
           err.code = "DECRYPTION_FAILED";
           throw err;
         } else {
@@ -327,7 +362,9 @@ var require_main = __commonJS({
       const debug = Boolean(options && options.debug);
       const override = Boolean(options && options.override);
       if (typeof parsed !== "object") {
-        const err = new Error("OBJECT_REQUIRED: Please check the processEnv argument being passed to populate");
+        const err = new Error(
+          "OBJECT_REQUIRED: Please check the processEnv argument being passed to populate",
+        );
         err.code = "OBJECT_REQUIRED";
         throw err;
       }
@@ -355,7 +392,7 @@ var require_main = __commonJS({
       config,
       decrypt,
       parse: parse4,
-      populate
+      populate,
     };
     module2.exports.configDotenv = DotenvModule.configDotenv;
     module2.exports._configVault = DotenvModule._configVault;
@@ -365,7 +402,7 @@ var require_main = __commonJS({
     module2.exports.parse = DotenvModule.parse;
     module2.exports.populate = DotenvModule.populate;
     module2.exports = DotenvModule;
-  }
+  },
 });
 
 // node_modules/dotenv/lib/env-options.js
@@ -388,7 +425,7 @@ var require_env_options = __commonJS({
       options.DOTENV_KEY = process.env.DOTENV_CONFIG_DOTENV_KEY;
     }
     module2.exports = options;
-  }
+  },
 });
 
 // node_modules/dotenv/lib/cli-options.js
@@ -396,7 +433,7 @@ var require_cli_options = __commonJS({
   "node_modules/dotenv/lib/cli-options.js"(exports2, module2) {
     var re = /^dotenv_config_(encoding|path|debug|override|DOTENV_KEY)=(.+)$/;
     module2.exports = function optionMatcher(args) {
-      return args.reduce(function(acc, cur) {
+      return args.reduce(function (acc, cur) {
         const matches = cur.match(re);
         if (matches) {
           acc[matches[1]] = matches[2];
@@ -404,7 +441,7 @@ var require_cli_options = __commonJS({
         return acc;
       }, {});
     };
-  }
+  },
 });
 
 // node_modules/commander/lib/error.js
@@ -439,7 +476,7 @@ var require_error = __commonJS({
     };
     exports2.CommanderError = CommanderError2;
     exports2.InvalidArgumentError = InvalidArgumentError2;
-  }
+  },
 });
 
 // node_modules/commander/lib/argument.js
@@ -531,7 +568,7 @@ var require_argument = __commonJS({
         this.parseArg = (arg, previous) => {
           if (!this.argChoices.includes(arg)) {
             throw new InvalidArgumentError2(
-              `Allowed choices are ${this.argChoices.join(", ")}.`
+              `Allowed choices are ${this.argChoices.join(", ")}.`,
             );
           }
           if (this.variadic) {
@@ -566,7 +603,7 @@ var require_argument = __commonJS({
     }
     exports2.Argument = Argument2;
     exports2.humanReadableArgName = humanReadableArgName;
-  }
+  },
 });
 
 // node_modules/commander/lib/help.js
@@ -608,7 +645,9 @@ var require_help = __commonJS({
        */
       compareOptions(a, b) {
         const getSortKey = (option) => {
-          return option.short ? option.short.replace(/^-/, "") : option.long.replace(/^--/, "");
+          return option.short
+            ? option.short.replace(/^-/, "")
+            : option.long.replace(/^--/, "");
         };
         return getSortKey(a).localeCompare(getSortKey(b));
       }
@@ -622,17 +661,19 @@ var require_help = __commonJS({
         const visibleOptions = cmd.options.filter((option) => !option.hidden);
         const helpOption = cmd._getHelpOption();
         if (helpOption && !helpOption.hidden) {
-          const removeShort = helpOption.short && cmd._findOption(helpOption.short);
-          const removeLong = helpOption.long && cmd._findOption(helpOption.long);
+          const removeShort =
+            helpOption.short && cmd._findOption(helpOption.short);
+          const removeLong =
+            helpOption.long && cmd._findOption(helpOption.long);
           if (!removeShort && !removeLong) {
             visibleOptions.push(helpOption);
           } else if (helpOption.long && !removeLong) {
             visibleOptions.push(
-              cmd.createOption(helpOption.long, helpOption.description)
+              cmd.createOption(helpOption.long, helpOption.description),
             );
           } else if (helpOption.short && !removeShort) {
             visibleOptions.push(
-              cmd.createOption(helpOption.short, helpOption.description)
+              cmd.createOption(helpOption.short, helpOption.description),
             );
           }
         }
@@ -650,9 +691,13 @@ var require_help = __commonJS({
       visibleGlobalOptions(cmd) {
         if (!this.showGlobalOptions) return [];
         const globalOptions = [];
-        for (let ancestorCmd = cmd.parent; ancestorCmd; ancestorCmd = ancestorCmd.parent) {
+        for (
+          let ancestorCmd = cmd.parent;
+          ancestorCmd;
+          ancestorCmd = ancestorCmd.parent
+        ) {
           const visibleOptions = ancestorCmd.options.filter(
-            (option) => !option.hidden
+            (option) => !option.hidden,
           );
           globalOptions.push(...visibleOptions);
         }
@@ -670,7 +715,10 @@ var require_help = __commonJS({
       visibleArguments(cmd) {
         if (cmd._argsDescription) {
           cmd.registeredArguments.forEach((argument) => {
-            argument.description = argument.description || cmd._argsDescription[argument.name()] || "";
+            argument.description =
+              argument.description ||
+              cmd._argsDescription[argument.name()] ||
+              "";
           });
         }
         if (cmd.registeredArguments.find((argument) => argument.description)) {
@@ -685,9 +733,15 @@ var require_help = __commonJS({
        * @returns {string}
        */
       subcommandTerm(cmd) {
-        const args = cmd.registeredArguments.map((arg) => humanReadableArgName(arg)).join(" ");
-        return cmd._name + (cmd._aliases[0] ? "|" + cmd._aliases[0] : "") + (cmd.options.length ? " [options]" : "") + // simplistic check for non-help option
-        (args ? " " + args : "");
+        const args = cmd.registeredArguments
+          .map((arg) => humanReadableArgName(arg))
+          .join(" ");
+        return (
+          cmd._name +
+          (cmd._aliases[0] ? "|" + cmd._aliases[0] : "") +
+          (cmd.options.length ? " [options]" : "") + // simplistic check for non-help option
+          (args ? " " + args : "")
+        );
       }
       /**
        * Get the option term to show in the list of options.
@@ -767,7 +821,11 @@ var require_help = __commonJS({
           cmdName = cmdName + "|" + cmd._aliases[0];
         }
         let ancestorCmdNames = "";
-        for (let ancestorCmd = cmd.parent; ancestorCmd; ancestorCmd = ancestorCmd.parent) {
+        for (
+          let ancestorCmd = cmd.parent;
+          ancestorCmd;
+          ancestorCmd = ancestorCmd.parent
+        ) {
           ancestorCmdNames = ancestorCmd.name() + " " + ancestorCmdNames;
         }
         return ancestorCmdNames + cmdName + " " + cmd.usage();
@@ -802,14 +860,17 @@ var require_help = __commonJS({
         if (option.argChoices) {
           extraInfo.push(
             // use stringify to match the display of the default value
-            `choices: ${option.argChoices.map((choice) => JSON.stringify(choice)).join(", ")}`
+            `choices: ${option.argChoices.map((choice) => JSON.stringify(choice)).join(", ")}`,
           );
         }
         if (option.defaultValue !== void 0) {
-          const showDefault = option.required || option.optional || option.isBoolean() && typeof option.defaultValue === "boolean";
+          const showDefault =
+            option.required ||
+            option.optional ||
+            (option.isBoolean() && typeof option.defaultValue === "boolean");
           if (showDefault) {
             extraInfo.push(
-              `default: ${option.defaultValueDescription || JSON.stringify(option.defaultValue)}`
+              `default: ${option.defaultValueDescription || JSON.stringify(option.defaultValue)}`,
             );
           }
         }
@@ -835,12 +896,12 @@ var require_help = __commonJS({
         if (argument.argChoices) {
           extraInfo.push(
             // use stringify to match the display of the default value
-            `choices: ${argument.argChoices.map((choice) => JSON.stringify(choice)).join(", ")}`
+            `choices: ${argument.argChoices.map((choice) => JSON.stringify(choice)).join(", ")}`,
           );
         }
         if (argument.defaultValue !== void 0) {
           extraInfo.push(
-            `default: ${argument.defaultValueDescription || JSON.stringify(argument.defaultValue)}`
+            `default: ${argument.defaultValueDescription || JSON.stringify(argument.defaultValue)}`,
           );
         }
         if (extraInfo.length > 0) {
@@ -870,26 +931,28 @@ var require_help = __commonJS({
             return helper.wrap(
               fullText,
               helpWidth - itemIndentWidth,
-              termWidth + itemSeparatorWidth
+              termWidth + itemSeparatorWidth,
             );
           }
           return term;
         }
         function formatList(textArray) {
-          return textArray.join("\n").replace(/^/gm, " ".repeat(itemIndentWidth));
+          return textArray
+            .join("\n")
+            .replace(/^/gm, " ".repeat(itemIndentWidth));
         }
         let output = [`Usage: ${helper.commandUsage(cmd)}`, ""];
         const commandDescription = helper.commandDescription(cmd);
         if (commandDescription.length > 0) {
           output = output.concat([
             helper.wrap(commandDescription, helpWidth, 0),
-            ""
+            "",
           ]);
         }
         const argumentList = helper.visibleArguments(cmd).map((argument) => {
           return formatItem(
             helper.argumentTerm(argument),
-            helper.argumentDescription(argument)
+            helper.argumentDescription(argument),
           );
         });
         if (argumentList.length > 0) {
@@ -898,31 +961,33 @@ var require_help = __commonJS({
         const optionList = helper.visibleOptions(cmd).map((option) => {
           return formatItem(
             helper.optionTerm(option),
-            helper.optionDescription(option)
+            helper.optionDescription(option),
           );
         });
         if (optionList.length > 0) {
           output = output.concat(["Options:", formatList(optionList), ""]);
         }
         if (this.showGlobalOptions) {
-          const globalOptionList = helper.visibleGlobalOptions(cmd).map((option) => {
-            return formatItem(
-              helper.optionTerm(option),
-              helper.optionDescription(option)
-            );
-          });
+          const globalOptionList = helper
+            .visibleGlobalOptions(cmd)
+            .map((option) => {
+              return formatItem(
+                helper.optionTerm(option),
+                helper.optionDescription(option),
+              );
+            });
           if (globalOptionList.length > 0) {
             output = output.concat([
               "Global Options:",
               formatList(globalOptionList),
-              ""
+              "",
             ]);
           }
         }
         const commandList = helper.visibleCommands(cmd).map((cmd2) => {
           return formatItem(
             helper.subcommandTerm(cmd2),
-            helper.subcommandDescription(cmd2)
+            helper.subcommandDescription(cmd2),
           );
         });
         if (commandList.length > 0) {
@@ -942,7 +1007,7 @@ var require_help = __commonJS({
           helper.longestOptionTermLength(cmd, helper),
           helper.longestGlobalOptionTermLength(cmd, helper),
           helper.longestSubcommandTermLength(cmd, helper),
-          helper.longestArgumentTermLength(cmd, helper)
+          helper.longestArgumentTermLength(cmd, helper),
         );
       }
       /**
@@ -957,7 +1022,8 @@ var require_help = __commonJS({
        *
        */
       wrap(str, width, indent, minColumnWidth = 40) {
-        const indents = " \\f\\t\\v\xA0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF";
+        const indents =
+          " \\f\\t\\v\xA0\u1680\u2000-\u200A\u202F\u205F\u3000\uFEFF";
         const manualIndent = new RegExp(`[\\n][${indents}]+`);
         if (str.match(manualIndent)) return str;
         const columnWidth = width - indent;
@@ -970,17 +1036,22 @@ var require_help = __commonJS({
         const regex = new RegExp(
           `
 |.{1,${columnWidth - 1}}([${breaks}]|$)|[^${breaks}]+?([${breaks}]|$)`,
-          "g"
+          "g",
         );
         const lines = columnText.match(regex) || [];
-        return leadingStr + lines.map((line, i) => {
-          if (line === "\n") return "";
-          return (i > 0 ? indentString : "") + line.trimEnd();
-        }).join("\n");
+        return (
+          leadingStr +
+          lines
+            .map((line, i) => {
+              if (line === "\n") return "";
+              return (i > 0 ? indentString : "") + line.trimEnd();
+            })
+            .join("\n")
+        );
       }
     };
     exports2.Help = Help2;
-  }
+  },
 });
 
 // node_modules/commander/lib/option.js
@@ -1144,7 +1215,7 @@ var require_option = __commonJS({
         this.parseArg = (arg, previous) => {
           if (!this.argChoices.includes(arg)) {
             throw new InvalidArgumentError2(
-              `Allowed choices are ${this.argChoices.join(", ")}.`
+              `Allowed choices are ${this.argChoices.join(", ")}.`,
             );
           }
           if (this.variadic) {
@@ -1252,7 +1323,7 @@ var require_option = __commonJS({
     }
     exports2.Option = Option2;
     exports2.DualOptions = DualOptions;
-  }
+  },
 });
 
 // node_modules/commander/lib/suggestSimilar.js
@@ -1282,10 +1353,15 @@ var require_suggestSimilar = __commonJS({
             // deletion
             d[i][j - 1] + 1,
             // insertion
-            d[i - 1][j - 1] + cost
+            d[i - 1][j - 1] + cost,
             // substitution
           );
-          if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
+          if (
+            i > 1 &&
+            j > 1 &&
+            a[i - 1] === b[j - 2] &&
+            a[i - 2] === b[j - 1]
+          ) {
             d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
           }
         }
@@ -1332,7 +1408,7 @@ var require_suggestSimilar = __commonJS({
       return "";
     }
     exports2.suggestSimilar = suggestSimilar;
-  }
+  },
 });
 
 // node_modules/commander/lib/command.js
@@ -1390,9 +1466,11 @@ var require_command = __commonJS({
         this._outputConfiguration = {
           writeOut: (str) => process3.stdout.write(str),
           writeErr: (str) => process3.stderr.write(str),
-          getOutHelpWidth: () => process3.stdout.isTTY ? process3.stdout.columns : void 0,
-          getErrHelpWidth: () => process3.stderr.isTTY ? process3.stderr.columns : void 0,
-          outputError: (str, write) => write(str)
+          getOutHelpWidth: () =>
+            process3.stdout.isTTY ? process3.stdout.columns : void 0,
+          getErrHelpWidth: () =>
+            process3.stderr.isTTY ? process3.stderr.columns : void 0,
+          outputError: (str, write) => write(str),
         };
         this._hidden = false;
         this._helpOption = void 0;
@@ -1414,12 +1492,15 @@ var require_command = __commonJS({
         this._helpCommand = sourceCommand._helpCommand;
         this._helpConfiguration = sourceCommand._helpConfiguration;
         this._exitCallback = sourceCommand._exitCallback;
-        this._storeOptionsAsProperties = sourceCommand._storeOptionsAsProperties;
-        this._combineFlagAndOptionalValue = sourceCommand._combineFlagAndOptionalValue;
+        this._storeOptionsAsProperties =
+          sourceCommand._storeOptionsAsProperties;
+        this._combineFlagAndOptionalValue =
+          sourceCommand._combineFlagAndOptionalValue;
         this._allowExcessArguments = sourceCommand._allowExcessArguments;
         this._enablePositionalOptions = sourceCommand._enablePositionalOptions;
         this._showHelpAfterError = sourceCommand._showHelpAfterError;
-        this._showSuggestionAfterError = sourceCommand._showSuggestionAfterError;
+        this._showSuggestionAfterError =
+          sourceCommand._showSuggestionAfterError;
         return this;
       }
       /**
@@ -1631,9 +1712,12 @@ var require_command = __commonJS({
        * @return {Command} `this` command for chaining
        */
       arguments(names) {
-        names.trim().split(/ +/).forEach((detail) => {
-          this.argument(detail);
-        });
+        names
+          .trim()
+          .split(/ +/)
+          .forEach((detail) => {
+            this.argument(detail);
+          });
         return this;
       }
       /**
@@ -1646,12 +1730,16 @@ var require_command = __commonJS({
         const previousArgument = this.registeredArguments.slice(-1)[0];
         if (previousArgument && previousArgument.variadic) {
           throw new Error(
-            `only the last argument can be variadic '${previousArgument.name()}'`
+            `only the last argument can be variadic '${previousArgument.name()}'`,
           );
         }
-        if (argument.required && argument.defaultValue !== void 0 && argument.parseArg === void 0) {
+        if (
+          argument.required &&
+          argument.defaultValue !== void 0 &&
+          argument.parseArg === void 0
+        ) {
           throw new Error(
-            `a default value for a required argument is never used: '${argument.name()}'`
+            `a default value for a required argument is never used: '${argument.name()}'`,
           );
         }
         this.registeredArguments.push(argument);
@@ -1676,7 +1764,8 @@ var require_command = __commonJS({
           return this;
         }
         enableOrNameAndArgs = enableOrNameAndArgs ?? "help [command]";
-        const [, helpName, helpArgs] = enableOrNameAndArgs.match(/([^ ]+) *(.*)/);
+        const [, helpName, helpArgs] =
+          enableOrNameAndArgs.match(/([^ ]+) *(.*)/);
         const helpDescription = description ?? "display help for command";
         const helpCommand = this.createCommand(helpName);
         helpCommand.helpOption(false);
@@ -1709,7 +1798,11 @@ var require_command = __commonJS({
        * @package
        */
       _getHelpCommand() {
-        const hasImplicitHelpCommand = this._addImplicitHelpCommand ?? (this.commands.length && !this._actionHandler && !this._findCommand("help"));
+        const hasImplicitHelpCommand =
+          this._addImplicitHelpCommand ??
+          (this.commands.length &&
+            !this._actionHandler &&
+            !this._findCommand("help"));
         if (hasImplicitHelpCommand) {
           if (this._helpCommand === void 0) {
             this.helpCommand(void 0, void 0);
@@ -1842,9 +1935,14 @@ Expecting one of '${allowedValues.join("', '")}'`);
        * @private
        */
       _registerOption(option) {
-        const matchingOption = option.short && this._findOption(option.short) || option.long && this._findOption(option.long);
+        const matchingOption =
+          (option.short && this._findOption(option.short)) ||
+          (option.long && this._findOption(option.long));
         if (matchingOption) {
-          const matchingFlag = option.long && this._findOption(option.long) ? option.long : option.short;
+          const matchingFlag =
+            option.long && this._findOption(option.long)
+              ? option.long
+              : option.short;
           throw new Error(`Cannot add option '${option.flags}'${this._name && ` to command '${this._name}'`} due to conflicting flag '${matchingFlag}'
 -  already used by option '${matchingOption.flags}'`);
         }
@@ -1861,14 +1959,14 @@ Expecting one of '${allowedValues.join("', '")}'`);
         const knownBy = (cmd) => {
           return [cmd.name()].concat(cmd.aliases());
         };
-        const alreadyUsed = knownBy(command).find(
-          (name) => this._findCommand(name)
+        const alreadyUsed = knownBy(command).find((name) =>
+          this._findCommand(name),
         );
         if (alreadyUsed) {
           const existingCmd = knownBy(this._findCommand(alreadyUsed)).join("|");
           const newCmd = knownBy(command).join("|");
           throw new Error(
-            `cannot add command '${newCmd}' as already have command '${existingCmd}'`
+            `cannot add command '${newCmd}' as already have command '${existingCmd}'`,
           );
         }
         this.commands.push(command);
@@ -1889,7 +1987,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
             this.setOptionValueWithSource(
               name,
               option.defaultValue === void 0 ? true : option.defaultValue,
-              "default"
+              "default",
             );
           }
         } else if (option.defaultValue !== void 0) {
@@ -1901,7 +1999,12 @@ Expecting one of '${allowedValues.join("', '")}'`);
           }
           const oldValue = this.getOptionValue(name);
           if (val !== null && option.parseArg) {
-            val = this._callParseArg(option, val, oldValue, invalidValueMessage);
+            val = this._callParseArg(
+              option,
+              val,
+              oldValue,
+              invalidValueMessage,
+            );
           } else if (val !== null && option.variadic) {
             val = option._concatValue(val, oldValue);
           }
@@ -1937,7 +2040,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
       _optionEx(config, flags, description, fn, defaultValue) {
         if (typeof flags === "object" && flags instanceof Option2) {
           throw new Error(
-            "To add an Option object use addOption() instead of option() or requiredOption()"
+            "To add an Option object use addOption() instead of option() or requiredOption()",
           );
         }
         const option = this.createOption(flags, description);
@@ -1998,7 +2101,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
           flags,
           description,
           parseArg,
-          defaultValue
+          defaultValue,
         );
       }
       /**
@@ -2066,9 +2169,13 @@ Expecting one of '${allowedValues.join("', '")}'`);
        * @private
        */
       _checkForBrokenPassThrough() {
-        if (this.parent && this._passThroughOptions && !this.parent._enablePositionalOptions) {
+        if (
+          this.parent &&
+          this._passThroughOptions &&
+          !this.parent._enablePositionalOptions
+        ) {
           throw new Error(
-            `passThroughOptions cannot be used for '${this._name}' without turning on enablePositionalOptions for parent command(s)`
+            `passThroughOptions cannot be used for '${this._name}' without turning on enablePositionalOptions for parent command(s)`,
           );
         }
       }
@@ -2081,11 +2188,13 @@ Expecting one of '${allowedValues.join("', '")}'`);
        */
       storeOptionsAsProperties(storeAsProperties = true) {
         if (this.options.length) {
-          throw new Error("call .storeOptionsAsProperties() before adding options");
+          throw new Error(
+            "call .storeOptionsAsProperties() before adding options",
+          );
         }
         if (Object.keys(this._optionValues).length) {
           throw new Error(
-            "call .storeOptionsAsProperties() before setting option values"
+            "call .storeOptionsAsProperties() before setting option values",
           );
         }
         this._storeOptionsAsProperties = !!storeAsProperties;
@@ -2164,7 +2273,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
        */
       _prepareUserArgs(argv, parseOptions) {
         if (argv !== void 0 && !Array.isArray(argv)) {
-          throw new Error("first parameter to parse must be array or undefined");
+          throw new Error(
+            "first parameter to parse must be array or undefined",
+          );
         }
         parseOptions = parseOptions || {};
         if (argv === void 0 && parseOptions.from === void 0) {
@@ -2172,7 +2283,12 @@ Expecting one of '${allowedValues.join("', '")}'`);
             parseOptions.from = "electron";
           }
           const execArgv = process3.execArgv ?? [];
-          if (execArgv.includes("-e") || execArgv.includes("--eval") || execArgv.includes("-p") || execArgv.includes("--print")) {
+          if (
+            execArgv.includes("-e") ||
+            execArgv.includes("--eval") ||
+            execArgv.includes("-p") ||
+            execArgv.includes("--print")
+          ) {
             parseOptions.from = "eval";
           }
         }
@@ -2203,7 +2319,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
             break;
           default:
             throw new Error(
-              `unexpected parse option { from: '${parseOptions.from}' }`
+              `unexpected parse option { from: '${parseOptions.from}' }`,
             );
         }
         if (!this._name && this._scriptPath)
@@ -2276,15 +2392,16 @@ Expecting one of '${allowedValues.join("', '")}'`);
           const localBin = path.resolve(baseDir, baseName);
           if (fs.existsSync(localBin)) return localBin;
           if (sourceExt.includes(path.extname(baseName))) return void 0;
-          const foundExt = sourceExt.find(
-            (ext) => fs.existsSync(`${localBin}${ext}`)
+          const foundExt = sourceExt.find((ext) =>
+            fs.existsSync(`${localBin}${ext}`),
           );
           if (foundExt) return `${localBin}${foundExt}`;
           return void 0;
         }
         this._checkForMissingMandatoryOptions();
         this._checkForConflictingOptions();
-        let executableFile = subcommand._executableFile || `${this._name}-${subcommand._name}`;
+        let executableFile =
+          subcommand._executableFile || `${this._name}-${subcommand._name}`;
         let executableDir = this._executableDir || "";
         if (this._scriptPath) {
           let resolvedScriptPath;
@@ -2295,7 +2412,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
           }
           executableDir = path.resolve(
             path.dirname(resolvedScriptPath),
-            executableDir
+            executableDir,
           );
         }
         if (executableDir) {
@@ -2303,12 +2420,12 @@ Expecting one of '${allowedValues.join("', '")}'`);
           if (!localFile && !subcommand._executableFile && this._scriptPath) {
             const legacyName = path.basename(
               this._scriptPath,
-              path.extname(this._scriptPath)
+              path.extname(this._scriptPath),
             );
             if (legacyName !== this._name) {
               localFile = findFile(
                 executableDir,
-                `${legacyName}-${subcommand._name}`
+                `${legacyName}-${subcommand._name}`,
               );
             }
           }
@@ -2320,14 +2437,20 @@ Expecting one of '${allowedValues.join("', '")}'`);
           if (launchWithNode) {
             args.unshift(executableFile);
             args = incrementNodeInspectorPort(process3.execArgv).concat(args);
-            proc = childProcess.spawn(process3.argv[0], args, { stdio: "inherit" });
+            proc = childProcess.spawn(process3.argv[0], args, {
+              stdio: "inherit",
+            });
           } else {
-            proc = childProcess.spawn(executableFile, args, { stdio: "inherit" });
+            proc = childProcess.spawn(executableFile, args, {
+              stdio: "inherit",
+            });
           }
         } else {
           args.unshift(executableFile);
           args = incrementNodeInspectorPort(process3.execArgv).concat(args);
-          proc = childProcess.spawn(process3.execPath, args, { stdio: "inherit" });
+          proc = childProcess.spawn(process3.execPath, args, {
+            stdio: "inherit",
+          });
         }
         if (!proc.killed) {
           const signals = ["SIGUSR1", "SIGUSR2", "SIGTERM", "SIGINT", "SIGHUP"];
@@ -2349,14 +2472,16 @@ Expecting one of '${allowedValues.join("', '")}'`);
               new CommanderError2(
                 code,
                 "commander.executeSubCommandAsync",
-                "(close)"
-              )
+                "(close)",
+              ),
             );
           }
         });
         proc.on("error", (err) => {
           if (err.code === "ENOENT") {
-            const executableDirMessage = executableDir ? `searched for local subcommand relative to directory '${executableDir}'` : "no directory for search for local subcommand, use .executableDir() to supply a custom directory";
+            const executableDirMessage = executableDir
+              ? `searched for local subcommand relative to directory '${executableDir}'`
+              : "no directory for search for local subcommand, use .executableDir() to supply a custom directory";
             const executableMissing = `'${executableFile}' does not exist
  - if '${subcommand._name}' is not meant to be an executable command, remove description parameter from '.command()' and use '.description()' instead
  - if the default executable name is not suitable, use the executableFile option to supply a custom name or path
@@ -2371,7 +2496,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
             const wrappedError = new CommanderError2(
               1,
               "commander.executeSubCommandAsync",
-              "(error)"
+              "(error)",
             );
             wrappedError.nestedError = err;
             exitCallback(wrappedError);
@@ -2389,7 +2514,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
         promiseChain = this._chainOrCallSubCommandHook(
           promiseChain,
           subCommand,
-          "preSubcommand"
+          "preSubcommand",
         );
         promiseChain = this._chainOrCall(promiseChain, () => {
           if (subCommand._executableHandler) {
@@ -2417,7 +2542,11 @@ Expecting one of '${allowedValues.join("', '")}'`);
         return this._dispatchSubcommand(
           subcommandName,
           [],
-          [this._getHelpOption()?.long ?? this._getHelpOption()?.short ?? "--help"]
+          [
+            this._getHelpOption()?.long ??
+              this._getHelpOption()?.short ??
+              "--help",
+          ],
         );
       }
       /**
@@ -2431,7 +2560,10 @@ Expecting one of '${allowedValues.join("', '")}'`);
             this.missingArgument(arg.name());
           }
         });
-        if (this.registeredArguments.length > 0 && this.registeredArguments[this.registeredArguments.length - 1].variadic) {
+        if (
+          this.registeredArguments.length > 0 &&
+          this.registeredArguments[this.registeredArguments.length - 1].variadic
+        ) {
           return;
         }
         if (this.args.length > this.registeredArguments.length) {
@@ -2452,7 +2584,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
               argument,
               value,
               previous,
-              invalidValueMessage
+              invalidValueMessage,
             );
           }
           return parsedValue;
@@ -2506,11 +2638,14 @@ Expecting one of '${allowedValues.join("', '")}'`);
       _chainOrCallHooks(promise, event) {
         let result = promise;
         const hooks = [];
-        this._getCommandAndAncestors().reverse().filter((cmd) => cmd._lifeCycleHooks[event] !== void 0).forEach((hookedCommand) => {
-          hookedCommand._lifeCycleHooks[event].forEach((callback) => {
-            hooks.push({ hookedCommand, callback });
+        this._getCommandAndAncestors()
+          .reverse()
+          .filter((cmd) => cmd._lifeCycleHooks[event] !== void 0)
+          .forEach((hookedCommand) => {
+            hookedCommand._lifeCycleHooks[event].forEach((callback) => {
+              hooks.push({ hookedCommand, callback });
+            });
           });
-        });
         if (event === "postAction") {
           hooks.reverse();
         }
@@ -2554,9 +2689,16 @@ Expecting one of '${allowedValues.join("', '")}'`);
         unknown = parsed.unknown;
         this.args = operands.concat(unknown);
         if (operands && this._findCommand(operands[0])) {
-          return this._dispatchSubcommand(operands[0], operands.slice(1), unknown);
+          return this._dispatchSubcommand(
+            operands[0],
+            operands.slice(1),
+            unknown,
+          );
         }
-        if (this._getHelpCommand() && operands[0] === this._getHelpCommand().name()) {
+        if (
+          this._getHelpCommand() &&
+          operands[0] === this._getHelpCommand().name()
+        ) {
           return this._dispatchHelpCommand(operands[1]);
         }
         if (this._defaultCommandName) {
@@ -2564,10 +2706,15 @@ Expecting one of '${allowedValues.join("', '")}'`);
           return this._dispatchSubcommand(
             this._defaultCommandName,
             operands,
-            unknown
+            unknown,
           );
         }
-        if (this.commands.length && this.args.length === 0 && !this._actionHandler && !this._defaultCommandName) {
+        if (
+          this.commands.length &&
+          this.args.length === 0 &&
+          !this._actionHandler &&
+          !this._defaultCommandName
+        ) {
           this.help({ error: true });
         }
         this._outputHelpIfRequested(parsed.unknown);
@@ -2584,9 +2731,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
           this._processArguments();
           let promiseChain;
           promiseChain = this._chainOrCallHooks(promiseChain, "preAction");
-          promiseChain = this._chainOrCall(
-            promiseChain,
-            () => this._actionHandler(this.processedArgs)
+          promiseChain = this._chainOrCall(promiseChain, () =>
+            this._actionHandler(this.processedArgs),
           );
           if (this.parent) {
             promiseChain = this._chainOrCall(promiseChain, () => {
@@ -2629,7 +2775,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
       _findCommand(name) {
         if (!name) return void 0;
         return this.commands.find(
-          (cmd) => cmd._name === name || cmd._aliases.includes(name)
+          (cmd) => cmd._name === name || cmd._aliases.includes(name),
         );
       }
       /**
@@ -2651,7 +2797,10 @@ Expecting one of '${allowedValues.join("', '")}'`);
       _checkForMissingMandatoryOptions() {
         this._getCommandAndAncestors().forEach((cmd) => {
           cmd.options.forEach((anOption) => {
-            if (anOption.mandatory && cmd.getOptionValue(anOption.attributeName()) === void 0) {
+            if (
+              anOption.mandatory &&
+              cmd.getOptionValue(anOption.attributeName()) === void 0
+            ) {
               cmd.missingMandatoryOptionValue(anOption);
             }
           });
@@ -2671,11 +2820,11 @@ Expecting one of '${allowedValues.join("', '")}'`);
           return this.getOptionValueSource(optionKey) !== "default";
         });
         const optionsWithConflicting = definedNonDefaultOptions.filter(
-          (option) => option.conflictsWith.length > 0
+          (option) => option.conflictsWith.length > 0,
         );
         optionsWithConflicting.forEach((option) => {
           const conflictingAndDefined = definedNonDefaultOptions.find(
-            (defined) => option.conflictsWith.includes(defined.attributeName())
+            (defined) => option.conflictsWith.includes(defined.attributeName()),
           );
           if (conflictingAndDefined) {
             this._conflictingOption(option, conflictingAndDefined);
@@ -2752,7 +2901,10 @@ Expecting one of '${allowedValues.join("', '")}'`);
           if (arg.length > 2 && arg[0] === "-" && arg[1] !== "-") {
             const option = this._findOption(`-${arg[1]}`);
             if (option) {
-              if (option.required || option.optional && this._combineFlagAndOptionalValue) {
+              if (
+                option.required ||
+                (option.optional && this._combineFlagAndOptionalValue)
+              ) {
                 this.emit(`option:${option.name()}`, arg.slice(2));
               } else {
                 this.emit(`option:${option.name()}`);
@@ -2772,12 +2924,19 @@ Expecting one of '${allowedValues.join("', '")}'`);
           if (maybeOption(arg)) {
             dest = unknown;
           }
-          if ((this._enablePositionalOptions || this._passThroughOptions) && operands.length === 0 && unknown.length === 0) {
+          if (
+            (this._enablePositionalOptions || this._passThroughOptions) &&
+            operands.length === 0 &&
+            unknown.length === 0
+          ) {
             if (this._findCommand(arg)) {
               operands.push(arg);
               if (args.length > 0) unknown.push(...args);
               break;
-            } else if (this._getHelpCommand() && arg === this._getHelpCommand().name()) {
+            } else if (
+              this._getHelpCommand() &&
+              arg === this._getHelpCommand().name()
+            ) {
               operands.push(arg);
               if (args.length > 0) operands.push(...args);
               break;
@@ -2807,7 +2966,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
           const len = this.options.length;
           for (let i = 0; i < len; i++) {
             const key = this.options[i].attributeName();
-            result[key] = key === this._versionOptionName ? this._version : this[key];
+            result[key] =
+              key === this._versionOptionName ? this._version : this[key];
           }
           return result;
         }
@@ -2821,7 +2981,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
       optsWithGlobals() {
         return this._getCommandAndAncestors().reduce(
           (combinedOptions, cmd) => Object.assign(combinedOptions, cmd.opts()),
-          {}
+          {},
         );
       }
       /**
@@ -2836,7 +2996,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
         this._outputConfiguration.outputError(
           `${message}
 `,
-          this._outputConfiguration.writeErr
+          this._outputConfiguration.writeErr,
         );
         if (typeof this._showHelpAfterError === "string") {
           this._outputConfiguration.writeErr(`${this._showHelpAfterError}
@@ -2860,11 +3020,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
         this.options.forEach((option) => {
           if (option.envVar && option.envVar in process3.env) {
             const optionKey = option.attributeName();
-            if (this.getOptionValue(optionKey) === void 0 || ["default", "config", "env"].includes(
-              this.getOptionValueSource(optionKey)
-            )) {
+            if (
+              this.getOptionValue(optionKey) === void 0 ||
+              ["default", "config", "env"].includes(
+                this.getOptionValueSource(optionKey),
+              )
+            ) {
               if (option.required || option.optional) {
-                this.emit(`optionEnv:${option.name()}`, process3.env[option.envVar]);
+                this.emit(
+                  `optionEnv:${option.name()}`,
+                  process3.env[option.envVar],
+                );
               } else {
                 this.emit(`optionEnv:${option.name()}`);
               }
@@ -2880,22 +3046,34 @@ Expecting one of '${allowedValues.join("', '")}'`);
       _parseOptionsImplied() {
         const dualHelper = new DualOptions(this.options);
         const hasCustomOptionValue = (optionKey) => {
-          return this.getOptionValue(optionKey) !== void 0 && !["default", "implied"].includes(this.getOptionValueSource(optionKey));
+          return (
+            this.getOptionValue(optionKey) !== void 0 &&
+            !["default", "implied"].includes(
+              this.getOptionValueSource(optionKey),
+            )
+          );
         };
-        this.options.filter(
-          (option) => option.implied !== void 0 && hasCustomOptionValue(option.attributeName()) && dualHelper.valueFromOption(
-            this.getOptionValue(option.attributeName()),
-            option
+        this.options
+          .filter(
+            (option) =>
+              option.implied !== void 0 &&
+              hasCustomOptionValue(option.attributeName()) &&
+              dualHelper.valueFromOption(
+                this.getOptionValue(option.attributeName()),
+                option,
+              ),
           )
-        ).forEach((option) => {
-          Object.keys(option.implied).filter((impliedKey) => !hasCustomOptionValue(impliedKey)).forEach((impliedKey) => {
-            this.setOptionValueWithSource(
-              impliedKey,
-              option.implied[impliedKey],
-              "implied"
-            );
+          .forEach((option) => {
+            Object.keys(option.implied)
+              .filter((impliedKey) => !hasCustomOptionValue(impliedKey))
+              .forEach((impliedKey) => {
+                this.setOptionValueWithSource(
+                  impliedKey,
+                  option.implied[impliedKey],
+                  "implied",
+                );
+              });
           });
-        });
       }
       /**
        * Argument `name` is missing.
@@ -2939,12 +3117,17 @@ Expecting one of '${allowedValues.join("', '")}'`);
           const optionKey = option2.attributeName();
           const optionValue = this.getOptionValue(optionKey);
           const negativeOption = this.options.find(
-            (target) => target.negate && optionKey === target.attributeName()
+            (target) => target.negate && optionKey === target.attributeName(),
           );
           const positiveOption = this.options.find(
-            (target) => !target.negate && optionKey === target.attributeName()
+            (target) => !target.negate && optionKey === target.attributeName(),
           );
-          if (negativeOption && (negativeOption.presetArg === void 0 && optionValue === false || negativeOption.presetArg !== void 0 && optionValue === negativeOption.presetArg)) {
+          if (
+            negativeOption &&
+            ((negativeOption.presetArg === void 0 && optionValue === false) ||
+              (negativeOption.presetArg !== void 0 &&
+                optionValue === negativeOption.presetArg))
+          ) {
             return negativeOption;
           }
           return positiveOption || option2;
@@ -2974,7 +3157,11 @@ Expecting one of '${allowedValues.join("', '")}'`);
           let candidateFlags = [];
           let command = this;
           do {
-            const moreFlags = command.createHelp().visibleOptions(command).filter((option) => option.long).map((option) => option.long);
+            const moreFlags = command
+              .createHelp()
+              .visibleOptions(command)
+              .filter((option) => option.long)
+              .map((option) => option.long);
             candidateFlags = candidateFlags.concat(moreFlags);
             command = command.parent;
           } while (command && !command._enablePositionalOptions);
@@ -3007,10 +3194,12 @@ Expecting one of '${allowedValues.join("', '")}'`);
         let suggestion = "";
         if (this._showSuggestionAfterError) {
           const candidateNames = [];
-          this.createHelp().visibleCommands(this).forEach((command) => {
-            candidateNames.push(command.name());
-            if (command.alias()) candidateNames.push(command.alias());
-          });
+          this.createHelp()
+            .visibleCommands(this)
+            .forEach((command) => {
+              candidateNames.push(command.name());
+              if (command.alias()) candidateNames.push(command.alias());
+            });
           suggestion = suggestSimilar(unknownName, candidateNames);
         }
         const message = `error: unknown command '${unknownName}'${suggestion}`;
@@ -3081,16 +3270,21 @@ Expecting one of '${allowedValues.join("', '")}'`);
       alias(alias) {
         if (alias === void 0) return this._aliases[0];
         let command = this;
-        if (this.commands.length !== 0 && this.commands[this.commands.length - 1]._executableHandler) {
+        if (
+          this.commands.length !== 0 &&
+          this.commands[this.commands.length - 1]._executableHandler
+        ) {
           command = this.commands[this.commands.length - 1];
         }
         if (alias === command._name)
           throw new Error("Command alias can't be the same as its name");
         const matchingCommand = this.parent?._findCommand(alias);
         if (matchingCommand) {
-          const existingCmd = [matchingCommand.name()].concat(matchingCommand.aliases()).join("|");
+          const existingCmd = [matchingCommand.name()]
+            .concat(matchingCommand.aliases())
+            .join("|");
           throw new Error(
-            `cannot add alias '${alias}' to command '${this.name()}' as already have command '${existingCmd}'`
+            `cannot add alias '${alias}' to command '${this.name()}' as already have command '${existingCmd}'`,
           );
         }
         command._aliases.push(alias);
@@ -3121,11 +3315,15 @@ Expecting one of '${allowedValues.join("', '")}'`);
           const args = this.registeredArguments.map((arg) => {
             return humanReadableArgName(arg);
           });
-          return [].concat(
-            this.options.length || this._helpOption !== null ? "[options]" : [],
-            this.commands.length ? "[command]" : [],
-            this.registeredArguments.length ? args : []
-          ).join(" ");
+          return []
+            .concat(
+              this.options.length || this._helpOption !== null
+                ? "[options]"
+                : [],
+              this.commands.length ? "[command]" : [],
+              this.registeredArguments.length ? args : [],
+            )
+            .join(" ");
         }
         this._usage = str;
         return this;
@@ -3182,7 +3380,10 @@ Expecting one of '${allowedValues.join("', '")}'`);
       helpInformation(contextOptions) {
         const helper = this.createHelp();
         if (helper.helpWidth === void 0) {
-          helper.helpWidth = contextOptions && contextOptions.error ? this._outputConfiguration.getErrHelpWidth() : this._outputConfiguration.getOutHelpWidth();
+          helper.helpWidth =
+            contextOptions && contextOptions.error
+              ? this._outputConfiguration.getErrHelpWidth()
+              : this._outputConfiguration.getOutHelpWidth();
         }
         return helper.formatHelp(this, helper);
       }
@@ -3216,13 +3417,20 @@ Expecting one of '${allowedValues.join("', '")}'`);
           contextOptions = void 0;
         }
         const context = this._getHelpContext(contextOptions);
-        this._getCommandAndAncestors().reverse().forEach((command) => command.emit("beforeAllHelp", context));
+        this._getCommandAndAncestors()
+          .reverse()
+          .forEach((command) => command.emit("beforeAllHelp", context));
         this.emit("beforeHelp", context);
         let helpInformation = this.helpInformation(context);
         if (deprecatedCallback) {
           helpInformation = deprecatedCallback(helpInformation);
-          if (typeof helpInformation !== "string" && !Buffer.isBuffer(helpInformation)) {
-            throw new Error("outputHelp callback must return a string or a Buffer");
+          if (
+            typeof helpInformation !== "string" &&
+            !Buffer.isBuffer(helpInformation)
+          ) {
+            throw new Error(
+              "outputHelp callback must return a string or a Buffer",
+            );
           }
         }
         context.write(helpInformation);
@@ -3230,8 +3438,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
           this.emit(this._getHelpOption().long);
         }
         this.emit("afterHelp", context);
-        this._getCommandAndAncestors().forEach(
-          (command) => command.emit("afterAllHelp", context)
+        this._getCommandAndAncestors().forEach((command) =>
+          command.emit("afterAllHelp", context),
         );
       }
       /**
@@ -3294,7 +3502,12 @@ Expecting one of '${allowedValues.join("', '")}'`);
       help(contextOptions) {
         this.outputHelp(contextOptions);
         let exitCode = process3.exitCode || 0;
-        if (exitCode === 0 && contextOptions && typeof contextOptions !== "function" && contextOptions.error) {
+        if (
+          exitCode === 0 &&
+          contextOptions &&
+          typeof contextOptions !== "function" &&
+          contextOptions.error
+        ) {
           exitCode = 1;
         }
         this._exit(exitCode, "commander.help", "(outputHelp)");
@@ -3338,7 +3551,8 @@ Expecting one of '${allowedValues.join("', '")}'`);
        */
       _outputHelpIfRequested(args) {
         const helpOption = this._getHelpOption();
-        const helpRequested = helpOption && args.find((arg) => helpOption.is(arg));
+        const helpRequested =
+          helpOption && args.find((arg) => helpOption.is(arg));
         if (helpRequested) {
           this.outputHelp();
           this._exit(0, "commander.helpDisplayed", "(outputHelp)");
@@ -3356,14 +3570,19 @@ Expecting one of '${allowedValues.join("', '")}'`);
         let match;
         if ((match = arg.match(/^(--inspect(-brk)?)$/)) !== null) {
           debugOption = match[1];
-        } else if ((match = arg.match(/^(--inspect(-brk|-port)?)=([^:]+)$/)) !== null) {
+        } else if (
+          (match = arg.match(/^(--inspect(-brk|-port)?)=([^:]+)$/)) !== null
+        ) {
           debugOption = match[1];
           if (/^\d+$/.test(match[3])) {
             debugPort = match[3];
           } else {
             debugHost = match[3];
           }
-        } else if ((match = arg.match(/^(--inspect(-brk|-port)?)=([^:]+):(\d+)$/)) !== null) {
+        } else if (
+          (match = arg.match(/^(--inspect(-brk|-port)?)=([^:]+):(\d+)$/)) !==
+          null
+        ) {
           debugOption = match[1];
           debugHost = match[3];
           debugPort = match[4];
@@ -3375,7 +3594,7 @@ Expecting one of '${allowedValues.join("', '")}'`);
       });
     }
     exports2.Command = Command2;
-  }
+  },
 });
 
 // node_modules/commander/index.js
@@ -3383,13 +3602,18 @@ var require_commander = __commonJS({
   "node_modules/commander/index.js"(exports2) {
     var { Argument: Argument2 } = require_argument();
     var { Command: Command2 } = require_command();
-    var { CommanderError: CommanderError2, InvalidArgumentError: InvalidArgumentError2 } = require_error();
+    var {
+      CommanderError: CommanderError2,
+      InvalidArgumentError: InvalidArgumentError2,
+    } = require_error();
     var { Help: Help2 } = require_help();
     var { Option: Option2 } = require_option();
     exports2.program = new Command2();
     exports2.createCommand = (name) => new Command2(name);
-    exports2.createOption = (flags, description) => new Option2(flags, description);
-    exports2.createArgument = (name, description) => new Argument2(name, description);
+    exports2.createOption = (flags, description) =>
+      new Option2(flags, description);
+    exports2.createArgument = (name, description) =>
+      new Argument2(name, description);
     exports2.Command = Command2;
     exports2.Option = Option2;
     exports2.Argument = Argument2;
@@ -3397,7 +3621,7 @@ var require_commander = __commonJS({
     exports2.CommanderError = CommanderError2;
     exports2.InvalidArgumentError = InvalidArgumentError2;
     exports2.InvalidOptionArgumentError = InvalidArgumentError2;
-  }
+  },
 });
 
 // node_modules/@commander-js/extra-typings/index.js
@@ -3414,9 +3638,11 @@ var require_extra_typings = __commonJS({
     exports2.InvalidOptionArgumentError = commander.InvalidArgumentError;
     exports2.Option = commander.Option;
     exports2.createCommand = (name) => new commander.Command(name);
-    exports2.createOption = (flags, description) => new commander.Option(flags, description);
-    exports2.createArgument = (name, description) => new commander.Argument(name, description);
-  }
+    exports2.createOption = (flags, description) =>
+      new commander.Option(flags, description);
+    exports2.createArgument = (name, description) =>
+      new commander.Argument(name, description);
+  },
 });
 
 // node_modules/delayed-stream/lib/delayed_stream.js
@@ -3435,7 +3661,7 @@ var require_delayed_stream = __commonJS({
       this._bufferedEvents = [];
     }
     util2.inherits(DelayedStream, Stream);
-    DelayedStream.create = function(source, options) {
+    DelayedStream.create = function (source, options) {
       var delayedStream = new this();
       options = options || {};
       for (var option in options) {
@@ -3443,12 +3669,11 @@ var require_delayed_stream = __commonJS({
       }
       delayedStream.source = source;
       var realEmit = source.emit;
-      source.emit = function() {
+      source.emit = function () {
         delayedStream._handleEmit(arguments);
         return realEmit.apply(source, arguments);
       };
-      source.on("error", function() {
-      });
+      source.on("error", function () {});
       if (delayedStream.pauseStream) {
         source.pause();
       }
@@ -3457,35 +3682,37 @@ var require_delayed_stream = __commonJS({
     Object.defineProperty(DelayedStream.prototype, "readable", {
       configurable: true,
       enumerable: true,
-      get: function() {
+      get: function () {
         return this.source.readable;
-      }
+      },
     });
-    DelayedStream.prototype.setEncoding = function() {
+    DelayedStream.prototype.setEncoding = function () {
       return this.source.setEncoding.apply(this.source, arguments);
     };
-    DelayedStream.prototype.resume = function() {
+    DelayedStream.prototype.resume = function () {
       if (!this._released) {
         this.release();
       }
       this.source.resume();
     };
-    DelayedStream.prototype.pause = function() {
+    DelayedStream.prototype.pause = function () {
       this.source.pause();
     };
-    DelayedStream.prototype.release = function() {
+    DelayedStream.prototype.release = function () {
       this._released = true;
-      this._bufferedEvents.forEach(function(args) {
-        this.emit.apply(this, args);
-      }.bind(this));
+      this._bufferedEvents.forEach(
+        function (args) {
+          this.emit.apply(this, args);
+        }.bind(this),
+      );
       this._bufferedEvents = [];
     };
-    DelayedStream.prototype.pipe = function() {
+    DelayedStream.prototype.pipe = function () {
       var r = Stream.prototype.pipe.apply(this, arguments);
       this.resume();
       return r;
     };
-    DelayedStream.prototype._handleEmit = function(args) {
+    DelayedStream.prototype._handleEmit = function (args) {
       if (this._released) {
         this.emit.apply(this, args);
         return;
@@ -3496,7 +3723,7 @@ var require_delayed_stream = __commonJS({
       }
       this._bufferedEvents.push(args);
     };
-    DelayedStream.prototype._checkIfMaxDataSizeExceeded = function() {
+    DelayedStream.prototype._checkIfMaxDataSizeExceeded = function () {
       if (this._maxDataSizeExceeded) {
         return;
       }
@@ -3504,10 +3731,11 @@ var require_delayed_stream = __commonJS({
         return;
       }
       this._maxDataSizeExceeded = true;
-      var message = "DelayedStream#maxDataSize of " + this.maxDataSize + " bytes exceeded.";
+      var message =
+        "DelayedStream#maxDataSize of " + this.maxDataSize + " bytes exceeded.";
       this.emit("error", new Error(message));
     };
-  }
+  },
 });
 
 // node_modules/combined-stream/lib/combined_stream.js
@@ -3530,7 +3758,7 @@ var require_combined_stream = __commonJS({
       this._pendingNext = false;
     }
     util2.inherits(CombinedStream, Stream);
-    CombinedStream.create = function(options) {
+    CombinedStream.create = function (options) {
       var combinedStream = new this();
       options = options || {};
       for (var option in options) {
@@ -3538,16 +3766,22 @@ var require_combined_stream = __commonJS({
       }
       return combinedStream;
     };
-    CombinedStream.isStreamLike = function(stream4) {
-      return typeof stream4 !== "function" && typeof stream4 !== "string" && typeof stream4 !== "boolean" && typeof stream4 !== "number" && !Buffer.isBuffer(stream4);
+    CombinedStream.isStreamLike = function (stream4) {
+      return (
+        typeof stream4 !== "function" &&
+        typeof stream4 !== "string" &&
+        typeof stream4 !== "boolean" &&
+        typeof stream4 !== "number" &&
+        !Buffer.isBuffer(stream4)
+      );
     };
-    CombinedStream.prototype.append = function(stream4) {
+    CombinedStream.prototype.append = function (stream4) {
       var isStreamLike = CombinedStream.isStreamLike(stream4);
       if (isStreamLike) {
         if (!(stream4 instanceof DelayedStream)) {
           var newStream = DelayedStream.create(stream4, {
             maxDataSize: Infinity,
-            pauseStream: this.pauseStreams
+            pauseStream: this.pauseStreams,
           });
           stream4.on("data", this._checkDataSize.bind(this));
           stream4 = newStream;
@@ -3560,12 +3794,12 @@ var require_combined_stream = __commonJS({
       this._streams.push(stream4);
       return this;
     };
-    CombinedStream.prototype.pipe = function(dest, options) {
+    CombinedStream.prototype.pipe = function (dest, options) {
       Stream.prototype.pipe.call(this, dest, options);
       this.resume();
       return dest;
     };
-    CombinedStream.prototype._getNext = function() {
+    CombinedStream.prototype._getNext = function () {
       this._currentStream = null;
       if (this._insideLoop) {
         this._pendingNext = true;
@@ -3581,7 +3815,7 @@ var require_combined_stream = __commonJS({
         this._insideLoop = false;
       }
     };
-    CombinedStream.prototype._realGetNext = function() {
+    CombinedStream.prototype._realGetNext = function () {
       var stream4 = this._streams.shift();
       if (typeof stream4 == "undefined") {
         this.end();
@@ -3592,16 +3826,18 @@ var require_combined_stream = __commonJS({
         return;
       }
       var getStream = stream4;
-      getStream(function(stream5) {
-        var isStreamLike = CombinedStream.isStreamLike(stream5);
-        if (isStreamLike) {
-          stream5.on("data", this._checkDataSize.bind(this));
-          this._handleErrors(stream5);
-        }
-        this._pipeNext(stream5);
-      }.bind(this));
+      getStream(
+        function (stream5) {
+          var isStreamLike = CombinedStream.isStreamLike(stream5);
+          if (isStreamLike) {
+            stream5.on("data", this._checkDataSize.bind(this));
+            this._handleErrors(stream5);
+          }
+          this._pipeNext(stream5);
+        }.bind(this),
+      );
     };
-    CombinedStream.prototype._pipeNext = function(stream4) {
+    CombinedStream.prototype._pipeNext = function (stream4) {
       this._currentStream = stream4;
       var isStreamLike = CombinedStream.isStreamLike(stream4);
       if (isStreamLike) {
@@ -3613,56 +3849,67 @@ var require_combined_stream = __commonJS({
       this.write(value);
       this._getNext();
     };
-    CombinedStream.prototype._handleErrors = function(stream4) {
+    CombinedStream.prototype._handleErrors = function (stream4) {
       var self2 = this;
-      stream4.on("error", function(err) {
+      stream4.on("error", function (err) {
         self2._emitError(err);
       });
     };
-    CombinedStream.prototype.write = function(data) {
+    CombinedStream.prototype.write = function (data) {
       this.emit("data", data);
     };
-    CombinedStream.prototype.pause = function() {
+    CombinedStream.prototype.pause = function () {
       if (!this.pauseStreams) {
         return;
       }
-      if (this.pauseStreams && this._currentStream && typeof this._currentStream.pause == "function") this._currentStream.pause();
+      if (
+        this.pauseStreams &&
+        this._currentStream &&
+        typeof this._currentStream.pause == "function"
+      )
+        this._currentStream.pause();
       this.emit("pause");
     };
-    CombinedStream.prototype.resume = function() {
+    CombinedStream.prototype.resume = function () {
       if (!this._released) {
         this._released = true;
         this.writable = true;
         this._getNext();
       }
-      if (this.pauseStreams && this._currentStream && typeof this._currentStream.resume == "function") this._currentStream.resume();
+      if (
+        this.pauseStreams &&
+        this._currentStream &&
+        typeof this._currentStream.resume == "function"
+      )
+        this._currentStream.resume();
       this.emit("resume");
     };
-    CombinedStream.prototype.end = function() {
+    CombinedStream.prototype.end = function () {
       this._reset();
       this.emit("end");
     };
-    CombinedStream.prototype.destroy = function() {
+    CombinedStream.prototype.destroy = function () {
       this._reset();
       this.emit("close");
     };
-    CombinedStream.prototype._reset = function() {
+    CombinedStream.prototype._reset = function () {
       this.writable = false;
       this._streams = [];
       this._currentStream = null;
     };
-    CombinedStream.prototype._checkDataSize = function() {
+    CombinedStream.prototype._checkDataSize = function () {
       this._updateDataSize();
       if (this.dataSize <= this.maxDataSize) {
         return;
       }
-      var message = "DelayedStream#maxDataSize of " + this.maxDataSize + " bytes exceeded.";
+      var message =
+        "DelayedStream#maxDataSize of " + this.maxDataSize + " bytes exceeded.";
       this._emitError(new Error(message));
     };
-    CombinedStream.prototype._updateDataSize = function() {
+    CombinedStream.prototype._updateDataSize = function () {
       this.dataSize = 0;
       var self2 = this;
-      this._streams.forEach(function(stream4) {
+      this._streams.forEach(function (stream4) {
         if (!stream4.dataSize) {
           return;
         }
@@ -3672,11 +3919,11 @@ var require_combined_stream = __commonJS({
         this.dataSize += this._currentStream.dataSize;
       }
     };
-    CombinedStream.prototype._emitError = function(err) {
+    CombinedStream.prototype._emitError = function (err) {
       this._reset();
       this.emit("error", err);
     };
-  }
+  },
 });
 
 // node_modules/mime-db/db.json
@@ -3684,8531 +3931,8620 @@ var require_db = __commonJS({
   "node_modules/mime-db/db.json"(exports2, module2) {
     module2.exports = {
       "application/1d-interleaved-parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "application/3gpdash-qoe-report+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/3gpp-ims+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/3gpphal+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/3gpphalforms+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/a2l": {
-        source: "iana"
+        source: "iana",
       },
       "application/ace+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/activemessage": {
-        source: "iana"
+        source: "iana",
       },
       "application/activity+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-costmap+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-costmapfilter+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-directory+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-endpointcost+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-endpointcostparams+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-endpointprop+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-endpointpropparams+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-error+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-networkmap+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-networkmapfilter+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-updatestreamcontrol+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/alto-updatestreamparams+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/aml": {
-        source: "iana"
+        source: "iana",
       },
       "application/andrew-inset": {
         source: "iana",
-        extensions: ["ez"]
+        extensions: ["ez"],
       },
       "application/applefile": {
-        source: "iana"
+        source: "iana",
       },
       "application/applixware": {
         source: "apache",
-        extensions: ["aw"]
+        extensions: ["aw"],
       },
       "application/at+jwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/atf": {
-        source: "iana"
+        source: "iana",
       },
       "application/atfx": {
-        source: "iana"
+        source: "iana",
       },
       "application/atom+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["atom"]
+        extensions: ["atom"],
       },
       "application/atomcat+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["atomcat"]
+        extensions: ["atomcat"],
       },
       "application/atomdeleted+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["atomdeleted"]
+        extensions: ["atomdeleted"],
       },
       "application/atomicmail": {
-        source: "iana"
+        source: "iana",
       },
       "application/atomsvc+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["atomsvc"]
+        extensions: ["atomsvc"],
       },
       "application/atsc-dwd+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["dwd"]
+        extensions: ["dwd"],
       },
       "application/atsc-dynamic-event-message": {
-        source: "iana"
+        source: "iana",
       },
       "application/atsc-held+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["held"]
+        extensions: ["held"],
       },
       "application/atsc-rdt+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/atsc-rsat+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rsat"]
+        extensions: ["rsat"],
       },
       "application/atxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/auth-policy+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/bacnet-xdd+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/batch-smtp": {
-        source: "iana"
+        source: "iana",
       },
       "application/bdoc": {
         compressible: false,
-        extensions: ["bdoc"]
+        extensions: ["bdoc"],
       },
       "application/beep+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/calendar+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/calendar+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xcs"]
+        extensions: ["xcs"],
       },
       "application/call-completion": {
-        source: "iana"
+        source: "iana",
       },
       "application/cals-1840": {
-        source: "iana"
+        source: "iana",
       },
       "application/captive+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/cbor-seq": {
-        source: "iana"
+        source: "iana",
       },
       "application/cccex": {
-        source: "iana"
+        source: "iana",
       },
       "application/ccmp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/ccxml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["ccxml"]
+        extensions: ["ccxml"],
       },
       "application/cdfx+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["cdfx"]
+        extensions: ["cdfx"],
       },
       "application/cdmi-capability": {
         source: "iana",
-        extensions: ["cdmia"]
+        extensions: ["cdmia"],
       },
       "application/cdmi-container": {
         source: "iana",
-        extensions: ["cdmic"]
+        extensions: ["cdmic"],
       },
       "application/cdmi-domain": {
         source: "iana",
-        extensions: ["cdmid"]
+        extensions: ["cdmid"],
       },
       "application/cdmi-object": {
         source: "iana",
-        extensions: ["cdmio"]
+        extensions: ["cdmio"],
       },
       "application/cdmi-queue": {
         source: "iana",
-        extensions: ["cdmiq"]
+        extensions: ["cdmiq"],
       },
       "application/cdni": {
-        source: "iana"
+        source: "iana",
       },
       "application/cea": {
-        source: "iana"
+        source: "iana",
       },
       "application/cea-2018+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cellml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cfw": {
-        source: "iana"
+        source: "iana",
       },
       "application/city+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/clr": {
-        source: "iana"
+        source: "iana",
       },
       "application/clue+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/clue_info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cms": {
-        source: "iana"
+        source: "iana",
       },
       "application/cnrp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/coap-group+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/coap-payload": {
-        source: "iana"
+        source: "iana",
       },
       "application/commonground": {
-        source: "iana"
+        source: "iana",
       },
       "application/conference-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cose": {
-        source: "iana"
+        source: "iana",
       },
       "application/cose-key": {
-        source: "iana"
+        source: "iana",
       },
       "application/cose-key-set": {
-        source: "iana"
+        source: "iana",
       },
       "application/cpl+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["cpl"]
+        extensions: ["cpl"],
       },
       "application/csrattrs": {
-        source: "iana"
+        source: "iana",
       },
       "application/csta+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cstadata+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/csvm+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/cu-seeme": {
         source: "apache",
-        extensions: ["cu"]
+        extensions: ["cu"],
       },
       "application/cwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/cybercash": {
-        source: "iana"
+        source: "iana",
       },
       "application/dart": {
-        compressible: true
+        compressible: true,
       },
       "application/dash+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mpd"]
+        extensions: ["mpd"],
       },
       "application/dash-patch+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mpp"]
+        extensions: ["mpp"],
       },
       "application/dashdelta": {
-        source: "iana"
+        source: "iana",
       },
       "application/davmount+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["davmount"]
+        extensions: ["davmount"],
       },
       "application/dca-rft": {
-        source: "iana"
+        source: "iana",
       },
       "application/dcd": {
-        source: "iana"
+        source: "iana",
       },
       "application/dec-dx": {
-        source: "iana"
+        source: "iana",
       },
       "application/dialog-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/dicom": {
-        source: "iana"
+        source: "iana",
       },
       "application/dicom+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/dicom+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/dii": {
-        source: "iana"
+        source: "iana",
       },
       "application/dit": {
-        source: "iana"
+        source: "iana",
       },
       "application/dns": {
-        source: "iana"
+        source: "iana",
       },
       "application/dns+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/dns-message": {
-        source: "iana"
+        source: "iana",
       },
       "application/docbook+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["dbk"]
+        extensions: ["dbk"],
       },
       "application/dots+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/dskpp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/dssc+der": {
         source: "iana",
-        extensions: ["dssc"]
+        extensions: ["dssc"],
       },
       "application/dssc+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xdssc"]
+        extensions: ["xdssc"],
       },
       "application/dvcs": {
-        source: "iana"
+        source: "iana",
       },
       "application/ecmascript": {
         source: "iana",
         compressible: true,
-        extensions: ["es", "ecma"]
+        extensions: ["es", "ecma"],
       },
       "application/edi-consent": {
-        source: "iana"
+        source: "iana",
       },
       "application/edi-x12": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/edifact": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/efi": {
-        source: "iana"
+        source: "iana",
       },
       "application/elm+json": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/elm+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.cap+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.comment+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.control+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.deviceinfo+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.ecall.msd": {
-        source: "iana"
+        source: "iana",
       },
       "application/emergencycalldata.providerinfo+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.serviceinfo+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.subscriberinfo+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emergencycalldata.veds+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/emma+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["emma"]
+        extensions: ["emma"],
       },
       "application/emotionml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["emotionml"]
+        extensions: ["emotionml"],
       },
       "application/encaprtp": {
-        source: "iana"
+        source: "iana",
       },
       "application/epp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/epub+zip": {
         source: "iana",
         compressible: false,
-        extensions: ["epub"]
+        extensions: ["epub"],
       },
       "application/eshop": {
-        source: "iana"
+        source: "iana",
       },
       "application/exi": {
         source: "iana",
-        extensions: ["exi"]
+        extensions: ["exi"],
       },
       "application/expect-ct-report+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/express": {
         source: "iana",
-        extensions: ["exp"]
+        extensions: ["exp"],
       },
       "application/fastinfoset": {
-        source: "iana"
+        source: "iana",
       },
       "application/fastsoap": {
-        source: "iana"
+        source: "iana",
       },
       "application/fdt+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["fdt"]
+        extensions: ["fdt"],
       },
       "application/fhir+json": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/fhir+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/fido.trusted-apps+json": {
-        compressible: true
+        compressible: true,
       },
       "application/fits": {
-        source: "iana"
+        source: "iana",
       },
       "application/flexfec": {
-        source: "iana"
+        source: "iana",
       },
       "application/font-sfnt": {
-        source: "iana"
+        source: "iana",
       },
       "application/font-tdpfr": {
         source: "iana",
-        extensions: ["pfr"]
+        extensions: ["pfr"],
       },
       "application/font-woff": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/framework-attributes+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/geo+json": {
         source: "iana",
         compressible: true,
-        extensions: ["geojson"]
+        extensions: ["geojson"],
       },
       "application/geo+json-seq": {
-        source: "iana"
+        source: "iana",
       },
       "application/geopackage+sqlite3": {
-        source: "iana"
+        source: "iana",
       },
       "application/geoxacml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/gltf-buffer": {
-        source: "iana"
+        source: "iana",
       },
       "application/gml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["gml"]
+        extensions: ["gml"],
       },
       "application/gpx+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["gpx"]
+        extensions: ["gpx"],
       },
       "application/gxf": {
         source: "apache",
-        extensions: ["gxf"]
+        extensions: ["gxf"],
       },
       "application/gzip": {
         source: "iana",
         compressible: false,
-        extensions: ["gz"]
+        extensions: ["gz"],
       },
       "application/h224": {
-        source: "iana"
+        source: "iana",
       },
       "application/held+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/hjson": {
-        extensions: ["hjson"]
+        extensions: ["hjson"],
       },
       "application/http": {
-        source: "iana"
+        source: "iana",
       },
       "application/hyperstudio": {
         source: "iana",
-        extensions: ["stk"]
+        extensions: ["stk"],
       },
       "application/ibe-key-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/ibe-pkg-reply+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/ibe-pp-data": {
-        source: "iana"
+        source: "iana",
       },
       "application/iges": {
-        source: "iana"
+        source: "iana",
       },
       "application/im-iscomposing+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/index": {
-        source: "iana"
+        source: "iana",
       },
       "application/index.cmd": {
-        source: "iana"
+        source: "iana",
       },
       "application/index.obj": {
-        source: "iana"
+        source: "iana",
       },
       "application/index.response": {
-        source: "iana"
+        source: "iana",
       },
       "application/index.vnd": {
-        source: "iana"
+        source: "iana",
       },
       "application/inkml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["ink", "inkml"]
+        extensions: ["ink", "inkml"],
       },
       "application/iotp": {
-        source: "iana"
+        source: "iana",
       },
       "application/ipfix": {
         source: "iana",
-        extensions: ["ipfix"]
+        extensions: ["ipfix"],
       },
       "application/ipp": {
-        source: "iana"
+        source: "iana",
       },
       "application/isup": {
-        source: "iana"
+        source: "iana",
       },
       "application/its+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["its"]
+        extensions: ["its"],
       },
       "application/java-archive": {
         source: "apache",
         compressible: false,
-        extensions: ["jar", "war", "ear"]
+        extensions: ["jar", "war", "ear"],
       },
       "application/java-serialized-object": {
         source: "apache",
         compressible: false,
-        extensions: ["ser"]
+        extensions: ["ser"],
       },
       "application/java-vm": {
         source: "apache",
         compressible: false,
-        extensions: ["class"]
+        extensions: ["class"],
       },
       "application/javascript": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["js", "mjs"]
+        extensions: ["js", "mjs"],
       },
       "application/jf2feed+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/jose": {
-        source: "iana"
+        source: "iana",
       },
       "application/jose+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/jrd+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/jscalendar+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/json": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["json", "map"]
+        extensions: ["json", "map"],
       },
       "application/json-patch+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/json-seq": {
-        source: "iana"
+        source: "iana",
       },
       "application/json5": {
-        extensions: ["json5"]
+        extensions: ["json5"],
       },
       "application/jsonml+json": {
         source: "apache",
         compressible: true,
-        extensions: ["jsonml"]
+        extensions: ["jsonml"],
       },
       "application/jwk+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/jwk-set+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/jwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/kpml-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/kpml-response+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/ld+json": {
         source: "iana",
         compressible: true,
-        extensions: ["jsonld"]
+        extensions: ["jsonld"],
       },
       "application/lgr+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["lgr"]
+        extensions: ["lgr"],
       },
       "application/link-format": {
-        source: "iana"
+        source: "iana",
       },
       "application/load-control+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/lost+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["lostxml"]
+        extensions: ["lostxml"],
       },
       "application/lostsync+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/lpf+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/lxf": {
-        source: "iana"
+        source: "iana",
       },
       "application/mac-binhex40": {
         source: "iana",
-        extensions: ["hqx"]
+        extensions: ["hqx"],
       },
       "application/mac-compactpro": {
         source: "apache",
-        extensions: ["cpt"]
+        extensions: ["cpt"],
       },
       "application/macwriteii": {
-        source: "iana"
+        source: "iana",
       },
       "application/mads+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mads"]
+        extensions: ["mads"],
       },
       "application/manifest+json": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["webmanifest"]
+        extensions: ["webmanifest"],
       },
       "application/marc": {
         source: "iana",
-        extensions: ["mrc"]
+        extensions: ["mrc"],
       },
       "application/marcxml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mrcx"]
+        extensions: ["mrcx"],
       },
       "application/mathematica": {
         source: "iana",
-        extensions: ["ma", "nb", "mb"]
+        extensions: ["ma", "nb", "mb"],
       },
       "application/mathml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mathml"]
+        extensions: ["mathml"],
       },
       "application/mathml-content+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mathml-presentation+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-associated-procedure-description+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-deregister+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-envelope+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-msk+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-msk-response+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-protection-description+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-reception-report+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-register+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-register-response+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-schedule+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbms-user-service-description+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mbox": {
         source: "iana",
-        extensions: ["mbox"]
+        extensions: ["mbox"],
       },
       "application/media-policy-dataset+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mpf"]
+        extensions: ["mpf"],
       },
       "application/media_control+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mediaservercontrol+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mscml"]
+        extensions: ["mscml"],
       },
       "application/merge-patch+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/metalink+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["metalink"]
+        extensions: ["metalink"],
       },
       "application/metalink4+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["meta4"]
+        extensions: ["meta4"],
       },
       "application/mets+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mets"]
+        extensions: ["mets"],
       },
       "application/mf4": {
-        source: "iana"
+        source: "iana",
       },
       "application/mikey": {
-        source: "iana"
+        source: "iana",
       },
       "application/mipc": {
-        source: "iana"
+        source: "iana",
       },
       "application/missing-blocks+cbor-seq": {
-        source: "iana"
+        source: "iana",
       },
       "application/mmt-aei+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["maei"]
+        extensions: ["maei"],
       },
       "application/mmt-usd+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["musd"]
+        extensions: ["musd"],
       },
       "application/mods+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mods"]
+        extensions: ["mods"],
       },
       "application/moss-keys": {
-        source: "iana"
+        source: "iana",
       },
       "application/moss-signature": {
-        source: "iana"
+        source: "iana",
       },
       "application/mosskey-data": {
-        source: "iana"
+        source: "iana",
       },
       "application/mosskey-request": {
-        source: "iana"
+        source: "iana",
       },
       "application/mp21": {
         source: "iana",
-        extensions: ["m21", "mp21"]
+        extensions: ["m21", "mp21"],
       },
       "application/mp4": {
         source: "iana",
-        extensions: ["mp4s", "m4p"]
+        extensions: ["mp4s", "m4p"],
       },
       "application/mpeg4-generic": {
-        source: "iana"
+        source: "iana",
       },
       "application/mpeg4-iod": {
-        source: "iana"
+        source: "iana",
       },
       "application/mpeg4-iod-xmt": {
-        source: "iana"
+        source: "iana",
       },
       "application/mrb-consumer+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/mrb-publish+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/msc-ivr+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/msc-mixer+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/msword": {
         source: "iana",
         compressible: false,
-        extensions: ["doc", "dot"]
+        extensions: ["doc", "dot"],
       },
       "application/mud+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/multipart-core": {
-        source: "iana"
+        source: "iana",
       },
       "application/mxf": {
         source: "iana",
-        extensions: ["mxf"]
+        extensions: ["mxf"],
       },
       "application/n-quads": {
         source: "iana",
-        extensions: ["nq"]
+        extensions: ["nq"],
       },
       "application/n-triples": {
         source: "iana",
-        extensions: ["nt"]
+        extensions: ["nt"],
       },
       "application/nasdata": {
-        source: "iana"
+        source: "iana",
       },
       "application/news-checkgroups": {
         source: "iana",
-        charset: "US-ASCII"
+        charset: "US-ASCII",
       },
       "application/news-groupinfo": {
         source: "iana",
-        charset: "US-ASCII"
+        charset: "US-ASCII",
       },
       "application/news-transmission": {
-        source: "iana"
+        source: "iana",
       },
       "application/nlsml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/node": {
         source: "iana",
-        extensions: ["cjs"]
+        extensions: ["cjs"],
       },
       "application/nss": {
-        source: "iana"
+        source: "iana",
       },
       "application/oauth-authz-req+jwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/oblivious-dns-message": {
-        source: "iana"
+        source: "iana",
       },
       "application/ocsp-request": {
-        source: "iana"
+        source: "iana",
       },
       "application/ocsp-response": {
-        source: "iana"
+        source: "iana",
       },
       "application/octet-stream": {
         source: "iana",
         compressible: false,
-        extensions: ["bin", "dms", "lrf", "mar", "so", "dist", "distz", "pkg", "bpk", "dump", "elc", "deploy", "exe", "dll", "deb", "dmg", "iso", "img", "msi", "msp", "msm", "buffer"]
+        extensions: [
+          "bin",
+          "dms",
+          "lrf",
+          "mar",
+          "so",
+          "dist",
+          "distz",
+          "pkg",
+          "bpk",
+          "dump",
+          "elc",
+          "deploy",
+          "exe",
+          "dll",
+          "deb",
+          "dmg",
+          "iso",
+          "img",
+          "msi",
+          "msp",
+          "msm",
+          "buffer",
+        ],
       },
       "application/oda": {
         source: "iana",
-        extensions: ["oda"]
+        extensions: ["oda"],
       },
       "application/odm+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/odx": {
-        source: "iana"
+        source: "iana",
       },
       "application/oebps-package+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["opf"]
+        extensions: ["opf"],
       },
       "application/ogg": {
         source: "iana",
         compressible: false,
-        extensions: ["ogx"]
+        extensions: ["ogx"],
       },
       "application/omdoc+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["omdoc"]
+        extensions: ["omdoc"],
       },
       "application/onenote": {
         source: "apache",
-        extensions: ["onetoc", "onetoc2", "onetmp", "onepkg"]
+        extensions: ["onetoc", "onetoc2", "onetmp", "onepkg"],
       },
       "application/opc-nodeset+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/oscore": {
-        source: "iana"
+        source: "iana",
       },
       "application/oxps": {
         source: "iana",
-        extensions: ["oxps"]
+        extensions: ["oxps"],
       },
       "application/p21": {
-        source: "iana"
+        source: "iana",
       },
       "application/p21+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/p2p-overlay+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["relo"]
+        extensions: ["relo"],
       },
       "application/parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "application/passport": {
-        source: "iana"
+        source: "iana",
       },
       "application/patch-ops-error+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xer"]
+        extensions: ["xer"],
       },
       "application/pdf": {
         source: "iana",
         compressible: false,
-        extensions: ["pdf"]
+        extensions: ["pdf"],
       },
       "application/pdx": {
-        source: "iana"
+        source: "iana",
       },
       "application/pem-certificate-chain": {
-        source: "iana"
+        source: "iana",
       },
       "application/pgp-encrypted": {
         source: "iana",
         compressible: false,
-        extensions: ["pgp"]
+        extensions: ["pgp"],
       },
       "application/pgp-keys": {
         source: "iana",
-        extensions: ["asc"]
+        extensions: ["asc"],
       },
       "application/pgp-signature": {
         source: "iana",
-        extensions: ["asc", "sig"]
+        extensions: ["asc", "sig"],
       },
       "application/pics-rules": {
         source: "apache",
-        extensions: ["prf"]
+        extensions: ["prf"],
       },
       "application/pidf+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/pidf-diff+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/pkcs10": {
         source: "iana",
-        extensions: ["p10"]
+        extensions: ["p10"],
       },
       "application/pkcs12": {
-        source: "iana"
+        source: "iana",
       },
       "application/pkcs7-mime": {
         source: "iana",
-        extensions: ["p7m", "p7c"]
+        extensions: ["p7m", "p7c"],
       },
       "application/pkcs7-signature": {
         source: "iana",
-        extensions: ["p7s"]
+        extensions: ["p7s"],
       },
       "application/pkcs8": {
         source: "iana",
-        extensions: ["p8"]
+        extensions: ["p8"],
       },
       "application/pkcs8-encrypted": {
-        source: "iana"
+        source: "iana",
       },
       "application/pkix-attr-cert": {
         source: "iana",
-        extensions: ["ac"]
+        extensions: ["ac"],
       },
       "application/pkix-cert": {
         source: "iana",
-        extensions: ["cer"]
+        extensions: ["cer"],
       },
       "application/pkix-crl": {
         source: "iana",
-        extensions: ["crl"]
+        extensions: ["crl"],
       },
       "application/pkix-pkipath": {
         source: "iana",
-        extensions: ["pkipath"]
+        extensions: ["pkipath"],
       },
       "application/pkixcmp": {
         source: "iana",
-        extensions: ["pki"]
+        extensions: ["pki"],
       },
       "application/pls+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["pls"]
+        extensions: ["pls"],
       },
       "application/poc-settings+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/postscript": {
         source: "iana",
         compressible: true,
-        extensions: ["ai", "eps", "ps"]
+        extensions: ["ai", "eps", "ps"],
       },
       "application/ppsp-tracker+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/problem+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/problem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/provenance+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["provx"]
+        extensions: ["provx"],
       },
       "application/prs.alvestrand.titrax-sheet": {
-        source: "iana"
+        source: "iana",
       },
       "application/prs.cww": {
         source: "iana",
-        extensions: ["cww"]
+        extensions: ["cww"],
       },
       "application/prs.cyn": {
         source: "iana",
-        charset: "7-BIT"
+        charset: "7-BIT",
       },
       "application/prs.hpub+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/prs.nprend": {
-        source: "iana"
+        source: "iana",
       },
       "application/prs.plucker": {
-        source: "iana"
+        source: "iana",
       },
       "application/prs.rdf-xml-crypt": {
-        source: "iana"
+        source: "iana",
       },
       "application/prs.xsf+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/pskc+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["pskcxml"]
+        extensions: ["pskcxml"],
       },
       "application/pvd+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/qsig": {
-        source: "iana"
+        source: "iana",
       },
       "application/raml+yaml": {
         compressible: true,
-        extensions: ["raml"]
+        extensions: ["raml"],
       },
       "application/raptorfec": {
-        source: "iana"
+        source: "iana",
       },
       "application/rdap+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/rdf+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rdf", "owl"]
+        extensions: ["rdf", "owl"],
       },
       "application/reginfo+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rif"]
+        extensions: ["rif"],
       },
       "application/relax-ng-compact-syntax": {
         source: "iana",
-        extensions: ["rnc"]
+        extensions: ["rnc"],
       },
       "application/remote-printing": {
-        source: "iana"
+        source: "iana",
       },
       "application/reputon+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/resource-lists+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rl"]
+        extensions: ["rl"],
       },
       "application/resource-lists-diff+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rld"]
+        extensions: ["rld"],
       },
       "application/rfc+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/riscos": {
-        source: "iana"
+        source: "iana",
       },
       "application/rlmi+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/rls-services+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rs"]
+        extensions: ["rs"],
       },
       "application/route-apd+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rapd"]
+        extensions: ["rapd"],
       },
       "application/route-s-tsid+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["sls"]
+        extensions: ["sls"],
       },
       "application/route-usd+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rusd"]
+        extensions: ["rusd"],
       },
       "application/rpki-ghostbusters": {
         source: "iana",
-        extensions: ["gbr"]
+        extensions: ["gbr"],
       },
       "application/rpki-manifest": {
         source: "iana",
-        extensions: ["mft"]
+        extensions: ["mft"],
       },
       "application/rpki-publication": {
-        source: "iana"
+        source: "iana",
       },
       "application/rpki-roa": {
         source: "iana",
-        extensions: ["roa"]
+        extensions: ["roa"],
       },
       "application/rpki-updown": {
-        source: "iana"
+        source: "iana",
       },
       "application/rsd+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["rsd"]
+        extensions: ["rsd"],
       },
       "application/rss+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["rss"]
+        extensions: ["rss"],
       },
       "application/rtf": {
         source: "iana",
         compressible: true,
-        extensions: ["rtf"]
+        extensions: ["rtf"],
       },
       "application/rtploopback": {
-        source: "iana"
+        source: "iana",
       },
       "application/rtx": {
-        source: "iana"
+        source: "iana",
       },
       "application/samlassertion+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/samlmetadata+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sarif+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sarif-external-properties+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sbe": {
-        source: "iana"
+        source: "iana",
       },
       "application/sbml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["sbml"]
+        extensions: ["sbml"],
       },
       "application/scaip+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/scim+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/scvp-cv-request": {
         source: "iana",
-        extensions: ["scq"]
+        extensions: ["scq"],
       },
       "application/scvp-cv-response": {
         source: "iana",
-        extensions: ["scs"]
+        extensions: ["scs"],
       },
       "application/scvp-vp-request": {
         source: "iana",
-        extensions: ["spq"]
+        extensions: ["spq"],
       },
       "application/scvp-vp-response": {
         source: "iana",
-        extensions: ["spp"]
+        extensions: ["spp"],
       },
       "application/sdp": {
         source: "iana",
-        extensions: ["sdp"]
+        extensions: ["sdp"],
       },
       "application/secevent+jwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/senml+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/senml+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/senml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["senmlx"]
+        extensions: ["senmlx"],
       },
       "application/senml-etch+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/senml-etch+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/senml-exi": {
-        source: "iana"
+        source: "iana",
       },
       "application/sensml+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/sensml+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sensml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["sensmlx"]
+        extensions: ["sensmlx"],
       },
       "application/sensml-exi": {
-        source: "iana"
+        source: "iana",
       },
       "application/sep+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sep-exi": {
-        source: "iana"
+        source: "iana",
       },
       "application/session-info": {
-        source: "iana"
+        source: "iana",
       },
       "application/set-payment": {
-        source: "iana"
+        source: "iana",
       },
       "application/set-payment-initiation": {
         source: "iana",
-        extensions: ["setpay"]
+        extensions: ["setpay"],
       },
       "application/set-registration": {
-        source: "iana"
+        source: "iana",
       },
       "application/set-registration-initiation": {
         source: "iana",
-        extensions: ["setreg"]
+        extensions: ["setreg"],
       },
       "application/sgml": {
-        source: "iana"
+        source: "iana",
       },
       "application/sgml-open-catalog": {
-        source: "iana"
+        source: "iana",
       },
       "application/shf+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["shf"]
+        extensions: ["shf"],
       },
       "application/sieve": {
         source: "iana",
-        extensions: ["siv", "sieve"]
+        extensions: ["siv", "sieve"],
       },
       "application/simple-filter+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/simple-message-summary": {
-        source: "iana"
+        source: "iana",
       },
       "application/simplesymbolcontainer": {
-        source: "iana"
+        source: "iana",
       },
       "application/sipc": {
-        source: "iana"
+        source: "iana",
       },
       "application/slate": {
-        source: "iana"
+        source: "iana",
       },
       "application/smil": {
-        source: "iana"
+        source: "iana",
       },
       "application/smil+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["smi", "smil"]
+        extensions: ["smi", "smil"],
       },
       "application/smpte336m": {
-        source: "iana"
+        source: "iana",
       },
       "application/soap+fastinfoset": {
-        source: "iana"
+        source: "iana",
       },
       "application/soap+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sparql-query": {
         source: "iana",
-        extensions: ["rq"]
+        extensions: ["rq"],
       },
       "application/sparql-results+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["srx"]
+        extensions: ["srx"],
       },
       "application/spdx+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/spirits-event+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/sql": {
-        source: "iana"
+        source: "iana",
       },
       "application/srgs": {
         source: "iana",
-        extensions: ["gram"]
+        extensions: ["gram"],
       },
       "application/srgs+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["grxml"]
+        extensions: ["grxml"],
       },
       "application/sru+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["sru"]
+        extensions: ["sru"],
       },
       "application/ssdl+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["ssdl"]
+        extensions: ["ssdl"],
       },
       "application/ssml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["ssml"]
+        extensions: ["ssml"],
       },
       "application/stix+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/swid+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["swidtag"]
+        extensions: ["swidtag"],
       },
       "application/tamp-apex-update": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-apex-update-confirm": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-community-update": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-community-update-confirm": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-error": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-sequence-adjust": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-sequence-adjust-confirm": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-status-query": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-status-response": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-update": {
-        source: "iana"
+        source: "iana",
       },
       "application/tamp-update-confirm": {
-        source: "iana"
+        source: "iana",
       },
       "application/tar": {
-        compressible: true
+        compressible: true,
       },
       "application/taxii+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/td+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/tei+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["tei", "teicorpus"]
+        extensions: ["tei", "teicorpus"],
       },
       "application/tetra_isi": {
-        source: "iana"
+        source: "iana",
       },
       "application/thraud+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["tfi"]
+        extensions: ["tfi"],
       },
       "application/timestamp-query": {
-        source: "iana"
+        source: "iana",
       },
       "application/timestamp-reply": {
-        source: "iana"
+        source: "iana",
       },
       "application/timestamped-data": {
         source: "iana",
-        extensions: ["tsd"]
+        extensions: ["tsd"],
       },
       "application/tlsrpt+gzip": {
-        source: "iana"
+        source: "iana",
       },
       "application/tlsrpt+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/tnauthlist": {
-        source: "iana"
+        source: "iana",
       },
       "application/token-introspection+jwt": {
-        source: "iana"
+        source: "iana",
       },
       "application/toml": {
         compressible: true,
-        extensions: ["toml"]
+        extensions: ["toml"],
       },
       "application/trickle-ice-sdpfrag": {
-        source: "iana"
+        source: "iana",
       },
       "application/trig": {
         source: "iana",
-        extensions: ["trig"]
+        extensions: ["trig"],
       },
       "application/ttml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["ttml"]
+        extensions: ["ttml"],
       },
       "application/tve-trigger": {
-        source: "iana"
+        source: "iana",
       },
       "application/tzif": {
-        source: "iana"
+        source: "iana",
       },
       "application/tzif-leap": {
-        source: "iana"
+        source: "iana",
       },
       "application/ubjson": {
         compressible: false,
-        extensions: ["ubj"]
+        extensions: ["ubj"],
       },
       "application/ulpfec": {
-        source: "iana"
+        source: "iana",
       },
       "application/urc-grpsheet+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/urc-ressheet+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["rsheet"]
+        extensions: ["rsheet"],
       },
       "application/urc-targetdesc+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["td"]
+        extensions: ["td"],
       },
       "application/urc-uisocketdesc+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vcard+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vcard+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vemmi": {
-        source: "iana"
+        source: "iana",
       },
       "application/vividence.scriptfile": {
-        source: "apache"
+        source: "apache",
       },
       "application/vnd.1000minds.decision-model+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["1km"]
+        extensions: ["1km"],
       },
       "application/vnd.3gpp-prose+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp-prose-pc3ch+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp-v2x-local-service-information": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.5gnas": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.access-transfer-events+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.bsf+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.gmop+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.gtpc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.interworking-data": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.lpp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.mc-signalling-ear": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.mcdata-affiliation-command+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcdata-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcdata-payload": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.mcdata-service-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcdata-signalling": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.mcdata-ue-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcdata-user-profile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-affiliation-command+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-floor-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-location-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-mbms-usage-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-service-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-signed+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-ue-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-ue-init-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcptt-user-profile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-affiliation-command+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-affiliation-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-location-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-mbms-usage-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-service-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-transmission-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-ue-config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mcvideo-user-profile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.mid-call+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.ngap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.pfcp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.pic-bw-large": {
         source: "iana",
-        extensions: ["plb"]
+        extensions: ["plb"],
       },
       "application/vnd.3gpp.pic-bw-small": {
         source: "iana",
-        extensions: ["psb"]
+        extensions: ["psb"],
       },
       "application/vnd.3gpp.pic-bw-var": {
         source: "iana",
-        extensions: ["pvb"]
+        extensions: ["pvb"],
       },
       "application/vnd.3gpp.s1ap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.sms": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp.sms+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.srvcc-ext+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.srvcc-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.state-and-event-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp.ussd+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp2.bcmcsinfo+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.3gpp2.sms": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3gpp2.tcap": {
         source: "iana",
-        extensions: ["tcap"]
+        extensions: ["tcap"],
       },
       "application/vnd.3lightssoftware.imagescal": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.3m.post-it-notes": {
         source: "iana",
-        extensions: ["pwn"]
+        extensions: ["pwn"],
       },
       "application/vnd.accpac.simply.aso": {
         source: "iana",
-        extensions: ["aso"]
+        extensions: ["aso"],
       },
       "application/vnd.accpac.simply.imp": {
         source: "iana",
-        extensions: ["imp"]
+        extensions: ["imp"],
       },
       "application/vnd.acucobol": {
         source: "iana",
-        extensions: ["acu"]
+        extensions: ["acu"],
       },
       "application/vnd.acucorp": {
         source: "iana",
-        extensions: ["atc", "acutc"]
+        extensions: ["atc", "acutc"],
       },
       "application/vnd.adobe.air-application-installer-package+zip": {
         source: "apache",
         compressible: false,
-        extensions: ["air"]
+        extensions: ["air"],
       },
       "application/vnd.adobe.flash.movie": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.adobe.formscentral.fcdt": {
         source: "iana",
-        extensions: ["fcdt"]
+        extensions: ["fcdt"],
       },
       "application/vnd.adobe.fxp": {
         source: "iana",
-        extensions: ["fxp", "fxpl"]
+        extensions: ["fxp", "fxpl"],
       },
       "application/vnd.adobe.partial-upload": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.adobe.xdp+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xdp"]
+        extensions: ["xdp"],
       },
       "application/vnd.adobe.xfdf": {
         source: "iana",
-        extensions: ["xfdf"]
+        extensions: ["xfdf"],
       },
       "application/vnd.aether.imp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.afplinedata": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.afplinedata-pagedef": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.cmoca-cmresource": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.foca-charset": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.foca-codedfont": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.foca-codepage": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-cmtable": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-formdef": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-mediummap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-objectcontainer": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-overlay": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.afpc.modca-pagesegment": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.age": {
         source: "iana",
-        extensions: ["age"]
+        extensions: ["age"],
       },
       "application/vnd.ah-barcode": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ahead.space": {
         source: "iana",
-        extensions: ["ahead"]
+        extensions: ["ahead"],
       },
       "application/vnd.airzip.filesecure.azf": {
         source: "iana",
-        extensions: ["azf"]
+        extensions: ["azf"],
       },
       "application/vnd.airzip.filesecure.azs": {
         source: "iana",
-        extensions: ["azs"]
+        extensions: ["azs"],
       },
       "application/vnd.amadeus+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.amazon.ebook": {
         source: "apache",
-        extensions: ["azw"]
+        extensions: ["azw"],
       },
       "application/vnd.amazon.mobi8-ebook": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.americandynamics.acc": {
         source: "iana",
-        extensions: ["acc"]
+        extensions: ["acc"],
       },
       "application/vnd.amiga.ami": {
         source: "iana",
-        extensions: ["ami"]
+        extensions: ["ami"],
       },
       "application/vnd.amundsen.maze+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.android.ota": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.android.package-archive": {
         source: "apache",
         compressible: false,
-        extensions: ["apk"]
+        extensions: ["apk"],
       },
       "application/vnd.anki": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.anser-web-certificate-issue-initiation": {
         source: "iana",
-        extensions: ["cii"]
+        extensions: ["cii"],
       },
       "application/vnd.anser-web-funds-transfer-initiation": {
         source: "apache",
-        extensions: ["fti"]
+        extensions: ["fti"],
       },
       "application/vnd.antix.game-component": {
         source: "iana",
-        extensions: ["atx"]
+        extensions: ["atx"],
       },
       "application/vnd.apache.arrow.file": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.apache.arrow.stream": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.apache.thrift.binary": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.apache.thrift.compact": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.apache.thrift.json": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.api+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.aplextor.warrp+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.apothekende.reservation+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.apple.installer+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mpkg"]
+        extensions: ["mpkg"],
       },
       "application/vnd.apple.keynote": {
         source: "iana",
-        extensions: ["key"]
+        extensions: ["key"],
       },
       "application/vnd.apple.mpegurl": {
         source: "iana",
-        extensions: ["m3u8"]
+        extensions: ["m3u8"],
       },
       "application/vnd.apple.numbers": {
         source: "iana",
-        extensions: ["numbers"]
+        extensions: ["numbers"],
       },
       "application/vnd.apple.pages": {
         source: "iana",
-        extensions: ["pages"]
+        extensions: ["pages"],
       },
       "application/vnd.apple.pkpass": {
         compressible: false,
-        extensions: ["pkpass"]
+        extensions: ["pkpass"],
       },
       "application/vnd.arastra.swi": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.aristanetworks.swi": {
         source: "iana",
-        extensions: ["swi"]
+        extensions: ["swi"],
       },
       "application/vnd.artisan+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.artsquare": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.astraea-software.iota": {
         source: "iana",
-        extensions: ["iota"]
+        extensions: ["iota"],
       },
       "application/vnd.audiograph": {
         source: "iana",
-        extensions: ["aep"]
+        extensions: ["aep"],
       },
       "application/vnd.autopackage": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.avalon+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.avistar+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.balsamiq.bmml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["bmml"]
+        extensions: ["bmml"],
       },
       "application/vnd.balsamiq.bmpr": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.banana-accounting": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bbf.usp.error": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bbf.usp.msg": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bbf.usp.msg+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.bekitzur-stech+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.bint.med-content": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.biopax.rdf+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.blink-idb-value-wrapper": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.blueice.multipass": {
         source: "iana",
-        extensions: ["mpm"]
+        extensions: ["mpm"],
       },
       "application/vnd.bluetooth.ep.oob": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bluetooth.le.oob": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bmi": {
         source: "iana",
-        extensions: ["bmi"]
+        extensions: ["bmi"],
       },
       "application/vnd.bpf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.bpf3": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.businessobjects": {
         source: "iana",
-        extensions: ["rep"]
+        extensions: ["rep"],
       },
       "application/vnd.byu.uapi+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cab-jscript": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.canon-cpdl": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.canon-lips": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.capasystems-pg+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cendio.thinlinc.clientconf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.century-systems.tcp_stream": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.chemdraw+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["cdxml"]
+        extensions: ["cdxml"],
       },
       "application/vnd.chess-pgn": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.chipnuts.karaoke-mmd": {
         source: "iana",
-        extensions: ["mmd"]
+        extensions: ["mmd"],
       },
       "application/vnd.ciedi": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cinderella": {
         source: "iana",
-        extensions: ["cdy"]
+        extensions: ["cdy"],
       },
       "application/vnd.cirpack.isdn-ext": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.citationstyles.style+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["csl"]
+        extensions: ["csl"],
       },
       "application/vnd.claymore": {
         source: "iana",
-        extensions: ["cla"]
+        extensions: ["cla"],
       },
       "application/vnd.cloanto.rp9": {
         source: "iana",
-        extensions: ["rp9"]
+        extensions: ["rp9"],
       },
       "application/vnd.clonk.c4group": {
         source: "iana",
-        extensions: ["c4g", "c4d", "c4f", "c4p", "c4u"]
+        extensions: ["c4g", "c4d", "c4f", "c4p", "c4u"],
       },
       "application/vnd.cluetrust.cartomobile-config": {
         source: "iana",
-        extensions: ["c11amc"]
+        extensions: ["c11amc"],
       },
       "application/vnd.cluetrust.cartomobile-config-pkg": {
         source: "iana",
-        extensions: ["c11amz"]
+        extensions: ["c11amz"],
       },
       "application/vnd.coffeescript": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.document": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.document-template": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.presentation": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.presentation-template": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.spreadsheet": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collabio.xodocuments.spreadsheet-template": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.collection+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.collection.doc+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.collection.next+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.comicbook+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.comicbook-rar": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.commerce-battelle": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.commonspace": {
         source: "iana",
-        extensions: ["csp"]
+        extensions: ["csp"],
       },
       "application/vnd.contact.cmsg": {
         source: "iana",
-        extensions: ["cdbcmsg"]
+        extensions: ["cdbcmsg"],
       },
       "application/vnd.coreos.ignition+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cosmocaller": {
         source: "iana",
-        extensions: ["cmc"]
+        extensions: ["cmc"],
       },
       "application/vnd.crick.clicker": {
         source: "iana",
-        extensions: ["clkx"]
+        extensions: ["clkx"],
       },
       "application/vnd.crick.clicker.keyboard": {
         source: "iana",
-        extensions: ["clkk"]
+        extensions: ["clkk"],
       },
       "application/vnd.crick.clicker.palette": {
         source: "iana",
-        extensions: ["clkp"]
+        extensions: ["clkp"],
       },
       "application/vnd.crick.clicker.template": {
         source: "iana",
-        extensions: ["clkt"]
+        extensions: ["clkt"],
       },
       "application/vnd.crick.clicker.wordbank": {
         source: "iana",
-        extensions: ["clkw"]
+        extensions: ["clkw"],
       },
       "application/vnd.criticaltools.wbs+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["wbs"]
+        extensions: ["wbs"],
       },
       "application/vnd.cryptii.pipe+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.crypto-shade-file": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cryptomator.encrypted": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cryptomator.vault": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ctc-posml": {
         source: "iana",
-        extensions: ["pml"]
+        extensions: ["pml"],
       },
       "application/vnd.ctct.ws+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cups-pdf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cups-postscript": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cups-ppd": {
         source: "iana",
-        extensions: ["ppd"]
+        extensions: ["ppd"],
       },
       "application/vnd.cups-raster": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cups-raw": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.curl": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.curl.car": {
         source: "apache",
-        extensions: ["car"]
+        extensions: ["car"],
       },
       "application/vnd.curl.pcurl": {
         source: "apache",
-        extensions: ["pcurl"]
+        extensions: ["pcurl"],
       },
       "application/vnd.cyan.dean.root+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cybank": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.cyclonedx+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.cyclonedx+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.d2l.coursepackage1p0+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.d3m-dataset": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.d3m-problem": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dart": {
         source: "iana",
         compressible: true,
-        extensions: ["dart"]
+        extensions: ["dart"],
       },
       "application/vnd.data-vision.rdz": {
         source: "iana",
-        extensions: ["rdz"]
+        extensions: ["rdz"],
       },
       "application/vnd.datapackage+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dataresource+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dbf": {
         source: "iana",
-        extensions: ["dbf"]
+        extensions: ["dbf"],
       },
       "application/vnd.debian.binary-package": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dece.data": {
         source: "iana",
-        extensions: ["uvf", "uvvf", "uvd", "uvvd"]
+        extensions: ["uvf", "uvvf", "uvd", "uvvd"],
       },
       "application/vnd.dece.ttml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["uvt", "uvvt"]
+        extensions: ["uvt", "uvvt"],
       },
       "application/vnd.dece.unspecified": {
         source: "iana",
-        extensions: ["uvx", "uvvx"]
+        extensions: ["uvx", "uvvx"],
       },
       "application/vnd.dece.zip": {
         source: "iana",
-        extensions: ["uvz", "uvvz"]
+        extensions: ["uvz", "uvvz"],
       },
       "application/vnd.denovo.fcselayout-link": {
         source: "iana",
-        extensions: ["fe_launch"]
+        extensions: ["fe_launch"],
       },
       "application/vnd.desmume.movie": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dir-bi.plate-dl-nosuffix": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dm.delegation+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dna": {
         source: "iana",
-        extensions: ["dna"]
+        extensions: ["dna"],
       },
       "application/vnd.document+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dolby.mlp": {
         source: "apache",
-        extensions: ["mlp"]
+        extensions: ["mlp"],
       },
       "application/vnd.dolby.mobile.1": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dolby.mobile.2": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.doremir.scorecloud-binary-document": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dpgraph": {
         source: "iana",
-        extensions: ["dpg"]
+        extensions: ["dpg"],
       },
       "application/vnd.dreamfactory": {
         source: "iana",
-        extensions: ["dfac"]
+        extensions: ["dfac"],
       },
       "application/vnd.drive+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ds-keypoint": {
         source: "apache",
-        extensions: ["kpxx"]
+        extensions: ["kpxx"],
       },
       "application/vnd.dtg.local": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dtg.local.flash": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dtg.local.html": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ait": {
         source: "iana",
-        extensions: ["ait"]
+        extensions: ["ait"],
       },
       "application/vnd.dvb.dvbisl+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.dvbj": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.esgcontainer": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ipdcdftnotifaccess": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ipdcesgaccess": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ipdcesgaccess2": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ipdcesgpdd": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.ipdcroaming": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.iptv.alfec-base": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.iptv.alfec-enhancement": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.notif-aggregate-root+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-container+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-generic+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-ia-msglist+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-ia-registration-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-ia-registration-response+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.notif-init+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.dvb.pfr": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dvb.service": {
         source: "iana",
-        extensions: ["svc"]
+        extensions: ["svc"],
       },
       "application/vnd.dxr": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.dynageo": {
         source: "iana",
-        extensions: ["geo"]
+        extensions: ["geo"],
       },
       "application/vnd.dzr": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.easykaraoke.cdgdownload": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecdis-update": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecip.rlp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.eclipse.ditto+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ecowin.chart": {
         source: "iana",
-        extensions: ["mag"]
+        extensions: ["mag"],
       },
       "application/vnd.ecowin.filerequest": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecowin.fileupdate": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecowin.series": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecowin.seriesrequest": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ecowin.seriesupdate": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.efi.img": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.efi.iso": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.emclient.accessrequest+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.enliven": {
         source: "iana",
-        extensions: ["nml"]
+        extensions: ["nml"],
       },
       "application/vnd.enphase.envoy": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.eprints.data+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.epson.esf": {
         source: "iana",
-        extensions: ["esf"]
+        extensions: ["esf"],
       },
       "application/vnd.epson.msf": {
         source: "iana",
-        extensions: ["msf"]
+        extensions: ["msf"],
       },
       "application/vnd.epson.quickanime": {
         source: "iana",
-        extensions: ["qam"]
+        extensions: ["qam"],
       },
       "application/vnd.epson.salt": {
         source: "iana",
-        extensions: ["slt"]
+        extensions: ["slt"],
       },
       "application/vnd.epson.ssf": {
         source: "iana",
-        extensions: ["ssf"]
+        extensions: ["ssf"],
       },
       "application/vnd.ericsson.quickcall": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.espass-espass+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.eszigno3+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["es3", "et3"]
+        extensions: ["es3", "et3"],
       },
       "application/vnd.etsi.aoc+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.asic-e+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.etsi.asic-s+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.etsi.cug+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvcommand+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvdiscovery+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvprofile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvsad-bc+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvsad-cod+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvsad-npvr+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvservice+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvsync+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.iptvueprofile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.mcid+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.mheg5": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.etsi.overload-control-policy-dataset+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.pstn+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.sci+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.simservs+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.timestamp-token": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.etsi.tsl+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.etsi.tsl.der": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.eu.kasparian.car+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.eudora.data": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.evolv.ecig.profile": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.evolv.ecig.settings": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.evolv.ecig.theme": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.exstream-empower+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.exstream-package": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ezpix-album": {
         source: "iana",
-        extensions: ["ez2"]
+        extensions: ["ez2"],
       },
       "application/vnd.ezpix-package": {
         source: "iana",
-        extensions: ["ez3"]
+        extensions: ["ez3"],
       },
       "application/vnd.f-secure.mobile": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.familysearch.gedcom+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.fastcopy-disk-image": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fdf": {
         source: "iana",
-        extensions: ["fdf"]
+        extensions: ["fdf"],
       },
       "application/vnd.fdsn.mseed": {
         source: "iana",
-        extensions: ["mseed"]
+        extensions: ["mseed"],
       },
       "application/vnd.fdsn.seed": {
         source: "iana",
-        extensions: ["seed", "dataless"]
+        extensions: ["seed", "dataless"],
       },
       "application/vnd.ffsns": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ficlab.flb+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.filmit.zfc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fints": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.firemonkeys.cloudcell": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.flographit": {
         source: "iana",
-        extensions: ["gph"]
+        extensions: ["gph"],
       },
       "application/vnd.fluxtime.clip": {
         source: "iana",
-        extensions: ["ftc"]
+        extensions: ["ftc"],
       },
       "application/vnd.font-fontforge-sfd": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.framemaker": {
         source: "iana",
-        extensions: ["fm", "frame", "maker", "book"]
+        extensions: ["fm", "frame", "maker", "book"],
       },
       "application/vnd.frogans.fnc": {
         source: "iana",
-        extensions: ["fnc"]
+        extensions: ["fnc"],
       },
       "application/vnd.frogans.ltf": {
         source: "iana",
-        extensions: ["ltf"]
+        extensions: ["ltf"],
       },
       "application/vnd.fsc.weblaunch": {
         source: "iana",
-        extensions: ["fsc"]
+        extensions: ["fsc"],
       },
       "application/vnd.fujifilm.fb.docuworks": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujifilm.fb.docuworks.binder": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujifilm.fb.docuworks.container": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujifilm.fb.jfi+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.fujitsu.oasys": {
         source: "iana",
-        extensions: ["oas"]
+        extensions: ["oas"],
       },
       "application/vnd.fujitsu.oasys2": {
         source: "iana",
-        extensions: ["oa2"]
+        extensions: ["oa2"],
       },
       "application/vnd.fujitsu.oasys3": {
         source: "iana",
-        extensions: ["oa3"]
+        extensions: ["oa3"],
       },
       "application/vnd.fujitsu.oasysgp": {
         source: "iana",
-        extensions: ["fg5"]
+        extensions: ["fg5"],
       },
       "application/vnd.fujitsu.oasysprs": {
         source: "iana",
-        extensions: ["bh2"]
+        extensions: ["bh2"],
       },
       "application/vnd.fujixerox.art-ex": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujixerox.art4": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujixerox.ddd": {
         source: "iana",
-        extensions: ["ddd"]
+        extensions: ["ddd"],
       },
       "application/vnd.fujixerox.docuworks": {
         source: "iana",
-        extensions: ["xdw"]
+        extensions: ["xdw"],
       },
       "application/vnd.fujixerox.docuworks.binder": {
         source: "iana",
-        extensions: ["xbd"]
+        extensions: ["xbd"],
       },
       "application/vnd.fujixerox.docuworks.container": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fujixerox.hbpl": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.fut-misnet": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.futoin+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.futoin+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.fuzzysheet": {
         source: "iana",
-        extensions: ["fzs"]
+        extensions: ["fzs"],
       },
       "application/vnd.genomatix.tuxedo": {
         source: "iana",
-        extensions: ["txd"]
+        extensions: ["txd"],
       },
       "application/vnd.gentics.grd+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.geo+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.geocube+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.geogebra.file": {
         source: "iana",
-        extensions: ["ggb"]
+        extensions: ["ggb"],
       },
       "application/vnd.geogebra.slides": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.geogebra.tool": {
         source: "iana",
-        extensions: ["ggt"]
+        extensions: ["ggt"],
       },
       "application/vnd.geometry-explorer": {
         source: "iana",
-        extensions: ["gex", "gre"]
+        extensions: ["gex", "gre"],
       },
       "application/vnd.geonext": {
         source: "iana",
-        extensions: ["gxt"]
+        extensions: ["gxt"],
       },
       "application/vnd.geoplan": {
         source: "iana",
-        extensions: ["g2w"]
+        extensions: ["g2w"],
       },
       "application/vnd.geospace": {
         source: "iana",
-        extensions: ["g3w"]
+        extensions: ["g3w"],
       },
       "application/vnd.gerber": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.globalplatform.card-content-mgt": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.globalplatform.card-content-mgt-response": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.gmx": {
         source: "iana",
-        extensions: ["gmx"]
+        extensions: ["gmx"],
       },
       "application/vnd.google-apps.document": {
         compressible: false,
-        extensions: ["gdoc"]
+        extensions: ["gdoc"],
       },
       "application/vnd.google-apps.presentation": {
         compressible: false,
-        extensions: ["gslides"]
+        extensions: ["gslides"],
       },
       "application/vnd.google-apps.spreadsheet": {
         compressible: false,
-        extensions: ["gsheet"]
+        extensions: ["gsheet"],
       },
       "application/vnd.google-earth.kml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["kml"]
+        extensions: ["kml"],
       },
       "application/vnd.google-earth.kmz": {
         source: "iana",
         compressible: false,
-        extensions: ["kmz"]
+        extensions: ["kmz"],
       },
       "application/vnd.gov.sk.e-form+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.gov.sk.e-form+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.gov.sk.xmldatacontainer+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.grafeq": {
         source: "iana",
-        extensions: ["gqf", "gqs"]
+        extensions: ["gqf", "gqs"],
       },
       "application/vnd.gridmp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.groove-account": {
         source: "iana",
-        extensions: ["gac"]
+        extensions: ["gac"],
       },
       "application/vnd.groove-help": {
         source: "iana",
-        extensions: ["ghf"]
+        extensions: ["ghf"],
       },
       "application/vnd.groove-identity-message": {
         source: "iana",
-        extensions: ["gim"]
+        extensions: ["gim"],
       },
       "application/vnd.groove-injector": {
         source: "iana",
-        extensions: ["grv"]
+        extensions: ["grv"],
       },
       "application/vnd.groove-tool-message": {
         source: "iana",
-        extensions: ["gtm"]
+        extensions: ["gtm"],
       },
       "application/vnd.groove-tool-template": {
         source: "iana",
-        extensions: ["tpl"]
+        extensions: ["tpl"],
       },
       "application/vnd.groove-vcard": {
         source: "iana",
-        extensions: ["vcg"]
+        extensions: ["vcg"],
       },
       "application/vnd.hal+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hal+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["hal"]
+        extensions: ["hal"],
       },
       "application/vnd.handheld-entertainment+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["zmm"]
+        extensions: ["zmm"],
       },
       "application/vnd.hbci": {
         source: "iana",
-        extensions: ["hbci"]
+        extensions: ["hbci"],
       },
       "application/vnd.hc+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hcl-bireports": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.hdt": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.heroku+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hhe.lesson-player": {
         source: "iana",
-        extensions: ["les"]
+        extensions: ["les"],
       },
       "application/vnd.hl7cda+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hl7v2+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hp-hpgl": {
         source: "iana",
-        extensions: ["hpgl"]
+        extensions: ["hpgl"],
       },
       "application/vnd.hp-hpid": {
         source: "iana",
-        extensions: ["hpid"]
+        extensions: ["hpid"],
       },
       "application/vnd.hp-hps": {
         source: "iana",
-        extensions: ["hps"]
+        extensions: ["hps"],
       },
       "application/vnd.hp-jlyt": {
         source: "iana",
-        extensions: ["jlt"]
+        extensions: ["jlt"],
       },
       "application/vnd.hp-pcl": {
         source: "iana",
-        extensions: ["pcl"]
+        extensions: ["pcl"],
       },
       "application/vnd.hp-pclxl": {
         source: "iana",
-        extensions: ["pclxl"]
+        extensions: ["pclxl"],
       },
       "application/vnd.httphone": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.hydrostatix.sof-data": {
         source: "iana",
-        extensions: ["sfd-hdstx"]
+        extensions: ["sfd-hdstx"],
       },
       "application/vnd.hyper+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hyper-item+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hyperdrive+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.hzn-3d-crossword": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ibm.afplinedata": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ibm.electronic-media": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ibm.minipay": {
         source: "iana",
-        extensions: ["mpy"]
+        extensions: ["mpy"],
       },
       "application/vnd.ibm.modcap": {
         source: "iana",
-        extensions: ["afp", "listafp", "list3820"]
+        extensions: ["afp", "listafp", "list3820"],
       },
       "application/vnd.ibm.rights-management": {
         source: "iana",
-        extensions: ["irm"]
+        extensions: ["irm"],
       },
       "application/vnd.ibm.secure-container": {
         source: "iana",
-        extensions: ["sc"]
+        extensions: ["sc"],
       },
       "application/vnd.iccprofile": {
         source: "iana",
-        extensions: ["icc", "icm"]
+        extensions: ["icc", "icm"],
       },
       "application/vnd.ieee.1905": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.igloader": {
         source: "iana",
-        extensions: ["igl"]
+        extensions: ["igl"],
       },
       "application/vnd.imagemeter.folder+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.imagemeter.image+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.immervision-ivp": {
         source: "iana",
-        extensions: ["ivp"]
+        extensions: ["ivp"],
       },
       "application/vnd.immervision-ivu": {
         source: "iana",
-        extensions: ["ivu"]
+        extensions: ["ivu"],
       },
       "application/vnd.ims.imsccv1p1": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ims.imsccv1p2": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ims.imsccv1p3": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ims.lis.v2.result+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ims.lti.v2.toolconsumerprofile+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ims.lti.v2.toolproxy+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ims.lti.v2.toolproxy.id+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ims.lti.v2.toolsettings+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ims.lti.v2.toolsettings.simple+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.informedcontrol.rms+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.informix-visionary": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.infotech.project": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.infotech.project+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.innopath.wamp.notification": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.insors.igm": {
         source: "iana",
-        extensions: ["igm"]
+        extensions: ["igm"],
       },
       "application/vnd.intercon.formnet": {
         source: "iana",
-        extensions: ["xpw", "xpx"]
+        extensions: ["xpw", "xpx"],
       },
       "application/vnd.intergeo": {
         source: "iana",
-        extensions: ["i2g"]
+        extensions: ["i2g"],
       },
       "application/vnd.intertrust.digibox": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.intertrust.nncp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.intu.qbo": {
         source: "iana",
-        extensions: ["qbo"]
+        extensions: ["qbo"],
       },
       "application/vnd.intu.qfx": {
         source: "iana",
-        extensions: ["qfx"]
+        extensions: ["qfx"],
       },
       "application/vnd.iptc.g2.catalogitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.conceptitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.knowledgeitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.newsitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.newsmessage+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.packageitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.iptc.g2.planningitem+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ipunplugged.rcprofile": {
         source: "iana",
-        extensions: ["rcprofile"]
+        extensions: ["rcprofile"],
       },
       "application/vnd.irepository.package+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["irp"]
+        extensions: ["irp"],
       },
       "application/vnd.is-xpr": {
         source: "iana",
-        extensions: ["xpr"]
+        extensions: ["xpr"],
       },
       "application/vnd.isac.fcs": {
         source: "iana",
-        extensions: ["fcs"]
+        extensions: ["fcs"],
       },
       "application/vnd.iso11783-10+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.jam": {
         source: "iana",
-        extensions: ["jam"]
+        extensions: ["jam"],
       },
       "application/vnd.japannet-directory-service": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-jpnstore-wakeup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-payment-wakeup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-registration": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-registration-wakeup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-setstore-wakeup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-verification": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.japannet-verification-wakeup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.jcp.javame.midlet-rms": {
         source: "iana",
-        extensions: ["rms"]
+        extensions: ["rms"],
       },
       "application/vnd.jisp": {
         source: "iana",
-        extensions: ["jisp"]
+        extensions: ["jisp"],
       },
       "application/vnd.joost.joda-archive": {
         source: "iana",
-        extensions: ["joda"]
+        extensions: ["joda"],
       },
       "application/vnd.jsk.isdn-ngn": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.kahootz": {
         source: "iana",
-        extensions: ["ktz", "ktr"]
+        extensions: ["ktz", "ktr"],
       },
       "application/vnd.kde.karbon": {
         source: "iana",
-        extensions: ["karbon"]
+        extensions: ["karbon"],
       },
       "application/vnd.kde.kchart": {
         source: "iana",
-        extensions: ["chrt"]
+        extensions: ["chrt"],
       },
       "application/vnd.kde.kformula": {
         source: "iana",
-        extensions: ["kfo"]
+        extensions: ["kfo"],
       },
       "application/vnd.kde.kivio": {
         source: "iana",
-        extensions: ["flw"]
+        extensions: ["flw"],
       },
       "application/vnd.kde.kontour": {
         source: "iana",
-        extensions: ["kon"]
+        extensions: ["kon"],
       },
       "application/vnd.kde.kpresenter": {
         source: "iana",
-        extensions: ["kpr", "kpt"]
+        extensions: ["kpr", "kpt"],
       },
       "application/vnd.kde.kspread": {
         source: "iana",
-        extensions: ["ksp"]
+        extensions: ["ksp"],
       },
       "application/vnd.kde.kword": {
         source: "iana",
-        extensions: ["kwd", "kwt"]
+        extensions: ["kwd", "kwt"],
       },
       "application/vnd.kenameaapp": {
         source: "iana",
-        extensions: ["htke"]
+        extensions: ["htke"],
       },
       "application/vnd.kidspiration": {
         source: "iana",
-        extensions: ["kia"]
+        extensions: ["kia"],
       },
       "application/vnd.kinar": {
         source: "iana",
-        extensions: ["kne", "knp"]
+        extensions: ["kne", "knp"],
       },
       "application/vnd.koan": {
         source: "iana",
-        extensions: ["skp", "skd", "skt", "skm"]
+        extensions: ["skp", "skd", "skt", "skm"],
       },
       "application/vnd.kodak-descriptor": {
         source: "iana",
-        extensions: ["sse"]
+        extensions: ["sse"],
       },
       "application/vnd.las": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.las.las+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.las.las+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["lasxml"]
+        extensions: ["lasxml"],
       },
       "application/vnd.laszip": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.leap+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.liberty-request+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.llamagraphics.life-balance.desktop": {
         source: "iana",
-        extensions: ["lbd"]
+        extensions: ["lbd"],
       },
       "application/vnd.llamagraphics.life-balance.exchange+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["lbe"]
+        extensions: ["lbe"],
       },
       "application/vnd.logipipe.circuit+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.loom": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.lotus-1-2-3": {
         source: "iana",
-        extensions: ["123"]
+        extensions: ["123"],
       },
       "application/vnd.lotus-approach": {
         source: "iana",
-        extensions: ["apr"]
+        extensions: ["apr"],
       },
       "application/vnd.lotus-freelance": {
         source: "iana",
-        extensions: ["pre"]
+        extensions: ["pre"],
       },
       "application/vnd.lotus-notes": {
         source: "iana",
-        extensions: ["nsf"]
+        extensions: ["nsf"],
       },
       "application/vnd.lotus-organizer": {
         source: "iana",
-        extensions: ["org"]
+        extensions: ["org"],
       },
       "application/vnd.lotus-screencam": {
         source: "iana",
-        extensions: ["scm"]
+        extensions: ["scm"],
       },
       "application/vnd.lotus-wordpro": {
         source: "iana",
-        extensions: ["lwp"]
+        extensions: ["lwp"],
       },
       "application/vnd.macports.portpkg": {
         source: "iana",
-        extensions: ["portpkg"]
+        extensions: ["portpkg"],
       },
       "application/vnd.mapbox-vector-tile": {
         source: "iana",
-        extensions: ["mvt"]
+        extensions: ["mvt"],
       },
       "application/vnd.marlin.drm.actiontoken+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.marlin.drm.conftoken+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.marlin.drm.license+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.marlin.drm.mdcf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mason+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.maxar.archive.3tz+zip": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "application/vnd.maxmind.maxmind-db": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mcd": {
         source: "iana",
-        extensions: ["mcd"]
+        extensions: ["mcd"],
       },
       "application/vnd.medcalcdata": {
         source: "iana",
-        extensions: ["mc1"]
+        extensions: ["mc1"],
       },
       "application/vnd.mediastation.cdkey": {
         source: "iana",
-        extensions: ["cdkey"]
+        extensions: ["cdkey"],
       },
       "application/vnd.meridian-slingshot": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mfer": {
         source: "iana",
-        extensions: ["mwf"]
+        extensions: ["mwf"],
       },
       "application/vnd.mfmp": {
         source: "iana",
-        extensions: ["mfm"]
+        extensions: ["mfm"],
       },
       "application/vnd.micro+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.micrografx.flo": {
         source: "iana",
-        extensions: ["flo"]
+        extensions: ["flo"],
       },
       "application/vnd.micrografx.igx": {
         source: "iana",
-        extensions: ["igx"]
+        extensions: ["igx"],
       },
       "application/vnd.microsoft.portable-executable": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.microsoft.windows.thumbnail-cache": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.miele+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.mif": {
         source: "iana",
-        extensions: ["mif"]
+        extensions: ["mif"],
       },
       "application/vnd.minisoft-hp3000-save": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mitsubishi.misty-guard.trustweb": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mobius.daf": {
         source: "iana",
-        extensions: ["daf"]
+        extensions: ["daf"],
       },
       "application/vnd.mobius.dis": {
         source: "iana",
-        extensions: ["dis"]
+        extensions: ["dis"],
       },
       "application/vnd.mobius.mbk": {
         source: "iana",
-        extensions: ["mbk"]
+        extensions: ["mbk"],
       },
       "application/vnd.mobius.mqy": {
         source: "iana",
-        extensions: ["mqy"]
+        extensions: ["mqy"],
       },
       "application/vnd.mobius.msl": {
         source: "iana",
-        extensions: ["msl"]
+        extensions: ["msl"],
       },
       "application/vnd.mobius.plc": {
         source: "iana",
-        extensions: ["plc"]
+        extensions: ["plc"],
       },
       "application/vnd.mobius.txf": {
         source: "iana",
-        extensions: ["txf"]
+        extensions: ["txf"],
       },
       "application/vnd.mophun.application": {
         source: "iana",
-        extensions: ["mpn"]
+        extensions: ["mpn"],
       },
       "application/vnd.mophun.certificate": {
         source: "iana",
-        extensions: ["mpc"]
+        extensions: ["mpc"],
       },
       "application/vnd.motorola.flexsuite": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.adsi": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.fis": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.gotap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.kmr": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.ttc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.flexsuite.wem": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.motorola.iprm": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mozilla.xul+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xul"]
+        extensions: ["xul"],
       },
       "application/vnd.ms-3mfdocument": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-artgalry": {
         source: "iana",
-        extensions: ["cil"]
+        extensions: ["cil"],
       },
       "application/vnd.ms-asf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-cab-compressed": {
         source: "iana",
-        extensions: ["cab"]
+        extensions: ["cab"],
       },
       "application/vnd.ms-color.iccprofile": {
-        source: "apache"
+        source: "apache",
       },
       "application/vnd.ms-excel": {
         source: "iana",
         compressible: false,
-        extensions: ["xls", "xlm", "xla", "xlc", "xlt", "xlw"]
+        extensions: ["xls", "xlm", "xla", "xlc", "xlt", "xlw"],
       },
       "application/vnd.ms-excel.addin.macroenabled.12": {
         source: "iana",
-        extensions: ["xlam"]
+        extensions: ["xlam"],
       },
       "application/vnd.ms-excel.sheet.binary.macroenabled.12": {
         source: "iana",
-        extensions: ["xlsb"]
+        extensions: ["xlsb"],
       },
       "application/vnd.ms-excel.sheet.macroenabled.12": {
         source: "iana",
-        extensions: ["xlsm"]
+        extensions: ["xlsm"],
       },
       "application/vnd.ms-excel.template.macroenabled.12": {
         source: "iana",
-        extensions: ["xltm"]
+        extensions: ["xltm"],
       },
       "application/vnd.ms-fontobject": {
         source: "iana",
         compressible: true,
-        extensions: ["eot"]
+        extensions: ["eot"],
       },
       "application/vnd.ms-htmlhelp": {
         source: "iana",
-        extensions: ["chm"]
+        extensions: ["chm"],
       },
       "application/vnd.ms-ims": {
         source: "iana",
-        extensions: ["ims"]
+        extensions: ["ims"],
       },
       "application/vnd.ms-lrm": {
         source: "iana",
-        extensions: ["lrm"]
+        extensions: ["lrm"],
       },
       "application/vnd.ms-office.activex+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-officetheme": {
         source: "iana",
-        extensions: ["thmx"]
+        extensions: ["thmx"],
       },
       "application/vnd.ms-opentype": {
         source: "apache",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-outlook": {
         compressible: false,
-        extensions: ["msg"]
+        extensions: ["msg"],
       },
       "application/vnd.ms-package.obfuscated-opentype": {
-        source: "apache"
+        source: "apache",
       },
       "application/vnd.ms-pki.seccat": {
         source: "apache",
-        extensions: ["cat"]
+        extensions: ["cat"],
       },
       "application/vnd.ms-pki.stl": {
         source: "apache",
-        extensions: ["stl"]
+        extensions: ["stl"],
       },
       "application/vnd.ms-playready.initiator+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-powerpoint": {
         source: "iana",
         compressible: false,
-        extensions: ["ppt", "pps", "pot"]
+        extensions: ["ppt", "pps", "pot"],
       },
       "application/vnd.ms-powerpoint.addin.macroenabled.12": {
         source: "iana",
-        extensions: ["ppam"]
+        extensions: ["ppam"],
       },
       "application/vnd.ms-powerpoint.presentation.macroenabled.12": {
         source: "iana",
-        extensions: ["pptm"]
+        extensions: ["pptm"],
       },
       "application/vnd.ms-powerpoint.slide.macroenabled.12": {
         source: "iana",
-        extensions: ["sldm"]
+        extensions: ["sldm"],
       },
       "application/vnd.ms-powerpoint.slideshow.macroenabled.12": {
         source: "iana",
-        extensions: ["ppsm"]
+        extensions: ["ppsm"],
       },
       "application/vnd.ms-powerpoint.template.macroenabled.12": {
         source: "iana",
-        extensions: ["potm"]
+        extensions: ["potm"],
       },
       "application/vnd.ms-printdevicecapabilities+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-printing.printticket+xml": {
         source: "apache",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-printschematicket+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ms-project": {
         source: "iana",
-        extensions: ["mpp", "mpt"]
+        extensions: ["mpp", "mpt"],
       },
       "application/vnd.ms-tnef": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-windows.devicepairing": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-windows.nwprinting.oob": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-windows.printerpairing": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-windows.wsd.oob": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-wmdrm.lic-chlg-req": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-wmdrm.lic-resp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-wmdrm.meter-chlg-req": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-wmdrm.meter-resp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ms-word.document.macroenabled.12": {
         source: "iana",
-        extensions: ["docm"]
+        extensions: ["docm"],
       },
       "application/vnd.ms-word.template.macroenabled.12": {
         source: "iana",
-        extensions: ["dotm"]
+        extensions: ["dotm"],
       },
       "application/vnd.ms-works": {
         source: "iana",
-        extensions: ["wps", "wks", "wcm", "wdb"]
+        extensions: ["wps", "wks", "wcm", "wdb"],
       },
       "application/vnd.ms-wpl": {
         source: "iana",
-        extensions: ["wpl"]
+        extensions: ["wpl"],
       },
       "application/vnd.ms-xpsdocument": {
         source: "iana",
         compressible: false,
-        extensions: ["xps"]
+        extensions: ["xps"],
       },
       "application/vnd.msa-disk-image": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.mseq": {
         source: "iana",
-        extensions: ["mseq"]
+        extensions: ["mseq"],
       },
       "application/vnd.msign": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.multiad.creator": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.multiad.creator.cif": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.music-niff": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.musician": {
         source: "iana",
-        extensions: ["mus"]
+        extensions: ["mus"],
       },
       "application/vnd.muvee.style": {
         source: "iana",
-        extensions: ["msty"]
+        extensions: ["msty"],
       },
       "application/vnd.mynfc": {
         source: "iana",
-        extensions: ["taglet"]
+        extensions: ["taglet"],
       },
       "application/vnd.nacamar.ybrid+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.ncd.control": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ncd.reference": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nearst.inv+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nebumind.line": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nervana": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.netfpx": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.neurolanguage.nlu": {
         source: "iana",
-        extensions: ["nlu"]
+        extensions: ["nlu"],
       },
       "application/vnd.nimn": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nintendo.nitro.rom": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nintendo.snes.rom": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nitf": {
         source: "iana",
-        extensions: ["ntf", "nitf"]
+        extensions: ["ntf", "nitf"],
       },
       "application/vnd.noblenet-directory": {
         source: "iana",
-        extensions: ["nnd"]
+        extensions: ["nnd"],
       },
       "application/vnd.noblenet-sealer": {
         source: "iana",
-        extensions: ["nns"]
+        extensions: ["nns"],
       },
       "application/vnd.noblenet-web": {
         source: "iana",
-        extensions: ["nnw"]
+        extensions: ["nnw"],
       },
       "application/vnd.nokia.catalogs": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.conml+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.conml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nokia.iptv.config+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nokia.isds-radio-presets": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.landmark+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.landmark+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nokia.landmarkcollection+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nokia.n-gage.ac+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["ac"]
+        extensions: ["ac"],
       },
       "application/vnd.nokia.n-gage.data": {
         source: "iana",
-        extensions: ["ngdat"]
+        extensions: ["ngdat"],
       },
       "application/vnd.nokia.n-gage.symbian.install": {
         source: "iana",
-        extensions: ["n-gage"]
+        extensions: ["n-gage"],
       },
       "application/vnd.nokia.ncd": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.pcd+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.nokia.pcd+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.nokia.radio-preset": {
         source: "iana",
-        extensions: ["rpst"]
+        extensions: ["rpst"],
       },
       "application/vnd.nokia.radio-presets": {
         source: "iana",
-        extensions: ["rpss"]
+        extensions: ["rpss"],
       },
       "application/vnd.novadigm.edm": {
         source: "iana",
-        extensions: ["edm"]
+        extensions: ["edm"],
       },
       "application/vnd.novadigm.edx": {
         source: "iana",
-        extensions: ["edx"]
+        extensions: ["edx"],
       },
       "application/vnd.novadigm.ext": {
         source: "iana",
-        extensions: ["ext"]
+        extensions: ["ext"],
       },
       "application/vnd.ntt-local.content-share": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ntt-local.file-transfer": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ntt-local.ogw_remote-access": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ntt-local.sip-ta_remote": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ntt-local.sip-ta_tcp_stream": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oasis.opendocument.chart": {
         source: "iana",
-        extensions: ["odc"]
+        extensions: ["odc"],
       },
       "application/vnd.oasis.opendocument.chart-template": {
         source: "iana",
-        extensions: ["otc"]
+        extensions: ["otc"],
       },
       "application/vnd.oasis.opendocument.database": {
         source: "iana",
-        extensions: ["odb"]
+        extensions: ["odb"],
       },
       "application/vnd.oasis.opendocument.formula": {
         source: "iana",
-        extensions: ["odf"]
+        extensions: ["odf"],
       },
       "application/vnd.oasis.opendocument.formula-template": {
         source: "iana",
-        extensions: ["odft"]
+        extensions: ["odft"],
       },
       "application/vnd.oasis.opendocument.graphics": {
         source: "iana",
         compressible: false,
-        extensions: ["odg"]
+        extensions: ["odg"],
       },
       "application/vnd.oasis.opendocument.graphics-template": {
         source: "iana",
-        extensions: ["otg"]
+        extensions: ["otg"],
       },
       "application/vnd.oasis.opendocument.image": {
         source: "iana",
-        extensions: ["odi"]
+        extensions: ["odi"],
       },
       "application/vnd.oasis.opendocument.image-template": {
         source: "iana",
-        extensions: ["oti"]
+        extensions: ["oti"],
       },
       "application/vnd.oasis.opendocument.presentation": {
         source: "iana",
         compressible: false,
-        extensions: ["odp"]
+        extensions: ["odp"],
       },
       "application/vnd.oasis.opendocument.presentation-template": {
         source: "iana",
-        extensions: ["otp"]
+        extensions: ["otp"],
       },
       "application/vnd.oasis.opendocument.spreadsheet": {
         source: "iana",
         compressible: false,
-        extensions: ["ods"]
+        extensions: ["ods"],
       },
       "application/vnd.oasis.opendocument.spreadsheet-template": {
         source: "iana",
-        extensions: ["ots"]
+        extensions: ["ots"],
       },
       "application/vnd.oasis.opendocument.text": {
         source: "iana",
         compressible: false,
-        extensions: ["odt"]
+        extensions: ["odt"],
       },
       "application/vnd.oasis.opendocument.text-master": {
         source: "iana",
-        extensions: ["odm"]
+        extensions: ["odm"],
       },
       "application/vnd.oasis.opendocument.text-template": {
         source: "iana",
-        extensions: ["ott"]
+        extensions: ["ott"],
       },
       "application/vnd.oasis.opendocument.text-web": {
         source: "iana",
-        extensions: ["oth"]
+        extensions: ["oth"],
       },
       "application/vnd.obn": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ocf+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oci.image.manifest.v1+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oftn.l10n+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.contentaccessdownload+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.contentaccessstreaming+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.cspg-hexbinary": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oipf.dae.svg+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.dae.xhtml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.mippvcontrolmessage+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.pae.gem": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oipf.spdiscovery+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.spdlist+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.ueprofile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oipf.userprofile+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.olpc-sugar": {
         source: "iana",
-        extensions: ["xo"]
+        extensions: ["xo"],
       },
       "application/vnd.oma-scws-config": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma-scws-http-request": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma-scws-http-response": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.associated-procedure-parameter+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.drm-trigger+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.imd+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.ltkm": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.notification+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.provisioningtrigger": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.sgboot": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.sgdd+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.sgdu": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.simple-symbol-container": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.bcast.smartcard-trigger+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.sprov+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.bcast.stkm": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.cab-address-book+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.cab-feature-handler+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.cab-pcc+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.cab-subs-invite+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.cab-user-prefs+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.dcd": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.dcdc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.dd2+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["dd2"]
+        extensions: ["dd2"],
       },
       "application/vnd.oma.drm.risd+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.group-usage-list+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.lwm2m+cbor": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.lwm2m+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.lwm2m+tlv": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.pal+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.poc.detailed-progress-report+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.poc.final-report+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.poc.groups+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.poc.invocation-descriptor+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.poc.optimized-progress-report+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.push": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.oma.scidm.messages+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oma.xcap-directory+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.omads-email+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.omads-file+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.omads-folder+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.omaloc-supl-init": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepager": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepagertamp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepagertamx": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepagertat": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepagertatp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.onepagertatx": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.openblox.game+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["obgx"]
+        extensions: ["obgx"],
       },
       "application/vnd.openblox.game-binary": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.openeye.oeb": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.openofficeorg.extension": {
         source: "apache",
-        extensions: ["oxt"]
+        extensions: ["oxt"],
       },
       "application/vnd.openstreetmap.data+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["osm"]
+        extensions: ["osm"],
       },
       "application/vnd.opentimestamps.ots": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.openxmlformats-officedocument.custom-properties+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.customxmlproperties+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.drawing+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.drawingml.chart+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
-      "application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.drawingml.diagramcolors+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.drawingml.diagramdata+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.drawingml.diagramlayout+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.drawingml.diagramstyle+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.drawingml.diagramcolors+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.drawingml.diagramdata+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.drawingml.diagramlayout+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.drawingml.diagramstyle+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.extended-properties+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
-      "application/vnd.openxmlformats-officedocument.presentationml.commentauthors+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.comments+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.handoutmaster+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.notesmaster+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.notesslide+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
-        source: "iana",
-        compressible: false,
-        extensions: ["pptx"]
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.presprops+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.presentationml.commentauthors+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.comments+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.handoutmaster+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.notesmaster+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.notesslide+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        {
+          source: "iana",
+          compressible: false,
+          extensions: ["pptx"],
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.presprops+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.presentationml.slide": {
         source: "iana",
-        extensions: ["sldx"]
+        extensions: ["sldx"],
       },
-      "application/vnd.openxmlformats-officedocument.presentationml.slide+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.slidelayout+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.slidemaster+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.slideshow": {
-        source: "iana",
-        extensions: ["ppsx"]
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.slideshow.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.slideupdateinfo+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.tablestyles+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.presentationml.slide+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.slidelayout+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.slidemaster+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.slideshow":
+        {
+          source: "iana",
+          extensions: ["ppsx"],
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.slideshow.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.slideupdateinfo+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.tablestyles+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.presentationml.tags+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.presentationml.template": {
         source: "iana",
-        extensions: ["potx"]
+        extensions: ["potx"],
       },
-      "application/vnd.openxmlformats-officedocument.presentationml.template.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.presentationml.viewprops+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.calcchain+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.dialogsheet+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.externallink+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcachedefinition+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcacherecords+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivottable+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.querytable+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.revisionheaders+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.revisionlog+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedstrings+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.presentationml.template.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.presentationml.viewprops+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.calcchain+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.chartsheet+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.comments+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.connections+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.dialogsheet+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.externallink+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcachedefinition+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivotcacherecords+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.pivottable+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.querytable+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.revisionheaders+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.revisionlog+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sharedstrings+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
         source: "iana",
         compressible: false,
-        extensions: ["xlsx"]
+        extensions: ["xlsx"],
       },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheetmetadata+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheetmetadata+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.spreadsheetml.table+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.tablesinglecells+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.tablesinglecells+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.spreadsheetml.template": {
         source: "iana",
-        extensions: ["xltx"]
+        extensions: ["xltx"],
       },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.usernames+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.volatiledependencies+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.template.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.usernames+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.volatiledependencies+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-officedocument.theme+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.themeoverride+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.openxmlformats-officedocument.vmldrawing": {
-        source: "iana"
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml": {
         source: "iana",
-        compressible: true
       },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
-        source: "iana",
-        compressible: false,
-        extensions: ["docx"]
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document.glossary+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.fonttable+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.template": {
-        source: "iana",
-        extensions: ["dotx"]
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml": {
-        source: "iana",
-        compressible: true
-      },
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.websettings+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        {
+          source: "iana",
+          compressible: false,
+          extensions: ["docx"],
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document.glossary+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.fonttable+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
+        {
+          source: "iana",
+          extensions: ["dotx"],
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.websettings+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-package.core-properties+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
-      "application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml": {
-        source: "iana",
-        compressible: true
-      },
+      "application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml":
+        {
+          source: "iana",
+          compressible: true,
+        },
       "application/vnd.openxmlformats-package.relationships+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oracle.resource+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.orange.indata": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.osa.netdeploy": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.osgeo.mapguide.package": {
         source: "iana",
-        extensions: ["mgp"]
+        extensions: ["mgp"],
       },
       "application/vnd.osgi.bundle": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.osgi.dp": {
         source: "iana",
-        extensions: ["dp"]
+        extensions: ["dp"],
       },
       "application/vnd.osgi.subsystem": {
         source: "iana",
-        extensions: ["esa"]
+        extensions: ["esa"],
       },
       "application/vnd.otps.ct-kip+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.oxli.countgraph": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.pagerduty+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.palm": {
         source: "iana",
-        extensions: ["pdb", "pqa", "oprc"]
+        extensions: ["pdb", "pqa", "oprc"],
       },
       "application/vnd.panoply": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.paos.xml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.patentdive": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.patientecommsdoc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.pawaafile": {
         source: "iana",
-        extensions: ["paw"]
+        extensions: ["paw"],
       },
       "application/vnd.pcos": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.pg.format": {
         source: "iana",
-        extensions: ["str"]
+        extensions: ["str"],
       },
       "application/vnd.pg.osasli": {
         source: "iana",
-        extensions: ["ei6"]
+        extensions: ["ei6"],
       },
       "application/vnd.piaccess.application-licence": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.picsel": {
         source: "iana",
-        extensions: ["efif"]
+        extensions: ["efif"],
       },
       "application/vnd.pmi.widget": {
         source: "iana",
-        extensions: ["wg"]
+        extensions: ["wg"],
       },
       "application/vnd.poc.group-advertisement+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.pocketlearn": {
         source: "iana",
-        extensions: ["plf"]
+        extensions: ["plf"],
       },
       "application/vnd.powerbuilder6": {
         source: "iana",
-        extensions: ["pbd"]
+        extensions: ["pbd"],
       },
       "application/vnd.powerbuilder6-s": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.powerbuilder7": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.powerbuilder7-s": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.powerbuilder75": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.powerbuilder75-s": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.preminet": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.previewsystems.box": {
         source: "iana",
-        extensions: ["box"]
+        extensions: ["box"],
       },
       "application/vnd.proteus.magazine": {
         source: "iana",
-        extensions: ["mgz"]
+        extensions: ["mgz"],
       },
       "application/vnd.psfs": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.publishare-delta-tree": {
         source: "iana",
-        extensions: ["qps"]
+        extensions: ["qps"],
       },
       "application/vnd.pvi.ptid1": {
         source: "iana",
-        extensions: ["ptid"]
+        extensions: ["ptid"],
       },
       "application/vnd.pwg-multiplexed": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.pwg-xhtml-print+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.qualcomm.brew-app-res": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.quarantainenet": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.quark.quarkxpress": {
         source: "iana",
-        extensions: ["qxd", "qxt", "qwd", "qwt", "qxl", "qxb"]
+        extensions: ["qxd", "qxt", "qwd", "qwt", "qxl", "qxb"],
       },
       "application/vnd.quobject-quoxdocument": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.radisys.moml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-audit+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-audit-conf+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-audit-conn+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-audit-dialog+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-audit-stream+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-conf+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-base+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-fax-detect+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-fax-sendrecv+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-group+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-speech+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.radisys.msml-dialog-transform+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.rainstor.data": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.rapid": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.rar": {
         source: "iana",
-        extensions: ["rar"]
+        extensions: ["rar"],
       },
       "application/vnd.realvnc.bed": {
         source: "iana",
-        extensions: ["bed"]
+        extensions: ["bed"],
       },
       "application/vnd.recordare.musicxml": {
         source: "iana",
-        extensions: ["mxl"]
+        extensions: ["mxl"],
       },
       "application/vnd.recordare.musicxml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["musicxml"]
+        extensions: ["musicxml"],
       },
       "application/vnd.renlearn.rlprint": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.resilient.logic": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.restful+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.rig.cryptonote": {
         source: "iana",
-        extensions: ["cryptonote"]
+        extensions: ["cryptonote"],
       },
       "application/vnd.rim.cod": {
         source: "apache",
-        extensions: ["cod"]
+        extensions: ["cod"],
       },
       "application/vnd.rn-realmedia": {
         source: "apache",
-        extensions: ["rm"]
+        extensions: ["rm"],
       },
       "application/vnd.rn-realmedia-vbr": {
         source: "apache",
-        extensions: ["rmvb"]
+        extensions: ["rmvb"],
       },
       "application/vnd.route66.link66+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["link66"]
+        extensions: ["link66"],
       },
       "application/vnd.rs-274x": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ruckus.download": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.s3sms": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sailingtracker.track": {
         source: "iana",
-        extensions: ["st"]
+        extensions: ["st"],
       },
       "application/vnd.sar": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sbm.cid": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sbm.mid2": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.scribus": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.3df": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.csf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.doc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.eml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.mht": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.net": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.ppt": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.tiff": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealed.xls": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealedmedia.softseal.html": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sealedmedia.softseal.pdf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.seemail": {
         source: "iana",
-        extensions: ["see"]
+        extensions: ["see"],
       },
       "application/vnd.seis+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.sema": {
         source: "iana",
-        extensions: ["sema"]
+        extensions: ["sema"],
       },
       "application/vnd.semd": {
         source: "iana",
-        extensions: ["semd"]
+        extensions: ["semd"],
       },
       "application/vnd.semf": {
         source: "iana",
-        extensions: ["semf"]
+        extensions: ["semf"],
       },
       "application/vnd.shade-save-file": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.shana.informed.formdata": {
         source: "iana",
-        extensions: ["ifm"]
+        extensions: ["ifm"],
       },
       "application/vnd.shana.informed.formtemplate": {
         source: "iana",
-        extensions: ["itp"]
+        extensions: ["itp"],
       },
       "application/vnd.shana.informed.interchange": {
         source: "iana",
-        extensions: ["iif"]
+        extensions: ["iif"],
       },
       "application/vnd.shana.informed.package": {
         source: "iana",
-        extensions: ["ipk"]
+        extensions: ["ipk"],
       },
       "application/vnd.shootproof+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.shopkick+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.shp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.shx": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sigrok.session": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.simtech-mindmapper": {
         source: "iana",
-        extensions: ["twd", "twds"]
+        extensions: ["twd", "twds"],
       },
       "application/vnd.siren+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.smaf": {
         source: "iana",
-        extensions: ["mmf"]
+        extensions: ["mmf"],
       },
       "application/vnd.smart.notebook": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.smart.teacher": {
         source: "iana",
-        extensions: ["teacher"]
+        extensions: ["teacher"],
       },
       "application/vnd.snesdev-page-table": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.software602.filler.form+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["fo"]
+        extensions: ["fo"],
       },
       "application/vnd.software602.filler.form-xml-zip": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.solent.sdkm+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["sdkm", "sdkd"]
+        extensions: ["sdkm", "sdkd"],
       },
       "application/vnd.spotfire.dxp": {
         source: "iana",
-        extensions: ["dxp"]
+        extensions: ["dxp"],
       },
       "application/vnd.spotfire.sfs": {
         source: "iana",
-        extensions: ["sfs"]
+        extensions: ["sfs"],
       },
       "application/vnd.sqlite3": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sss-cod": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sss-dtf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sss-ntf": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.stardivision.calc": {
         source: "apache",
-        extensions: ["sdc"]
+        extensions: ["sdc"],
       },
       "application/vnd.stardivision.draw": {
         source: "apache",
-        extensions: ["sda"]
+        extensions: ["sda"],
       },
       "application/vnd.stardivision.impress": {
         source: "apache",
-        extensions: ["sdd"]
+        extensions: ["sdd"],
       },
       "application/vnd.stardivision.math": {
         source: "apache",
-        extensions: ["smf"]
+        extensions: ["smf"],
       },
       "application/vnd.stardivision.writer": {
         source: "apache",
-        extensions: ["sdw", "vor"]
+        extensions: ["sdw", "vor"],
       },
       "application/vnd.stardivision.writer-global": {
         source: "apache",
-        extensions: ["sgl"]
+        extensions: ["sgl"],
       },
       "application/vnd.stepmania.package": {
         source: "iana",
-        extensions: ["smzip"]
+        extensions: ["smzip"],
       },
       "application/vnd.stepmania.stepchart": {
         source: "iana",
-        extensions: ["sm"]
+        extensions: ["sm"],
       },
       "application/vnd.street-stream": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sun.wadl+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["wadl"]
+        extensions: ["wadl"],
       },
       "application/vnd.sun.xml.calc": {
         source: "apache",
-        extensions: ["sxc"]
+        extensions: ["sxc"],
       },
       "application/vnd.sun.xml.calc.template": {
         source: "apache",
-        extensions: ["stc"]
+        extensions: ["stc"],
       },
       "application/vnd.sun.xml.draw": {
         source: "apache",
-        extensions: ["sxd"]
+        extensions: ["sxd"],
       },
       "application/vnd.sun.xml.draw.template": {
         source: "apache",
-        extensions: ["std"]
+        extensions: ["std"],
       },
       "application/vnd.sun.xml.impress": {
         source: "apache",
-        extensions: ["sxi"]
+        extensions: ["sxi"],
       },
       "application/vnd.sun.xml.impress.template": {
         source: "apache",
-        extensions: ["sti"]
+        extensions: ["sti"],
       },
       "application/vnd.sun.xml.math": {
         source: "apache",
-        extensions: ["sxm"]
+        extensions: ["sxm"],
       },
       "application/vnd.sun.xml.writer": {
         source: "apache",
-        extensions: ["sxw"]
+        extensions: ["sxw"],
       },
       "application/vnd.sun.xml.writer.global": {
         source: "apache",
-        extensions: ["sxg"]
+        extensions: ["sxg"],
       },
       "application/vnd.sun.xml.writer.template": {
         source: "apache",
-        extensions: ["stw"]
+        extensions: ["stw"],
       },
       "application/vnd.sus-calendar": {
         source: "iana",
-        extensions: ["sus", "susp"]
+        extensions: ["sus", "susp"],
       },
       "application/vnd.svd": {
         source: "iana",
-        extensions: ["svd"]
+        extensions: ["svd"],
       },
       "application/vnd.swiftview-ics": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.sycle+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.syft+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.symbian.install": {
         source: "apache",
-        extensions: ["sis", "sisx"]
+        extensions: ["sis", "sisx"],
       },
       "application/vnd.syncml+xml": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["xsm"]
+        extensions: ["xsm"],
       },
       "application/vnd.syncml.dm+wbxml": {
         source: "iana",
         charset: "UTF-8",
-        extensions: ["bdm"]
+        extensions: ["bdm"],
       },
       "application/vnd.syncml.dm+xml": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["xdm"]
+        extensions: ["xdm"],
       },
       "application/vnd.syncml.dm.notification": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.syncml.dmddf+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.syncml.dmddf+xml": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["ddf"]
+        extensions: ["ddf"],
       },
       "application/vnd.syncml.dmtnds+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.syncml.dmtnds+xml": {
         source: "iana",
         charset: "UTF-8",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.syncml.ds.notification": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.tableschema+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.tao.intent-module-archive": {
         source: "iana",
-        extensions: ["tao"]
+        extensions: ["tao"],
       },
       "application/vnd.tcpdump.pcap": {
         source: "iana",
-        extensions: ["pcap", "cap", "dmp"]
+        extensions: ["pcap", "cap", "dmp"],
       },
       "application/vnd.think-cell.ppttc+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.tmd.mediaflex.api+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.tml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.tmobile-livetv": {
         source: "iana",
-        extensions: ["tmo"]
+        extensions: ["tmo"],
       },
       "application/vnd.tri.onesource": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.trid.tpt": {
         source: "iana",
-        extensions: ["tpt"]
+        extensions: ["tpt"],
       },
       "application/vnd.triscape.mxs": {
         source: "iana",
-        extensions: ["mxs"]
+        extensions: ["mxs"],
       },
       "application/vnd.trueapp": {
         source: "iana",
-        extensions: ["tra"]
+        extensions: ["tra"],
       },
       "application/vnd.truedoc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ubisoft.webplayer": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ufdl": {
         source: "iana",
-        extensions: ["ufd", "ufdl"]
+        extensions: ["ufd", "ufdl"],
       },
       "application/vnd.uiq.theme": {
         source: "iana",
-        extensions: ["utz"]
+        extensions: ["utz"],
       },
       "application/vnd.umajin": {
         source: "iana",
-        extensions: ["umj"]
+        extensions: ["umj"],
       },
       "application/vnd.unity": {
         source: "iana",
-        extensions: ["unityweb"]
+        extensions: ["unityweb"],
       },
       "application/vnd.uoml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["uoml"]
+        extensions: ["uoml"],
       },
       "application/vnd.uplanet.alert": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.alert-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.bearer-choice": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.bearer-choice-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.cacheop": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.cacheop-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.channel": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.channel-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.list": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.list-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.listcmd": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.listcmd-wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uplanet.signal": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.uri-map": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.valve.source.material": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.vcx": {
         source: "iana",
-        extensions: ["vcx"]
+        extensions: ["vcx"],
       },
       "application/vnd.vd-study": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.vectorworks": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.vel+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.verimatrix.vcas": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.veritone.aion+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.veryant.thin": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.ves.encrypted": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.vidsoft.vidconference": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.visio": {
         source: "iana",
-        extensions: ["vsd", "vst", "vss", "vsw"]
+        extensions: ["vsd", "vst", "vss", "vsw"],
       },
       "application/vnd.visionary": {
         source: "iana",
-        extensions: ["vis"]
+        extensions: ["vis"],
       },
       "application/vnd.vividence.scriptfile": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.vsf": {
         source: "iana",
-        extensions: ["vsf"]
+        extensions: ["vsf"],
       },
       "application/vnd.wap.sic": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wap.slc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wap.wbxml": {
         source: "iana",
         charset: "UTF-8",
-        extensions: ["wbxml"]
+        extensions: ["wbxml"],
       },
       "application/vnd.wap.wmlc": {
         source: "iana",
-        extensions: ["wmlc"]
+        extensions: ["wmlc"],
       },
       "application/vnd.wap.wmlscriptc": {
         source: "iana",
-        extensions: ["wmlsc"]
+        extensions: ["wmlsc"],
       },
       "application/vnd.webturbo": {
         source: "iana",
-        extensions: ["wtb"]
+        extensions: ["wtb"],
       },
       "application/vnd.wfa.dpp": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wfa.p2p": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wfa.wsc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.windows.devicepairing": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wmc": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wmf.bootstrap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wolfram.mathematica": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wolfram.mathematica.package": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wolfram.player": {
         source: "iana",
-        extensions: ["nbp"]
+        extensions: ["nbp"],
       },
       "application/vnd.wordperfect": {
         source: "iana",
-        extensions: ["wpd"]
+        extensions: ["wpd"],
       },
       "application/vnd.wqd": {
         source: "iana",
-        extensions: ["wqd"]
+        extensions: ["wqd"],
       },
       "application/vnd.wrq-hp3000-labelled": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wt.stf": {
         source: "iana",
-        extensions: ["stf"]
+        extensions: ["stf"],
       },
       "application/vnd.wv.csp+wbxml": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.wv.csp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.wv.ssp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.xacml+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.xara": {
         source: "iana",
-        extensions: ["xar"]
+        extensions: ["xar"],
       },
       "application/vnd.xfdl": {
         source: "iana",
-        extensions: ["xfdl"]
+        extensions: ["xfdl"],
       },
       "application/vnd.xfdl.webform": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.xmi+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vnd.xmpie.cpkg": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.xmpie.dpkg": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.xmpie.plan": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.xmpie.ppkg": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.xmpie.xlim": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.yamaha.hv-dic": {
         source: "iana",
-        extensions: ["hvd"]
+        extensions: ["hvd"],
       },
       "application/vnd.yamaha.hv-script": {
         source: "iana",
-        extensions: ["hvs"]
+        extensions: ["hvs"],
       },
       "application/vnd.yamaha.hv-voice": {
         source: "iana",
-        extensions: ["hvp"]
+        extensions: ["hvp"],
       },
       "application/vnd.yamaha.openscoreformat": {
         source: "iana",
-        extensions: ["osf"]
+        extensions: ["osf"],
       },
       "application/vnd.yamaha.openscoreformat.osfpvg+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["osfpvg"]
+        extensions: ["osfpvg"],
       },
       "application/vnd.yamaha.remote-setup": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.yamaha.smaf-audio": {
         source: "iana",
-        extensions: ["saf"]
+        extensions: ["saf"],
       },
       "application/vnd.yamaha.smaf-phrase": {
         source: "iana",
-        extensions: ["spf"]
+        extensions: ["spf"],
       },
       "application/vnd.yamaha.through-ngn": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.yamaha.tunnel-udpencap": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.yaoweme": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.yellowriver-custom-menu": {
         source: "iana",
-        extensions: ["cmp"]
+        extensions: ["cmp"],
       },
       "application/vnd.youtube.yt": {
-        source: "iana"
+        source: "iana",
       },
       "application/vnd.zul": {
         source: "iana",
-        extensions: ["zir", "zirz"]
+        extensions: ["zir", "zirz"],
       },
       "application/vnd.zzazz.deck+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["zaz"]
+        extensions: ["zaz"],
       },
       "application/voicexml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["vxml"]
+        extensions: ["vxml"],
       },
       "application/voucher-cms+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/vq-rtcpxr": {
-        source: "iana"
+        source: "iana",
       },
       "application/wasm": {
         source: "iana",
         compressible: true,
-        extensions: ["wasm"]
+        extensions: ["wasm"],
       },
       "application/watcherinfo+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["wif"]
+        extensions: ["wif"],
       },
       "application/webpush-options+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/whoispp-query": {
-        source: "iana"
+        source: "iana",
       },
       "application/whoispp-response": {
-        source: "iana"
+        source: "iana",
       },
       "application/widget": {
         source: "iana",
-        extensions: ["wgt"]
+        extensions: ["wgt"],
       },
       "application/winhlp": {
         source: "apache",
-        extensions: ["hlp"]
+        extensions: ["hlp"],
       },
       "application/wita": {
-        source: "iana"
+        source: "iana",
       },
       "application/wordperfect5.1": {
-        source: "iana"
+        source: "iana",
       },
       "application/wsdl+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["wsdl"]
+        extensions: ["wsdl"],
       },
       "application/wspolicy+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["wspolicy"]
+        extensions: ["wspolicy"],
       },
       "application/x-7z-compressed": {
         source: "apache",
         compressible: false,
-        extensions: ["7z"]
+        extensions: ["7z"],
       },
       "application/x-abiword": {
         source: "apache",
-        extensions: ["abw"]
+        extensions: ["abw"],
       },
       "application/x-ace-compressed": {
         source: "apache",
-        extensions: ["ace"]
+        extensions: ["ace"],
       },
       "application/x-amf": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-apple-diskimage": {
         source: "apache",
-        extensions: ["dmg"]
+        extensions: ["dmg"],
       },
       "application/x-arj": {
         compressible: false,
-        extensions: ["arj"]
+        extensions: ["arj"],
       },
       "application/x-authorware-bin": {
         source: "apache",
-        extensions: ["aab", "x32", "u32", "vox"]
+        extensions: ["aab", "x32", "u32", "vox"],
       },
       "application/x-authorware-map": {
         source: "apache",
-        extensions: ["aam"]
+        extensions: ["aam"],
       },
       "application/x-authorware-seg": {
         source: "apache",
-        extensions: ["aas"]
+        extensions: ["aas"],
       },
       "application/x-bcpio": {
         source: "apache",
-        extensions: ["bcpio"]
+        extensions: ["bcpio"],
       },
       "application/x-bdoc": {
         compressible: false,
-        extensions: ["bdoc"]
+        extensions: ["bdoc"],
       },
       "application/x-bittorrent": {
         source: "apache",
-        extensions: ["torrent"]
+        extensions: ["torrent"],
       },
       "application/x-blorb": {
         source: "apache",
-        extensions: ["blb", "blorb"]
+        extensions: ["blb", "blorb"],
       },
       "application/x-bzip": {
         source: "apache",
         compressible: false,
-        extensions: ["bz"]
+        extensions: ["bz"],
       },
       "application/x-bzip2": {
         source: "apache",
         compressible: false,
-        extensions: ["bz2", "boz"]
+        extensions: ["bz2", "boz"],
       },
       "application/x-cbr": {
         source: "apache",
-        extensions: ["cbr", "cba", "cbt", "cbz", "cb7"]
+        extensions: ["cbr", "cba", "cbt", "cbz", "cb7"],
       },
       "application/x-cdlink": {
         source: "apache",
-        extensions: ["vcd"]
+        extensions: ["vcd"],
       },
       "application/x-cfs-compressed": {
         source: "apache",
-        extensions: ["cfs"]
+        extensions: ["cfs"],
       },
       "application/x-chat": {
         source: "apache",
-        extensions: ["chat"]
+        extensions: ["chat"],
       },
       "application/x-chess-pgn": {
         source: "apache",
-        extensions: ["pgn"]
+        extensions: ["pgn"],
       },
       "application/x-chrome-extension": {
-        extensions: ["crx"]
+        extensions: ["crx"],
       },
       "application/x-cocoa": {
         source: "nginx",
-        extensions: ["cco"]
+        extensions: ["cco"],
       },
       "application/x-compress": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-conference": {
         source: "apache",
-        extensions: ["nsc"]
+        extensions: ["nsc"],
       },
       "application/x-cpio": {
         source: "apache",
-        extensions: ["cpio"]
+        extensions: ["cpio"],
       },
       "application/x-csh": {
         source: "apache",
-        extensions: ["csh"]
+        extensions: ["csh"],
       },
       "application/x-deb": {
-        compressible: false
+        compressible: false,
       },
       "application/x-debian-package": {
         source: "apache",
-        extensions: ["deb", "udeb"]
+        extensions: ["deb", "udeb"],
       },
       "application/x-dgc-compressed": {
         source: "apache",
-        extensions: ["dgc"]
+        extensions: ["dgc"],
       },
       "application/x-director": {
         source: "apache",
-        extensions: ["dir", "dcr", "dxr", "cst", "cct", "cxt", "w3d", "fgd", "swa"]
+        extensions: [
+          "dir",
+          "dcr",
+          "dxr",
+          "cst",
+          "cct",
+          "cxt",
+          "w3d",
+          "fgd",
+          "swa",
+        ],
       },
       "application/x-doom": {
         source: "apache",
-        extensions: ["wad"]
+        extensions: ["wad"],
       },
       "application/x-dtbncx+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["ncx"]
+        extensions: ["ncx"],
       },
       "application/x-dtbook+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["dtb"]
+        extensions: ["dtb"],
       },
       "application/x-dtbresource+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["res"]
+        extensions: ["res"],
       },
       "application/x-dvi": {
         source: "apache",
         compressible: false,
-        extensions: ["dvi"]
+        extensions: ["dvi"],
       },
       "application/x-envoy": {
         source: "apache",
-        extensions: ["evy"]
+        extensions: ["evy"],
       },
       "application/x-eva": {
         source: "apache",
-        extensions: ["eva"]
+        extensions: ["eva"],
       },
       "application/x-font-bdf": {
         source: "apache",
-        extensions: ["bdf"]
+        extensions: ["bdf"],
       },
       "application/x-font-dos": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-font-framemaker": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-font-ghostscript": {
         source: "apache",
-        extensions: ["gsf"]
+        extensions: ["gsf"],
       },
       "application/x-font-libgrx": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-font-linux-psf": {
         source: "apache",
-        extensions: ["psf"]
+        extensions: ["psf"],
       },
       "application/x-font-pcf": {
         source: "apache",
-        extensions: ["pcf"]
+        extensions: ["pcf"],
       },
       "application/x-font-snf": {
         source: "apache",
-        extensions: ["snf"]
+        extensions: ["snf"],
       },
       "application/x-font-speedo": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-font-sunos-news": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-font-type1": {
         source: "apache",
-        extensions: ["pfa", "pfb", "pfm", "afm"]
+        extensions: ["pfa", "pfb", "pfm", "afm"],
       },
       "application/x-font-vfont": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-freearc": {
         source: "apache",
-        extensions: ["arc"]
+        extensions: ["arc"],
       },
       "application/x-futuresplash": {
         source: "apache",
-        extensions: ["spl"]
+        extensions: ["spl"],
       },
       "application/x-gca-compressed": {
         source: "apache",
-        extensions: ["gca"]
+        extensions: ["gca"],
       },
       "application/x-glulx": {
         source: "apache",
-        extensions: ["ulx"]
+        extensions: ["ulx"],
       },
       "application/x-gnumeric": {
         source: "apache",
-        extensions: ["gnumeric"]
+        extensions: ["gnumeric"],
       },
       "application/x-gramps-xml": {
         source: "apache",
-        extensions: ["gramps"]
+        extensions: ["gramps"],
       },
       "application/x-gtar": {
         source: "apache",
-        extensions: ["gtar"]
+        extensions: ["gtar"],
       },
       "application/x-gzip": {
-        source: "apache"
+        source: "apache",
       },
       "application/x-hdf": {
         source: "apache",
-        extensions: ["hdf"]
+        extensions: ["hdf"],
       },
       "application/x-httpd-php": {
         compressible: true,
-        extensions: ["php"]
+        extensions: ["php"],
       },
       "application/x-install-instructions": {
         source: "apache",
-        extensions: ["install"]
+        extensions: ["install"],
       },
       "application/x-iso9660-image": {
         source: "apache",
-        extensions: ["iso"]
+        extensions: ["iso"],
       },
       "application/x-iwork-keynote-sffkey": {
-        extensions: ["key"]
+        extensions: ["key"],
       },
       "application/x-iwork-numbers-sffnumbers": {
-        extensions: ["numbers"]
+        extensions: ["numbers"],
       },
       "application/x-iwork-pages-sffpages": {
-        extensions: ["pages"]
+        extensions: ["pages"],
       },
       "application/x-java-archive-diff": {
         source: "nginx",
-        extensions: ["jardiff"]
+        extensions: ["jardiff"],
       },
       "application/x-java-jnlp-file": {
         source: "apache",
         compressible: false,
-        extensions: ["jnlp"]
+        extensions: ["jnlp"],
       },
       "application/x-javascript": {
-        compressible: true
+        compressible: true,
       },
       "application/x-keepass2": {
-        extensions: ["kdbx"]
+        extensions: ["kdbx"],
       },
       "application/x-latex": {
         source: "apache",
         compressible: false,
-        extensions: ["latex"]
+        extensions: ["latex"],
       },
       "application/x-lua-bytecode": {
-        extensions: ["luac"]
+        extensions: ["luac"],
       },
       "application/x-lzh-compressed": {
         source: "apache",
-        extensions: ["lzh", "lha"]
+        extensions: ["lzh", "lha"],
       },
       "application/x-makeself": {
         source: "nginx",
-        extensions: ["run"]
+        extensions: ["run"],
       },
       "application/x-mie": {
         source: "apache",
-        extensions: ["mie"]
+        extensions: ["mie"],
       },
       "application/x-mobipocket-ebook": {
         source: "apache",
-        extensions: ["prc", "mobi"]
+        extensions: ["prc", "mobi"],
       },
       "application/x-mpegurl": {
-        compressible: false
+        compressible: false,
       },
       "application/x-ms-application": {
         source: "apache",
-        extensions: ["application"]
+        extensions: ["application"],
       },
       "application/x-ms-shortcut": {
         source: "apache",
-        extensions: ["lnk"]
+        extensions: ["lnk"],
       },
       "application/x-ms-wmd": {
         source: "apache",
-        extensions: ["wmd"]
+        extensions: ["wmd"],
       },
       "application/x-ms-wmz": {
         source: "apache",
-        extensions: ["wmz"]
+        extensions: ["wmz"],
       },
       "application/x-ms-xbap": {
         source: "apache",
-        extensions: ["xbap"]
+        extensions: ["xbap"],
       },
       "application/x-msaccess": {
         source: "apache",
-        extensions: ["mdb"]
+        extensions: ["mdb"],
       },
       "application/x-msbinder": {
         source: "apache",
-        extensions: ["obd"]
+        extensions: ["obd"],
       },
       "application/x-mscardfile": {
         source: "apache",
-        extensions: ["crd"]
+        extensions: ["crd"],
       },
       "application/x-msclip": {
         source: "apache",
-        extensions: ["clp"]
+        extensions: ["clp"],
       },
       "application/x-msdos-program": {
-        extensions: ["exe"]
+        extensions: ["exe"],
       },
       "application/x-msdownload": {
         source: "apache",
-        extensions: ["exe", "dll", "com", "bat", "msi"]
+        extensions: ["exe", "dll", "com", "bat", "msi"],
       },
       "application/x-msmediaview": {
         source: "apache",
-        extensions: ["mvb", "m13", "m14"]
+        extensions: ["mvb", "m13", "m14"],
       },
       "application/x-msmetafile": {
         source: "apache",
-        extensions: ["wmf", "wmz", "emf", "emz"]
+        extensions: ["wmf", "wmz", "emf", "emz"],
       },
       "application/x-msmoney": {
         source: "apache",
-        extensions: ["mny"]
+        extensions: ["mny"],
       },
       "application/x-mspublisher": {
         source: "apache",
-        extensions: ["pub"]
+        extensions: ["pub"],
       },
       "application/x-msschedule": {
         source: "apache",
-        extensions: ["scd"]
+        extensions: ["scd"],
       },
       "application/x-msterminal": {
         source: "apache",
-        extensions: ["trm"]
+        extensions: ["trm"],
       },
       "application/x-mswrite": {
         source: "apache",
-        extensions: ["wri"]
+        extensions: ["wri"],
       },
       "application/x-netcdf": {
         source: "apache",
-        extensions: ["nc", "cdf"]
+        extensions: ["nc", "cdf"],
       },
       "application/x-ns-proxy-autoconfig": {
         compressible: true,
-        extensions: ["pac"]
+        extensions: ["pac"],
       },
       "application/x-nzb": {
         source: "apache",
-        extensions: ["nzb"]
+        extensions: ["nzb"],
       },
       "application/x-perl": {
         source: "nginx",
-        extensions: ["pl", "pm"]
+        extensions: ["pl", "pm"],
       },
       "application/x-pilot": {
         source: "nginx",
-        extensions: ["prc", "pdb"]
+        extensions: ["prc", "pdb"],
       },
       "application/x-pkcs12": {
         source: "apache",
         compressible: false,
-        extensions: ["p12", "pfx"]
+        extensions: ["p12", "pfx"],
       },
       "application/x-pkcs7-certificates": {
         source: "apache",
-        extensions: ["p7b", "spc"]
+        extensions: ["p7b", "spc"],
       },
       "application/x-pkcs7-certreqresp": {
         source: "apache",
-        extensions: ["p7r"]
+        extensions: ["p7r"],
       },
       "application/x-pki-message": {
-        source: "iana"
+        source: "iana",
       },
       "application/x-rar-compressed": {
         source: "apache",
         compressible: false,
-        extensions: ["rar"]
+        extensions: ["rar"],
       },
       "application/x-redhat-package-manager": {
         source: "nginx",
-        extensions: ["rpm"]
+        extensions: ["rpm"],
       },
       "application/x-research-info-systems": {
         source: "apache",
-        extensions: ["ris"]
+        extensions: ["ris"],
       },
       "application/x-sea": {
         source: "nginx",
-        extensions: ["sea"]
+        extensions: ["sea"],
       },
       "application/x-sh": {
         source: "apache",
         compressible: true,
-        extensions: ["sh"]
+        extensions: ["sh"],
       },
       "application/x-shar": {
         source: "apache",
-        extensions: ["shar"]
+        extensions: ["shar"],
       },
       "application/x-shockwave-flash": {
         source: "apache",
         compressible: false,
-        extensions: ["swf"]
+        extensions: ["swf"],
       },
       "application/x-silverlight-app": {
         source: "apache",
-        extensions: ["xap"]
+        extensions: ["xap"],
       },
       "application/x-sql": {
         source: "apache",
-        extensions: ["sql"]
+        extensions: ["sql"],
       },
       "application/x-stuffit": {
         source: "apache",
         compressible: false,
-        extensions: ["sit"]
+        extensions: ["sit"],
       },
       "application/x-stuffitx": {
         source: "apache",
-        extensions: ["sitx"]
+        extensions: ["sitx"],
       },
       "application/x-subrip": {
         source: "apache",
-        extensions: ["srt"]
+        extensions: ["srt"],
       },
       "application/x-sv4cpio": {
         source: "apache",
-        extensions: ["sv4cpio"]
+        extensions: ["sv4cpio"],
       },
       "application/x-sv4crc": {
         source: "apache",
-        extensions: ["sv4crc"]
+        extensions: ["sv4crc"],
       },
       "application/x-t3vm-image": {
         source: "apache",
-        extensions: ["t3"]
+        extensions: ["t3"],
       },
       "application/x-tads": {
         source: "apache",
-        extensions: ["gam"]
+        extensions: ["gam"],
       },
       "application/x-tar": {
         source: "apache",
         compressible: true,
-        extensions: ["tar"]
+        extensions: ["tar"],
       },
       "application/x-tcl": {
         source: "apache",
-        extensions: ["tcl", "tk"]
+        extensions: ["tcl", "tk"],
       },
       "application/x-tex": {
         source: "apache",
-        extensions: ["tex"]
+        extensions: ["tex"],
       },
       "application/x-tex-tfm": {
         source: "apache",
-        extensions: ["tfm"]
+        extensions: ["tfm"],
       },
       "application/x-texinfo": {
         source: "apache",
-        extensions: ["texinfo", "texi"]
+        extensions: ["texinfo", "texi"],
       },
       "application/x-tgif": {
         source: "apache",
-        extensions: ["obj"]
+        extensions: ["obj"],
       },
       "application/x-ustar": {
         source: "apache",
-        extensions: ["ustar"]
+        extensions: ["ustar"],
       },
       "application/x-virtualbox-hdd": {
         compressible: true,
-        extensions: ["hdd"]
+        extensions: ["hdd"],
       },
       "application/x-virtualbox-ova": {
         compressible: true,
-        extensions: ["ova"]
+        extensions: ["ova"],
       },
       "application/x-virtualbox-ovf": {
         compressible: true,
-        extensions: ["ovf"]
+        extensions: ["ovf"],
       },
       "application/x-virtualbox-vbox": {
         compressible: true,
-        extensions: ["vbox"]
+        extensions: ["vbox"],
       },
       "application/x-virtualbox-vbox-extpack": {
         compressible: false,
-        extensions: ["vbox-extpack"]
+        extensions: ["vbox-extpack"],
       },
       "application/x-virtualbox-vdi": {
         compressible: true,
-        extensions: ["vdi"]
+        extensions: ["vdi"],
       },
       "application/x-virtualbox-vhd": {
         compressible: true,
-        extensions: ["vhd"]
+        extensions: ["vhd"],
       },
       "application/x-virtualbox-vmdk": {
         compressible: true,
-        extensions: ["vmdk"]
+        extensions: ["vmdk"],
       },
       "application/x-wais-source": {
         source: "apache",
-        extensions: ["src"]
+        extensions: ["src"],
       },
       "application/x-web-app-manifest+json": {
         compressible: true,
-        extensions: ["webapp"]
+        extensions: ["webapp"],
       },
       "application/x-www-form-urlencoded": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/x-x509-ca-cert": {
         source: "iana",
-        extensions: ["der", "crt", "pem"]
+        extensions: ["der", "crt", "pem"],
       },
       "application/x-x509-ca-ra-cert": {
-        source: "iana"
+        source: "iana",
       },
       "application/x-x509-next-ca-cert": {
-        source: "iana"
+        source: "iana",
       },
       "application/x-xfig": {
         source: "apache",
-        extensions: ["fig"]
+        extensions: ["fig"],
       },
       "application/x-xliff+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["xlf"]
+        extensions: ["xlf"],
       },
       "application/x-xpinstall": {
         source: "apache",
         compressible: false,
-        extensions: ["xpi"]
+        extensions: ["xpi"],
       },
       "application/x-xz": {
         source: "apache",
-        extensions: ["xz"]
+        extensions: ["xz"],
       },
       "application/x-zmachine": {
         source: "apache",
-        extensions: ["z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8"]
+        extensions: ["z1", "z2", "z3", "z4", "z5", "z6", "z7", "z8"],
       },
       "application/x400-bp": {
-        source: "iana"
+        source: "iana",
       },
       "application/xacml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xaml+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["xaml"]
+        extensions: ["xaml"],
       },
       "application/xcap-att+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xav"]
+        extensions: ["xav"],
       },
       "application/xcap-caps+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xca"]
+        extensions: ["xca"],
       },
       "application/xcap-diff+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xdf"]
+        extensions: ["xdf"],
       },
       "application/xcap-el+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xel"]
+        extensions: ["xel"],
       },
       "application/xcap-error+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xcap-ns+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xns"]
+        extensions: ["xns"],
       },
       "application/xcon-conference-info+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xcon-conference-info-diff+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xenc+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xenc"]
+        extensions: ["xenc"],
       },
       "application/xhtml+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xhtml", "xht"]
+        extensions: ["xhtml", "xht"],
       },
       "application/xhtml-voice+xml": {
         source: "apache",
-        compressible: true
+        compressible: true,
       },
       "application/xliff+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xlf"]
+        extensions: ["xlf"],
       },
       "application/xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xml", "xsl", "xsd", "rng"]
+        extensions: ["xml", "xsl", "xsd", "rng"],
       },
       "application/xml-dtd": {
         source: "iana",
         compressible: true,
-        extensions: ["dtd"]
+        extensions: ["dtd"],
       },
       "application/xml-external-parsed-entity": {
-        source: "iana"
+        source: "iana",
       },
       "application/xml-patch+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xmpp+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/xop+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xop"]
+        extensions: ["xop"],
       },
       "application/xproc+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["xpl"]
+        extensions: ["xpl"],
       },
       "application/xslt+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xsl", "xslt"]
+        extensions: ["xsl", "xslt"],
       },
       "application/xspf+xml": {
         source: "apache",
         compressible: true,
-        extensions: ["xspf"]
+        extensions: ["xspf"],
       },
       "application/xv+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["mxml", "xhvml", "xvml", "xvm"]
+        extensions: ["mxml", "xhvml", "xvml", "xvm"],
       },
       "application/yang": {
         source: "iana",
-        extensions: ["yang"]
+        extensions: ["yang"],
       },
       "application/yang-data+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/yang-data+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/yang-patch+json": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/yang-patch+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "application/yin+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["yin"]
+        extensions: ["yin"],
       },
       "application/zip": {
         source: "iana",
         compressible: false,
-        extensions: ["zip"]
+        extensions: ["zip"],
       },
       "application/zlib": {
-        source: "iana"
+        source: "iana",
       },
       "application/zstd": {
-        source: "iana"
+        source: "iana",
       },
       "audio/1d-interleaved-parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "audio/32kadpcm": {
-        source: "iana"
+        source: "iana",
       },
       "audio/3gpp": {
         source: "iana",
         compressible: false,
-        extensions: ["3gpp"]
+        extensions: ["3gpp"],
       },
       "audio/3gpp2": {
-        source: "iana"
+        source: "iana",
       },
       "audio/aac": {
-        source: "iana"
+        source: "iana",
       },
       "audio/ac3": {
-        source: "iana"
+        source: "iana",
       },
       "audio/adpcm": {
         source: "apache",
-        extensions: ["adp"]
+        extensions: ["adp"],
       },
       "audio/amr": {
         source: "iana",
-        extensions: ["amr"]
+        extensions: ["amr"],
       },
       "audio/amr-wb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/amr-wb+": {
-        source: "iana"
+        source: "iana",
       },
       "audio/aptx": {
-        source: "iana"
+        source: "iana",
       },
       "audio/asc": {
-        source: "iana"
+        source: "iana",
       },
       "audio/atrac-advanced-lossless": {
-        source: "iana"
+        source: "iana",
       },
       "audio/atrac-x": {
-        source: "iana"
+        source: "iana",
       },
       "audio/atrac3": {
-        source: "iana"
+        source: "iana",
       },
       "audio/basic": {
         source: "iana",
         compressible: false,
-        extensions: ["au", "snd"]
+        extensions: ["au", "snd"],
       },
       "audio/bv16": {
-        source: "iana"
+        source: "iana",
       },
       "audio/bv32": {
-        source: "iana"
+        source: "iana",
       },
       "audio/clearmode": {
-        source: "iana"
+        source: "iana",
       },
       "audio/cn": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dat12": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dls": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dsr-es201108": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dsr-es202050": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dsr-es202211": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dsr-es202212": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dv": {
-        source: "iana"
+        source: "iana",
       },
       "audio/dvi4": {
-        source: "iana"
+        source: "iana",
       },
       "audio/eac3": {
-        source: "iana"
+        source: "iana",
       },
       "audio/encaprtp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrc": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrc-qcp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrc0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrc1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcb0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcb1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcnw": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcnw0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcnw1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcwb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcwb0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evrcwb1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/evs": {
-        source: "iana"
+        source: "iana",
       },
       "audio/flexfec": {
-        source: "iana"
+        source: "iana",
       },
       "audio/fwdred": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g711-0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g719": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g722": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g7221": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g723": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g726-16": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g726-24": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g726-32": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g726-40": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g728": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g729": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g7291": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g729d": {
-        source: "iana"
+        source: "iana",
       },
       "audio/g729e": {
-        source: "iana"
+        source: "iana",
       },
       "audio/gsm": {
-        source: "iana"
+        source: "iana",
       },
       "audio/gsm-efr": {
-        source: "iana"
+        source: "iana",
       },
       "audio/gsm-hr-08": {
-        source: "iana"
+        source: "iana",
       },
       "audio/ilbc": {
-        source: "iana"
+        source: "iana",
       },
       "audio/ip-mr_v2.5": {
-        source: "iana"
+        source: "iana",
       },
       "audio/isac": {
-        source: "apache"
+        source: "apache",
       },
       "audio/l16": {
-        source: "iana"
+        source: "iana",
       },
       "audio/l20": {
-        source: "iana"
+        source: "iana",
       },
       "audio/l24": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "audio/l8": {
-        source: "iana"
+        source: "iana",
       },
       "audio/lpc": {
-        source: "iana"
+        source: "iana",
       },
       "audio/melp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/melp1200": {
-        source: "iana"
+        source: "iana",
       },
       "audio/melp2400": {
-        source: "iana"
+        source: "iana",
       },
       "audio/melp600": {
-        source: "iana"
+        source: "iana",
       },
       "audio/mhas": {
-        source: "iana"
+        source: "iana",
       },
       "audio/midi": {
         source: "apache",
-        extensions: ["mid", "midi", "kar", "rmi"]
+        extensions: ["mid", "midi", "kar", "rmi"],
       },
       "audio/mobile-xmf": {
         source: "iana",
-        extensions: ["mxmf"]
+        extensions: ["mxmf"],
       },
       "audio/mp3": {
         compressible: false,
-        extensions: ["mp3"]
+        extensions: ["mp3"],
       },
       "audio/mp4": {
         source: "iana",
         compressible: false,
-        extensions: ["m4a", "mp4a"]
+        extensions: ["m4a", "mp4a"],
       },
       "audio/mp4a-latm": {
-        source: "iana"
+        source: "iana",
       },
       "audio/mpa": {
-        source: "iana"
+        source: "iana",
       },
       "audio/mpa-robust": {
-        source: "iana"
+        source: "iana",
       },
       "audio/mpeg": {
         source: "iana",
         compressible: false,
-        extensions: ["mpga", "mp2", "mp2a", "mp3", "m2a", "m3a"]
+        extensions: ["mpga", "mp2", "mp2a", "mp3", "m2a", "m3a"],
       },
       "audio/mpeg4-generic": {
-        source: "iana"
+        source: "iana",
       },
       "audio/musepack": {
-        source: "apache"
+        source: "apache",
       },
       "audio/ogg": {
         source: "iana",
         compressible: false,
-        extensions: ["oga", "ogg", "spx", "opus"]
+        extensions: ["oga", "ogg", "spx", "opus"],
       },
       "audio/opus": {
-        source: "iana"
+        source: "iana",
       },
       "audio/parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "audio/pcma": {
-        source: "iana"
+        source: "iana",
       },
       "audio/pcma-wb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/pcmu": {
-        source: "iana"
+        source: "iana",
       },
       "audio/pcmu-wb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/prs.sid": {
-        source: "iana"
+        source: "iana",
       },
       "audio/qcelp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/raptorfec": {
-        source: "iana"
+        source: "iana",
       },
       "audio/red": {
-        source: "iana"
+        source: "iana",
       },
       "audio/rtp-enc-aescm128": {
-        source: "iana"
+        source: "iana",
       },
       "audio/rtp-midi": {
-        source: "iana"
+        source: "iana",
       },
       "audio/rtploopback": {
-        source: "iana"
+        source: "iana",
       },
       "audio/rtx": {
-        source: "iana"
+        source: "iana",
       },
       "audio/s3m": {
         source: "apache",
-        extensions: ["s3m"]
+        extensions: ["s3m"],
       },
       "audio/scip": {
-        source: "iana"
+        source: "iana",
       },
       "audio/silk": {
         source: "apache",
-        extensions: ["sil"]
+        extensions: ["sil"],
       },
       "audio/smv": {
-        source: "iana"
+        source: "iana",
       },
       "audio/smv-qcp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/smv0": {
-        source: "iana"
+        source: "iana",
       },
       "audio/sofa": {
-        source: "iana"
+        source: "iana",
       },
       "audio/sp-midi": {
-        source: "iana"
+        source: "iana",
       },
       "audio/speex": {
-        source: "iana"
+        source: "iana",
       },
       "audio/t140c": {
-        source: "iana"
+        source: "iana",
       },
       "audio/t38": {
-        source: "iana"
+        source: "iana",
       },
       "audio/telephone-event": {
-        source: "iana"
+        source: "iana",
       },
       "audio/tetra_acelp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/tetra_acelp_bb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/tone": {
-        source: "iana"
+        source: "iana",
       },
       "audio/tsvcis": {
-        source: "iana"
+        source: "iana",
       },
       "audio/uemclip": {
-        source: "iana"
+        source: "iana",
       },
       "audio/ulpfec": {
-        source: "iana"
+        source: "iana",
       },
       "audio/usac": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vdvi": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vmr-wb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.3gpp.iufp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.4sb": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.audiokoz": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.celp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.cisco.nse": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.cmles.radio-events": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.cns.anp1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.cns.inf1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dece.audio": {
         source: "iana",
-        extensions: ["uva", "uvva"]
+        extensions: ["uva", "uvva"],
       },
       "audio/vnd.digital-winds": {
         source: "iana",
-        extensions: ["eol"]
+        extensions: ["eol"],
       },
       "audio/vnd.dlna.adts": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.heaac.1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.heaac.2": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.mlp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.mps": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.pl2": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.pl2x": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.pl2z": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dolby.pulse.1": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dra": {
         source: "iana",
-        extensions: ["dra"]
+        extensions: ["dra"],
       },
       "audio/vnd.dts": {
         source: "iana",
-        extensions: ["dts"]
+        extensions: ["dts"],
       },
       "audio/vnd.dts.hd": {
         source: "iana",
-        extensions: ["dtshd"]
+        extensions: ["dtshd"],
       },
       "audio/vnd.dts.uhd": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.dvb.file": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.everad.plj": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.hns.audio": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.lucent.voice": {
         source: "iana",
-        extensions: ["lvp"]
+        extensions: ["lvp"],
       },
       "audio/vnd.ms-playready.media.pya": {
         source: "iana",
-        extensions: ["pya"]
+        extensions: ["pya"],
       },
       "audio/vnd.nokia.mobile-xmf": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.nortel.vbk": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.nuera.ecelp4800": {
         source: "iana",
-        extensions: ["ecelp4800"]
+        extensions: ["ecelp4800"],
       },
       "audio/vnd.nuera.ecelp7470": {
         source: "iana",
-        extensions: ["ecelp7470"]
+        extensions: ["ecelp7470"],
       },
       "audio/vnd.nuera.ecelp9600": {
         source: "iana",
-        extensions: ["ecelp9600"]
+        extensions: ["ecelp9600"],
       },
       "audio/vnd.octel.sbc": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.presonus.multitrack": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.qcelp": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.rhetorex.32kadpcm": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.rip": {
         source: "iana",
-        extensions: ["rip"]
+        extensions: ["rip"],
       },
       "audio/vnd.rn-realaudio": {
-        compressible: false
+        compressible: false,
       },
       "audio/vnd.sealedmedia.softseal.mpeg": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.vmx.cvsd": {
-        source: "iana"
+        source: "iana",
       },
       "audio/vnd.wave": {
-        compressible: false
+        compressible: false,
       },
       "audio/vorbis": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "audio/vorbis-config": {
-        source: "iana"
+        source: "iana",
       },
       "audio/wav": {
         compressible: false,
-        extensions: ["wav"]
+        extensions: ["wav"],
       },
       "audio/wave": {
         compressible: false,
-        extensions: ["wav"]
+        extensions: ["wav"],
       },
       "audio/webm": {
         source: "apache",
         compressible: false,
-        extensions: ["weba"]
+        extensions: ["weba"],
       },
       "audio/x-aac": {
         source: "apache",
         compressible: false,
-        extensions: ["aac"]
+        extensions: ["aac"],
       },
       "audio/x-aiff": {
         source: "apache",
-        extensions: ["aif", "aiff", "aifc"]
+        extensions: ["aif", "aiff", "aifc"],
       },
       "audio/x-caf": {
         source: "apache",
         compressible: false,
-        extensions: ["caf"]
+        extensions: ["caf"],
       },
       "audio/x-flac": {
         source: "apache",
-        extensions: ["flac"]
+        extensions: ["flac"],
       },
       "audio/x-m4a": {
         source: "nginx",
-        extensions: ["m4a"]
+        extensions: ["m4a"],
       },
       "audio/x-matroska": {
         source: "apache",
-        extensions: ["mka"]
+        extensions: ["mka"],
       },
       "audio/x-mpegurl": {
         source: "apache",
-        extensions: ["m3u"]
+        extensions: ["m3u"],
       },
       "audio/x-ms-wax": {
         source: "apache",
-        extensions: ["wax"]
+        extensions: ["wax"],
       },
       "audio/x-ms-wma": {
         source: "apache",
-        extensions: ["wma"]
+        extensions: ["wma"],
       },
       "audio/x-pn-realaudio": {
         source: "apache",
-        extensions: ["ram", "ra"]
+        extensions: ["ram", "ra"],
       },
       "audio/x-pn-realaudio-plugin": {
         source: "apache",
-        extensions: ["rmp"]
+        extensions: ["rmp"],
       },
       "audio/x-realaudio": {
         source: "nginx",
-        extensions: ["ra"]
+        extensions: ["ra"],
       },
       "audio/x-tta": {
-        source: "apache"
+        source: "apache",
       },
       "audio/x-wav": {
         source: "apache",
-        extensions: ["wav"]
+        extensions: ["wav"],
       },
       "audio/xm": {
         source: "apache",
-        extensions: ["xm"]
+        extensions: ["xm"],
       },
       "chemical/x-cdx": {
         source: "apache",
-        extensions: ["cdx"]
+        extensions: ["cdx"],
       },
       "chemical/x-cif": {
         source: "apache",
-        extensions: ["cif"]
+        extensions: ["cif"],
       },
       "chemical/x-cmdf": {
         source: "apache",
-        extensions: ["cmdf"]
+        extensions: ["cmdf"],
       },
       "chemical/x-cml": {
         source: "apache",
-        extensions: ["cml"]
+        extensions: ["cml"],
       },
       "chemical/x-csml": {
         source: "apache",
-        extensions: ["csml"]
+        extensions: ["csml"],
       },
       "chemical/x-pdb": {
-        source: "apache"
+        source: "apache",
       },
       "chemical/x-xyz": {
         source: "apache",
-        extensions: ["xyz"]
+        extensions: ["xyz"],
       },
       "font/collection": {
         source: "iana",
-        extensions: ["ttc"]
+        extensions: ["ttc"],
       },
       "font/otf": {
         source: "iana",
         compressible: true,
-        extensions: ["otf"]
+        extensions: ["otf"],
       },
       "font/sfnt": {
-        source: "iana"
+        source: "iana",
       },
       "font/ttf": {
         source: "iana",
         compressible: true,
-        extensions: ["ttf"]
+        extensions: ["ttf"],
       },
       "font/woff": {
         source: "iana",
-        extensions: ["woff"]
+        extensions: ["woff"],
       },
       "font/woff2": {
         source: "iana",
-        extensions: ["woff2"]
+        extensions: ["woff2"],
       },
       "image/aces": {
         source: "iana",
-        extensions: ["exr"]
+        extensions: ["exr"],
       },
       "image/apng": {
         compressible: false,
-        extensions: ["apng"]
+        extensions: ["apng"],
       },
       "image/avci": {
         source: "iana",
-        extensions: ["avci"]
+        extensions: ["avci"],
       },
       "image/avcs": {
         source: "iana",
-        extensions: ["avcs"]
+        extensions: ["avcs"],
       },
       "image/avif": {
         source: "iana",
         compressible: false,
-        extensions: ["avif"]
+        extensions: ["avif"],
       },
       "image/bmp": {
         source: "iana",
         compressible: true,
-        extensions: ["bmp"]
+        extensions: ["bmp"],
       },
       "image/cgm": {
         source: "iana",
-        extensions: ["cgm"]
+        extensions: ["cgm"],
       },
       "image/dicom-rle": {
         source: "iana",
-        extensions: ["drle"]
+        extensions: ["drle"],
       },
       "image/emf": {
         source: "iana",
-        extensions: ["emf"]
+        extensions: ["emf"],
       },
       "image/fits": {
         source: "iana",
-        extensions: ["fits"]
+        extensions: ["fits"],
       },
       "image/g3fax": {
         source: "iana",
-        extensions: ["g3"]
+        extensions: ["g3"],
       },
       "image/gif": {
         source: "iana",
         compressible: false,
-        extensions: ["gif"]
+        extensions: ["gif"],
       },
       "image/heic": {
         source: "iana",
-        extensions: ["heic"]
+        extensions: ["heic"],
       },
       "image/heic-sequence": {
         source: "iana",
-        extensions: ["heics"]
+        extensions: ["heics"],
       },
       "image/heif": {
         source: "iana",
-        extensions: ["heif"]
+        extensions: ["heif"],
       },
       "image/heif-sequence": {
         source: "iana",
-        extensions: ["heifs"]
+        extensions: ["heifs"],
       },
       "image/hej2k": {
         source: "iana",
-        extensions: ["hej2"]
+        extensions: ["hej2"],
       },
       "image/hsj2": {
         source: "iana",
-        extensions: ["hsj2"]
+        extensions: ["hsj2"],
       },
       "image/ief": {
         source: "iana",
-        extensions: ["ief"]
+        extensions: ["ief"],
       },
       "image/jls": {
         source: "iana",
-        extensions: ["jls"]
+        extensions: ["jls"],
       },
       "image/jp2": {
         source: "iana",
         compressible: false,
-        extensions: ["jp2", "jpg2"]
+        extensions: ["jp2", "jpg2"],
       },
       "image/jpeg": {
         source: "iana",
         compressible: false,
-        extensions: ["jpeg", "jpg", "jpe"]
+        extensions: ["jpeg", "jpg", "jpe"],
       },
       "image/jph": {
         source: "iana",
-        extensions: ["jph"]
+        extensions: ["jph"],
       },
       "image/jphc": {
         source: "iana",
-        extensions: ["jhc"]
+        extensions: ["jhc"],
       },
       "image/jpm": {
         source: "iana",
         compressible: false,
-        extensions: ["jpm"]
+        extensions: ["jpm"],
       },
       "image/jpx": {
         source: "iana",
         compressible: false,
-        extensions: ["jpx", "jpf"]
+        extensions: ["jpx", "jpf"],
       },
       "image/jxr": {
         source: "iana",
-        extensions: ["jxr"]
+        extensions: ["jxr"],
       },
       "image/jxra": {
         source: "iana",
-        extensions: ["jxra"]
+        extensions: ["jxra"],
       },
       "image/jxrs": {
         source: "iana",
-        extensions: ["jxrs"]
+        extensions: ["jxrs"],
       },
       "image/jxs": {
         source: "iana",
-        extensions: ["jxs"]
+        extensions: ["jxs"],
       },
       "image/jxsc": {
         source: "iana",
-        extensions: ["jxsc"]
+        extensions: ["jxsc"],
       },
       "image/jxsi": {
         source: "iana",
-        extensions: ["jxsi"]
+        extensions: ["jxsi"],
       },
       "image/jxss": {
         source: "iana",
-        extensions: ["jxss"]
+        extensions: ["jxss"],
       },
       "image/ktx": {
         source: "iana",
-        extensions: ["ktx"]
+        extensions: ["ktx"],
       },
       "image/ktx2": {
         source: "iana",
-        extensions: ["ktx2"]
+        extensions: ["ktx2"],
       },
       "image/naplps": {
-        source: "iana"
+        source: "iana",
       },
       "image/pjpeg": {
-        compressible: false
+        compressible: false,
       },
       "image/png": {
         source: "iana",
         compressible: false,
-        extensions: ["png"]
+        extensions: ["png"],
       },
       "image/prs.btif": {
         source: "iana",
-        extensions: ["btif"]
+        extensions: ["btif"],
       },
       "image/prs.pti": {
         source: "iana",
-        extensions: ["pti"]
+        extensions: ["pti"],
       },
       "image/pwg-raster": {
-        source: "iana"
+        source: "iana",
       },
       "image/sgi": {
         source: "apache",
-        extensions: ["sgi"]
+        extensions: ["sgi"],
       },
       "image/svg+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["svg", "svgz"]
+        extensions: ["svg", "svgz"],
       },
       "image/t38": {
         source: "iana",
-        extensions: ["t38"]
+        extensions: ["t38"],
       },
       "image/tiff": {
         source: "iana",
         compressible: false,
-        extensions: ["tif", "tiff"]
+        extensions: ["tif", "tiff"],
       },
       "image/tiff-fx": {
         source: "iana",
-        extensions: ["tfx"]
+        extensions: ["tfx"],
       },
       "image/vnd.adobe.photoshop": {
         source: "iana",
         compressible: true,
-        extensions: ["psd"]
+        extensions: ["psd"],
       },
       "image/vnd.airzip.accelerator.azv": {
         source: "iana",
-        extensions: ["azv"]
+        extensions: ["azv"],
       },
       "image/vnd.cns.inf2": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.dece.graphic": {
         source: "iana",
-        extensions: ["uvi", "uvvi", "uvg", "uvvg"]
+        extensions: ["uvi", "uvvi", "uvg", "uvvg"],
       },
       "image/vnd.djvu": {
         source: "iana",
-        extensions: ["djvu", "djv"]
+        extensions: ["djvu", "djv"],
       },
       "image/vnd.dvb.subtitle": {
         source: "iana",
-        extensions: ["sub"]
+        extensions: ["sub"],
       },
       "image/vnd.dwg": {
         source: "iana",
-        extensions: ["dwg"]
+        extensions: ["dwg"],
       },
       "image/vnd.dxf": {
         source: "iana",
-        extensions: ["dxf"]
+        extensions: ["dxf"],
       },
       "image/vnd.fastbidsheet": {
         source: "iana",
-        extensions: ["fbs"]
+        extensions: ["fbs"],
       },
       "image/vnd.fpx": {
         source: "iana",
-        extensions: ["fpx"]
+        extensions: ["fpx"],
       },
       "image/vnd.fst": {
         source: "iana",
-        extensions: ["fst"]
+        extensions: ["fst"],
       },
       "image/vnd.fujixerox.edmics-mmr": {
         source: "iana",
-        extensions: ["mmr"]
+        extensions: ["mmr"],
       },
       "image/vnd.fujixerox.edmics-rlc": {
         source: "iana",
-        extensions: ["rlc"]
+        extensions: ["rlc"],
       },
       "image/vnd.globalgraphics.pgb": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.microsoft.icon": {
         source: "iana",
         compressible: true,
-        extensions: ["ico"]
+        extensions: ["ico"],
       },
       "image/vnd.mix": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.mozilla.apng": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.ms-dds": {
         compressible: true,
-        extensions: ["dds"]
+        extensions: ["dds"],
       },
       "image/vnd.ms-modi": {
         source: "iana",
-        extensions: ["mdi"]
+        extensions: ["mdi"],
       },
       "image/vnd.ms-photo": {
         source: "apache",
-        extensions: ["wdp"]
+        extensions: ["wdp"],
       },
       "image/vnd.net-fpx": {
         source: "iana",
-        extensions: ["npx"]
+        extensions: ["npx"],
       },
       "image/vnd.pco.b16": {
         source: "iana",
-        extensions: ["b16"]
+        extensions: ["b16"],
       },
       "image/vnd.radiance": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.sealed.png": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.sealedmedia.softseal.gif": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.sealedmedia.softseal.jpg": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.svf": {
-        source: "iana"
+        source: "iana",
       },
       "image/vnd.tencent.tap": {
         source: "iana",
-        extensions: ["tap"]
+        extensions: ["tap"],
       },
       "image/vnd.valve.source.texture": {
         source: "iana",
-        extensions: ["vtf"]
+        extensions: ["vtf"],
       },
       "image/vnd.wap.wbmp": {
         source: "iana",
-        extensions: ["wbmp"]
+        extensions: ["wbmp"],
       },
       "image/vnd.xiff": {
         source: "iana",
-        extensions: ["xif"]
+        extensions: ["xif"],
       },
       "image/vnd.zbrush.pcx": {
         source: "iana",
-        extensions: ["pcx"]
+        extensions: ["pcx"],
       },
       "image/webp": {
         source: "apache",
-        extensions: ["webp"]
+        extensions: ["webp"],
       },
       "image/wmf": {
         source: "iana",
-        extensions: ["wmf"]
+        extensions: ["wmf"],
       },
       "image/x-3ds": {
         source: "apache",
-        extensions: ["3ds"]
+        extensions: ["3ds"],
       },
       "image/x-cmu-raster": {
         source: "apache",
-        extensions: ["ras"]
+        extensions: ["ras"],
       },
       "image/x-cmx": {
         source: "apache",
-        extensions: ["cmx"]
+        extensions: ["cmx"],
       },
       "image/x-freehand": {
         source: "apache",
-        extensions: ["fh", "fhc", "fh4", "fh5", "fh7"]
+        extensions: ["fh", "fhc", "fh4", "fh5", "fh7"],
       },
       "image/x-icon": {
         source: "apache",
         compressible: true,
-        extensions: ["ico"]
+        extensions: ["ico"],
       },
       "image/x-jng": {
         source: "nginx",
-        extensions: ["jng"]
+        extensions: ["jng"],
       },
       "image/x-mrsid-image": {
         source: "apache",
-        extensions: ["sid"]
+        extensions: ["sid"],
       },
       "image/x-ms-bmp": {
         source: "nginx",
         compressible: true,
-        extensions: ["bmp"]
+        extensions: ["bmp"],
       },
       "image/x-pcx": {
         source: "apache",
-        extensions: ["pcx"]
+        extensions: ["pcx"],
       },
       "image/x-pict": {
         source: "apache",
-        extensions: ["pic", "pct"]
+        extensions: ["pic", "pct"],
       },
       "image/x-portable-anymap": {
         source: "apache",
-        extensions: ["pnm"]
+        extensions: ["pnm"],
       },
       "image/x-portable-bitmap": {
         source: "apache",
-        extensions: ["pbm"]
+        extensions: ["pbm"],
       },
       "image/x-portable-graymap": {
         source: "apache",
-        extensions: ["pgm"]
+        extensions: ["pgm"],
       },
       "image/x-portable-pixmap": {
         source: "apache",
-        extensions: ["ppm"]
+        extensions: ["ppm"],
       },
       "image/x-rgb": {
         source: "apache",
-        extensions: ["rgb"]
+        extensions: ["rgb"],
       },
       "image/x-tga": {
         source: "apache",
-        extensions: ["tga"]
+        extensions: ["tga"],
       },
       "image/x-xbitmap": {
         source: "apache",
-        extensions: ["xbm"]
+        extensions: ["xbm"],
       },
       "image/x-xcf": {
-        compressible: false
+        compressible: false,
       },
       "image/x-xpixmap": {
         source: "apache",
-        extensions: ["xpm"]
+        extensions: ["xpm"],
       },
       "image/x-xwindowdump": {
         source: "apache",
-        extensions: ["xwd"]
+        extensions: ["xwd"],
       },
       "message/cpim": {
-        source: "iana"
+        source: "iana",
       },
       "message/delivery-status": {
-        source: "iana"
+        source: "iana",
       },
       "message/disposition-notification": {
         source: "iana",
-        extensions: [
-          "disposition-notification"
-        ]
+        extensions: ["disposition-notification"],
       },
       "message/external-body": {
-        source: "iana"
+        source: "iana",
       },
       "message/feedback-report": {
-        source: "iana"
+        source: "iana",
       },
       "message/global": {
         source: "iana",
-        extensions: ["u8msg"]
+        extensions: ["u8msg"],
       },
       "message/global-delivery-status": {
         source: "iana",
-        extensions: ["u8dsn"]
+        extensions: ["u8dsn"],
       },
       "message/global-disposition-notification": {
         source: "iana",
-        extensions: ["u8mdn"]
+        extensions: ["u8mdn"],
       },
       "message/global-headers": {
         source: "iana",
-        extensions: ["u8hdr"]
+        extensions: ["u8hdr"],
       },
       "message/http": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "message/imdn+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "message/news": {
-        source: "iana"
+        source: "iana",
       },
       "message/partial": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "message/rfc822": {
         source: "iana",
         compressible: true,
-        extensions: ["eml", "mime"]
+        extensions: ["eml", "mime"],
       },
       "message/s-http": {
-        source: "iana"
+        source: "iana",
       },
       "message/sip": {
-        source: "iana"
+        source: "iana",
       },
       "message/sipfrag": {
-        source: "iana"
+        source: "iana",
       },
       "message/tracking-status": {
-        source: "iana"
+        source: "iana",
       },
       "message/vnd.si.simp": {
-        source: "iana"
+        source: "iana",
       },
       "message/vnd.wfa.wsc": {
         source: "iana",
-        extensions: ["wsc"]
+        extensions: ["wsc"],
       },
       "model/3mf": {
         source: "iana",
-        extensions: ["3mf"]
+        extensions: ["3mf"],
       },
       "model/e57": {
-        source: "iana"
+        source: "iana",
       },
       "model/gltf+json": {
         source: "iana",
         compressible: true,
-        extensions: ["gltf"]
+        extensions: ["gltf"],
       },
       "model/gltf-binary": {
         source: "iana",
         compressible: true,
-        extensions: ["glb"]
+        extensions: ["glb"],
       },
       "model/iges": {
         source: "iana",
         compressible: false,
-        extensions: ["igs", "iges"]
+        extensions: ["igs", "iges"],
       },
       "model/mesh": {
         source: "iana",
         compressible: false,
-        extensions: ["msh", "mesh", "silo"]
+        extensions: ["msh", "mesh", "silo"],
       },
       "model/mtl": {
         source: "iana",
-        extensions: ["mtl"]
+        extensions: ["mtl"],
       },
       "model/obj": {
         source: "iana",
-        extensions: ["obj"]
+        extensions: ["obj"],
       },
       "model/step": {
-        source: "iana"
+        source: "iana",
       },
       "model/step+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["stpx"]
+        extensions: ["stpx"],
       },
       "model/step+zip": {
         source: "iana",
         compressible: false,
-        extensions: ["stpz"]
+        extensions: ["stpz"],
       },
       "model/step-xml+zip": {
         source: "iana",
         compressible: false,
-        extensions: ["stpxz"]
+        extensions: ["stpxz"],
       },
       "model/stl": {
         source: "iana",
-        extensions: ["stl"]
+        extensions: ["stl"],
       },
       "model/vnd.collada+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["dae"]
+        extensions: ["dae"],
       },
       "model/vnd.dwf": {
         source: "iana",
-        extensions: ["dwf"]
+        extensions: ["dwf"],
       },
       "model/vnd.flatland.3dml": {
-        source: "iana"
+        source: "iana",
       },
       "model/vnd.gdl": {
         source: "iana",
-        extensions: ["gdl"]
+        extensions: ["gdl"],
       },
       "model/vnd.gs-gdl": {
-        source: "apache"
+        source: "apache",
       },
       "model/vnd.gs.gdl": {
-        source: "iana"
+        source: "iana",
       },
       "model/vnd.gtw": {
         source: "iana",
-        extensions: ["gtw"]
+        extensions: ["gtw"],
       },
       "model/vnd.moml+xml": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "model/vnd.mts": {
         source: "iana",
-        extensions: ["mts"]
+        extensions: ["mts"],
       },
       "model/vnd.opengex": {
         source: "iana",
-        extensions: ["ogex"]
+        extensions: ["ogex"],
       },
       "model/vnd.parasolid.transmit.binary": {
         source: "iana",
-        extensions: ["x_b"]
+        extensions: ["x_b"],
       },
       "model/vnd.parasolid.transmit.text": {
         source: "iana",
-        extensions: ["x_t"]
+        extensions: ["x_t"],
       },
       "model/vnd.pytha.pyox": {
-        source: "iana"
+        source: "iana",
       },
       "model/vnd.rosette.annotated-data-model": {
-        source: "iana"
+        source: "iana",
       },
       "model/vnd.sap.vds": {
         source: "iana",
-        extensions: ["vds"]
+        extensions: ["vds"],
       },
       "model/vnd.usdz+zip": {
         source: "iana",
         compressible: false,
-        extensions: ["usdz"]
+        extensions: ["usdz"],
       },
       "model/vnd.valve.source.compiled-map": {
         source: "iana",
-        extensions: ["bsp"]
+        extensions: ["bsp"],
       },
       "model/vnd.vtu": {
         source: "iana",
-        extensions: ["vtu"]
+        extensions: ["vtu"],
       },
       "model/vrml": {
         source: "iana",
         compressible: false,
-        extensions: ["wrl", "vrml"]
+        extensions: ["wrl", "vrml"],
       },
       "model/x3d+binary": {
         source: "apache",
         compressible: false,
-        extensions: ["x3db", "x3dbz"]
+        extensions: ["x3db", "x3dbz"],
       },
       "model/x3d+fastinfoset": {
         source: "iana",
-        extensions: ["x3db"]
+        extensions: ["x3db"],
       },
       "model/x3d+vrml": {
         source: "apache",
         compressible: false,
-        extensions: ["x3dv", "x3dvz"]
+        extensions: ["x3dv", "x3dvz"],
       },
       "model/x3d+xml": {
         source: "iana",
         compressible: true,
-        extensions: ["x3d", "x3dz"]
+        extensions: ["x3d", "x3dz"],
       },
       "model/x3d-vrml": {
         source: "iana",
-        extensions: ["x3dv"]
+        extensions: ["x3dv"],
       },
       "multipart/alternative": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "multipart/appledouble": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/byteranges": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/digest": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/encrypted": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "multipart/form-data": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "multipart/header-set": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/mixed": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/multilingual": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/parallel": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/related": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "multipart/report": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/signed": {
         source: "iana",
-        compressible: false
+        compressible: false,
       },
       "multipart/vnd.bint.med-plus": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/voice-message": {
-        source: "iana"
+        source: "iana",
       },
       "multipart/x-mixed-replace": {
-        source: "iana"
+        source: "iana",
       },
       "text/1d-interleaved-parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "text/cache-manifest": {
         source: "iana",
         compressible: true,
-        extensions: ["appcache", "manifest"]
+        extensions: ["appcache", "manifest"],
       },
       "text/calendar": {
         source: "iana",
-        extensions: ["ics", "ifb"]
+        extensions: ["ics", "ifb"],
       },
       "text/calender": {
-        compressible: true
+        compressible: true,
       },
       "text/cmd": {
-        compressible: true
+        compressible: true,
       },
       "text/coffeescript": {
-        extensions: ["coffee", "litcoffee"]
+        extensions: ["coffee", "litcoffee"],
       },
       "text/cql": {
-        source: "iana"
+        source: "iana",
       },
       "text/cql-expression": {
-        source: "iana"
+        source: "iana",
       },
       "text/cql-identifier": {
-        source: "iana"
+        source: "iana",
       },
       "text/css": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["css"]
+        extensions: ["css"],
       },
       "text/csv": {
         source: "iana",
         compressible: true,
-        extensions: ["csv"]
+        extensions: ["csv"],
       },
       "text/csv-schema": {
-        source: "iana"
+        source: "iana",
       },
       "text/directory": {
-        source: "iana"
+        source: "iana",
       },
       "text/dns": {
-        source: "iana"
+        source: "iana",
       },
       "text/ecmascript": {
-        source: "iana"
+        source: "iana",
       },
       "text/encaprtp": {
-        source: "iana"
+        source: "iana",
       },
       "text/enriched": {
-        source: "iana"
+        source: "iana",
       },
       "text/fhirpath": {
-        source: "iana"
+        source: "iana",
       },
       "text/flexfec": {
-        source: "iana"
+        source: "iana",
       },
       "text/fwdred": {
-        source: "iana"
+        source: "iana",
       },
       "text/gff3": {
-        source: "iana"
+        source: "iana",
       },
       "text/grammar-ref-list": {
-        source: "iana"
+        source: "iana",
       },
       "text/html": {
         source: "iana",
         compressible: true,
-        extensions: ["html", "htm", "shtml"]
+        extensions: ["html", "htm", "shtml"],
       },
       "text/jade": {
-        extensions: ["jade"]
+        extensions: ["jade"],
       },
       "text/javascript": {
         source: "iana",
-        compressible: true
+        compressible: true,
       },
       "text/jcr-cnd": {
-        source: "iana"
+        source: "iana",
       },
       "text/jsx": {
         compressible: true,
-        extensions: ["jsx"]
+        extensions: ["jsx"],
       },
       "text/less": {
         compressible: true,
-        extensions: ["less"]
+        extensions: ["less"],
       },
       "text/markdown": {
         source: "iana",
         compressible: true,
-        extensions: ["markdown", "md"]
+        extensions: ["markdown", "md"],
       },
       "text/mathml": {
         source: "nginx",
-        extensions: ["mml"]
+        extensions: ["mml"],
       },
       "text/mdx": {
         compressible: true,
-        extensions: ["mdx"]
+        extensions: ["mdx"],
       },
       "text/mizar": {
-        source: "iana"
+        source: "iana",
       },
       "text/n3": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["n3"]
+        extensions: ["n3"],
       },
       "text/parameters": {
         source: "iana",
-        charset: "UTF-8"
+        charset: "UTF-8",
       },
       "text/parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "text/plain": {
         source: "iana",
         compressible: true,
-        extensions: ["txt", "text", "conf", "def", "list", "log", "in", "ini"]
+        extensions: ["txt", "text", "conf", "def", "list", "log", "in", "ini"],
       },
       "text/provenance-notation": {
         source: "iana",
-        charset: "UTF-8"
+        charset: "UTF-8",
       },
       "text/prs.fallenstein.rst": {
-        source: "iana"
+        source: "iana",
       },
       "text/prs.lines.tag": {
         source: "iana",
-        extensions: ["dsc"]
+        extensions: ["dsc"],
       },
       "text/prs.prop.logic": {
-        source: "iana"
+        source: "iana",
       },
       "text/raptorfec": {
-        source: "iana"
+        source: "iana",
       },
       "text/red": {
-        source: "iana"
+        source: "iana",
       },
       "text/rfc822-headers": {
-        source: "iana"
+        source: "iana",
       },
       "text/richtext": {
         source: "iana",
         compressible: true,
-        extensions: ["rtx"]
+        extensions: ["rtx"],
       },
       "text/rtf": {
         source: "iana",
         compressible: true,
-        extensions: ["rtf"]
+        extensions: ["rtf"],
       },
       "text/rtp-enc-aescm128": {
-        source: "iana"
+        source: "iana",
       },
       "text/rtploopback": {
-        source: "iana"
+        source: "iana",
       },
       "text/rtx": {
-        source: "iana"
+        source: "iana",
       },
       "text/sgml": {
         source: "iana",
-        extensions: ["sgml", "sgm"]
+        extensions: ["sgml", "sgm"],
       },
       "text/shaclc": {
-        source: "iana"
+        source: "iana",
       },
       "text/shex": {
         source: "iana",
-        extensions: ["shex"]
+        extensions: ["shex"],
       },
       "text/slim": {
-        extensions: ["slim", "slm"]
+        extensions: ["slim", "slm"],
       },
       "text/spdx": {
         source: "iana",
-        extensions: ["spdx"]
+        extensions: ["spdx"],
       },
       "text/strings": {
-        source: "iana"
+        source: "iana",
       },
       "text/stylus": {
-        extensions: ["stylus", "styl"]
+        extensions: ["stylus", "styl"],
       },
       "text/t140": {
-        source: "iana"
+        source: "iana",
       },
       "text/tab-separated-values": {
         source: "iana",
         compressible: true,
-        extensions: ["tsv"]
+        extensions: ["tsv"],
       },
       "text/troff": {
         source: "iana",
-        extensions: ["t", "tr", "roff", "man", "me", "ms"]
+        extensions: ["t", "tr", "roff", "man", "me", "ms"],
       },
       "text/turtle": {
         source: "iana",
         charset: "UTF-8",
-        extensions: ["ttl"]
+        extensions: ["ttl"],
       },
       "text/ulpfec": {
-        source: "iana"
+        source: "iana",
       },
       "text/uri-list": {
         source: "iana",
         compressible: true,
-        extensions: ["uri", "uris", "urls"]
+        extensions: ["uri", "uris", "urls"],
       },
       "text/vcard": {
         source: "iana",
         compressible: true,
-        extensions: ["vcard"]
+        extensions: ["vcard"],
       },
       "text/vnd.a": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.abc": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.ascii-art": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.curl": {
         source: "iana",
-        extensions: ["curl"]
+        extensions: ["curl"],
       },
       "text/vnd.curl.dcurl": {
         source: "apache",
-        extensions: ["dcurl"]
+        extensions: ["dcurl"],
       },
       "text/vnd.curl.mcurl": {
         source: "apache",
-        extensions: ["mcurl"]
+        extensions: ["mcurl"],
       },
       "text/vnd.curl.scurl": {
         source: "apache",
-        extensions: ["scurl"]
+        extensions: ["scurl"],
       },
       "text/vnd.debian.copyright": {
         source: "iana",
-        charset: "UTF-8"
+        charset: "UTF-8",
       },
       "text/vnd.dmclientscript": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.dvb.subtitle": {
         source: "iana",
-        extensions: ["sub"]
+        extensions: ["sub"],
       },
       "text/vnd.esmertec.theme-descriptor": {
         source: "iana",
-        charset: "UTF-8"
+        charset: "UTF-8",
       },
       "text/vnd.familysearch.gedcom": {
         source: "iana",
-        extensions: ["ged"]
+        extensions: ["ged"],
       },
       "text/vnd.ficlab.flt": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.fly": {
         source: "iana",
-        extensions: ["fly"]
+        extensions: ["fly"],
       },
       "text/vnd.fmi.flexstor": {
         source: "iana",
-        extensions: ["flx"]
+        extensions: ["flx"],
       },
       "text/vnd.gml": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.graphviz": {
         source: "iana",
-        extensions: ["gv"]
+        extensions: ["gv"],
       },
       "text/vnd.hans": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.hgl": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.in3d.3dml": {
         source: "iana",
-        extensions: ["3dml"]
+        extensions: ["3dml"],
       },
       "text/vnd.in3d.spot": {
         source: "iana",
-        extensions: ["spot"]
+        extensions: ["spot"],
       },
       "text/vnd.iptc.newsml": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.iptc.nitf": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.latex-z": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.motorola.reflex": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.ms-mediapackage": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.net2phone.commcenter.command": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.radisys.msml-basic-layout": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.senx.warpscript": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.si.uricatalogue": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.sosi": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.sun.j2me.app-descriptor": {
         source: "iana",
         charset: "UTF-8",
-        extensions: ["jad"]
+        extensions: ["jad"],
       },
       "text/vnd.trolltech.linguist": {
         source: "iana",
-        charset: "UTF-8"
+        charset: "UTF-8",
       },
       "text/vnd.wap.si": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.wap.sl": {
-        source: "iana"
+        source: "iana",
       },
       "text/vnd.wap.wml": {
         source: "iana",
-        extensions: ["wml"]
+        extensions: ["wml"],
       },
       "text/vnd.wap.wmlscript": {
         source: "iana",
-        extensions: ["wmls"]
+        extensions: ["wmls"],
       },
       "text/vtt": {
         source: "iana",
         charset: "UTF-8",
         compressible: true,
-        extensions: ["vtt"]
+        extensions: ["vtt"],
       },
       "text/x-asm": {
         source: "apache",
-        extensions: ["s", "asm"]
+        extensions: ["s", "asm"],
       },
       "text/x-c": {
         source: "apache",
-        extensions: ["c", "cc", "cxx", "cpp", "h", "hh", "dic"]
+        extensions: ["c", "cc", "cxx", "cpp", "h", "hh", "dic"],
       },
       "text/x-component": {
         source: "nginx",
-        extensions: ["htc"]
+        extensions: ["htc"],
       },
       "text/x-fortran": {
         source: "apache",
-        extensions: ["f", "for", "f77", "f90"]
+        extensions: ["f", "for", "f77", "f90"],
       },
       "text/x-gwt-rpc": {
-        compressible: true
+        compressible: true,
       },
       "text/x-handlebars-template": {
-        extensions: ["hbs"]
+        extensions: ["hbs"],
       },
       "text/x-java-source": {
         source: "apache",
-        extensions: ["java"]
+        extensions: ["java"],
       },
       "text/x-jquery-tmpl": {
-        compressible: true
+        compressible: true,
       },
       "text/x-lua": {
-        extensions: ["lua"]
+        extensions: ["lua"],
       },
       "text/x-markdown": {
         compressible: true,
-        extensions: ["mkd"]
+        extensions: ["mkd"],
       },
       "text/x-nfo": {
         source: "apache",
-        extensions: ["nfo"]
+        extensions: ["nfo"],
       },
       "text/x-opml": {
         source: "apache",
-        extensions: ["opml"]
+        extensions: ["opml"],
       },
       "text/x-org": {
         compressible: true,
-        extensions: ["org"]
+        extensions: ["org"],
       },
       "text/x-pascal": {
         source: "apache",
-        extensions: ["p", "pas"]
+        extensions: ["p", "pas"],
       },
       "text/x-processing": {
         compressible: true,
-        extensions: ["pde"]
+        extensions: ["pde"],
       },
       "text/x-sass": {
-        extensions: ["sass"]
+        extensions: ["sass"],
       },
       "text/x-scss": {
-        extensions: ["scss"]
+        extensions: ["scss"],
       },
       "text/x-setext": {
         source: "apache",
-        extensions: ["etx"]
+        extensions: ["etx"],
       },
       "text/x-sfv": {
         source: "apache",
-        extensions: ["sfv"]
+        extensions: ["sfv"],
       },
       "text/x-suse-ymp": {
         compressible: true,
-        extensions: ["ymp"]
+        extensions: ["ymp"],
       },
       "text/x-uuencode": {
         source: "apache",
-        extensions: ["uu"]
+        extensions: ["uu"],
       },
       "text/x-vcalendar": {
         source: "apache",
-        extensions: ["vcs"]
+        extensions: ["vcs"],
       },
       "text/x-vcard": {
         source: "apache",
-        extensions: ["vcf"]
+        extensions: ["vcf"],
       },
       "text/xml": {
         source: "iana",
         compressible: true,
-        extensions: ["xml"]
+        extensions: ["xml"],
       },
       "text/xml-external-parsed-entity": {
-        source: "iana"
+        source: "iana",
       },
       "text/yaml": {
         compressible: true,
-        extensions: ["yaml", "yml"]
+        extensions: ["yaml", "yml"],
       },
       "video/1d-interleaved-parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "video/3gpp": {
         source: "iana",
-        extensions: ["3gp", "3gpp"]
+        extensions: ["3gp", "3gpp"],
       },
       "video/3gpp-tt": {
-        source: "iana"
+        source: "iana",
       },
       "video/3gpp2": {
         source: "iana",
-        extensions: ["3g2"]
+        extensions: ["3g2"],
       },
       "video/av1": {
-        source: "iana"
+        source: "iana",
       },
       "video/bmpeg": {
-        source: "iana"
+        source: "iana",
       },
       "video/bt656": {
-        source: "iana"
+        source: "iana",
       },
       "video/celb": {
-        source: "iana"
+        source: "iana",
       },
       "video/dv": {
-        source: "iana"
+        source: "iana",
       },
       "video/encaprtp": {
-        source: "iana"
+        source: "iana",
       },
       "video/ffv1": {
-        source: "iana"
+        source: "iana",
       },
       "video/flexfec": {
-        source: "iana"
+        source: "iana",
       },
       "video/h261": {
         source: "iana",
-        extensions: ["h261"]
+        extensions: ["h261"],
       },
       "video/h263": {
         source: "iana",
-        extensions: ["h263"]
+        extensions: ["h263"],
       },
       "video/h263-1998": {
-        source: "iana"
+        source: "iana",
       },
       "video/h263-2000": {
-        source: "iana"
+        source: "iana",
       },
       "video/h264": {
         source: "iana",
-        extensions: ["h264"]
+        extensions: ["h264"],
       },
       "video/h264-rcdo": {
-        source: "iana"
+        source: "iana",
       },
       "video/h264-svc": {
-        source: "iana"
+        source: "iana",
       },
       "video/h265": {
-        source: "iana"
+        source: "iana",
       },
       "video/iso.segment": {
         source: "iana",
-        extensions: ["m4s"]
+        extensions: ["m4s"],
       },
       "video/jpeg": {
         source: "iana",
-        extensions: ["jpgv"]
+        extensions: ["jpgv"],
       },
       "video/jpeg2000": {
-        source: "iana"
+        source: "iana",
       },
       "video/jpm": {
         source: "apache",
-        extensions: ["jpm", "jpgm"]
+        extensions: ["jpm", "jpgm"],
       },
       "video/jxsv": {
-        source: "iana"
+        source: "iana",
       },
       "video/mj2": {
         source: "iana",
-        extensions: ["mj2", "mjp2"]
+        extensions: ["mj2", "mjp2"],
       },
       "video/mp1s": {
-        source: "iana"
+        source: "iana",
       },
       "video/mp2p": {
-        source: "iana"
+        source: "iana",
       },
       "video/mp2t": {
         source: "iana",
-        extensions: ["ts"]
+        extensions: ["ts"],
       },
       "video/mp4": {
         source: "iana",
         compressible: false,
-        extensions: ["mp4", "mp4v", "mpg4"]
+        extensions: ["mp4", "mp4v", "mpg4"],
       },
       "video/mp4v-es": {
-        source: "iana"
+        source: "iana",
       },
       "video/mpeg": {
         source: "iana",
         compressible: false,
-        extensions: ["mpeg", "mpg", "mpe", "m1v", "m2v"]
+        extensions: ["mpeg", "mpg", "mpe", "m1v", "m2v"],
       },
       "video/mpeg4-generic": {
-        source: "iana"
+        source: "iana",
       },
       "video/mpv": {
-        source: "iana"
+        source: "iana",
       },
       "video/nv": {
-        source: "iana"
+        source: "iana",
       },
       "video/ogg": {
         source: "iana",
         compressible: false,
-        extensions: ["ogv"]
+        extensions: ["ogv"],
       },
       "video/parityfec": {
-        source: "iana"
+        source: "iana",
       },
       "video/pointer": {
-        source: "iana"
+        source: "iana",
       },
       "video/quicktime": {
         source: "iana",
         compressible: false,
-        extensions: ["qt", "mov"]
+        extensions: ["qt", "mov"],
       },
       "video/raptorfec": {
-        source: "iana"
+        source: "iana",
       },
       "video/raw": {
-        source: "iana"
+        source: "iana",
       },
       "video/rtp-enc-aescm128": {
-        source: "iana"
+        source: "iana",
       },
       "video/rtploopback": {
-        source: "iana"
+        source: "iana",
       },
       "video/rtx": {
-        source: "iana"
+        source: "iana",
       },
       "video/scip": {
-        source: "iana"
+        source: "iana",
       },
       "video/smpte291": {
-        source: "iana"
+        source: "iana",
       },
       "video/smpte292m": {
-        source: "iana"
+        source: "iana",
       },
       "video/ulpfec": {
-        source: "iana"
+        source: "iana",
       },
       "video/vc1": {
-        source: "iana"
+        source: "iana",
       },
       "video/vc2": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.cctv": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.dece.hd": {
         source: "iana",
-        extensions: ["uvh", "uvvh"]
+        extensions: ["uvh", "uvvh"],
       },
       "video/vnd.dece.mobile": {
         source: "iana",
-        extensions: ["uvm", "uvvm"]
+        extensions: ["uvm", "uvvm"],
       },
       "video/vnd.dece.mp4": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.dece.pd": {
         source: "iana",
-        extensions: ["uvp", "uvvp"]
+        extensions: ["uvp", "uvvp"],
       },
       "video/vnd.dece.sd": {
         source: "iana",
-        extensions: ["uvs", "uvvs"]
+        extensions: ["uvs", "uvvs"],
       },
       "video/vnd.dece.video": {
         source: "iana",
-        extensions: ["uvv", "uvvv"]
+        extensions: ["uvv", "uvvv"],
       },
       "video/vnd.directv.mpeg": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.directv.mpeg-tts": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.dlna.mpeg-tts": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.dvb.file": {
         source: "iana",
-        extensions: ["dvb"]
+        extensions: ["dvb"],
       },
       "video/vnd.fvt": {
         source: "iana",
-        extensions: ["fvt"]
+        extensions: ["fvt"],
       },
       "video/vnd.hns.video": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.1dparityfec-1010": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.1dparityfec-2005": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.2dparityfec-1010": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.2dparityfec-2005": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.ttsavc": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.iptvforum.ttsmpeg2": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.motorola.video": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.motorola.videop": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.mpegurl": {
         source: "iana",
-        extensions: ["mxu", "m4u"]
+        extensions: ["mxu", "m4u"],
       },
       "video/vnd.ms-playready.media.pyv": {
         source: "iana",
-        extensions: ["pyv"]
+        extensions: ["pyv"],
       },
       "video/vnd.nokia.interleaved-multimedia": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.nokia.mp4vr": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.nokia.videovoip": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.objectvideo": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.radgamettools.bink": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.radgamettools.smacker": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.sealed.mpeg1": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.sealed.mpeg4": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.sealed.swf": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.sealedmedia.softseal.mov": {
-        source: "iana"
+        source: "iana",
       },
       "video/vnd.uvvu.mp4": {
         source: "iana",
-        extensions: ["uvu", "uvvu"]
+        extensions: ["uvu", "uvvu"],
       },
       "video/vnd.vivo": {
         source: "iana",
-        extensions: ["viv"]
+        extensions: ["viv"],
       },
       "video/vnd.youtube.yt": {
-        source: "iana"
+        source: "iana",
       },
       "video/vp8": {
-        source: "iana"
+        source: "iana",
       },
       "video/vp9": {
-        source: "iana"
+        source: "iana",
       },
       "video/webm": {
         source: "apache",
         compressible: false,
-        extensions: ["webm"]
+        extensions: ["webm"],
       },
       "video/x-f4v": {
         source: "apache",
-        extensions: ["f4v"]
+        extensions: ["f4v"],
       },
       "video/x-fli": {
         source: "apache",
-        extensions: ["fli"]
+        extensions: ["fli"],
       },
       "video/x-flv": {
         source: "apache",
         compressible: false,
-        extensions: ["flv"]
+        extensions: ["flv"],
       },
       "video/x-m4v": {
         source: "apache",
-        extensions: ["m4v"]
+        extensions: ["m4v"],
       },
       "video/x-matroska": {
         source: "apache",
         compressible: false,
-        extensions: ["mkv", "mk3d", "mks"]
+        extensions: ["mkv", "mk3d", "mks"],
       },
       "video/x-mng": {
         source: "apache",
-        extensions: ["mng"]
+        extensions: ["mng"],
       },
       "video/x-ms-asf": {
         source: "apache",
-        extensions: ["asf", "asx"]
+        extensions: ["asf", "asx"],
       },
       "video/x-ms-vob": {
         source: "apache",
-        extensions: ["vob"]
+        extensions: ["vob"],
       },
       "video/x-ms-wm": {
         source: "apache",
-        extensions: ["wm"]
+        extensions: ["wm"],
       },
       "video/x-ms-wmv": {
         source: "apache",
         compressible: false,
-        extensions: ["wmv"]
+        extensions: ["wmv"],
       },
       "video/x-ms-wmx": {
         source: "apache",
-        extensions: ["wmx"]
+        extensions: ["wmx"],
       },
       "video/x-ms-wvx": {
         source: "apache",
-        extensions: ["wvx"]
+        extensions: ["wvx"],
       },
       "video/x-msvideo": {
         source: "apache",
-        extensions: ["avi"]
+        extensions: ["avi"],
       },
       "video/x-sgi-movie": {
         source: "apache",
-        extensions: ["movie"]
+        extensions: ["movie"],
       },
       "video/x-smv": {
         source: "apache",
-        extensions: ["smv"]
+        extensions: ["smv"],
       },
       "x-conference/x-cooltalk": {
         source: "apache",
-        extensions: ["ice"]
+        extensions: ["ice"],
       },
       "x-shader/x-fragment": {
-        compressible: true
+        compressible: true,
       },
       "x-shader/x-vertex": {
-        compressible: true
-      }
+        compressible: true,
+      },
     };
-  }
+  },
 });
 
 // node_modules/mime-db/index.js
 var require_mime_db = __commonJS({
   "node_modules/mime-db/index.js"(exports2, module2) {
     module2.exports = require_db();
-  }
+  },
 });
 
 // node_modules/mime-types/index.js
@@ -12270,7 +12606,9 @@ var require_mime_types = __commonJS({
       if (!path || typeof path !== "string") {
         return false;
       }
-      var extension2 = extname("x." + path).toLowerCase().substr(1);
+      var extension2 = extname("x." + path)
+        .toLowerCase()
+        .substr(1);
       if (!extension2) {
         return false;
       }
@@ -12290,7 +12628,12 @@ var require_mime_types = __commonJS({
           if (types[extension2]) {
             var from = preference.indexOf(db[types[extension2]].source);
             var to = preference.indexOf(mime.source);
-            if (types[extension2] !== "application/octet-stream" && (from > to || from === to && types[extension2].substr(0, 12) === "application/")) {
+            if (
+              types[extension2] !== "application/octet-stream" &&
+              (from > to ||
+                (from === to &&
+                  types[extension2].substr(0, 12) === "application/"))
+            ) {
               continue;
             }
           }
@@ -12298,7 +12641,7 @@ var require_mime_types = __commonJS({
         }
       });
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/defer.js
@@ -12306,14 +12649,19 @@ var require_defer = __commonJS({
   "node_modules/asynckit/lib/defer.js"(exports2, module2) {
     module2.exports = defer;
     function defer(fn) {
-      var nextTick = typeof setImmediate == "function" ? setImmediate : typeof process == "object" && typeof process.nextTick == "function" ? process.nextTick : null;
+      var nextTick =
+        typeof setImmediate == "function"
+          ? setImmediate
+          : typeof process == "object" && typeof process.nextTick == "function"
+            ? process.nextTick
+            : null;
       if (nextTick) {
         nextTick(fn);
       } else {
         setTimeout(fn, 0);
       }
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/async.js
@@ -12323,7 +12671,7 @@ var require_async = __commonJS({
     module2.exports = async;
     function async(callback) {
       var isAsync = false;
-      defer(function() {
+      defer(function () {
         isAsync = true;
       });
       return function async_callback(err, result) {
@@ -12336,7 +12684,7 @@ var require_async = __commonJS({
         }
       };
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/abort.js
@@ -12352,7 +12700,7 @@ var require_abort = __commonJS({
         this.jobs[key]();
       }
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/iterate.js
@@ -12362,19 +12710,26 @@ var require_iterate = __commonJS({
     var abort = require_abort();
     module2.exports = iterate;
     function iterate(list, iterator, state, callback) {
-      var key = state["keyedList"] ? state["keyedList"][state.index] : state.index;
-      state.jobs[key] = runJob(iterator, key, list[key], function(error, output) {
-        if (!(key in state.jobs)) {
-          return;
-        }
-        delete state.jobs[key];
-        if (error) {
-          abort(state);
-        } else {
-          state.results[key] = output;
-        }
-        callback(error, state.results);
-      });
+      var key = state["keyedList"]
+        ? state["keyedList"][state.index]
+        : state.index;
+      state.jobs[key] = runJob(
+        iterator,
+        key,
+        list[key],
+        function (error, output) {
+          if (!(key in state.jobs)) {
+            return;
+          }
+          delete state.jobs[key];
+          if (error) {
+            abort(state);
+          } else {
+            state.results[key] = output;
+          }
+          callback(error, state.results);
+        },
+      );
     }
     function runJob(iterator, key, item, callback) {
       var aborter;
@@ -12385,7 +12740,7 @@ var require_iterate = __commonJS({
       }
       return aborter;
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/state.js
@@ -12393,21 +12748,26 @@ var require_state = __commonJS({
   "node_modules/asynckit/lib/state.js"(exports2, module2) {
     module2.exports = state;
     function state(list, sortMethod) {
-      var isNamedList = !Array.isArray(list), initState = {
-        index: 0,
-        keyedList: isNamedList || sortMethod ? Object.keys(list) : null,
-        jobs: {},
-        results: isNamedList ? {} : [],
-        size: isNamedList ? Object.keys(list).length : list.length
-      };
+      var isNamedList = !Array.isArray(list),
+        initState = {
+          index: 0,
+          keyedList: isNamedList || sortMethod ? Object.keys(list) : null,
+          jobs: {},
+          results: isNamedList ? {} : [],
+          size: isNamedList ? Object.keys(list).length : list.length,
+        };
       if (sortMethod) {
-        initState.keyedList.sort(isNamedList ? sortMethod : function(a, b) {
-          return sortMethod(list[a], list[b]);
-        });
+        initState.keyedList.sort(
+          isNamedList
+            ? sortMethod
+            : function (a, b) {
+                return sortMethod(list[a], list[b]);
+              },
+        );
       }
       return initState;
     }
-  }
+  },
 });
 
 // node_modules/asynckit/lib/terminator.js
@@ -12424,7 +12784,7 @@ var require_terminator = __commonJS({
       abort(this);
       async(callback)(null, this.results);
     }
-  }
+  },
 });
 
 // node_modules/asynckit/parallel.js
@@ -12437,7 +12797,7 @@ var require_parallel = __commonJS({
     function parallel(list, iterator, callback) {
       var state = initState(list);
       while (state.index < (state["keyedList"] || list).length) {
-        iterate(list, iterator, state, function(error, result) {
+        iterate(list, iterator, state, function (error, result) {
           if (error) {
             callback(error, result);
             return;
@@ -12451,7 +12811,7 @@ var require_parallel = __commonJS({
       }
       return terminator.bind(state, callback);
     }
-  }
+  },
 });
 
 // node_modules/asynckit/serialOrdered.js
@@ -12485,7 +12845,7 @@ var require_serialOrdered = __commonJS({
     function descending(a, b) {
       return -1 * ascending(a, b);
     }
-  }
+  },
 });
 
 // node_modules/asynckit/serial.js
@@ -12496,7 +12856,7 @@ var require_serial = __commonJS({
     function serial(list, iterator, callback) {
       return serialOrdered(list, iterator, null, callback);
     }
-  }
+  },
 });
 
 // node_modules/asynckit/index.js
@@ -12505,21 +12865,21 @@ var require_asynckit = __commonJS({
     module2.exports = {
       parallel: require_parallel(),
       serial: require_serial(),
-      serialOrdered: require_serialOrdered()
+      serialOrdered: require_serialOrdered(),
     };
-  }
+  },
 });
 
 // node_modules/form-data/lib/populate.js
 var require_populate = __commonJS({
   "node_modules/form-data/lib/populate.js"(exports2, module2) {
-    module2.exports = function(dst, src) {
-      Object.keys(src).forEach(function(prop) {
+    module2.exports = function (dst, src) {
+      Object.keys(src).forEach(function (prop) {
         dst[prop] = dst[prop] || src[prop];
       });
       return dst;
     };
-  }
+  },
 });
 
 // node_modules/form-data/lib/form_data.js
@@ -12553,7 +12913,7 @@ var require_form_data = __commonJS({
     }
     FormData3.LINE_BREAK = "\r\n";
     FormData3.DEFAULT_CONTENT_TYPE = "application/octet-stream";
-    FormData3.prototype.append = function(field, value, options) {
+    FormData3.prototype.append = function (field, value, options) {
       options = options || {};
       if (typeof options == "string") {
         options = { filename: options };
@@ -12573,7 +12933,7 @@ var require_form_data = __commonJS({
       append2(footer);
       this._trackLength(header, value, options);
     };
-    FormData3.prototype._trackLength = function(header, value, options) {
+    FormData3.prototype._trackLength = function (header, value, options) {
       var valueLength = 0;
       if (options.knownLength != null) {
         valueLength += +options.knownLength;
@@ -12583,20 +12943,30 @@ var require_form_data = __commonJS({
         valueLength = Buffer.byteLength(value);
       }
       this._valueLength += valueLength;
-      this._overheadLength += Buffer.byteLength(header) + FormData3.LINE_BREAK.length;
-      if (!value || !value.path && !(value.readable && value.hasOwnProperty("httpVersion")) && !(value instanceof Stream)) {
+      this._overheadLength +=
+        Buffer.byteLength(header) + FormData3.LINE_BREAK.length;
+      if (
+        !value ||
+        (!value.path &&
+          !(value.readable && value.hasOwnProperty("httpVersion")) &&
+          !(value instanceof Stream))
+      ) {
         return;
       }
       if (!options.knownLength) {
         this._valuesToMeasure.push(value);
       }
     };
-    FormData3.prototype._lengthRetriever = function(value, callback) {
+    FormData3.prototype._lengthRetriever = function (value, callback) {
       if (value.hasOwnProperty("fd")) {
-        if (value.end != void 0 && value.end != Infinity && value.start != void 0) {
+        if (
+          value.end != void 0 &&
+          value.end != Infinity &&
+          value.start != void 0
+        ) {
           callback(null, value.end + 1 - (value.start ? value.start : 0));
         } else {
-          fs.stat(value.path, function(err, stat) {
+          fs.stat(value.path, function (err, stat) {
             var fileSize;
             if (err) {
               callback(err);
@@ -12609,7 +12979,7 @@ var require_form_data = __commonJS({
       } else if (value.hasOwnProperty("httpVersion")) {
         callback(null, +value.headers["content-length"]);
       } else if (value.hasOwnProperty("httpModule")) {
-        value.on("response", function(response) {
+        value.on("response", function (response) {
           value.pause();
           callback(null, +response.headers["content-length"]);
         });
@@ -12618,7 +12988,7 @@ var require_form_data = __commonJS({
         callback("Unknown stream");
       }
     };
-    FormData3.prototype._multiPartHeader = function(field, value, options) {
+    FormData3.prototype._multiPartHeader = function (field, value, options) {
       if (typeof options.header == "string") {
         return options.header;
       }
@@ -12627,9 +12997,11 @@ var require_form_data = __commonJS({
       var contents = "";
       var headers = {
         // add custom disposition as third element or keep it two elements if not
-        "Content-Disposition": ["form-data", 'name="' + field + '"'].concat(contentDisposition || []),
+        "Content-Disposition": ["form-data", 'name="' + field + '"'].concat(
+          contentDisposition || [],
+        ),
         // if no content type. allow it to be empty array
-        "Content-Type": [].concat(contentType || [])
+        "Content-Type": [].concat(contentType || []),
       };
       if (typeof options.header == "object") {
         populate(headers, options.header);
@@ -12648,9 +13020,15 @@ var require_form_data = __commonJS({
           contents += prop + ": " + header.join("; ") + FormData3.LINE_BREAK;
         }
       }
-      return "--" + this.getBoundary() + FormData3.LINE_BREAK + contents + FormData3.LINE_BREAK;
+      return (
+        "--" +
+        this.getBoundary() +
+        FormData3.LINE_BREAK +
+        contents +
+        FormData3.LINE_BREAK
+      );
     };
-    FormData3.prototype._getContentDisposition = function(value, options) {
+    FormData3.prototype._getContentDisposition = function (value, options) {
       var filename, contentDisposition;
       if (typeof options.filepath === "string") {
         filename = path.normalize(options.filepath).replace(/\\/g, "/");
@@ -12664,7 +13042,7 @@ var require_form_data = __commonJS({
       }
       return contentDisposition;
     };
-    FormData3.prototype._getContentType = function(value, options) {
+    FormData3.prototype._getContentType = function (value, options) {
       var contentType = options.contentType;
       if (!contentType && value.name) {
         contentType = mime.lookup(value.name);
@@ -12672,7 +13050,11 @@ var require_form_data = __commonJS({
       if (!contentType && value.path) {
         contentType = mime.lookup(value.path);
       }
-      if (!contentType && value.readable && value.hasOwnProperty("httpVersion")) {
+      if (
+        !contentType &&
+        value.readable &&
+        value.hasOwnProperty("httpVersion")
+      ) {
         contentType = value.headers["content-type"];
       }
       if (!contentType && (options.filepath || options.filename)) {
@@ -12683,8 +13065,8 @@ var require_form_data = __commonJS({
       }
       return contentType;
     };
-    FormData3.prototype._multiPartFooter = function() {
-      return function(next) {
+    FormData3.prototype._multiPartFooter = function () {
+      return function (next) {
         var footer = FormData3.LINE_BREAK;
         var lastPart = this._streams.length === 0;
         if (lastPart) {
@@ -12693,13 +13075,13 @@ var require_form_data = __commonJS({
         next(footer);
       }.bind(this);
     };
-    FormData3.prototype._lastBoundary = function() {
+    FormData3.prototype._lastBoundary = function () {
       return "--" + this.getBoundary() + "--" + FormData3.LINE_BREAK;
     };
-    FormData3.prototype.getHeaders = function(userHeaders) {
+    FormData3.prototype.getHeaders = function (userHeaders) {
       var header;
       var formHeaders = {
-        "content-type": "multipart/form-data; boundary=" + this.getBoundary()
+        "content-type": "multipart/form-data; boundary=" + this.getBoundary(),
       };
       for (header in userHeaders) {
         if (userHeaders.hasOwnProperty(header)) {
@@ -12708,16 +13090,16 @@ var require_form_data = __commonJS({
       }
       return formHeaders;
     };
-    FormData3.prototype.setBoundary = function(boundary) {
+    FormData3.prototype.setBoundary = function (boundary) {
       this._boundary = boundary;
     };
-    FormData3.prototype.getBoundary = function() {
+    FormData3.prototype.getBoundary = function () {
       if (!this._boundary) {
         this._generateBoundary();
       }
       return this._boundary;
     };
-    FormData3.prototype.getBuffer = function() {
+    FormData3.prototype.getBuffer = function () {
       var dataBuffer = new Buffer.alloc(0);
       var boundary = this.getBoundary();
       for (var i = 0, len = this._streams.length; i < len; i++) {
@@ -12725,40 +13107,51 @@ var require_form_data = __commonJS({
           if (Buffer.isBuffer(this._streams[i])) {
             dataBuffer = Buffer.concat([dataBuffer, this._streams[i]]);
           } else {
-            dataBuffer = Buffer.concat([dataBuffer, Buffer.from(this._streams[i])]);
+            dataBuffer = Buffer.concat([
+              dataBuffer,
+              Buffer.from(this._streams[i]),
+            ]);
           }
-          if (typeof this._streams[i] !== "string" || this._streams[i].substring(2, boundary.length + 2) !== boundary) {
-            dataBuffer = Buffer.concat([dataBuffer, Buffer.from(FormData3.LINE_BREAK)]);
+          if (
+            typeof this._streams[i] !== "string" ||
+            this._streams[i].substring(2, boundary.length + 2) !== boundary
+          ) {
+            dataBuffer = Buffer.concat([
+              dataBuffer,
+              Buffer.from(FormData3.LINE_BREAK),
+            ]);
           }
         }
       }
       return Buffer.concat([dataBuffer, Buffer.from(this._lastBoundary())]);
     };
-    FormData3.prototype._generateBoundary = function() {
+    FormData3.prototype._generateBoundary = function () {
       var boundary = "--------------------------";
       for (var i = 0; i < 24; i++) {
         boundary += Math.floor(Math.random() * 10).toString(16);
       }
       this._boundary = boundary;
     };
-    FormData3.prototype.getLengthSync = function() {
+    FormData3.prototype.getLengthSync = function () {
       var knownLength = this._overheadLength + this._valueLength;
       if (this._streams.length) {
         knownLength += this._lastBoundary().length;
       }
       if (!this.hasKnownLength()) {
-        this._error(new Error("Cannot calculate proper length in synchronous way."));
+        this._error(
+          new Error("Cannot calculate proper length in synchronous way."),
+        );
       }
       return knownLength;
     };
-    FormData3.prototype.hasKnownLength = function() {
+    FormData3.prototype.hasKnownLength = function () {
       var hasKnownLength = true;
       if (this._valuesToMeasure.length) {
         hasKnownLength = false;
       }
       return hasKnownLength;
     };
-    FormData3.prototype.getLength = function(cb) {
+    FormData3.prototype.getLength = function (cb) {
       var knownLength = this._overheadLength + this._valueLength;
       if (this._streams.length) {
         knownLength += this._lastBoundary().length;
@@ -12767,27 +13160,36 @@ var require_form_data = __commonJS({
         process.nextTick(cb.bind(this, null, knownLength));
         return;
       }
-      asynckit.parallel(this._valuesToMeasure, this._lengthRetriever, function(err, values) {
-        if (err) {
-          cb(err);
-          return;
-        }
-        values.forEach(function(length) {
-          knownLength += length;
-        });
-        cb(null, knownLength);
-      });
+      asynckit.parallel(
+        this._valuesToMeasure,
+        this._lengthRetriever,
+        function (err, values) {
+          if (err) {
+            cb(err);
+            return;
+          }
+          values.forEach(function (length) {
+            knownLength += length;
+          });
+          cb(null, knownLength);
+        },
+      );
     };
-    FormData3.prototype.submit = function(params, cb) {
-      var request, options, defaults2 = { method: "post" };
+    FormData3.prototype.submit = function (params, cb) {
+      var request,
+        options,
+        defaults2 = { method: "post" };
       if (typeof params == "string") {
         params = parseUrl(params);
-        options = populate({
-          port: params.port,
-          path: params.pathname,
-          host: params.hostname,
-          protocol: params.protocol
-        }, defaults2);
+        options = populate(
+          {
+            port: params.port,
+            path: params.pathname,
+            host: params.hostname,
+            protocol: params.protocol,
+          },
+          defaults2,
+        );
       } else {
         options = populate(params, defaults2);
         if (!options.port) {
@@ -12800,40 +13202,42 @@ var require_form_data = __commonJS({
       } else {
         request = http2.request(options);
       }
-      this.getLength(function(err, length) {
-        if (err && err !== "Unknown stream") {
-          this._error(err);
-          return;
-        }
-        if (length) {
-          request.setHeader("Content-Length", length);
-        }
-        this.pipe(request);
-        if (cb) {
-          var onResponse;
-          var callback = function(error, responce) {
-            request.removeListener("error", callback);
-            request.removeListener("response", onResponse);
-            return cb.call(this, error, responce);
-          };
-          onResponse = callback.bind(this, null);
-          request.on("error", callback);
-          request.on("response", onResponse);
-        }
-      }.bind(this));
+      this.getLength(
+        function (err, length) {
+          if (err && err !== "Unknown stream") {
+            this._error(err);
+            return;
+          }
+          if (length) {
+            request.setHeader("Content-Length", length);
+          }
+          this.pipe(request);
+          if (cb) {
+            var onResponse;
+            var callback = function (error, responce) {
+              request.removeListener("error", callback);
+              request.removeListener("response", onResponse);
+              return cb.call(this, error, responce);
+            };
+            onResponse = callback.bind(this, null);
+            request.on("error", callback);
+            request.on("response", onResponse);
+          }
+        }.bind(this),
+      );
       return request;
     };
-    FormData3.prototype._error = function(err) {
+    FormData3.prototype._error = function (err) {
       if (!this.error) {
         this.error = err;
         this.pause();
         this.emit("error", err);
       }
     };
-    FormData3.prototype.toString = function() {
+    FormData3.prototype.toString = function () {
       return "[object FormData]";
     };
-  }
+  },
 });
 
 // node_modules/proxy-from-env/index.js
@@ -12847,17 +13251,26 @@ var require_proxy_from_env = __commonJS({
       http: 80,
       https: 443,
       ws: 80,
-      wss: 443
+      wss: 443,
     };
-    var stringEndsWith = String.prototype.endsWith || function(s) {
-      return s.length <= this.length && this.indexOf(s, this.length - s.length) !== -1;
-    };
+    var stringEndsWith =
+      String.prototype.endsWith ||
+      function (s) {
+        return (
+          s.length <= this.length &&
+          this.indexOf(s, this.length - s.length) !== -1
+        );
+      };
     function getProxyForUrl2(url2) {
       var parsedUrl = typeof url2 === "string" ? parseUrl(url2) : url2 || {};
       var proto2 = parsedUrl.protocol;
       var hostname = parsedUrl.host;
       var port = parsedUrl.port;
-      if (typeof hostname !== "string" || !hostname || typeof proto2 !== "string") {
+      if (
+        typeof hostname !== "string" ||
+        !hostname ||
+        typeof proto2 !== "string"
+      ) {
         return "";
       }
       proto2 = proto2.split(":", 1)[0];
@@ -12866,21 +13279,27 @@ var require_proxy_from_env = __commonJS({
       if (!shouldProxy(hostname, port)) {
         return "";
       }
-      var proxy = getEnv("npm_config_" + proto2 + "_proxy") || getEnv(proto2 + "_proxy") || getEnv("npm_config_proxy") || getEnv("all_proxy");
+      var proxy =
+        getEnv("npm_config_" + proto2 + "_proxy") ||
+        getEnv(proto2 + "_proxy") ||
+        getEnv("npm_config_proxy") ||
+        getEnv("all_proxy");
       if (proxy && proxy.indexOf("://") === -1) {
         proxy = proto2 + "://" + proxy;
       }
       return proxy;
     }
     function shouldProxy(hostname, port) {
-      var NO_PROXY = (getEnv("npm_config_no_proxy") || getEnv("no_proxy")).toLowerCase();
+      var NO_PROXY = (
+        getEnv("npm_config_no_proxy") || getEnv("no_proxy")
+      ).toLowerCase();
       if (!NO_PROXY) {
         return true;
       }
       if (NO_PROXY === "*") {
         return false;
       }
-      return NO_PROXY.split(/[,\s]/).every(function(proxy) {
+      return NO_PROXY.split(/[,\s]/).every(function (proxy) {
         if (!proxy) {
           return true;
         }
@@ -12900,30 +13319,30 @@ var require_proxy_from_env = __commonJS({
       });
     }
     function getEnv(key) {
-      return process.env[key.toLowerCase()] || process.env[key.toUpperCase()] || "";
+      return (
+        process.env[key.toLowerCase()] || process.env[key.toUpperCase()] || ""
+      );
     }
     exports2.getProxyForUrl = getProxyForUrl2;
-  }
+  },
 });
 
 // node_modules/follow-redirects/debug.js
 var require_debug = __commonJS({
   "node_modules/follow-redirects/debug.js"(exports2, module2) {
     var debug;
-    module2.exports = function() {
+    module2.exports = function () {
       if (!debug) {
         try {
           debug = require("debug")("follow-redirects");
-        } catch (error) {
-        }
+        } catch (error) {}
         if (typeof debug !== "function") {
-          debug = function() {
-          };
+          debug = function () {};
         }
       }
       debug.apply(null, arguments);
     };
-  }
+  },
 });
 
 // node_modules/follow-redirects/index.js
@@ -12953,36 +13372,36 @@ var require_follow_redirects = __commonJS({
       "protocol",
       "query",
       "search",
-      "hash"
+      "hash",
     ];
     var events = ["abort", "aborted", "connect", "error", "socket", "timeout"];
     var eventHandlers = /* @__PURE__ */ Object.create(null);
-    events.forEach(function(event) {
-      eventHandlers[event] = function(arg1, arg2, arg3) {
+    events.forEach(function (event) {
+      eventHandlers[event] = function (arg1, arg2, arg3) {
         this._redirectable.emit(event, arg1, arg2, arg3);
       };
     });
     var InvalidUrlError = createErrorType(
       "ERR_INVALID_URL",
       "Invalid URL",
-      TypeError
+      TypeError,
     );
     var RedirectionError = createErrorType(
       "ERR_FR_REDIRECTION_FAILURE",
-      "Redirected request failed"
+      "Redirected request failed",
     );
     var TooManyRedirectsError = createErrorType(
       "ERR_FR_TOO_MANY_REDIRECTS",
       "Maximum number of redirects exceeded",
-      RedirectionError
+      RedirectionError,
     );
     var MaxBodyLengthExceededError = createErrorType(
       "ERR_FR_MAX_BODY_LENGTH_EXCEEDED",
-      "Request body larger than maxBodyLength limit"
+      "Request body larger than maxBodyLength limit",
     );
     var WriteAfterEndError = createErrorType(
       "ERR_STREAM_WRITE_AFTER_END",
-      "write after end"
+      "write after end",
     );
     var destroy = Writable.prototype.destroy || noop2;
     function RedirectableRequest(options, responseCallback) {
@@ -12999,27 +13418,32 @@ var require_follow_redirects = __commonJS({
         this.on("response", responseCallback);
       }
       var self2 = this;
-      this._onNativeResponse = function(response) {
+      this._onNativeResponse = function (response) {
         try {
           self2._processResponse(response);
         } catch (cause) {
-          self2.emit("error", cause instanceof RedirectionError ? cause : new RedirectionError({ cause }));
+          self2.emit(
+            "error",
+            cause instanceof RedirectionError
+              ? cause
+              : new RedirectionError({ cause }),
+          );
         }
       };
       this._performRequest();
     }
     RedirectableRequest.prototype = Object.create(Writable.prototype);
-    RedirectableRequest.prototype.abort = function() {
+    RedirectableRequest.prototype.abort = function () {
       destroyRequest(this._currentRequest);
       this._currentRequest.abort();
       this.emit("abort");
     };
-    RedirectableRequest.prototype.destroy = function(error) {
+    RedirectableRequest.prototype.destroy = function (error) {
       destroyRequest(this._currentRequest, error);
       destroy.call(this, error);
       return this;
     };
-    RedirectableRequest.prototype.write = function(data, encoding, callback) {
+    RedirectableRequest.prototype.write = function (data, encoding, callback) {
       if (this._ending) {
         throw new WriteAfterEndError();
       }
@@ -13036,7 +13460,10 @@ var require_follow_redirects = __commonJS({
         }
         return;
       }
-      if (this._requestBodyLength + data.length <= this._options.maxBodyLength) {
+      if (
+        this._requestBodyLength + data.length <=
+        this._options.maxBodyLength
+      ) {
         this._requestBodyLength += data.length;
         this._requestBodyBuffers.push({ data, encoding });
         this._currentRequest.write(data, encoding, callback);
@@ -13045,7 +13472,7 @@ var require_follow_redirects = __commonJS({
         this.abort();
       }
     };
-    RedirectableRequest.prototype.end = function(data, encoding, callback) {
+    RedirectableRequest.prototype.end = function (data, encoding, callback) {
       if (isFunction2(data)) {
         callback = data;
         data = encoding = null;
@@ -13059,22 +13486,22 @@ var require_follow_redirects = __commonJS({
       } else {
         var self2 = this;
         var currentRequest = this._currentRequest;
-        this.write(data, encoding, function() {
+        this.write(data, encoding, function () {
           self2._ended = true;
           currentRequest.end(null, null, callback);
         });
         this._ending = true;
       }
     };
-    RedirectableRequest.prototype.setHeader = function(name, value) {
+    RedirectableRequest.prototype.setHeader = function (name, value) {
       this._options.headers[name] = value;
       this._currentRequest.setHeader(name, value);
     };
-    RedirectableRequest.prototype.removeHeader = function(name) {
+    RedirectableRequest.prototype.removeHeader = function (name) {
       delete this._options.headers[name];
       this._currentRequest.removeHeader(name);
     };
-    RedirectableRequest.prototype.setTimeout = function(msecs, callback) {
+    RedirectableRequest.prototype.setTimeout = function (msecs, callback) {
       var self2 = this;
       function destroyOnTimeout(socket) {
         socket.setTimeout(msecs);
@@ -13085,7 +13512,7 @@ var require_follow_redirects = __commonJS({
         if (self2._timeout) {
           clearTimeout(self2._timeout);
         }
-        self2._timeout = setTimeout(function() {
+        self2._timeout = setTimeout(function () {
           self2.emit("timeout");
           clearTimer();
         }, msecs);
@@ -13122,24 +13549,21 @@ var require_follow_redirects = __commonJS({
       this.on("close", clearTimer);
       return this;
     };
-    [
-      "flushHeaders",
-      "getHeader",
-      "setNoDelay",
-      "setSocketKeepAlive"
-    ].forEach(function(method) {
-      RedirectableRequest.prototype[method] = function(a, b) {
-        return this._currentRequest[method](a, b);
-      };
-    });
-    ["aborted", "connection", "socket"].forEach(function(property) {
+    ["flushHeaders", "getHeader", "setNoDelay", "setSocketKeepAlive"].forEach(
+      function (method) {
+        RedirectableRequest.prototype[method] = function (a, b) {
+          return this._currentRequest[method](a, b);
+        };
+      },
+    );
+    ["aborted", "connection", "socket"].forEach(function (property) {
       Object.defineProperty(RedirectableRequest.prototype, property, {
-        get: function() {
+        get: function () {
           return this._currentRequest[property];
-        }
+        },
       });
     });
-    RedirectableRequest.prototype._sanitizeOptions = function(options) {
+    RedirectableRequest.prototype._sanitizeOptions = function (options) {
       if (!options.headers) {
         options.headers = {};
       }
@@ -13159,7 +13583,7 @@ var require_follow_redirects = __commonJS({
         }
       }
     };
-    RedirectableRequest.prototype._performRequest = function() {
+    RedirectableRequest.prototype._performRequest = function () {
       var protocol = this._options.protocol;
       var nativeProtocol = this._options.nativeProtocols[protocol];
       if (!nativeProtocol) {
@@ -13169,16 +13593,19 @@ var require_follow_redirects = __commonJS({
         var scheme = protocol.slice(0, -1);
         this._options.agent = this._options.agents[scheme];
       }
-      var request = this._currentRequest = nativeProtocol.request(this._options, this._onNativeResponse);
+      var request = (this._currentRequest = nativeProtocol.request(
+        this._options,
+        this._onNativeResponse,
+      ));
       request._redirectable = this;
       for (var event of events) {
         request.on(event, eventHandlers[event]);
       }
-      this._currentUrl = /^\//.test(this._options.path) ? url2.format(this._options) : (
-        // When making a request to a proxy, […]
-        // a client MUST send the target URI in absolute-form […].
-        this._options.path
-      );
+      this._currentUrl = /^\//.test(this._options.path)
+        ? url2.format(this._options)
+        : // When making a request to a proxy, […]
+          // a client MUST send the target URI in absolute-form […].
+          this._options.path;
       if (this._isRedirect) {
         var i = 0;
         var self2 = this;
@@ -13199,17 +13626,22 @@ var require_follow_redirects = __commonJS({
         })();
       }
     };
-    RedirectableRequest.prototype._processResponse = function(response) {
+    RedirectableRequest.prototype._processResponse = function (response) {
       var statusCode = response.statusCode;
       if (this._options.trackRedirects) {
         this._redirects.push({
           url: this._currentUrl,
           headers: response.headers,
-          statusCode
+          statusCode,
         });
       }
       var location = response.headers.location;
-      if (!location || this._options.followRedirects === false || statusCode < 300 || statusCode >= 400) {
+      if (
+        !location ||
+        this._options.followRedirects === false ||
+        statusCode < 300 ||
+        statusCode >= 400
+      ) {
         response.responseUrl = this._currentUrl;
         response.redirects = this._redirects;
         this.emit("response", response);
@@ -13224,41 +13656,60 @@ var require_follow_redirects = __commonJS({
       var requestHeaders;
       var beforeRedirect = this._options.beforeRedirect;
       if (beforeRedirect) {
-        requestHeaders = Object.assign({
-          // The Host header was set by nativeProtocol.request
-          Host: response.req.getHeader("host")
-        }, this._options.headers);
+        requestHeaders = Object.assign(
+          {
+            // The Host header was set by nativeProtocol.request
+            Host: response.req.getHeader("host"),
+          },
+          this._options.headers,
+        );
       }
       var method = this._options.method;
-      if ((statusCode === 301 || statusCode === 302) && this._options.method === "POST" || // RFC7231§6.4.4: The 303 (See Other) status code indicates that
-      // the server is redirecting the user agent to a different resource […]
-      // A user agent can perform a retrieval request targeting that URI
-      // (a GET or HEAD request if using HTTP) […]
-      statusCode === 303 && !/^(?:GET|HEAD)$/.test(this._options.method)) {
+      if (
+        ((statusCode === 301 || statusCode === 302) &&
+          this._options.method === "POST") || // RFC7231§6.4.4: The 303 (See Other) status code indicates that
+        // the server is redirecting the user agent to a different resource […]
+        // A user agent can perform a retrieval request targeting that URI
+        // (a GET or HEAD request if using HTTP) […]
+        (statusCode === 303 && !/^(?:GET|HEAD)$/.test(this._options.method))
+      ) {
         this._options.method = "GET";
         this._requestBodyBuffers = [];
         removeMatchingHeaders(/^content-/i, this._options.headers);
       }
-      var currentHostHeader = removeMatchingHeaders(/^host$/i, this._options.headers);
+      var currentHostHeader = removeMatchingHeaders(
+        /^host$/i,
+        this._options.headers,
+      );
       var currentUrlParts = parseUrl(this._currentUrl);
       var currentHost = currentHostHeader || currentUrlParts.host;
-      var currentUrl = /^\w+:/.test(location) ? this._currentUrl : url2.format(Object.assign(currentUrlParts, { host: currentHost }));
+      var currentUrl = /^\w+:/.test(location)
+        ? this._currentUrl
+        : url2.format(Object.assign(currentUrlParts, { host: currentHost }));
       var redirectUrl = resolveUrl(location, currentUrl);
       debug("redirecting to", redirectUrl.href);
       this._isRedirect = true;
       spreadUrlObject(redirectUrl, this._options);
-      if (redirectUrl.protocol !== currentUrlParts.protocol && redirectUrl.protocol !== "https:" || redirectUrl.host !== currentHost && !isSubdomain(redirectUrl.host, currentHost)) {
-        removeMatchingHeaders(/^(?:(?:proxy-)?authorization|cookie)$/i, this._options.headers);
+      if (
+        (redirectUrl.protocol !== currentUrlParts.protocol &&
+          redirectUrl.protocol !== "https:") ||
+        (redirectUrl.host !== currentHost &&
+          !isSubdomain(redirectUrl.host, currentHost))
+      ) {
+        removeMatchingHeaders(
+          /^(?:(?:proxy-)?authorization|cookie)$/i,
+          this._options.headers,
+        );
       }
       if (isFunction2(beforeRedirect)) {
         var responseDetails = {
           headers: response.headers,
-          statusCode
+          statusCode,
         };
         var requestDetails = {
           url: currentUrl,
           method,
-          headers: requestHeaders
+          headers: requestHeaders,
         };
         beforeRedirect(this._options, responseDetails, requestDetails);
         this._sanitizeOptions(this._options);
@@ -13268,13 +13719,14 @@ var require_follow_redirects = __commonJS({
     function wrap(protocols) {
       var exports3 = {
         maxRedirects: 21,
-        maxBodyLength: 10 * 1024 * 1024
+        maxBodyLength: 10 * 1024 * 1024,
       };
       var nativeProtocols = {};
-      Object.keys(protocols).forEach(function(scheme) {
+      Object.keys(protocols).forEach(function (scheme) {
         var protocol = scheme + ":";
-        var nativeProtocol = nativeProtocols[protocol] = protocols[scheme];
-        var wrappedProtocol = exports3[scheme] = Object.create(nativeProtocol);
+        var nativeProtocol = (nativeProtocols[protocol] = protocols[scheme]);
+        var wrappedProtocol = (exports3[scheme] =
+          Object.create(nativeProtocol));
         function request(input, options, callback) {
           if (isURL(input)) {
             input = spreadUrlObject(input);
@@ -13289,10 +13741,14 @@ var require_follow_redirects = __commonJS({
             callback = options;
             options = null;
           }
-          options = Object.assign({
-            maxRedirects: exports3.maxRedirects,
-            maxBodyLength: exports3.maxBodyLength
-          }, input, options);
+          options = Object.assign(
+            {
+              maxRedirects: exports3.maxRedirects,
+              maxBodyLength: exports3.maxBodyLength,
+            },
+            input,
+            options,
+          );
           options.nativeProtocols = nativeProtocols;
           if (!isString2(options.host) && !isString2(options.hostname)) {
             options.hostname = "::1";
@@ -13302,19 +13758,32 @@ var require_follow_redirects = __commonJS({
           return new RedirectableRequest(options, callback);
         }
         function get(input, options, callback) {
-          var wrappedRequest = wrappedProtocol.request(input, options, callback);
+          var wrappedRequest = wrappedProtocol.request(
+            input,
+            options,
+            callback,
+          );
           wrappedRequest.end();
           return wrappedRequest;
         }
         Object.defineProperties(wrappedProtocol, {
-          request: { value: request, configurable: true, enumerable: true, writable: true },
-          get: { value: get, configurable: true, enumerable: true, writable: true }
+          request: {
+            value: request,
+            configurable: true,
+            enumerable: true,
+            writable: true,
+          },
+          get: {
+            value: get,
+            configurable: true,
+            enumerable: true,
+            writable: true,
+          },
         });
       });
       return exports3;
     }
-    function noop2() {
-    }
+    function noop2() {}
     function parseUrl(input) {
       var parsed;
       if (useNativeURL) {
@@ -13328,13 +13797,21 @@ var require_follow_redirects = __commonJS({
       return parsed;
     }
     function resolveUrl(relative, base) {
-      return useNativeURL ? new URL2(relative, base) : parseUrl(url2.resolve(base, relative));
+      return useNativeURL
+        ? new URL2(relative, base)
+        : parseUrl(url2.resolve(base, relative));
     }
     function validateUrl(input) {
-      if (/^\[/.test(input.hostname) && !/^\[[:0-9a-f]+\]$/i.test(input.hostname)) {
+      if (
+        /^\[/.test(input.hostname) &&
+        !/^\[[:0-9a-f]+\]$/i.test(input.hostname)
+      ) {
         throw new InvalidUrlError({ input: input.href || input });
       }
-      if (/^\[/.test(input.host) && !/^\[[:0-9a-f]+\](:\d+)?$/i.test(input.host)) {
+      if (
+        /^\[/.test(input.host) &&
+        !/^\[[:0-9a-f]+\](:\d+)?$/i.test(input.host)
+      ) {
         throw new InvalidUrlError({ input: input.href || input });
       }
       return input;
@@ -13350,7 +13827,9 @@ var require_follow_redirects = __commonJS({
       if (spread3.port !== "") {
         spread3.port = Number(spread3.port);
       }
-      spread3.path = spread3.search ? spread3.pathname + spread3.search : spread3.pathname;
+      spread3.path = spread3.search
+        ? spread3.pathname + spread3.search
+        : spread3.pathname;
       return spread3;
     }
     function removeMatchingHeaders(regex, headers) {
@@ -13361,25 +13840,29 @@ var require_follow_redirects = __commonJS({
           delete headers[header];
         }
       }
-      return lastValue === null || typeof lastValue === "undefined" ? void 0 : String(lastValue).trim();
+      return lastValue === null || typeof lastValue === "undefined"
+        ? void 0
+        : String(lastValue).trim();
     }
     function createErrorType(code, message, baseClass) {
       function CustomError(properties) {
         Error.captureStackTrace(this, this.constructor);
         Object.assign(this, properties || {});
         this.code = code;
-        this.message = this.cause ? message + ": " + this.cause.message : message;
+        this.message = this.cause
+          ? message + ": " + this.cause.message
+          : message;
       }
       CustomError.prototype = new (baseClass || Error)();
       Object.defineProperties(CustomError.prototype, {
         constructor: {
           value: CustomError,
-          enumerable: false
+          enumerable: false,
         },
         name: {
           value: "Error [" + code + "]",
-          enumerable: false
-        }
+          enumerable: false,
+        },
       });
       return CustomError;
     }
@@ -13409,7 +13892,7 @@ var require_follow_redirects = __commonJS({
     }
     module2.exports = wrap({ http: http2, https: https2 });
     module2.exports.wrap = wrap;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/error.js
@@ -13428,8 +13911,7 @@ var require_error2 = __commonJS({
       let numberLen = (Math.log10(line + 1) | 0) + 1;
       for (let i = line - 1; i <= line + 1; i++) {
         let l = lines[i - 1];
-        if (!l)
-          continue;
+        if (!l) continue;
         codeblock += i.toString().padEnd(numberLen, " ");
         codeblock += ":  ";
         codeblock += l;
@@ -13448,16 +13930,19 @@ var require_error2 = __commonJS({
       constructor(message, options) {
         const [line, column] = getLineColFromPtr(options.toml, options.ptr);
         const codeblock = makeCodeBlock(options.toml, line, column);
-        super(`Invalid TOML document: ${message}
+        super(
+          `Invalid TOML document: ${message}
 
-${codeblock}`, options);
+${codeblock}`,
+          options,
+        );
         this.line = line;
         this.column = column;
         this.codeblock = codeblock;
       }
     };
     exports2.TomlError = TomlError;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/date.js
@@ -13466,7 +13951,8 @@ var require_date = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.TomlDate = void 0;
-    var DATE_TIME_RE = /^(\d{4}-\d{2}-\d{2})?[T ]?(?:(\d{2}):\d{2}:\d{2}(?:\.\d+)?)?(Z|[-+]\d{2}:\d{2})?$/i;
+    var DATE_TIME_RE =
+      /^(\d{4}-\d{2}-\d{2})?[T ]?(?:(\d{2}):\d{2}:\d{2}(?:\.\d+)?)?(Z|[-+]\d{2}:\d{2})?$/i;
     var TomlDate = class _TomlDate extends Date {
       #hasDate = false;
       #hasTime = false;
@@ -13488,8 +13974,7 @@ var require_date = __commonJS({
             } else {
               offset = match[3] || null;
               date = date.toUpperCase();
-              if (!offset && hasTime)
-                date += "Z";
+              if (!offset && hasTime) date += "Z";
             }
           } else {
             date = "";
@@ -13519,14 +14004,10 @@ var require_date = __commonJS({
       }
       toISOString() {
         let iso = super.toISOString();
-        if (this.isDate())
-          return iso.slice(0, 10);
-        if (this.isTime())
-          return iso.slice(11, 23);
-        if (this.#offset === null)
-          return iso.slice(0, -1);
-        if (this.#offset === "Z")
-          return iso;
+        if (this.isDate()) return iso.slice(0, 10);
+        if (this.isTime()) return iso.slice(11, 23);
+        if (this.#offset === null) return iso.slice(0, -1);
+        if (this.#offset === "Z") return iso;
         let offset = +this.#offset.slice(1, 3) * 60 + +this.#offset.slice(4, 6);
         offset = this.#offset[0] === "-" ? offset : -offset;
         let offsetDate = new Date(this.getTime() - offset * 6e4);
@@ -13556,7 +14037,7 @@ var require_date = __commonJS({
       }
     };
     exports2.TomlDate = TomlDate;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/util.js
@@ -13564,27 +14045,32 @@ var require_util = __commonJS({
   "node_modules/smol-toml/dist/util.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.getStringEnd = exports2.skipUntil = exports2.skipVoid = exports2.skipComment = exports2.indexOfNewline = void 0;
+    exports2.getStringEnd =
+      exports2.skipUntil =
+      exports2.skipVoid =
+      exports2.skipComment =
+      exports2.indexOfNewline =
+        void 0;
     var error_js_1 = require_error2();
     function indexOfNewline(str, start = 0, end = str.length) {
       let idx = str.indexOf("\n", start);
-      if (str[idx - 1] === "\r")
-        idx--;
+      if (str[idx - 1] === "\r") idx--;
       return idx <= end ? idx : -1;
     }
     exports2.indexOfNewline = indexOfNewline;
     function skipComment(str, ptr) {
       for (let i = ptr; i < str.length; i++) {
         let c = str[i];
-        if (c === "\n")
-          return i;
-        if (c === "\r" && str[i + 1] === "\n")
-          return i + 1;
-        if (c < " " && c !== "	" || c === "\x7F") {
-          throw new error_js_1.TomlError("control characters are not allowed in comments", {
-            toml: str,
-            ptr
-          });
+        if (c === "\n") return i;
+        if (c === "\r" && str[i + 1] === "\n") return i + 1;
+        if ((c < " " && c !== "	") || c === "\x7F") {
+          throw new error_js_1.TomlError(
+            "control characters are not allowed in comments",
+            {
+              toml: str,
+              ptr,
+            },
+          );
         }
       }
       return str.length;
@@ -13592,9 +14078,15 @@ var require_util = __commonJS({
     exports2.skipComment = skipComment;
     function skipVoid(str, ptr, banNewLines, banComments) {
       let c;
-      while ((c = str[ptr]) === " " || c === "	" || !banNewLines && (c === "\n" || c === "\r" && str[ptr + 1] === "\n"))
+      while (
+        (c = str[ptr]) === " " ||
+        c === "	" ||
+        (!banNewLines && (c === "\n" || (c === "\r" && str[ptr + 1] === "\n")))
+      )
         ptr++;
-      return banComments || c !== "#" ? ptr : skipVoid(str, skipComment(str, ptr), banNewLines);
+      return banComments || c !== "#"
+        ? ptr
+        : skipVoid(str, skipComment(str, ptr), banNewLines);
     }
     exports2.skipVoid = skipVoid;
     function skipUntil(str, ptr, sep, end, banNewLines = false) {
@@ -13610,36 +14102,44 @@ var require_util = __commonJS({
           return i + 1;
         } else if (c === end) {
           return i;
-        } else if (banNewLines && (c === "\n" || c === "\r" && str[i + 1] === "\n")) {
+        } else if (
+          banNewLines &&
+          (c === "\n" || (c === "\r" && str[i + 1] === "\n"))
+        ) {
           return i;
         }
       }
       throw new error_js_1.TomlError("cannot find end of structure", {
         toml: str,
-        ptr
+        ptr,
       });
     }
     exports2.skipUntil = skipUntil;
     function getStringEnd(str, seek) {
       let first = str[seek];
-      let target = first === str[seek + 1] && str[seek + 1] === str[seek + 2] ? str.slice(seek, seek + 3) : first;
+      let target =
+        first === str[seek + 1] && str[seek + 1] === str[seek + 2]
+          ? str.slice(seek, seek + 3)
+          : first;
       seek += target.length - 1;
-      do
-        seek = str.indexOf(target, ++seek);
-      while (seek > -1 && first !== "'" && str[seek - 1] === "\\" && str[seek - 2] !== "\\");
+      do seek = str.indexOf(target, ++seek);
+      while (
+        seek > -1 &&
+        first !== "'" &&
+        str[seek - 1] === "\\" &&
+        str[seek - 2] !== "\\"
+      );
       if (seek > -1) {
         seek += target.length;
         if (target.length > 1) {
-          if (str[seek] === first)
-            seek++;
-          if (str[seek] === first)
-            seek++;
+          if (str[seek] === first) seek++;
+          if (str[seek] === first) seek++;
         }
       }
       return seek;
     }
     exports2.getStringEnd = getStringEnd;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/primitive.js
@@ -13651,7 +14151,8 @@ var require_primitive = __commonJS({
     var util_js_1 = require_util();
     var date_js_1 = require_date();
     var error_js_1 = require_error2();
-    var INT_REGEX = /^((0x[0-9a-fA-F](_?[0-9a-fA-F])*)|(([+-]|0[ob])?\d(_?\d)*))$/;
+    var INT_REGEX =
+      /^((0x[0-9a-fA-F](_?[0-9a-fA-F])*)|(([+-]|0[ob])?\d(_?\d)*))$/;
     var FLOAT_REGEX = /^[+-]?\d(_?\d)*(\.\d(_?\d)*)?([eE][+-]?\d(_?\d)*)?$/;
     var LEADING_ZERO = /^[+-]?0[0-9_]/;
     var ESCAPE_REGEX = /^[0-9a-f]{4,8}$/i;
@@ -13662,17 +14163,15 @@ var require_primitive = __commonJS({
       f: "\f",
       r: "\r",
       '"': '"',
-      "\\": "\\"
+      "\\": "\\",
     };
     function parseString(str, ptr = 0, endPtr = str.length) {
       let isLiteral = str[ptr] === "'";
       let isMultiline = str[ptr++] === str[ptr] && str[ptr] === str[ptr + 1];
       if (isMultiline) {
         endPtr -= 2;
-        if (str[ptr += 2] === "\r")
-          ptr++;
-        if (str[ptr] === "\n")
-          ptr++;
+        if (str[(ptr += 2)] === "\r") ptr++;
+        if (str[ptr] === "\n") ptr++;
       }
       let tmp = 0;
       let isEscape;
@@ -13680,27 +14179,33 @@ var require_primitive = __commonJS({
       let sliceStart = ptr;
       while (ptr < endPtr - 1) {
         let c = str[ptr++];
-        if (c === "\n" || c === "\r" && str[ptr] === "\n") {
+        if (c === "\n" || (c === "\r" && str[ptr] === "\n")) {
           if (!isMultiline) {
-            throw new error_js_1.TomlError("newlines are not allowed in strings", {
-              toml: str,
-              ptr: ptr - 1
-            });
+            throw new error_js_1.TomlError(
+              "newlines are not allowed in strings",
+              {
+                toml: str,
+                ptr: ptr - 1,
+              },
+            );
           }
-        } else if (c < " " && c !== "	" || c === "\x7F") {
-          throw new error_js_1.TomlError("control characters are not allowed in strings", {
-            toml: str,
-            ptr: ptr - 1
-          });
+        } else if ((c < " " && c !== "	") || c === "\x7F") {
+          throw new error_js_1.TomlError(
+            "control characters are not allowed in strings",
+            {
+              toml: str,
+              ptr: ptr - 1,
+            },
+          );
         }
         if (isEscape) {
           isEscape = false;
           if (c === "u" || c === "U") {
-            let code = str.slice(ptr, ptr += c === "u" ? 4 : 8);
+            let code = str.slice(ptr, (ptr += c === "u" ? 4 : 8));
             if (!ESCAPE_REGEX.test(code)) {
               throw new error_js_1.TomlError("invalid unicode escape", {
                 toml: str,
-                ptr: tmp
+                ptr: tmp,
               });
             }
             try {
@@ -13708,16 +14213,22 @@ var require_primitive = __commonJS({
             } catch {
               throw new error_js_1.TomlError("invalid unicode escape", {
                 toml: str,
-                ptr: tmp
+                ptr: tmp,
               });
             }
-          } else if (isMultiline && (c === "\n" || c === " " || c === "	" || c === "\r")) {
+          } else if (
+            isMultiline &&
+            (c === "\n" || c === " " || c === "	" || c === "\r")
+          ) {
             ptr = (0, util_js_1.skipVoid)(str, ptr - 1, true);
             if (str[ptr] !== "\n" && str[ptr] !== "\r") {
-              throw new error_js_1.TomlError("invalid escape: only line-ending whitespace may be escaped", {
-                toml: str,
-                ptr: tmp
-              });
+              throw new error_js_1.TomlError(
+                "invalid escape: only line-ending whitespace may be escaped",
+                {
+                  toml: str,
+                  ptr: tmp,
+                },
+              );
             }
             ptr = (0, util_js_1.skipVoid)(str, ptr);
           } else if (c in ESC_MAP) {
@@ -13725,7 +14236,7 @@ var require_primitive = __commonJS({
           } else {
             throw new error_js_1.TomlError("unrecognized escape sequence", {
               toml: str,
-              ptr: tmp
+              ptr: tmp,
             });
           }
           sliceStart = ptr;
@@ -13739,38 +14250,35 @@ var require_primitive = __commonJS({
     }
     exports2.parseString = parseString;
     function parseValue(value, toml, ptr) {
-      if (value === "true")
-        return true;
-      if (value === "false")
-        return false;
-      if (value === "-inf")
-        return -Infinity;
-      if (value === "inf" || value === "+inf")
-        return Infinity;
-      if (value === "nan" || value === "+nan" || value === "-nan")
-        return NaN;
-      if (value === "-0")
-        return 0;
+      if (value === "true") return true;
+      if (value === "false") return false;
+      if (value === "-inf") return -Infinity;
+      if (value === "inf" || value === "+inf") return Infinity;
+      if (value === "nan" || value === "+nan" || value === "-nan") return NaN;
+      if (value === "-0") return 0;
       let isInt;
       if ((isInt = INT_REGEX.test(value)) || FLOAT_REGEX.test(value)) {
         if (LEADING_ZERO.test(value)) {
           throw new error_js_1.TomlError("leading zeroes are not allowed", {
             toml,
-            ptr
+            ptr,
           });
         }
         let numeric = +value.replace(/_/g, "");
         if (isNaN(numeric)) {
           throw new error_js_1.TomlError("invalid number", {
             toml,
-            ptr
+            ptr,
           });
         }
         if (isInt && !Number.isSafeInteger(numeric)) {
-          throw new error_js_1.TomlError("integer value cannot be represented losslessly", {
-            toml,
-            ptr
-          });
+          throw new error_js_1.TomlError(
+            "integer value cannot be represented losslessly",
+            {
+              toml,
+              ptr,
+            },
+          );
         }
         return numeric;
       }
@@ -13778,13 +14286,13 @@ var require_primitive = __commonJS({
       if (!date.isValid()) {
         throw new error_js_1.TomlError("invalid value", {
           toml,
-          ptr
+          ptr,
         });
       }
       return date;
     }
     exports2.parseValue = parseValue;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/extract.js
@@ -13808,10 +14316,13 @@ var require_extract = __commonJS({
       if (!allowNewLines) {
         let newlineIdx = value.indexOf("\n", trimmed.length);
         if (newlineIdx > -1) {
-          throw new error_js_1.TomlError("newlines are not allowed in inline tables", {
-            toml: str,
-            ptr: startPtr + newlineIdx
-          });
+          throw new error_js_1.TomlError(
+            "newlines are not allowed in inline tables",
+            {
+              toml: str,
+              ptr: startPtr + newlineIdx,
+            },
+          );
         }
       }
       return [trimmed, commentIdx];
@@ -13819,15 +14330,21 @@ var require_extract = __commonJS({
     function extractValue(str, ptr, end) {
       let c = str[ptr];
       if (c === "[" || c === "{") {
-        let [value, endPtr2] = c === "[" ? (0, struct_js_1.parseArray)(str, ptr) : (0, struct_js_1.parseInlineTable)(str, ptr);
+        let [value, endPtr2] =
+          c === "["
+            ? (0, struct_js_1.parseArray)(str, ptr)
+            : (0, struct_js_1.parseInlineTable)(str, ptr);
         let newPtr = (0, util_js_1.skipUntil)(str, endPtr2, ",", end);
         if (end === "}") {
           let nextNewLine = (0, util_js_1.indexOfNewline)(str, endPtr2, newPtr);
           if (nextNewLine > -1) {
-            throw new error_js_1.TomlError("newlines are not allowed in inline tables", {
-              toml: str,
-              ptr: nextNewLine
-            });
+            throw new error_js_1.TomlError(
+              "newlines are not allowed in inline tables",
+              {
+                toml: str,
+                ptr: nextNewLine,
+              },
+            );
           }
         }
         return [value, newPtr];
@@ -13838,10 +14355,16 @@ var require_extract = __commonJS({
         let parsed = (0, primitive_js_1.parseString)(str, ptr, endPtr);
         if (end) {
           endPtr = (0, util_js_1.skipVoid)(str, endPtr, end !== "]");
-          if (str[endPtr] && str[endPtr] !== "," && str[endPtr] !== end && str[endPtr] !== "\n" && str[endPtr] !== "\r") {
+          if (
+            str[endPtr] &&
+            str[endPtr] !== "," &&
+            str[endPtr] !== end &&
+            str[endPtr] !== "\n" &&
+            str[endPtr] !== "\r"
+          ) {
             throw new error_js_1.TomlError("unexpected character encountered", {
               toml: str,
-              ptr: endPtr
+              ptr: endPtr,
             });
           }
           endPtr += +(str[endPtr] === ",");
@@ -13849,24 +14372,29 @@ var require_extract = __commonJS({
         return [parsed, endPtr];
       }
       endPtr = (0, util_js_1.skipUntil)(str, ptr, ",", end);
-      let slice = sliceAndTrimEndOf(str, ptr, endPtr - +(str[endPtr - 1] === ","), end === "]");
+      let slice = sliceAndTrimEndOf(
+        str,
+        ptr,
+        endPtr - +(str[endPtr - 1] === ","),
+        end === "]",
+      );
       if (!slice[0]) {
-        throw new error_js_1.TomlError("incomplete key-value declaration: no value specified", {
-          toml: str,
-          ptr
-        });
+        throw new error_js_1.TomlError(
+          "incomplete key-value declaration: no value specified",
+          {
+            toml: str,
+            ptr,
+          },
+        );
       }
       if (end && slice[1] > -1) {
         endPtr = (0, util_js_1.skipVoid)(str, ptr + slice[1]);
         endPtr += +(str[endPtr] === ",");
       }
-      return [
-        (0, primitive_js_1.parseValue)(slice[0], str, ptr),
-        endPtr
-      ];
+      return [(0, primitive_js_1.parseValue)(slice[0], str, ptr), endPtr];
     }
     exports2.extractValue = extractValue;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/struct.js
@@ -13874,7 +14402,10 @@ var require_struct = __commonJS({
   "node_modules/smol-toml/dist/struct.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.parseArray = exports2.parseInlineTable = exports2.parseKey = void 0;
+    exports2.parseArray =
+      exports2.parseInlineTable =
+      exports2.parseKey =
+        void 0;
     var primitive_js_1 = require_primitive();
     var extract_js_1 = require_extract();
     var util_js_1 = require_util();
@@ -13885,50 +14416,65 @@ var require_struct = __commonJS({
       let parsed = [];
       let endPtr = str.indexOf(end, ptr);
       if (endPtr < 0) {
-        throw new error_js_1.TomlError("incomplete key-value: cannot find end of key", {
-          toml: str,
-          ptr
-        });
+        throw new error_js_1.TomlError(
+          "incomplete key-value: cannot find end of key",
+          {
+            toml: str,
+            ptr,
+          },
+        );
       }
       do {
-        let c = str[ptr = ++dot];
+        let c = str[(ptr = ++dot)];
         if (c !== " " && c !== "	") {
           if (c === '"' || c === "'") {
             if (c === str[ptr + 1] && c === str[ptr + 2]) {
-              throw new error_js_1.TomlError("multiline strings are not allowed in keys", {
-                toml: str,
-                ptr
-              });
+              throw new error_js_1.TomlError(
+                "multiline strings are not allowed in keys",
+                {
+                  toml: str,
+                  ptr,
+                },
+              );
             }
             let eos = (0, util_js_1.getStringEnd)(str, ptr);
             if (eos < 0) {
               throw new error_js_1.TomlError("unfinished string encountered", {
                 toml: str,
-                ptr
+                ptr,
               });
             }
             dot = str.indexOf(".", eos);
             let strEnd = str.slice(eos, dot < 0 || dot > endPtr ? endPtr : dot);
             let newLine = (0, util_js_1.indexOfNewline)(strEnd);
             if (newLine > -1) {
-              throw new error_js_1.TomlError("newlines are not allowed in keys", {
-                toml: str,
-                ptr: ptr + dot + newLine
-              });
+              throw new error_js_1.TomlError(
+                "newlines are not allowed in keys",
+                {
+                  toml: str,
+                  ptr: ptr + dot + newLine,
+                },
+              );
             }
             if (strEnd.trimStart()) {
-              throw new error_js_1.TomlError("found extra tokens after the string part", {
-                toml: str,
-                ptr: eos
-              });
+              throw new error_js_1.TomlError(
+                "found extra tokens after the string part",
+                {
+                  toml: str,
+                  ptr: eos,
+                },
+              );
             }
             if (endPtr < eos) {
               endPtr = str.indexOf(end, eos);
               if (endPtr < 0) {
-                throw new error_js_1.TomlError("incomplete key-value: cannot find end of key", {
-                  toml: str,
-                  ptr
-                });
+                throw new error_js_1.TomlError(
+                  "incomplete key-value: cannot find end of key",
+                  {
+                    toml: str,
+                    ptr,
+                  },
+                );
               }
             }
             parsed.push((0, primitive_js_1.parseString)(str, ptr, eos));
@@ -13936,10 +14482,13 @@ var require_struct = __commonJS({
             dot = str.indexOf(".", ptr);
             let part = str.slice(ptr, dot < 0 || dot > endPtr ? endPtr : dot);
             if (!KEY_PART_RE.test(part)) {
-              throw new error_js_1.TomlError("only letter, numbers, dashes and underscores are allowed in keys", {
-                toml: str,
-                ptr
-              });
+              throw new error_js_1.TomlError(
+                "only letter, numbers, dashes and underscores are allowed in keys",
+                {
+                  toml: str,
+                  ptr,
+                },
+              );
             }
             parsed.push(part.trimEnd());
           }
@@ -13956,19 +14505,25 @@ var require_struct = __commonJS({
       ptr++;
       while ((c = str[ptr++]) !== "}" && c) {
         if (c === "\n") {
-          throw new error_js_1.TomlError("newlines are not allowed in inline tables", {
-            toml: str,
-            ptr: ptr - 1
-          });
+          throw new error_js_1.TomlError(
+            "newlines are not allowed in inline tables",
+            {
+              toml: str,
+              ptr: ptr - 1,
+            },
+          );
         } else if (c === "#") {
-          throw new error_js_1.TomlError("inline tables cannot contain comments", {
-            toml: str,
-            ptr: ptr - 1
-          });
+          throw new error_js_1.TomlError(
+            "inline tables cannot contain comments",
+            {
+              toml: str,
+              ptr: ptr - 1,
+            },
+          );
         } else if (c === ",") {
           throw new error_js_1.TomlError("expected key-value, found comma", {
             toml: str,
-            ptr: ptr - 1
+            ptr: ptr - 1,
           });
         } else if (c !== " " && c !== "	") {
           let k;
@@ -13976,26 +14531,42 @@ var require_struct = __commonJS({
           let hasOwn = false;
           let [key, keyEndPtr] = parseKey(str, ptr - 1);
           for (let i = 0; i < key.length; i++) {
-            if (i)
-              t = hasOwn ? t[k] : t[k] = {};
+            if (i) t = hasOwn ? t[k] : (t[k] = {});
             k = key[i];
-            if ((hasOwn = Object.hasOwn(t, k)) && (typeof t[k] !== "object" || seen.has(t[k]))) {
-              throw new error_js_1.TomlError("trying to redefine an already defined value", {
-                toml: str,
-                ptr
-              });
+            if (
+              (hasOwn = Object.hasOwn(t, k)) &&
+              (typeof t[k] !== "object" || seen.has(t[k]))
+            ) {
+              throw new error_js_1.TomlError(
+                "trying to redefine an already defined value",
+                {
+                  toml: str,
+                  ptr,
+                },
+              );
             }
             if (!hasOwn && k === "__proto__") {
-              Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
+              Object.defineProperty(t, k, {
+                enumerable: true,
+                configurable: true,
+                writable: true,
+              });
             }
           }
           if (hasOwn) {
-            throw new error_js_1.TomlError("trying to redefine an already defined value", {
-              toml: str,
-              ptr
-            });
+            throw new error_js_1.TomlError(
+              "trying to redefine an already defined value",
+              {
+                toml: str,
+                ptr,
+              },
+            );
           }
-          let [value, valueEndPtr] = (0, extract_js_1.extractValue)(str, keyEndPtr, "}");
+          let [value, valueEndPtr] = (0, extract_js_1.extractValue)(
+            str,
+            keyEndPtr,
+            "}",
+          );
           seen.add(value);
           t[k] = value;
           ptr = valueEndPtr;
@@ -14003,15 +14574,18 @@ var require_struct = __commonJS({
         }
       }
       if (comma) {
-        throw new error_js_1.TomlError("trailing commas are not allowed in inline tables", {
-          toml: str,
-          ptr: comma
-        });
+        throw new error_js_1.TomlError(
+          "trailing commas are not allowed in inline tables",
+          {
+            toml: str,
+            ptr: comma,
+          },
+        );
       }
       if (!c) {
         throw new error_js_1.TomlError("unfinished table encountered", {
           toml: str,
-          ptr
+          ptr,
         });
       }
       return [res, ptr];
@@ -14025,10 +14599,9 @@ var require_struct = __commonJS({
         if (c === ",") {
           throw new error_js_1.TomlError("expected value, found comma", {
             toml: str,
-            ptr: ptr - 1
+            ptr: ptr - 1,
           });
-        } else if (c === "#")
-          ptr = (0, util_js_1.skipComment)(str, ptr);
+        } else if (c === "#") ptr = (0, util_js_1.skipComment)(str, ptr);
         else if (c !== " " && c !== "	" && c !== "\n" && c !== "\r") {
           let e = (0, extract_js_1.extractValue)(str, ptr - 1, "]");
           res.push(e[0]);
@@ -14038,13 +14611,13 @@ var require_struct = __commonJS({
       if (!c) {
         throw new error_js_1.TomlError("unfinished array encountered", {
           toml: str,
-          ptr
+          ptr,
         });
       }
       return [res, ptr];
     }
     exports2.parseArray = parseArray;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/parse.js
@@ -14065,7 +14638,7 @@ var require_parse = __commonJS({
       let state;
       for (let i = 0; i < key.length; i++) {
         if (i) {
-          t = hasOwn ? t[k] : t[k] = {};
+          t = hasOwn ? t[k] : (t[k] = {});
           m = (state = m[k]).c;
           if (type === 0 && (state.t === 1 || state.t === 2)) {
             return null;
@@ -14082,14 +14655,22 @@ var require_parse = __commonJS({
         }
         if (!hasOwn) {
           if (k === "__proto__") {
-            Object.defineProperty(t, k, { enumerable: true, configurable: true, writable: true });
-            Object.defineProperty(m, k, { enumerable: true, configurable: true, writable: true });
+            Object.defineProperty(t, k, {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+            });
+            Object.defineProperty(m, k, {
+              enumerable: true,
+              configurable: true,
+              writable: true,
+            });
           }
           m[k] = {
             t: i < key.length - 1 && type === 2 ? 3 : type,
             d: false,
             i: 0,
-            c: {}
+            c: {},
           };
         }
       }
@@ -14102,7 +14683,7 @@ var require_parse = __commonJS({
           state.d = true;
           t[k] = [];
         }
-        t[k].push(t = {});
+        t[k].push((t = {}));
         state.c[state.i++] = state = { t: 1, d: false, i: 0, c: {} };
       }
       if (state.d) {
@@ -14110,7 +14691,7 @@ var require_parse = __commonJS({
       }
       state.d = true;
       if (type === 1) {
-        t = hasOwn ? t[k] : t[k] = {};
+        t = hasOwn ? t[k] : (t[k] = {});
       } else if (type === 0 && hasOwn) {
         return null;
       }
@@ -14124,13 +14705,16 @@ var require_parse = __commonJS({
       for (let ptr = (0, util_js_1.skipVoid)(toml, 0); ptr < toml.length; ) {
         if (toml[ptr] === "[") {
           let isTableArray = toml[++ptr] === "[";
-          let k = (0, struct_js_1.parseKey)(toml, ptr += +isTableArray, "]");
+          let k = (0, struct_js_1.parseKey)(toml, (ptr += +isTableArray), "]");
           if (isTableArray) {
             if (toml[k[1] - 1] !== "]") {
-              throw new error_js_1.TomlError("expected end of table declaration", {
-                toml,
-                ptr: k[1] - 1
-              });
+              throw new error_js_1.TomlError(
+                "expected end of table declaration",
+                {
+                  toml,
+                  ptr: k[1] - 1,
+                },
+              );
             }
             k[1]++;
           }
@@ -14138,14 +14722,17 @@ var require_parse = __commonJS({
             k[0],
             res,
             meta,
-            isTableArray ? 2 : 1
+            isTableArray ? 2 : 1,
             /* Type.EXPLICIT */
           );
           if (!p) {
-            throw new error_js_1.TomlError("trying to redefine an already defined table or value", {
-              toml,
-              ptr
-            });
+            throw new error_js_1.TomlError(
+              "trying to redefine an already defined table or value",
+              {
+                toml,
+                ptr,
+              },
+            );
           }
           m = p[2];
           tbl = p[1];
@@ -14156,14 +14743,17 @@ var require_parse = __commonJS({
             k[0],
             tbl,
             m,
-            0
+            0,
             /* Type.DOTTED */
           );
           if (!p) {
-            throw new error_js_1.TomlError("trying to redefine an already defined table or value", {
-              toml,
-              ptr
-            });
+            throw new error_js_1.TomlError(
+              "trying to redefine an already defined table or value",
+              {
+                toml,
+                ptr,
+              },
+            );
           }
           let v = (0, extract_js_1.extractValue)(toml, k[1]);
           p[1][p[0]] = v[0];
@@ -14171,17 +14761,20 @@ var require_parse = __commonJS({
         }
         ptr = (0, util_js_1.skipVoid)(toml, ptr, true);
         if (toml[ptr] && toml[ptr] !== "\n" && toml[ptr] !== "\r") {
-          throw new error_js_1.TomlError("each key-value declaration must be followed by an end-of-line", {
-            toml,
-            ptr
-          });
+          throw new error_js_1.TomlError(
+            "each key-value declaration must be followed by an end-of-line",
+            {
+              toml,
+              ptr,
+            },
+          );
         }
         ptr = (0, util_js_1.skipVoid)(toml, ptr);
       }
       return res;
     }
     exports2.parse = parse4;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/stringify.js
@@ -14194,17 +14787,14 @@ var require_stringify = __commonJS({
     function extendedTypeOf(obj) {
       let type = typeof obj;
       if (type === "object") {
-        if (Array.isArray(obj))
-          return "array";
-        if (obj instanceof Date)
-          return "date";
+        if (Array.isArray(obj)) return "array";
+        if (obj instanceof Date) return "date";
       }
       return type;
     }
     function isArrayOfTables(obj) {
       for (let i = 0; i < obj.length; i++) {
-        if (extendedTypeOf(obj[i]) !== "object")
-          return false;
+        if (extendedTypeOf(obj[i]) !== "object") return false;
       }
       return obj.length != 0;
     }
@@ -14213,12 +14803,9 @@ var require_stringify = __commonJS({
     }
     function stringifyValue(val, type = extendedTypeOf(val)) {
       if (type === "number") {
-        if (isNaN(val))
-          return "nan";
-        if (val === Infinity)
-          return "inf";
-        if (val === -Infinity)
-          return "-inf";
+        if (isNaN(val)) return "nan";
+        if (val === Infinity) return "inf";
+        if (val === -Infinity) return "-inf";
         return val.toString();
       }
       if (type === "bigint" || type === "boolean") {
@@ -14242,13 +14829,11 @@ var require_stringify = __commonJS({
     }
     function stringifyInlineTable(obj) {
       let keys = Object.keys(obj);
-      if (keys.length === 0)
-        return "{}";
+      if (keys.length === 0) return "{}";
       let res = "{ ";
       for (let i = 0; i < keys.length; i++) {
         let k = keys[i];
-        if (i)
-          res += ", ";
+        if (i) res += ", ";
         res += BARE_KEY.test(k) ? k : formatString(k);
         res += " = ";
         res += stringifyValue(obj[k]);
@@ -14256,12 +14841,10 @@ var require_stringify = __commonJS({
       return res + " }";
     }
     function stringifyArray(array) {
-      if (array.length === 0)
-        return "[]";
+      if (array.length === 0) return "[]";
       let res = "[ ";
       for (let i = 0; i < array.length; i++) {
-        if (i)
-          res += ", ";
+        if (i) res += ", ";
         if (array[i] === null || array[i] === void 0) {
           throw new TypeError("arrays cannot contain null or undefined values");
         }
@@ -14292,7 +14875,10 @@ var require_stringify = __commonJS({
           }
           let key = BARE_KEY.test(k) ? k : formatString(k);
           if (type === "array" && isArrayOfTables(obj[k])) {
-            tables += stringifyArrayTable(obj[k], prefix ? `${prefix}.${key}` : key);
+            tables += stringifyArrayTable(
+              obj[k],
+              prefix ? `${prefix}.${key}` : key,
+            );
           } else if (type === "object") {
             let tblKey = prefix ? `${prefix}.${key}` : key;
             tables += `[${tblKey}]
@@ -14317,7 +14903,7 @@ ${tables}`.trim();
       return stringifyTable(obj);
     }
     exports2.stringify = stringify;
-  }
+  },
 });
 
 // node_modules/smol-toml/dist/index.js
@@ -14325,24 +14911,40 @@ var require_dist = __commonJS({
   "node_modules/smol-toml/dist/index.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    exports2.stringify = exports2.parse = exports2.TomlDate = exports2.TomlError = void 0;
+    exports2.stringify =
+      exports2.parse =
+      exports2.TomlDate =
+      exports2.TomlError =
+        void 0;
     var error_js_1 = require_error2();
-    Object.defineProperty(exports2, "TomlError", { enumerable: true, get: function() {
-      return error_js_1.TomlError;
-    } });
+    Object.defineProperty(exports2, "TomlError", {
+      enumerable: true,
+      get: function () {
+        return error_js_1.TomlError;
+      },
+    });
     var date_js_1 = require_date();
-    Object.defineProperty(exports2, "TomlDate", { enumerable: true, get: function() {
-      return date_js_1.TomlDate;
-    } });
+    Object.defineProperty(exports2, "TomlDate", {
+      enumerable: true,
+      get: function () {
+        return date_js_1.TomlDate;
+      },
+    });
     var parse_js_1 = require_parse();
-    Object.defineProperty(exports2, "parse", { enumerable: true, get: function() {
-      return parse_js_1.parse;
-    } });
+    Object.defineProperty(exports2, "parse", {
+      enumerable: true,
+      get: function () {
+        return parse_js_1.parse;
+      },
+    });
     var stringify_js_1 = require_stringify();
-    Object.defineProperty(exports2, "stringify", { enumerable: true, get: function() {
-      return stringify_js_1.stringify;
-    } });
-  }
+    Object.defineProperty(exports2, "stringify", {
+      enumerable: true,
+      get: function () {
+        return stringify_js_1.stringify;
+      },
+    });
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/utils.js
@@ -14364,7 +14966,7 @@ var require_utils = __commonJS({
       '"': "&quot;",
       "'": "&#x27;",
       "`": "&#x60;",
-      "=": "&#x3D;"
+      "=": "&#x3D;",
     };
     var badChars = /[&<>"'`=]/g;
     var possible = /[&<>"'`=]/;
@@ -14387,14 +14989,21 @@ var require_utils = __commonJS({
       return typeof value === "function";
     };
     if (isFunction2(/x/)) {
-      exports2.isFunction = isFunction2 = function(value) {
-        return typeof value === "function" && toString3.call(value) === "[object Function]";
+      exports2.isFunction = isFunction2 = function (value) {
+        return (
+          typeof value === "function" &&
+          toString3.call(value) === "[object Function]"
+        );
       };
     }
     exports2.isFunction = isFunction2;
-    var isArray2 = Array.isArray || function(value) {
-      return value && typeof value === "object" ? toString3.call(value) === "[object Array]" : false;
-    };
+    var isArray2 =
+      Array.isArray ||
+      function (value) {
+        return value && typeof value === "object"
+          ? toString3.call(value) === "[object Array]"
+          : false;
+      };
     exports2.isArray = isArray2;
     function indexOf(array, value) {
       for (var i = 0, len = array.length; i < len; i++) {
@@ -14441,17 +15050,33 @@ var require_utils = __commonJS({
     function appendContextPath(contextPath, id) {
       return (contextPath ? contextPath + "." : "") + id;
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/exception.js
 var require_exception = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/exception.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/exception.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
-    var errorProps = ["description", "fileName", "lineNumber", "endLineNumber", "message", "name", "number", "stack"];
+    var errorProps = [
+      "description",
+      "fileName",
+      "lineNumber",
+      "endLineNumber",
+      "message",
+      "name",
+      "number",
+      "stack",
+    ];
     function Exception(message, node) {
-      var loc = node && node.loc, line = void 0, endLineNumber = void 0, column = void 0, endColumn = void 0;
+      var loc = node && node.loc,
+        line = void 0,
+        endLineNumber = void 0,
+        column = void 0,
+        endColumn = void 0;
       if (loc) {
         line = loc.start.line;
         endLineNumber = loc.end.line;
@@ -14473,81 +15098,100 @@ var require_exception = __commonJS({
           if (Object.defineProperty) {
             Object.defineProperty(this, "column", {
               value: column,
-              enumerable: true
+              enumerable: true,
             });
             Object.defineProperty(this, "endColumn", {
               value: endColumn,
-              enumerable: true
+              enumerable: true,
             });
           } else {
             this.column = column;
             this.endColumn = endColumn;
           }
         }
-      } catch (nop) {
-      }
+      } catch (nop) {}
     }
     Exception.prototype = new Error();
     exports2["default"] = Exception;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js
 var require_block_helper_missing = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/block-helper-missing.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     var _utils = require_utils();
-    exports2["default"] = function(instance) {
-      instance.registerHelper("blockHelperMissing", function(context, options) {
-        var inverse = options.inverse, fn = options.fn;
-        if (context === true) {
-          return fn(this);
-        } else if (context === false || context == null) {
-          return inverse(this);
-        } else if (_utils.isArray(context)) {
-          if (context.length > 0) {
-            if (options.ids) {
-              options.ids = [options.name];
-            }
-            return instance.helpers.each(context, options);
-          } else {
+    exports2["default"] = function (instance) {
+      instance.registerHelper(
+        "blockHelperMissing",
+        function (context, options) {
+          var inverse = options.inverse,
+            fn = options.fn;
+          if (context === true) {
+            return fn(this);
+          } else if (context === false || context == null) {
             return inverse(this);
+          } else if (_utils.isArray(context)) {
+            if (context.length > 0) {
+              if (options.ids) {
+                options.ids = [options.name];
+              }
+              return instance.helpers.each(context, options);
+            } else {
+              return inverse(this);
+            }
+          } else {
+            if (options.data && options.ids) {
+              var data = _utils.createFrame(options.data);
+              data.contextPath = _utils.appendContextPath(
+                options.data.contextPath,
+                options.name,
+              );
+              options = { data };
+            }
+            return fn(context, options);
           }
-        } else {
-          if (options.data && options.ids) {
-            var data = _utils.createFrame(options.data);
-            data.contextPath = _utils.appendContextPath(options.data.contextPath, options.name);
-            options = { data };
-          }
-          return fn(context, options);
-        }
-      });
+        },
+      );
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/each.js
 var require_each = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/each.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/each.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _utils = require_utils();
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
-    exports2["default"] = function(instance) {
-      instance.registerHelper("each", function(context, options) {
+    exports2["default"] = function (instance) {
+      instance.registerHelper("each", function (context, options) {
         if (!options) {
           throw new _exception2["default"]("Must pass iterator to #each");
         }
-        var fn = options.fn, inverse = options.inverse, i = 0, ret = "", data = void 0, contextPath = void 0;
+        var fn = options.fn,
+          inverse = options.inverse,
+          i = 0,
+          ret = "",
+          data = void 0,
+          contextPath = void 0;
         if (options.data && options.ids) {
-          contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]) + ".";
+          contextPath =
+            _utils.appendContextPath(options.data.contextPath, options.ids[0]) +
+            ".";
         }
         if (_utils.isFunction(context)) {
           context = context.call(this);
@@ -14565,10 +15209,15 @@ var require_each = __commonJS({
               data.contextPath = contextPath + field;
             }
           }
-          ret = ret + fn(context[field], {
-            data,
-            blockParams: _utils.blockParams([context[field], field], [contextPath + field, null])
-          });
+          ret =
+            ret +
+            fn(context[field], {
+              data,
+              blockParams: _utils.blockParams(
+                [context[field], field],
+                [contextPath + field, null],
+              ),
+            });
         }
         if (context && typeof context === "object") {
           if (_utils.isArray(context)) {
@@ -14588,9 +15237,9 @@ var require_each = __commonJS({
               execIteration(i, i, i === context.length - 1);
             }
           } else {
-            (function() {
+            (function () {
               var priorKey = void 0;
-              Object.keys(context).forEach(function(key) {
+              Object.keys(context).forEach(function (key) {
                 if (priorKey !== void 0) {
                   execIteration(priorKey, i - 1);
                 }
@@ -14610,80 +15259,97 @@ var require_each = __commonJS({
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js
 var require_helper_missing = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/helper-missing.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
-    exports2["default"] = function(instance) {
-      instance.registerHelper("helperMissing", function() {
+    exports2["default"] = function (instance) {
+      instance.registerHelper("helperMissing", function () {
         if (arguments.length === 1) {
           return void 0;
         } else {
-          throw new _exception2["default"]('Missing helper: "' + arguments[arguments.length - 1].name + '"');
+          throw new _exception2["default"](
+            'Missing helper: "' + arguments[arguments.length - 1].name + '"',
+          );
         }
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/if.js
 var require_if = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/if.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/if.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _utils = require_utils();
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
-    exports2["default"] = function(instance) {
-      instance.registerHelper("if", function(conditional, options) {
+    exports2["default"] = function (instance) {
+      instance.registerHelper("if", function (conditional, options) {
         if (arguments.length != 2) {
           throw new _exception2["default"]("#if requires exactly one argument");
         }
         if (_utils.isFunction(conditional)) {
           conditional = conditional.call(this);
         }
-        if (!options.hash.includeZero && !conditional || _utils.isEmpty(conditional)) {
+        if (
+          (!options.hash.includeZero && !conditional) ||
+          _utils.isEmpty(conditional)
+        ) {
           return options.inverse(this);
         } else {
           return options.fn(this);
         }
       });
-      instance.registerHelper("unless", function(conditional, options) {
+      instance.registerHelper("unless", function (conditional, options) {
         if (arguments.length != 2) {
-          throw new _exception2["default"]("#unless requires exactly one argument");
+          throw new _exception2["default"](
+            "#unless requires exactly one argument",
+          );
         }
         return instance.helpers["if"].call(this, conditional, {
           fn: options.inverse,
           inverse: options.fn,
-          hash: options.hash
+          hash: options.hash,
         });
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/log.js
 var require_log = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/log.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/log.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
-    exports2["default"] = function(instance) {
-      instance.registerHelper("log", function() {
-        var args = [void 0], options = arguments[arguments.length - 1];
+    exports2["default"] = function (instance) {
+      instance.registerHelper("log", function () {
+        var args = [void 0],
+          options = arguments[arguments.length - 1];
         for (var i = 0; i < arguments.length - 1; i++) {
           args.push(arguments[i]);
         }
@@ -14698,16 +15364,19 @@ var require_log = __commonJS({
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js
 var require_lookup = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/lookup.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
-    exports2["default"] = function(instance) {
-      instance.registerHelper("lookup", function(obj, field, options) {
+    exports2["default"] = function (instance) {
+      instance.registerHelper("lookup", function (obj, field, options) {
         if (!obj) {
           return obj;
         }
@@ -14715,24 +15384,29 @@ var require_lookup = __commonJS({
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers/with.js
 var require_with = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/helpers/with.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/helpers/with.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _utils = require_utils();
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
-    exports2["default"] = function(instance) {
-      instance.registerHelper("with", function(context, options) {
+    exports2["default"] = function (instance) {
+      instance.registerHelper("with", function (context, options) {
         if (arguments.length != 2) {
-          throw new _exception2["default"]("#with requires exactly one argument");
+          throw new _exception2["default"](
+            "#with requires exactly one argument",
+          );
         }
         if (_utils.isFunction(context)) {
           context = context.call(this);
@@ -14742,11 +15416,17 @@ var require_with = __commonJS({
           var data = options.data;
           if (options.data && options.ids) {
             data = _utils.createFrame(options.data);
-            data.contextPath = _utils.appendContextPath(options.data.contextPath, options.ids[0]);
+            data.contextPath = _utils.appendContextPath(
+              options.data.contextPath,
+              options.ids[0],
+            );
           }
           return fn(context, {
             data,
-            blockParams: _utils.blockParams([context], [data && data.contextPath])
+            blockParams: _utils.blockParams(
+              [context],
+              [data && data.contextPath],
+            ),
           });
         } else {
           return options.inverse(this);
@@ -14754,7 +15434,7 @@ var require_with = __commonJS({
       });
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/helpers.js
@@ -14765,10 +15445,12 @@ var require_helpers = __commonJS({
     exports2.registerDefaultHelpers = registerDefaultHelpers;
     exports2.moveHelperToHooks = moveHelperToHooks;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _helpersBlockHelperMissing = require_block_helper_missing();
-    var _helpersBlockHelperMissing2 = _interopRequireDefault(_helpersBlockHelperMissing);
+    var _helpersBlockHelperMissing2 = _interopRequireDefault(
+      _helpersBlockHelperMissing,
+    );
     var _helpersEach = require_each();
     var _helpersEach2 = _interopRequireDefault(_helpersEach);
     var _helpersHelperMissing = require_helper_missing();
@@ -14798,34 +15480,40 @@ var require_helpers = __commonJS({
         }
       }
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js
 var require_inline = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/decorators/inline.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     var _utils = require_utils();
-    exports2["default"] = function(instance) {
-      instance.registerDecorator("inline", function(fn, props, container, options) {
-        var ret = fn;
-        if (!props.partials) {
-          props.partials = {};
-          ret = function(context, options2) {
-            var original = container.partials;
-            container.partials = _utils.extend({}, original, props.partials);
-            var ret2 = fn(context, options2);
-            container.partials = original;
-            return ret2;
-          };
-        }
-        props.partials[options.args[0]] = options.fn;
-        return ret;
-      });
+    exports2["default"] = function (instance) {
+      instance.registerDecorator(
+        "inline",
+        function (fn, props, container, options) {
+          var ret = fn;
+          if (!props.partials) {
+            props.partials = {};
+            ret = function (context, options2) {
+              var original = container.partials;
+              container.partials = _utils.extend({}, original, props.partials);
+              var ret2 = fn(context, options2);
+              container.partials = original;
+              return ret2;
+            };
+          }
+          props.partials[options.args[0]] = options.fn;
+          return ret;
+        },
+      );
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/decorators.js
@@ -14835,14 +15523,14 @@ var require_decorators = __commonJS({
     exports2.__esModule = true;
     exports2.registerDefaultDecorators = registerDefaultDecorators;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _decoratorsInline = require_inline();
     var _decoratorsInline2 = _interopRequireDefault(_decoratorsInline);
     function registerDefaultDecorators(instance) {
       _decoratorsInline2["default"](instance);
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/logger.js
@@ -14869,49 +15557,69 @@ var require_logger = __commonJS({
       // Can be overridden in the host environment
       log: function log(level) {
         level = logger.lookupLevel(level);
-        if (typeof console !== "undefined" && logger.lookupLevel(logger.level) <= level) {
+        if (
+          typeof console !== "undefined" &&
+          logger.lookupLevel(logger.level) <= level
+        ) {
           var method = logger.methodMap[level];
           if (!console[method]) {
             method = "log";
           }
-          for (var _len = arguments.length, message = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          for (
+            var _len = arguments.length,
+              message = Array(_len > 1 ? _len - 1 : 0),
+              _key = 1;
+            _key < _len;
+            _key++
+          ) {
             message[_key - 1] = arguments[_key];
           }
           console[method].apply(console, message);
         }
-      }
+      },
     };
     exports2["default"] = logger;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/internal/create-new-lookup-object.js
 var require_create_new_lookup_object = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/internal/create-new-lookup-object.js"(exports2) {
+  "node_modules/handlebars/dist/cjs/handlebars/internal/create-new-lookup-object.js"(
+    exports2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     exports2.createNewLookupObject = createNewLookupObject;
     var _utils = require_utils();
     function createNewLookupObject() {
-      for (var _len = arguments.length, sources = Array(_len), _key = 0; _key < _len; _key++) {
+      for (
+        var _len = arguments.length, sources = Array(_len), _key = 0;
+        _key < _len;
+        _key++
+      ) {
         sources[_key] = arguments[_key];
       }
-      return _utils.extend.apply(void 0, [/* @__PURE__ */ Object.create(null)].concat(sources));
+      return _utils.extend.apply(
+        void 0,
+        [/* @__PURE__ */ Object.create(null)].concat(sources),
+      );
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js
 var require_proto_access = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js"(exports2) {
+  "node_modules/handlebars/dist/cjs/handlebars/internal/proto-access.js"(
+    exports2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     exports2.createProtoAccessControl = createProtoAccessControl;
     exports2.resultIsAllowed = resultIsAllowed;
     exports2.resetLoggedProperties = resetLoggedProperties;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _createNewLookupObject = require_create_new_lookup_object();
     var _logger = require_logger();
@@ -14927,13 +15635,19 @@ var require_proto_access = __commonJS({
       defaultPropertyWhiteList["__proto__"] = false;
       return {
         properties: {
-          whitelist: _createNewLookupObject.createNewLookupObject(defaultPropertyWhiteList, runtimeOptions.allowedProtoProperties),
-          defaultValue: runtimeOptions.allowProtoPropertiesByDefault
+          whitelist: _createNewLookupObject.createNewLookupObject(
+            defaultPropertyWhiteList,
+            runtimeOptions.allowedProtoProperties,
+          ),
+          defaultValue: runtimeOptions.allowProtoPropertiesByDefault,
         },
         methods: {
-          whitelist: _createNewLookupObject.createNewLookupObject(defaultMethodWhiteList, runtimeOptions.allowedProtoMethods),
-          defaultValue: runtimeOptions.allowProtoMethodsByDefault
-        }
+          whitelist: _createNewLookupObject.createNewLookupObject(
+            defaultMethodWhiteList,
+            runtimeOptions.allowedProtoMethods,
+          ),
+          defaultValue: runtimeOptions.allowProtoMethodsByDefault,
+        },
       };
     }
     function resultIsAllowed(result, protoAccessControl, propertyName) {
@@ -14956,15 +15670,20 @@ var require_proto_access = __commonJS({
     function logUnexpecedPropertyAccessOnce(propertyName) {
       if (loggedProperties[propertyName] !== true) {
         loggedProperties[propertyName] = true;
-        _logger2["default"].log("error", 'Handlebars: Access has been denied to resolve the property "' + propertyName + '" because it is not an "own property" of its parent.\nYou can add a runtime option to disable the check or this warning:\nSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details');
+        _logger2["default"].log(
+          "error",
+          'Handlebars: Access has been denied to resolve the property "' +
+            propertyName +
+            '" because it is not an "own property" of its parent.\nYou can add a runtime option to disable the check or this warning:\nSee https://handlebarsjs.com/api-reference/runtime-options.html#options-to-control-prototype-access for details',
+        );
       }
     }
     function resetLoggedProperties() {
-      Object.keys(loggedProperties).forEach(function(propertyName) {
+      Object.keys(loggedProperties).forEach(function (propertyName) {
         delete loggedProperties[propertyName];
       });
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/base.js
@@ -14974,7 +15693,7 @@ var require_base = __commonJS({
     exports2.__esModule = true;
     exports2.HandlebarsEnvironment = HandlebarsEnvironment;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _utils = require_utils();
     var _exception = require_exception();
@@ -14989,7 +15708,8 @@ var require_base = __commonJS({
     var COMPILER_REVISION = 8;
     exports2.COMPILER_REVISION = COMPILER_REVISION;
     var LAST_COMPATIBLE_COMPILER_REVISION = 7;
-    exports2.LAST_COMPATIBLE_COMPILER_REVISION = LAST_COMPATIBLE_COMPILER_REVISION;
+    exports2.LAST_COMPATIBLE_COMPILER_REVISION =
+      LAST_COMPATIBLE_COMPILER_REVISION;
     var REVISION_CHANGES = {
       1: "<= 1.0.rc.2",
       // 1.0.rc.2 is actually rev2 but doesn't report it
@@ -14999,7 +15719,7 @@ var require_base = __commonJS({
       5: "== 2.0.0-alpha.x",
       6: ">= 2.0.0-beta.1",
       7: ">= 4.0.0 <4.3.0",
-      8: ">= 4.3.0"
+      8: ">= 4.3.0",
     };
     exports2.REVISION_CHANGES = REVISION_CHANGES;
     var objectType = "[object Object]";
@@ -15017,7 +15737,9 @@ var require_base = __commonJS({
       registerHelper: function registerHelper(name, fn) {
         if (_utils.toString.call(name) === objectType) {
           if (fn) {
-            throw new _exception2["default"]("Arg not supported with multiple helpers");
+            throw new _exception2["default"](
+              "Arg not supported with multiple helpers",
+            );
           }
           _utils.extend(this.helpers, name);
         } else {
@@ -15032,7 +15754,11 @@ var require_base = __commonJS({
           _utils.extend(this.partials, name);
         } else {
           if (typeof partial === "undefined") {
-            throw new _exception2["default"]('Attempting to register a partial called "' + name + '" as undefined');
+            throw new _exception2["default"](
+              'Attempting to register a partial called "' +
+                name +
+                '" as undefined',
+            );
           }
           this.partials[name] = partial;
         }
@@ -15043,7 +15769,9 @@ var require_base = __commonJS({
       registerDecorator: function registerDecorator(name, fn) {
         if (_utils.toString.call(name) === objectType) {
           if (fn) {
-            throw new _exception2["default"]("Arg not supported with multiple decorators");
+            throw new _exception2["default"](
+              "Arg not supported with multiple decorators",
+            );
           }
           _utils.extend(this.decorators, name);
         } else {
@@ -15059,34 +15787,39 @@ var require_base = __commonJS({
        */
       resetLoggedPropertyAccesses: function resetLoggedPropertyAccesses() {
         _internalProtoAccess.resetLoggedProperties();
-      }
+      },
     };
     var log = _logger2["default"].log;
     exports2.log = log;
     exports2.createFrame = _utils.createFrame;
     exports2.logger = _logger2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/safe-string.js
 var require_safe_string = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/safe-string.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/safe-string.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function SafeString(string) {
       this.string = string;
     }
-    SafeString.prototype.toString = SafeString.prototype.toHTML = function() {
+    SafeString.prototype.toString = SafeString.prototype.toHTML = function () {
       return "" + this.string;
     };
     exports2["default"] = SafeString;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js
 var require_wrapHelper = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js"(exports2) {
+  "node_modules/handlebars/dist/cjs/handlebars/internal/wrapHelper.js"(
+    exports2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     exports2.wrapHelper = wrapHelper;
@@ -15101,7 +15834,7 @@ var require_wrapHelper = __commonJS({
       };
       return wrapper;
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/runtime.js
@@ -15116,7 +15849,7 @@ var require_runtime = __commonJS({
     exports2.invokePartial = invokePartial;
     exports2.noop = noop2;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     function _interopRequireWildcard(obj) {
       if (obj && obj.__esModule) {
@@ -15125,7 +15858,8 @@ var require_runtime = __commonJS({
         var newObj = {};
         if (obj != null) {
           for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            if (Object.prototype.hasOwnProperty.call(obj, key))
+              newObj[key] = obj[key];
           }
         }
         newObj["default"] = obj;
@@ -15141,15 +15875,30 @@ var require_runtime = __commonJS({
     var _internalWrapHelper = require_wrapHelper();
     var _internalProtoAccess = require_proto_access();
     function checkRevision(compilerInfo) {
-      var compilerRevision = compilerInfo && compilerInfo[0] || 1, currentRevision = _base.COMPILER_REVISION;
-      if (compilerRevision >= _base.LAST_COMPATIBLE_COMPILER_REVISION && compilerRevision <= _base.COMPILER_REVISION) {
+      var compilerRevision = (compilerInfo && compilerInfo[0]) || 1,
+        currentRevision = _base.COMPILER_REVISION;
+      if (
+        compilerRevision >= _base.LAST_COMPATIBLE_COMPILER_REVISION &&
+        compilerRevision <= _base.COMPILER_REVISION
+      ) {
         return;
       }
       if (compilerRevision < _base.LAST_COMPATIBLE_COMPILER_REVISION) {
-        var runtimeVersions = _base.REVISION_CHANGES[currentRevision], compilerVersions = _base.REVISION_CHANGES[compilerRevision];
-        throw new _exception2["default"]("Template was precompiled with an older version of Handlebars than the current runtime. Please update your precompiler to a newer version (" + runtimeVersions + ") or downgrade your runtime to an older version (" + compilerVersions + ").");
+        var runtimeVersions = _base.REVISION_CHANGES[currentRevision],
+          compilerVersions = _base.REVISION_CHANGES[compilerRevision];
+        throw new _exception2["default"](
+          "Template was precompiled with an older version of Handlebars than the current runtime. Please update your precompiler to a newer version (" +
+            runtimeVersions +
+            ") or downgrade your runtime to an older version (" +
+            compilerVersions +
+            ").",
+        );
       } else {
-        throw new _exception2["default"]("Template was precompiled with a newer version of Handlebars than the current runtime. Please update your runtime to a newer version (" + compilerInfo[1] + ").");
+        throw new _exception2["default"](
+          "Template was precompiled with a newer version of Handlebars than the current runtime. Please update your runtime to a newer version (" +
+            compilerInfo[1] +
+            ").",
+        );
       }
     }
     function template2(templateSpec, env2) {
@@ -15157,11 +15906,14 @@ var require_runtime = __commonJS({
         throw new _exception2["default"]("No environment passed to template");
       }
       if (!templateSpec || !templateSpec.main) {
-        throw new _exception2["default"]("Unknown template object: " + typeof templateSpec);
+        throw new _exception2["default"](
+          "Unknown template object: " + typeof templateSpec,
+        );
       }
       templateSpec.main.decorator = templateSpec.main_d;
       env2.VM.checkRevision(templateSpec.compiler);
-      var templateWasPrecompiledWithCompilerV7 = templateSpec.compiler && templateSpec.compiler[0] === 7;
+      var templateWasPrecompiledWithCompilerV7 =
+        templateSpec.compiler && templateSpec.compiler[0] === 7;
       function invokePartialWrapper(partial, context, options) {
         if (options.hash) {
           context = Utils.extend({}, context, options.hash);
@@ -15172,11 +15924,20 @@ var require_runtime = __commonJS({
         partial = env2.VM.resolvePartial.call(this, partial, context, options);
         var extendedOptions = Utils.extend({}, options, {
           hooks: this.hooks,
-          protoAccessControl: this.protoAccessControl
+          protoAccessControl: this.protoAccessControl,
         });
-        var result = env2.VM.invokePartial.call(this, partial, context, extendedOptions);
+        var result = env2.VM.invokePartial.call(
+          this,
+          partial,
+          context,
+          extendedOptions,
+        );
         if (result == null && env2.compile) {
-          options.partials[options.name] = env2.compile(partial, templateSpec.compilerOptions, env2);
+          options.partials[options.name] = env2.compile(
+            partial,
+            templateSpec.compilerOptions,
+            env2,
+          );
           result = options.partials[options.name](context, extendedOptions);
         }
         if (result != null) {
@@ -15192,15 +15953,22 @@ var require_runtime = __commonJS({
           }
           return result;
         } else {
-          throw new _exception2["default"]("The partial " + options.name + " could not be compiled when running in runtime-only mode");
+          throw new _exception2["default"](
+            "The partial " +
+              options.name +
+              " could not be compiled when running in runtime-only mode",
+          );
         }
       }
       var container = {
         strict: function strict(obj, name, loc) {
           if (!obj || !(name in obj)) {
-            throw new _exception2["default"]('"' + name + '" not defined in ' + obj, {
-              loc
-            });
+            throw new _exception2["default"](
+              '"' + name + '" not defined in ' + obj,
+              {
+                loc,
+              },
+            );
           }
           return container.lookupProperty(obj, name);
         },
@@ -15212,7 +15980,13 @@ var require_runtime = __commonJS({
           if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
             return result;
           }
-          if (_internalProtoAccess.resultIsAllowed(result, container.protoAccessControl, propertyName)) {
+          if (
+            _internalProtoAccess.resultIsAllowed(
+              result,
+              container.protoAccessControl,
+              propertyName,
+            )
+          ) {
             return result;
           }
           return void 0;
@@ -15227,7 +16001,9 @@ var require_runtime = __commonJS({
           }
         },
         lambda: function lambda(current, context) {
-          return typeof current === "function" ? current.call(context) : current;
+          return typeof current === "function"
+            ? current.call(context)
+            : current;
         },
         escapeExpression: Utils.escapeExpression,
         invokePartial: invokePartialWrapper,
@@ -15237,10 +16013,25 @@ var require_runtime = __commonJS({
           return ret2;
         },
         programs: [],
-        program: function program3(i, data, declaredBlockParams, blockParams, depths) {
-          var programWrapper = this.programs[i], fn = this.fn(i);
+        program: function program3(
+          i,
+          data,
+          declaredBlockParams,
+          blockParams,
+          depths,
+        ) {
+          var programWrapper = this.programs[i],
+            fn = this.fn(i);
           if (data || depths || blockParams || declaredBlockParams) {
-            programWrapper = wrapProgram(this, i, fn, data, declaredBlockParams, blockParams, depths);
+            programWrapper = wrapProgram(
+              this,
+              i,
+              fn,
+              data,
+              declaredBlockParams,
+              blockParams,
+              depths,
+            );
           } else if (!programWrapper) {
             programWrapper = this.programs[i] = wrapProgram(this, i, fn);
           }
@@ -15262,46 +16053,87 @@ var require_runtime = __commonJS({
         // An empty object to use as replacement for null-contexts
         nullContext: Object.seal({}),
         noop: env2.VM.noop,
-        compilerInfo: templateSpec.compiler
+        compilerInfo: templateSpec.compiler,
       };
       function ret(context) {
-        var options = arguments.length <= 1 || arguments[1] === void 0 ? {} : arguments[1];
+        var options =
+          arguments.length <= 1 || arguments[1] === void 0 ? {} : arguments[1];
         var data = options.data;
         ret._setup(options);
         if (!options.partial && templateSpec.useData) {
           data = initData(context, data);
         }
-        var depths = void 0, blockParams = templateSpec.useBlockParams ? [] : void 0;
+        var depths = void 0,
+          blockParams = templateSpec.useBlockParams ? [] : void 0;
         if (templateSpec.useDepths) {
           if (options.depths) {
-            depths = context != options.depths[0] ? [context].concat(options.depths) : options.depths;
+            depths =
+              context != options.depths[0]
+                ? [context].concat(options.depths)
+                : options.depths;
           } else {
             depths = [context];
           }
         }
         function main(context2) {
-          return "" + templateSpec.main(container, context2, container.helpers, container.partials, data, blockParams, depths);
+          return (
+            "" +
+            templateSpec.main(
+              container,
+              context2,
+              container.helpers,
+              container.partials,
+              data,
+              blockParams,
+              depths,
+            )
+          );
         }
-        main = executeDecorators(templateSpec.main, main, container, options.depths || [], data, blockParams);
+        main = executeDecorators(
+          templateSpec.main,
+          main,
+          container,
+          options.depths || [],
+          data,
+          blockParams,
+        );
         return main(context, options);
       }
       ret.isTop = true;
-      ret._setup = function(options) {
+      ret._setup = function (options) {
         if (!options.partial) {
           var mergedHelpers = Utils.extend({}, env2.helpers, options.helpers);
           wrapHelpersToPassLookupProperty(mergedHelpers, container);
           container.helpers = mergedHelpers;
           if (templateSpec.usePartial) {
-            container.partials = container.mergeIfNeeded(options.partials, env2.partials);
+            container.partials = container.mergeIfNeeded(
+              options.partials,
+              env2.partials,
+            );
           }
           if (templateSpec.usePartial || templateSpec.useDecorators) {
-            container.decorators = Utils.extend({}, env2.decorators, options.decorators);
+            container.decorators = Utils.extend(
+              {},
+              env2.decorators,
+              options.decorators,
+            );
           }
           container.hooks = {};
-          container.protoAccessControl = _internalProtoAccess.createProtoAccessControl(options);
-          var keepHelperInHelpers = options.allowCallsToHelperMissing || templateWasPrecompiledWithCompilerV7;
-          _helpers.moveHelperToHooks(container, "helperMissing", keepHelperInHelpers);
-          _helpers.moveHelperToHooks(container, "blockHelperMissing", keepHelperInHelpers);
+          container.protoAccessControl =
+            _internalProtoAccess.createProtoAccessControl(options);
+          var keepHelperInHelpers =
+            options.allowCallsToHelperMissing ||
+            templateWasPrecompiledWithCompilerV7;
+          _helpers.moveHelperToHooks(
+            container,
+            "helperMissing",
+            keepHelperInHelpers,
+          );
+          _helpers.moveHelperToHooks(
+            container,
+            "blockHelperMissing",
+            keepHelperInHelpers,
+          );
         } else {
           container.protoAccessControl = options.protoAccessControl;
           container.helpers = options.helpers;
@@ -15310,25 +16142,54 @@ var require_runtime = __commonJS({
           container.hooks = options.hooks;
         }
       };
-      ret._child = function(i, data, blockParams, depths) {
+      ret._child = function (i, data, blockParams, depths) {
         if (templateSpec.useBlockParams && !blockParams) {
           throw new _exception2["default"]("must pass block params");
         }
         if (templateSpec.useDepths && !depths) {
           throw new _exception2["default"]("must pass parent depths");
         }
-        return wrapProgram(container, i, templateSpec[i], data, 0, blockParams, depths);
+        return wrapProgram(
+          container,
+          i,
+          templateSpec[i],
+          data,
+          0,
+          blockParams,
+          depths,
+        );
       };
       return ret;
     }
-    function wrapProgram(container, i, fn, data, declaredBlockParams, blockParams, depths) {
+    function wrapProgram(
+      container,
+      i,
+      fn,
+      data,
+      declaredBlockParams,
+      blockParams,
+      depths,
+    ) {
       function prog(context) {
-        var options = arguments.length <= 1 || arguments[1] === void 0 ? {} : arguments[1];
+        var options =
+          arguments.length <= 1 || arguments[1] === void 0 ? {} : arguments[1];
         var currentDepths = depths;
-        if (depths && context != depths[0] && !(context === container.nullContext && depths[0] === null)) {
+        if (
+          depths &&
+          context != depths[0] &&
+          !(context === container.nullContext && depths[0] === null)
+        ) {
           currentDepths = [context].concat(depths);
         }
-        return fn(container, context, container.helpers, container.partials, options.data || data, blockParams && [options.blockParams].concat(blockParams), currentDepths);
+        return fn(
+          container,
+          context,
+          container.helpers,
+          container.partials,
+          options.data || data,
+          blockParams && [options.blockParams].concat(blockParams),
+          currentDepths,
+        );
       }
       prog = executeDecorators(fn, prog, container, depths, data, blockParams);
       prog.program = i;
@@ -15357,15 +16218,19 @@ var require_runtime = __commonJS({
       }
       var partialBlock = void 0;
       if (options.fn && options.fn !== noop2) {
-        (function() {
+        (function () {
           options.data = _base.createFrame(options.data);
           var fn = options.fn;
-          partialBlock = options.data["partial-block"] = function partialBlockWrapper(context2) {
-            var options2 = arguments.length <= 1 || arguments[1] === void 0 ? {} : arguments[1];
-            options2.data = _base.createFrame(options2.data);
-            options2.data["partial-block"] = currentPartialBlock;
-            return fn(context2, options2);
-          };
+          partialBlock = options.data["partial-block"] =
+            function partialBlockWrapper(context2) {
+              var options2 =
+                arguments.length <= 1 || arguments[1] === void 0
+                  ? {}
+                  : arguments[1];
+              options2.data = _base.createFrame(options2.data);
+              options2.data["partial-block"] = currentPartialBlock;
+              return fn(context2, options2);
+            };
           if (fn.partials) {
             options.partials = Utils.extend({}, options.partials, fn.partials);
           }
@@ -15375,7 +16240,9 @@ var require_runtime = __commonJS({
         partial = partialBlock;
       }
       if (partial === void 0) {
-        throw new _exception2["default"]("The partial " + options.name + " could not be found");
+        throw new _exception2["default"](
+          "The partial " + options.name + " could not be found",
+        );
       } else if (partial instanceof Function) {
         return partial(context, options);
       }
@@ -15393,42 +16260,53 @@ var require_runtime = __commonJS({
     function executeDecorators(fn, prog, container, depths, data, blockParams) {
       if (fn.decorator) {
         var props = {};
-        prog = fn.decorator(prog, props, container, depths && depths[0], data, blockParams, depths);
+        prog = fn.decorator(
+          prog,
+          props,
+          container,
+          depths && depths[0],
+          data,
+          blockParams,
+          depths,
+        );
         Utils.extend(prog, props);
       }
       return prog;
     }
     function wrapHelpersToPassLookupProperty(mergedHelpers, container) {
-      Object.keys(mergedHelpers).forEach(function(helperName) {
+      Object.keys(mergedHelpers).forEach(function (helperName) {
         var helper = mergedHelpers[helperName];
         mergedHelpers[helperName] = passLookupPropertyOption(helper, container);
       });
     }
     function passLookupPropertyOption(helper, container) {
       var lookupProperty = container.lookupProperty;
-      return _internalWrapHelper.wrapHelper(helper, function(options) {
+      return _internalWrapHelper.wrapHelper(helper, function (options) {
         return Utils.extend({ lookupProperty }, options);
       });
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/no-conflict.js
 var require_no_conflict = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/no-conflict.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/no-conflict.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
-    exports2["default"] = function(Handlebars3) {
-      (function() {
+    exports2["default"] = function (Handlebars3) {
+      (function () {
         if (typeof globalThis === "object") return;
-        Object.prototype.__defineGetter__("__magic__", function() {
+        Object.prototype.__defineGetter__("__magic__", function () {
           return this;
         });
         __magic__.globalThis = __magic__;
         delete Object.prototype.__magic__;
       })();
       var $Handlebars = globalThis.Handlebars;
-      Handlebars3.noConflict = function() {
+      Handlebars3.noConflict = function () {
         if (globalThis.Handlebars === Handlebars3) {
           globalThis.Handlebars = $Handlebars;
         }
@@ -15436,7 +16314,7 @@ var require_no_conflict = __commonJS({
       };
     };
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars.runtime.js
@@ -15445,7 +16323,7 @@ var require_handlebars_runtime = __commonJS({
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     function _interopRequireWildcard(obj) {
       if (obj && obj.__esModule) {
@@ -15454,7 +16332,8 @@ var require_handlebars_runtime = __commonJS({
         var newObj = {};
         if (obj != null) {
           for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            if (Object.prototype.hasOwnProperty.call(obj, key))
+              newObj[key] = obj[key];
           }
         }
         newObj["default"] = obj;
@@ -15481,7 +16360,7 @@ var require_handlebars_runtime = __commonJS({
       hb.Utils = Utils;
       hb.escapeExpression = Utils.escapeExpression;
       hb.VM = runtime;
-      hb.template = function(spec) {
+      hb.template = function (spec) {
         return runtime.template(spec, hb);
       };
       return hb;
@@ -15492,12 +16371,15 @@ var require_handlebars_runtime = __commonJS({
     inst["default"] = inst;
     exports2["default"] = inst;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js
 var require_ast = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/ast.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     var AST = {
@@ -15507,7 +16389,12 @@ var require_ast = __commonJS({
         // * it is an eligible helper, and
         // * it has at least one parameter or hash segment
         helperExpression: function helperExpression(node) {
-          return node.type === "SubExpression" || (node.type === "MustacheStatement" || node.type === "BlockStatement") && !!(node.params && node.params.length || node.hash);
+          return (
+            node.type === "SubExpression" ||
+            ((node.type === "MustacheStatement" ||
+              node.type === "BlockStatement") &&
+              !!((node.params && node.params.length) || node.hash))
+          );
         },
         scopedId: function scopedId(path) {
           return /^\.|this\b/.test(path.original);
@@ -15515,29 +16402,267 @@ var require_ast = __commonJS({
         // an ID is simple if it only has one part, and that part is not
         // `..` or `this`.
         simpleId: function simpleId(path) {
-          return path.parts.length === 1 && !AST.helpers.scopedId(path) && !path.depth;
-        }
-      }
+          return (
+            path.parts.length === 1 &&
+            !AST.helpers.scopedId(path) &&
+            !path.depth
+          );
+        },
+      },
     };
     exports2["default"] = AST;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js
 var require_parser = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/parser.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
-    var handlebars = function() {
+    var handlebars = (function () {
       var parser = {
-        trace: function trace() {
-        },
+        trace: function trace() {},
         yy: {},
-        symbols_: { "error": 2, "root": 3, "program": 4, "EOF": 5, "program_repetition0": 6, "statement": 7, "mustache": 8, "block": 9, "rawBlock": 10, "partial": 11, "partialBlock": 12, "content": 13, "COMMENT": 14, "CONTENT": 15, "openRawBlock": 16, "rawBlock_repetition0": 17, "END_RAW_BLOCK": 18, "OPEN_RAW_BLOCK": 19, "helperName": 20, "openRawBlock_repetition0": 21, "openRawBlock_option0": 22, "CLOSE_RAW_BLOCK": 23, "openBlock": 24, "block_option0": 25, "closeBlock": 26, "openInverse": 27, "block_option1": 28, "OPEN_BLOCK": 29, "openBlock_repetition0": 30, "openBlock_option0": 31, "openBlock_option1": 32, "CLOSE": 33, "OPEN_INVERSE": 34, "openInverse_repetition0": 35, "openInverse_option0": 36, "openInverse_option1": 37, "openInverseChain": 38, "OPEN_INVERSE_CHAIN": 39, "openInverseChain_repetition0": 40, "openInverseChain_option0": 41, "openInverseChain_option1": 42, "inverseAndProgram": 43, "INVERSE": 44, "inverseChain": 45, "inverseChain_option0": 46, "OPEN_ENDBLOCK": 47, "OPEN": 48, "mustache_repetition0": 49, "mustache_option0": 50, "OPEN_UNESCAPED": 51, "mustache_repetition1": 52, "mustache_option1": 53, "CLOSE_UNESCAPED": 54, "OPEN_PARTIAL": 55, "partialName": 56, "partial_repetition0": 57, "partial_option0": 58, "openPartialBlock": 59, "OPEN_PARTIAL_BLOCK": 60, "openPartialBlock_repetition0": 61, "openPartialBlock_option0": 62, "param": 63, "sexpr": 64, "OPEN_SEXPR": 65, "sexpr_repetition0": 66, "sexpr_option0": 67, "CLOSE_SEXPR": 68, "hash": 69, "hash_repetition_plus0": 70, "hashSegment": 71, "ID": 72, "EQUALS": 73, "blockParams": 74, "OPEN_BLOCK_PARAMS": 75, "blockParams_repetition_plus0": 76, "CLOSE_BLOCK_PARAMS": 77, "path": 78, "dataName": 79, "STRING": 80, "NUMBER": 81, "BOOLEAN": 82, "UNDEFINED": 83, "NULL": 84, "DATA": 85, "pathSegments": 86, "SEP": 87, "$accept": 0, "$end": 1 },
-        terminals_: { 2: "error", 5: "EOF", 14: "COMMENT", 15: "CONTENT", 18: "END_RAW_BLOCK", 19: "OPEN_RAW_BLOCK", 23: "CLOSE_RAW_BLOCK", 29: "OPEN_BLOCK", 33: "CLOSE", 34: "OPEN_INVERSE", 39: "OPEN_INVERSE_CHAIN", 44: "INVERSE", 47: "OPEN_ENDBLOCK", 48: "OPEN", 51: "OPEN_UNESCAPED", 54: "CLOSE_UNESCAPED", 55: "OPEN_PARTIAL", 60: "OPEN_PARTIAL_BLOCK", 65: "OPEN_SEXPR", 68: "CLOSE_SEXPR", 72: "ID", 73: "EQUALS", 75: "OPEN_BLOCK_PARAMS", 77: "CLOSE_BLOCK_PARAMS", 80: "STRING", 81: "NUMBER", 82: "BOOLEAN", 83: "UNDEFINED", 84: "NULL", 85: "DATA", 87: "SEP" },
-        productions_: [0, [3, 2], [4, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [7, 1], [13, 1], [10, 3], [16, 5], [9, 4], [9, 4], [24, 6], [27, 6], [38, 6], [43, 2], [45, 3], [45, 1], [26, 3], [8, 5], [8, 5], [11, 5], [12, 3], [59, 5], [63, 1], [63, 1], [64, 5], [69, 1], [71, 3], [74, 3], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [20, 1], [56, 1], [56, 1], [79, 2], [78, 1], [86, 3], [86, 1], [6, 0], [6, 2], [17, 0], [17, 2], [21, 0], [21, 2], [22, 0], [22, 1], [25, 0], [25, 1], [28, 0], [28, 1], [30, 0], [30, 2], [31, 0], [31, 1], [32, 0], [32, 1], [35, 0], [35, 2], [36, 0], [36, 1], [37, 0], [37, 1], [40, 0], [40, 2], [41, 0], [41, 1], [42, 0], [42, 1], [46, 0], [46, 1], [49, 0], [49, 2], [50, 0], [50, 1], [52, 0], [52, 2], [53, 0], [53, 1], [57, 0], [57, 2], [58, 0], [58, 1], [61, 0], [61, 2], [62, 0], [62, 1], [66, 0], [66, 2], [67, 0], [67, 1], [70, 1], [70, 2], [76, 1], [76, 2]],
-        performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate, $$, _$) {
+        symbols_: {
+          error: 2,
+          root: 3,
+          program: 4,
+          EOF: 5,
+          program_repetition0: 6,
+          statement: 7,
+          mustache: 8,
+          block: 9,
+          rawBlock: 10,
+          partial: 11,
+          partialBlock: 12,
+          content: 13,
+          COMMENT: 14,
+          CONTENT: 15,
+          openRawBlock: 16,
+          rawBlock_repetition0: 17,
+          END_RAW_BLOCK: 18,
+          OPEN_RAW_BLOCK: 19,
+          helperName: 20,
+          openRawBlock_repetition0: 21,
+          openRawBlock_option0: 22,
+          CLOSE_RAW_BLOCK: 23,
+          openBlock: 24,
+          block_option0: 25,
+          closeBlock: 26,
+          openInverse: 27,
+          block_option1: 28,
+          OPEN_BLOCK: 29,
+          openBlock_repetition0: 30,
+          openBlock_option0: 31,
+          openBlock_option1: 32,
+          CLOSE: 33,
+          OPEN_INVERSE: 34,
+          openInverse_repetition0: 35,
+          openInverse_option0: 36,
+          openInverse_option1: 37,
+          openInverseChain: 38,
+          OPEN_INVERSE_CHAIN: 39,
+          openInverseChain_repetition0: 40,
+          openInverseChain_option0: 41,
+          openInverseChain_option1: 42,
+          inverseAndProgram: 43,
+          INVERSE: 44,
+          inverseChain: 45,
+          inverseChain_option0: 46,
+          OPEN_ENDBLOCK: 47,
+          OPEN: 48,
+          mustache_repetition0: 49,
+          mustache_option0: 50,
+          OPEN_UNESCAPED: 51,
+          mustache_repetition1: 52,
+          mustache_option1: 53,
+          CLOSE_UNESCAPED: 54,
+          OPEN_PARTIAL: 55,
+          partialName: 56,
+          partial_repetition0: 57,
+          partial_option0: 58,
+          openPartialBlock: 59,
+          OPEN_PARTIAL_BLOCK: 60,
+          openPartialBlock_repetition0: 61,
+          openPartialBlock_option0: 62,
+          param: 63,
+          sexpr: 64,
+          OPEN_SEXPR: 65,
+          sexpr_repetition0: 66,
+          sexpr_option0: 67,
+          CLOSE_SEXPR: 68,
+          hash: 69,
+          hash_repetition_plus0: 70,
+          hashSegment: 71,
+          ID: 72,
+          EQUALS: 73,
+          blockParams: 74,
+          OPEN_BLOCK_PARAMS: 75,
+          blockParams_repetition_plus0: 76,
+          CLOSE_BLOCK_PARAMS: 77,
+          path: 78,
+          dataName: 79,
+          STRING: 80,
+          NUMBER: 81,
+          BOOLEAN: 82,
+          UNDEFINED: 83,
+          NULL: 84,
+          DATA: 85,
+          pathSegments: 86,
+          SEP: 87,
+          $accept: 0,
+          $end: 1,
+        },
+        terminals_: {
+          2: "error",
+          5: "EOF",
+          14: "COMMENT",
+          15: "CONTENT",
+          18: "END_RAW_BLOCK",
+          19: "OPEN_RAW_BLOCK",
+          23: "CLOSE_RAW_BLOCK",
+          29: "OPEN_BLOCK",
+          33: "CLOSE",
+          34: "OPEN_INVERSE",
+          39: "OPEN_INVERSE_CHAIN",
+          44: "INVERSE",
+          47: "OPEN_ENDBLOCK",
+          48: "OPEN",
+          51: "OPEN_UNESCAPED",
+          54: "CLOSE_UNESCAPED",
+          55: "OPEN_PARTIAL",
+          60: "OPEN_PARTIAL_BLOCK",
+          65: "OPEN_SEXPR",
+          68: "CLOSE_SEXPR",
+          72: "ID",
+          73: "EQUALS",
+          75: "OPEN_BLOCK_PARAMS",
+          77: "CLOSE_BLOCK_PARAMS",
+          80: "STRING",
+          81: "NUMBER",
+          82: "BOOLEAN",
+          83: "UNDEFINED",
+          84: "NULL",
+          85: "DATA",
+          87: "SEP",
+        },
+        productions_: [
+          0,
+          [3, 2],
+          [4, 1],
+          [7, 1],
+          [7, 1],
+          [7, 1],
+          [7, 1],
+          [7, 1],
+          [7, 1],
+          [7, 1],
+          [13, 1],
+          [10, 3],
+          [16, 5],
+          [9, 4],
+          [9, 4],
+          [24, 6],
+          [27, 6],
+          [38, 6],
+          [43, 2],
+          [45, 3],
+          [45, 1],
+          [26, 3],
+          [8, 5],
+          [8, 5],
+          [11, 5],
+          [12, 3],
+          [59, 5],
+          [63, 1],
+          [63, 1],
+          [64, 5],
+          [69, 1],
+          [71, 3],
+          [74, 3],
+          [20, 1],
+          [20, 1],
+          [20, 1],
+          [20, 1],
+          [20, 1],
+          [20, 1],
+          [20, 1],
+          [56, 1],
+          [56, 1],
+          [79, 2],
+          [78, 1],
+          [86, 3],
+          [86, 1],
+          [6, 0],
+          [6, 2],
+          [17, 0],
+          [17, 2],
+          [21, 0],
+          [21, 2],
+          [22, 0],
+          [22, 1],
+          [25, 0],
+          [25, 1],
+          [28, 0],
+          [28, 1],
+          [30, 0],
+          [30, 2],
+          [31, 0],
+          [31, 1],
+          [32, 0],
+          [32, 1],
+          [35, 0],
+          [35, 2],
+          [36, 0],
+          [36, 1],
+          [37, 0],
+          [37, 1],
+          [40, 0],
+          [40, 2],
+          [41, 0],
+          [41, 1],
+          [42, 0],
+          [42, 1],
+          [46, 0],
+          [46, 1],
+          [49, 0],
+          [49, 2],
+          [50, 0],
+          [50, 1],
+          [52, 0],
+          [52, 2],
+          [53, 0],
+          [53, 1],
+          [57, 0],
+          [57, 2],
+          [58, 0],
+          [58, 1],
+          [61, 0],
+          [61, 2],
+          [62, 0],
+          [62, 1],
+          [66, 0],
+          [66, 2],
+          [67, 0],
+          [67, 1],
+          [70, 1],
+          [70, 2],
+          [76, 1],
+          [76, 2],
+        ],
+        performAction: function anonymous(
+          yytext,
+          yyleng,
+          yylineno,
+          yy,
+          yystate,
+          $$,
+          _$,
+        ) {
           var $0 = $$.length - 1;
           switch (yystate) {
             case 1:
@@ -15569,7 +16694,7 @@ var require_parser = __commonJS({
                 type: "CommentStatement",
                 value: yy.stripComment($$[$0]),
                 strip: yy.stripFlags($$[$0], $$[$0]),
-                loc: yy.locInfo(this._$)
+                loc: yy.locInfo(this._$),
               };
               break;
             case 10:
@@ -15577,49 +16702,123 @@ var require_parser = __commonJS({
                 type: "ContentStatement",
                 original: $$[$0],
                 value: $$[$0],
-                loc: yy.locInfo(this._$)
+                loc: yy.locInfo(this._$),
               };
               break;
             case 11:
-              this.$ = yy.prepareRawBlock($$[$0 - 2], $$[$0 - 1], $$[$0], this._$);
+              this.$ = yy.prepareRawBlock(
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0],
+                this._$,
+              );
               break;
             case 12:
-              this.$ = { path: $$[$0 - 3], params: $$[$0 - 2], hash: $$[$0 - 1] };
+              this.$ = {
+                path: $$[$0 - 3],
+                params: $$[$0 - 2],
+                hash: $$[$0 - 1],
+              };
               break;
             case 13:
-              this.$ = yy.prepareBlock($$[$0 - 3], $$[$0 - 2], $$[$0 - 1], $$[$0], false, this._$);
+              this.$ = yy.prepareBlock(
+                $$[$0 - 3],
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0],
+                false,
+                this._$,
+              );
               break;
             case 14:
-              this.$ = yy.prepareBlock($$[$0 - 3], $$[$0 - 2], $$[$0 - 1], $$[$0], true, this._$);
+              this.$ = yy.prepareBlock(
+                $$[$0 - 3],
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0],
+                true,
+                this._$,
+              );
               break;
             case 15:
-              this.$ = { open: $$[$0 - 5], path: $$[$0 - 4], params: $$[$0 - 3], hash: $$[$0 - 2], blockParams: $$[$0 - 1], strip: yy.stripFlags($$[$0 - 5], $$[$0]) };
+              this.$ = {
+                open: $$[$0 - 5],
+                path: $$[$0 - 4],
+                params: $$[$0 - 3],
+                hash: $$[$0 - 2],
+                blockParams: $$[$0 - 1],
+                strip: yy.stripFlags($$[$0 - 5], $$[$0]),
+              };
               break;
             case 16:
-              this.$ = { path: $$[$0 - 4], params: $$[$0 - 3], hash: $$[$0 - 2], blockParams: $$[$0 - 1], strip: yy.stripFlags($$[$0 - 5], $$[$0]) };
+              this.$ = {
+                path: $$[$0 - 4],
+                params: $$[$0 - 3],
+                hash: $$[$0 - 2],
+                blockParams: $$[$0 - 1],
+                strip: yy.stripFlags($$[$0 - 5], $$[$0]),
+              };
               break;
             case 17:
-              this.$ = { path: $$[$0 - 4], params: $$[$0 - 3], hash: $$[$0 - 2], blockParams: $$[$0 - 1], strip: yy.stripFlags($$[$0 - 5], $$[$0]) };
+              this.$ = {
+                path: $$[$0 - 4],
+                params: $$[$0 - 3],
+                hash: $$[$0 - 2],
+                blockParams: $$[$0 - 1],
+                strip: yy.stripFlags($$[$0 - 5], $$[$0]),
+              };
               break;
             case 18:
-              this.$ = { strip: yy.stripFlags($$[$0 - 1], $$[$0 - 1]), program: $$[$0] };
+              this.$ = {
+                strip: yy.stripFlags($$[$0 - 1], $$[$0 - 1]),
+                program: $$[$0],
+              };
               break;
             case 19:
-              var inverse = yy.prepareBlock($$[$0 - 2], $$[$0 - 1], $$[$0], $$[$0], false, this._$), program3 = yy.prepareProgram([inverse], $$[$0 - 1].loc);
+              var inverse = yy.prepareBlock(
+                  $$[$0 - 2],
+                  $$[$0 - 1],
+                  $$[$0],
+                  $$[$0],
+                  false,
+                  this._$,
+                ),
+                program3 = yy.prepareProgram([inverse], $$[$0 - 1].loc);
               program3.chained = true;
-              this.$ = { strip: $$[$0 - 2].strip, program: program3, chain: true };
+              this.$ = {
+                strip: $$[$0 - 2].strip,
+                program: program3,
+                chain: true,
+              };
               break;
             case 20:
               this.$ = $$[$0];
               break;
             case 21:
-              this.$ = { path: $$[$0 - 1], strip: yy.stripFlags($$[$0 - 2], $$[$0]) };
+              this.$ = {
+                path: $$[$0 - 1],
+                strip: yy.stripFlags($$[$0 - 2], $$[$0]),
+              };
               break;
             case 22:
-              this.$ = yy.prepareMustache($$[$0 - 3], $$[$0 - 2], $$[$0 - 1], $$[$0 - 4], yy.stripFlags($$[$0 - 4], $$[$0]), this._$);
+              this.$ = yy.prepareMustache(
+                $$[$0 - 3],
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0 - 4],
+                yy.stripFlags($$[$0 - 4], $$[$0]),
+                this._$,
+              );
               break;
             case 23:
-              this.$ = yy.prepareMustache($$[$0 - 3], $$[$0 - 2], $$[$0 - 1], $$[$0 - 4], yy.stripFlags($$[$0 - 4], $$[$0]), this._$);
+              this.$ = yy.prepareMustache(
+                $$[$0 - 3],
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0 - 4],
+                yy.stripFlags($$[$0 - 4], $$[$0]),
+                this._$,
+              );
               break;
             case 24:
               this.$ = {
@@ -15629,14 +16828,24 @@ var require_parser = __commonJS({
                 hash: $$[$0 - 1],
                 indent: "",
                 strip: yy.stripFlags($$[$0 - 4], $$[$0]),
-                loc: yy.locInfo(this._$)
+                loc: yy.locInfo(this._$),
               };
               break;
             case 25:
-              this.$ = yy.preparePartialBlock($$[$0 - 2], $$[$0 - 1], $$[$0], this._$);
+              this.$ = yy.preparePartialBlock(
+                $$[$0 - 2],
+                $$[$0 - 1],
+                $$[$0],
+                this._$,
+              );
               break;
             case 26:
-              this.$ = { path: $$[$0 - 3], params: $$[$0 - 2], hash: $$[$0 - 1], strip: yy.stripFlags($$[$0 - 4], $$[$0]) };
+              this.$ = {
+                path: $$[$0 - 3],
+                params: $$[$0 - 2],
+                hash: $$[$0 - 1],
+                strip: yy.stripFlags($$[$0 - 4], $$[$0]),
+              };
               break;
             case 27:
               this.$ = $$[$0];
@@ -15650,14 +16859,23 @@ var require_parser = __commonJS({
                 path: $$[$0 - 3],
                 params: $$[$0 - 2],
                 hash: $$[$0 - 1],
-                loc: yy.locInfo(this._$)
+                loc: yy.locInfo(this._$),
               };
               break;
             case 30:
-              this.$ = { type: "Hash", pairs: $$[$0], loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "Hash",
+                pairs: $$[$0],
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 31:
-              this.$ = { type: "HashPair", key: yy.id($$[$0 - 2]), value: $$[$0], loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "HashPair",
+                key: yy.id($$[$0 - 2]),
+                value: $$[$0],
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 32:
               this.$ = yy.id($$[$0 - 1]);
@@ -15669,19 +16887,44 @@ var require_parser = __commonJS({
               this.$ = $$[$0];
               break;
             case 35:
-              this.$ = { type: "StringLiteral", value: $$[$0], original: $$[$0], loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "StringLiteral",
+                value: $$[$0],
+                original: $$[$0],
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 36:
-              this.$ = { type: "NumberLiteral", value: Number($$[$0]), original: Number($$[$0]), loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "NumberLiteral",
+                value: Number($$[$0]),
+                original: Number($$[$0]),
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 37:
-              this.$ = { type: "BooleanLiteral", value: $$[$0] === "true", original: $$[$0] === "true", loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "BooleanLiteral",
+                value: $$[$0] === "true",
+                original: $$[$0] === "true",
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 38:
-              this.$ = { type: "UndefinedLiteral", original: void 0, value: void 0, loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "UndefinedLiteral",
+                original: void 0,
+                value: void 0,
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 39:
-              this.$ = { type: "NullLiteral", original: null, value: null, loc: yy.locInfo(this._$) };
+              this.$ = {
+                type: "NullLiteral",
+                original: null,
+                value: null,
+                loc: yy.locInfo(this._$),
+              };
               break;
             case 40:
               this.$ = $$[$0];
@@ -15696,7 +16939,11 @@ var require_parser = __commonJS({
               this.$ = yy.preparePath(false, $$[$0], this._$);
               break;
             case 44:
-              $$[$0 - 2].push({ part: yy.id($$[$0]), original: $$[$0], separator: $$[$0 - 1] });
+              $$[$0 - 2].push({
+                part: yy.id($$[$0]),
+                original: $$[$0],
+                separator: $$[$0 - 1],
+              });
               this.$ = $$[$0 - 2];
               break;
             case 45:
@@ -15782,13 +17029,1378 @@ var require_parser = __commonJS({
               break;
           }
         },
-        table: [{ 3: 1, 4: 2, 5: [2, 46], 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 1: [3] }, { 5: [1, 4] }, { 5: [2, 2], 7: 5, 8: 6, 9: 7, 10: 8, 11: 9, 12: 10, 13: 11, 14: [1, 12], 15: [1, 20], 16: 17, 19: [1, 23], 24: 15, 27: 16, 29: [1, 21], 34: [1, 22], 39: [2, 2], 44: [2, 2], 47: [2, 2], 48: [1, 13], 51: [1, 14], 55: [1, 18], 59: 19, 60: [1, 24] }, { 1: [2, 1] }, { 5: [2, 47], 14: [2, 47], 15: [2, 47], 19: [2, 47], 29: [2, 47], 34: [2, 47], 39: [2, 47], 44: [2, 47], 47: [2, 47], 48: [2, 47], 51: [2, 47], 55: [2, 47], 60: [2, 47] }, { 5: [2, 3], 14: [2, 3], 15: [2, 3], 19: [2, 3], 29: [2, 3], 34: [2, 3], 39: [2, 3], 44: [2, 3], 47: [2, 3], 48: [2, 3], 51: [2, 3], 55: [2, 3], 60: [2, 3] }, { 5: [2, 4], 14: [2, 4], 15: [2, 4], 19: [2, 4], 29: [2, 4], 34: [2, 4], 39: [2, 4], 44: [2, 4], 47: [2, 4], 48: [2, 4], 51: [2, 4], 55: [2, 4], 60: [2, 4] }, { 5: [2, 5], 14: [2, 5], 15: [2, 5], 19: [2, 5], 29: [2, 5], 34: [2, 5], 39: [2, 5], 44: [2, 5], 47: [2, 5], 48: [2, 5], 51: [2, 5], 55: [2, 5], 60: [2, 5] }, { 5: [2, 6], 14: [2, 6], 15: [2, 6], 19: [2, 6], 29: [2, 6], 34: [2, 6], 39: [2, 6], 44: [2, 6], 47: [2, 6], 48: [2, 6], 51: [2, 6], 55: [2, 6], 60: [2, 6] }, { 5: [2, 7], 14: [2, 7], 15: [2, 7], 19: [2, 7], 29: [2, 7], 34: [2, 7], 39: [2, 7], 44: [2, 7], 47: [2, 7], 48: [2, 7], 51: [2, 7], 55: [2, 7], 60: [2, 7] }, { 5: [2, 8], 14: [2, 8], 15: [2, 8], 19: [2, 8], 29: [2, 8], 34: [2, 8], 39: [2, 8], 44: [2, 8], 47: [2, 8], 48: [2, 8], 51: [2, 8], 55: [2, 8], 60: [2, 8] }, { 5: [2, 9], 14: [2, 9], 15: [2, 9], 19: [2, 9], 29: [2, 9], 34: [2, 9], 39: [2, 9], 44: [2, 9], 47: [2, 9], 48: [2, 9], 51: [2, 9], 55: [2, 9], 60: [2, 9] }, { 20: 25, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 36, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 37, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 4: 38, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 15: [2, 48], 17: 39, 18: [2, 48] }, { 20: 41, 56: 40, 64: 42, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 44, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 5: [2, 10], 14: [2, 10], 15: [2, 10], 18: [2, 10], 19: [2, 10], 29: [2, 10], 34: [2, 10], 39: [2, 10], 44: [2, 10], 47: [2, 10], 48: [2, 10], 51: [2, 10], 55: [2, 10], 60: [2, 10] }, { 20: 45, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 46, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 47, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 41, 56: 48, 64: 42, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [2, 78], 49: 49, 65: [2, 78], 72: [2, 78], 80: [2, 78], 81: [2, 78], 82: [2, 78], 83: [2, 78], 84: [2, 78], 85: [2, 78] }, { 23: [2, 33], 33: [2, 33], 54: [2, 33], 65: [2, 33], 68: [2, 33], 72: [2, 33], 75: [2, 33], 80: [2, 33], 81: [2, 33], 82: [2, 33], 83: [2, 33], 84: [2, 33], 85: [2, 33] }, { 23: [2, 34], 33: [2, 34], 54: [2, 34], 65: [2, 34], 68: [2, 34], 72: [2, 34], 75: [2, 34], 80: [2, 34], 81: [2, 34], 82: [2, 34], 83: [2, 34], 84: [2, 34], 85: [2, 34] }, { 23: [2, 35], 33: [2, 35], 54: [2, 35], 65: [2, 35], 68: [2, 35], 72: [2, 35], 75: [2, 35], 80: [2, 35], 81: [2, 35], 82: [2, 35], 83: [2, 35], 84: [2, 35], 85: [2, 35] }, { 23: [2, 36], 33: [2, 36], 54: [2, 36], 65: [2, 36], 68: [2, 36], 72: [2, 36], 75: [2, 36], 80: [2, 36], 81: [2, 36], 82: [2, 36], 83: [2, 36], 84: [2, 36], 85: [2, 36] }, { 23: [2, 37], 33: [2, 37], 54: [2, 37], 65: [2, 37], 68: [2, 37], 72: [2, 37], 75: [2, 37], 80: [2, 37], 81: [2, 37], 82: [2, 37], 83: [2, 37], 84: [2, 37], 85: [2, 37] }, { 23: [2, 38], 33: [2, 38], 54: [2, 38], 65: [2, 38], 68: [2, 38], 72: [2, 38], 75: [2, 38], 80: [2, 38], 81: [2, 38], 82: [2, 38], 83: [2, 38], 84: [2, 38], 85: [2, 38] }, { 23: [2, 39], 33: [2, 39], 54: [2, 39], 65: [2, 39], 68: [2, 39], 72: [2, 39], 75: [2, 39], 80: [2, 39], 81: [2, 39], 82: [2, 39], 83: [2, 39], 84: [2, 39], 85: [2, 39] }, { 23: [2, 43], 33: [2, 43], 54: [2, 43], 65: [2, 43], 68: [2, 43], 72: [2, 43], 75: [2, 43], 80: [2, 43], 81: [2, 43], 82: [2, 43], 83: [2, 43], 84: [2, 43], 85: [2, 43], 87: [1, 50] }, { 72: [1, 35], 86: 51 }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 52: 52, 54: [2, 82], 65: [2, 82], 72: [2, 82], 80: [2, 82], 81: [2, 82], 82: [2, 82], 83: [2, 82], 84: [2, 82], 85: [2, 82] }, { 25: 53, 38: 55, 39: [1, 57], 43: 56, 44: [1, 58], 45: 54, 47: [2, 54] }, { 28: 59, 43: 60, 44: [1, 58], 47: [2, 56] }, { 13: 62, 15: [1, 20], 18: [1, 61] }, { 33: [2, 86], 57: 63, 65: [2, 86], 72: [2, 86], 80: [2, 86], 81: [2, 86], 82: [2, 86], 83: [2, 86], 84: [2, 86], 85: [2, 86] }, { 33: [2, 40], 65: [2, 40], 72: [2, 40], 80: [2, 40], 81: [2, 40], 82: [2, 40], 83: [2, 40], 84: [2, 40], 85: [2, 40] }, { 33: [2, 41], 65: [2, 41], 72: [2, 41], 80: [2, 41], 81: [2, 41], 82: [2, 41], 83: [2, 41], 84: [2, 41], 85: [2, 41] }, { 20: 64, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 65, 47: [1, 66] }, { 30: 67, 33: [2, 58], 65: [2, 58], 72: [2, 58], 75: [2, 58], 80: [2, 58], 81: [2, 58], 82: [2, 58], 83: [2, 58], 84: [2, 58], 85: [2, 58] }, { 33: [2, 64], 35: 68, 65: [2, 64], 72: [2, 64], 75: [2, 64], 80: [2, 64], 81: [2, 64], 82: [2, 64], 83: [2, 64], 84: [2, 64], 85: [2, 64] }, { 21: 69, 23: [2, 50], 65: [2, 50], 72: [2, 50], 80: [2, 50], 81: [2, 50], 82: [2, 50], 83: [2, 50], 84: [2, 50], 85: [2, 50] }, { 33: [2, 90], 61: 70, 65: [2, 90], 72: [2, 90], 80: [2, 90], 81: [2, 90], 82: [2, 90], 83: [2, 90], 84: [2, 90], 85: [2, 90] }, { 20: 74, 33: [2, 80], 50: 71, 63: 72, 64: 75, 65: [1, 43], 69: 73, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 72: [1, 79] }, { 23: [2, 42], 33: [2, 42], 54: [2, 42], 65: [2, 42], 68: [2, 42], 72: [2, 42], 75: [2, 42], 80: [2, 42], 81: [2, 42], 82: [2, 42], 83: [2, 42], 84: [2, 42], 85: [2, 42], 87: [1, 50] }, { 20: 74, 53: 80, 54: [2, 84], 63: 81, 64: 75, 65: [1, 43], 69: 82, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 26: 83, 47: [1, 66] }, { 47: [2, 55] }, { 4: 84, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 39: [2, 46], 44: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 47: [2, 20] }, { 20: 85, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 4: 86, 6: 3, 14: [2, 46], 15: [2, 46], 19: [2, 46], 29: [2, 46], 34: [2, 46], 47: [2, 46], 48: [2, 46], 51: [2, 46], 55: [2, 46], 60: [2, 46] }, { 26: 87, 47: [1, 66] }, { 47: [2, 57] }, { 5: [2, 11], 14: [2, 11], 15: [2, 11], 19: [2, 11], 29: [2, 11], 34: [2, 11], 39: [2, 11], 44: [2, 11], 47: [2, 11], 48: [2, 11], 51: [2, 11], 55: [2, 11], 60: [2, 11] }, { 15: [2, 49], 18: [2, 49] }, { 20: 74, 33: [2, 88], 58: 88, 63: 89, 64: 75, 65: [1, 43], 69: 90, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 65: [2, 94], 66: 91, 68: [2, 94], 72: [2, 94], 80: [2, 94], 81: [2, 94], 82: [2, 94], 83: [2, 94], 84: [2, 94], 85: [2, 94] }, { 5: [2, 25], 14: [2, 25], 15: [2, 25], 19: [2, 25], 29: [2, 25], 34: [2, 25], 39: [2, 25], 44: [2, 25], 47: [2, 25], 48: [2, 25], 51: [2, 25], 55: [2, 25], 60: [2, 25] }, { 20: 92, 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 31: 93, 33: [2, 60], 63: 94, 64: 75, 65: [1, 43], 69: 95, 70: 76, 71: 77, 72: [1, 78], 75: [2, 60], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 33: [2, 66], 36: 96, 63: 97, 64: 75, 65: [1, 43], 69: 98, 70: 76, 71: 77, 72: [1, 78], 75: [2, 66], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 22: 99, 23: [2, 52], 63: 100, 64: 75, 65: [1, 43], 69: 101, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 20: 74, 33: [2, 92], 62: 102, 63: 103, 64: 75, 65: [1, 43], 69: 104, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 105] }, { 33: [2, 79], 65: [2, 79], 72: [2, 79], 80: [2, 79], 81: [2, 79], 82: [2, 79], 83: [2, 79], 84: [2, 79], 85: [2, 79] }, { 33: [2, 81] }, { 23: [2, 27], 33: [2, 27], 54: [2, 27], 65: [2, 27], 68: [2, 27], 72: [2, 27], 75: [2, 27], 80: [2, 27], 81: [2, 27], 82: [2, 27], 83: [2, 27], 84: [2, 27], 85: [2, 27] }, { 23: [2, 28], 33: [2, 28], 54: [2, 28], 65: [2, 28], 68: [2, 28], 72: [2, 28], 75: [2, 28], 80: [2, 28], 81: [2, 28], 82: [2, 28], 83: [2, 28], 84: [2, 28], 85: [2, 28] }, { 23: [2, 30], 33: [2, 30], 54: [2, 30], 68: [2, 30], 71: 106, 72: [1, 107], 75: [2, 30] }, { 23: [2, 98], 33: [2, 98], 54: [2, 98], 68: [2, 98], 72: [2, 98], 75: [2, 98] }, { 23: [2, 45], 33: [2, 45], 54: [2, 45], 65: [2, 45], 68: [2, 45], 72: [2, 45], 73: [1, 108], 75: [2, 45], 80: [2, 45], 81: [2, 45], 82: [2, 45], 83: [2, 45], 84: [2, 45], 85: [2, 45], 87: [2, 45] }, { 23: [2, 44], 33: [2, 44], 54: [2, 44], 65: [2, 44], 68: [2, 44], 72: [2, 44], 75: [2, 44], 80: [2, 44], 81: [2, 44], 82: [2, 44], 83: [2, 44], 84: [2, 44], 85: [2, 44], 87: [2, 44] }, { 54: [1, 109] }, { 54: [2, 83], 65: [2, 83], 72: [2, 83], 80: [2, 83], 81: [2, 83], 82: [2, 83], 83: [2, 83], 84: [2, 83], 85: [2, 83] }, { 54: [2, 85] }, { 5: [2, 13], 14: [2, 13], 15: [2, 13], 19: [2, 13], 29: [2, 13], 34: [2, 13], 39: [2, 13], 44: [2, 13], 47: [2, 13], 48: [2, 13], 51: [2, 13], 55: [2, 13], 60: [2, 13] }, { 38: 55, 39: [1, 57], 43: 56, 44: [1, 58], 45: 111, 46: 110, 47: [2, 76] }, { 33: [2, 70], 40: 112, 65: [2, 70], 72: [2, 70], 75: [2, 70], 80: [2, 70], 81: [2, 70], 82: [2, 70], 83: [2, 70], 84: [2, 70], 85: [2, 70] }, { 47: [2, 18] }, { 5: [2, 14], 14: [2, 14], 15: [2, 14], 19: [2, 14], 29: [2, 14], 34: [2, 14], 39: [2, 14], 44: [2, 14], 47: [2, 14], 48: [2, 14], 51: [2, 14], 55: [2, 14], 60: [2, 14] }, { 33: [1, 113] }, { 33: [2, 87], 65: [2, 87], 72: [2, 87], 80: [2, 87], 81: [2, 87], 82: [2, 87], 83: [2, 87], 84: [2, 87], 85: [2, 87] }, { 33: [2, 89] }, { 20: 74, 63: 115, 64: 75, 65: [1, 43], 67: 114, 68: [2, 96], 69: 116, 70: 76, 71: 77, 72: [1, 78], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 33: [1, 117] }, { 32: 118, 33: [2, 62], 74: 119, 75: [1, 120] }, { 33: [2, 59], 65: [2, 59], 72: [2, 59], 75: [2, 59], 80: [2, 59], 81: [2, 59], 82: [2, 59], 83: [2, 59], 84: [2, 59], 85: [2, 59] }, { 33: [2, 61], 75: [2, 61] }, { 33: [2, 68], 37: 121, 74: 122, 75: [1, 120] }, { 33: [2, 65], 65: [2, 65], 72: [2, 65], 75: [2, 65], 80: [2, 65], 81: [2, 65], 82: [2, 65], 83: [2, 65], 84: [2, 65], 85: [2, 65] }, { 33: [2, 67], 75: [2, 67] }, { 23: [1, 123] }, { 23: [2, 51], 65: [2, 51], 72: [2, 51], 80: [2, 51], 81: [2, 51], 82: [2, 51], 83: [2, 51], 84: [2, 51], 85: [2, 51] }, { 23: [2, 53] }, { 33: [1, 124] }, { 33: [2, 91], 65: [2, 91], 72: [2, 91], 80: [2, 91], 81: [2, 91], 82: [2, 91], 83: [2, 91], 84: [2, 91], 85: [2, 91] }, { 33: [2, 93] }, { 5: [2, 22], 14: [2, 22], 15: [2, 22], 19: [2, 22], 29: [2, 22], 34: [2, 22], 39: [2, 22], 44: [2, 22], 47: [2, 22], 48: [2, 22], 51: [2, 22], 55: [2, 22], 60: [2, 22] }, { 23: [2, 99], 33: [2, 99], 54: [2, 99], 68: [2, 99], 72: [2, 99], 75: [2, 99] }, { 73: [1, 108] }, { 20: 74, 63: 125, 64: 75, 65: [1, 43], 72: [1, 35], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 23], 14: [2, 23], 15: [2, 23], 19: [2, 23], 29: [2, 23], 34: [2, 23], 39: [2, 23], 44: [2, 23], 47: [2, 23], 48: [2, 23], 51: [2, 23], 55: [2, 23], 60: [2, 23] }, { 47: [2, 19] }, { 47: [2, 77] }, { 20: 74, 33: [2, 72], 41: 126, 63: 127, 64: 75, 65: [1, 43], 69: 128, 70: 76, 71: 77, 72: [1, 78], 75: [2, 72], 78: 26, 79: 27, 80: [1, 28], 81: [1, 29], 82: [1, 30], 83: [1, 31], 84: [1, 32], 85: [1, 34], 86: 33 }, { 5: [2, 24], 14: [2, 24], 15: [2, 24], 19: [2, 24], 29: [2, 24], 34: [2, 24], 39: [2, 24], 44: [2, 24], 47: [2, 24], 48: [2, 24], 51: [2, 24], 55: [2, 24], 60: [2, 24] }, { 68: [1, 129] }, { 65: [2, 95], 68: [2, 95], 72: [2, 95], 80: [2, 95], 81: [2, 95], 82: [2, 95], 83: [2, 95], 84: [2, 95], 85: [2, 95] }, { 68: [2, 97] }, { 5: [2, 21], 14: [2, 21], 15: [2, 21], 19: [2, 21], 29: [2, 21], 34: [2, 21], 39: [2, 21], 44: [2, 21], 47: [2, 21], 48: [2, 21], 51: [2, 21], 55: [2, 21], 60: [2, 21] }, { 33: [1, 130] }, { 33: [2, 63] }, { 72: [1, 132], 76: 131 }, { 33: [1, 133] }, { 33: [2, 69] }, { 15: [2, 12], 18: [2, 12] }, { 14: [2, 26], 15: [2, 26], 19: [2, 26], 29: [2, 26], 34: [2, 26], 47: [2, 26], 48: [2, 26], 51: [2, 26], 55: [2, 26], 60: [2, 26] }, { 23: [2, 31], 33: [2, 31], 54: [2, 31], 68: [2, 31], 72: [2, 31], 75: [2, 31] }, { 33: [2, 74], 42: 134, 74: 135, 75: [1, 120] }, { 33: [2, 71], 65: [2, 71], 72: [2, 71], 75: [2, 71], 80: [2, 71], 81: [2, 71], 82: [2, 71], 83: [2, 71], 84: [2, 71], 85: [2, 71] }, { 33: [2, 73], 75: [2, 73] }, { 23: [2, 29], 33: [2, 29], 54: [2, 29], 65: [2, 29], 68: [2, 29], 72: [2, 29], 75: [2, 29], 80: [2, 29], 81: [2, 29], 82: [2, 29], 83: [2, 29], 84: [2, 29], 85: [2, 29] }, { 14: [2, 15], 15: [2, 15], 19: [2, 15], 29: [2, 15], 34: [2, 15], 39: [2, 15], 44: [2, 15], 47: [2, 15], 48: [2, 15], 51: [2, 15], 55: [2, 15], 60: [2, 15] }, { 72: [1, 137], 77: [1, 136] }, { 72: [2, 100], 77: [2, 100] }, { 14: [2, 16], 15: [2, 16], 19: [2, 16], 29: [2, 16], 34: [2, 16], 44: [2, 16], 47: [2, 16], 48: [2, 16], 51: [2, 16], 55: [2, 16], 60: [2, 16] }, { 33: [1, 138] }, { 33: [2, 75] }, { 33: [2, 32] }, { 72: [2, 101], 77: [2, 101] }, { 14: [2, 17], 15: [2, 17], 19: [2, 17], 29: [2, 17], 34: [2, 17], 39: [2, 17], 44: [2, 17], 47: [2, 17], 48: [2, 17], 51: [2, 17], 55: [2, 17], 60: [2, 17] }],
-        defaultActions: { 4: [2, 1], 54: [2, 55], 56: [2, 20], 60: [2, 57], 73: [2, 81], 82: [2, 85], 86: [2, 18], 90: [2, 89], 101: [2, 53], 104: [2, 93], 110: [2, 19], 111: [2, 77], 116: [2, 97], 119: [2, 63], 122: [2, 69], 135: [2, 75], 136: [2, 32] },
+        table: [
+          {
+            3: 1,
+            4: 2,
+            5: [2, 46],
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          { 1: [3] },
+          { 5: [1, 4] },
+          {
+            5: [2, 2],
+            7: 5,
+            8: 6,
+            9: 7,
+            10: 8,
+            11: 9,
+            12: 10,
+            13: 11,
+            14: [1, 12],
+            15: [1, 20],
+            16: 17,
+            19: [1, 23],
+            24: 15,
+            27: 16,
+            29: [1, 21],
+            34: [1, 22],
+            39: [2, 2],
+            44: [2, 2],
+            47: [2, 2],
+            48: [1, 13],
+            51: [1, 14],
+            55: [1, 18],
+            59: 19,
+            60: [1, 24],
+          },
+          { 1: [2, 1] },
+          {
+            5: [2, 47],
+            14: [2, 47],
+            15: [2, 47],
+            19: [2, 47],
+            29: [2, 47],
+            34: [2, 47],
+            39: [2, 47],
+            44: [2, 47],
+            47: [2, 47],
+            48: [2, 47],
+            51: [2, 47],
+            55: [2, 47],
+            60: [2, 47],
+          },
+          {
+            5: [2, 3],
+            14: [2, 3],
+            15: [2, 3],
+            19: [2, 3],
+            29: [2, 3],
+            34: [2, 3],
+            39: [2, 3],
+            44: [2, 3],
+            47: [2, 3],
+            48: [2, 3],
+            51: [2, 3],
+            55: [2, 3],
+            60: [2, 3],
+          },
+          {
+            5: [2, 4],
+            14: [2, 4],
+            15: [2, 4],
+            19: [2, 4],
+            29: [2, 4],
+            34: [2, 4],
+            39: [2, 4],
+            44: [2, 4],
+            47: [2, 4],
+            48: [2, 4],
+            51: [2, 4],
+            55: [2, 4],
+            60: [2, 4],
+          },
+          {
+            5: [2, 5],
+            14: [2, 5],
+            15: [2, 5],
+            19: [2, 5],
+            29: [2, 5],
+            34: [2, 5],
+            39: [2, 5],
+            44: [2, 5],
+            47: [2, 5],
+            48: [2, 5],
+            51: [2, 5],
+            55: [2, 5],
+            60: [2, 5],
+          },
+          {
+            5: [2, 6],
+            14: [2, 6],
+            15: [2, 6],
+            19: [2, 6],
+            29: [2, 6],
+            34: [2, 6],
+            39: [2, 6],
+            44: [2, 6],
+            47: [2, 6],
+            48: [2, 6],
+            51: [2, 6],
+            55: [2, 6],
+            60: [2, 6],
+          },
+          {
+            5: [2, 7],
+            14: [2, 7],
+            15: [2, 7],
+            19: [2, 7],
+            29: [2, 7],
+            34: [2, 7],
+            39: [2, 7],
+            44: [2, 7],
+            47: [2, 7],
+            48: [2, 7],
+            51: [2, 7],
+            55: [2, 7],
+            60: [2, 7],
+          },
+          {
+            5: [2, 8],
+            14: [2, 8],
+            15: [2, 8],
+            19: [2, 8],
+            29: [2, 8],
+            34: [2, 8],
+            39: [2, 8],
+            44: [2, 8],
+            47: [2, 8],
+            48: [2, 8],
+            51: [2, 8],
+            55: [2, 8],
+            60: [2, 8],
+          },
+          {
+            5: [2, 9],
+            14: [2, 9],
+            15: [2, 9],
+            19: [2, 9],
+            29: [2, 9],
+            34: [2, 9],
+            39: [2, 9],
+            44: [2, 9],
+            47: [2, 9],
+            48: [2, 9],
+            51: [2, 9],
+            55: [2, 9],
+            60: [2, 9],
+          },
+          {
+            20: 25,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 36,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            4: 37,
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            39: [2, 46],
+            44: [2, 46],
+            47: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          {
+            4: 38,
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            44: [2, 46],
+            47: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          { 15: [2, 48], 17: 39, 18: [2, 48] },
+          {
+            20: 41,
+            56: 40,
+            64: 42,
+            65: [1, 43],
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            4: 44,
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            47: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          {
+            5: [2, 10],
+            14: [2, 10],
+            15: [2, 10],
+            18: [2, 10],
+            19: [2, 10],
+            29: [2, 10],
+            34: [2, 10],
+            39: [2, 10],
+            44: [2, 10],
+            47: [2, 10],
+            48: [2, 10],
+            51: [2, 10],
+            55: [2, 10],
+            60: [2, 10],
+          },
+          {
+            20: 45,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 46,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 47,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 41,
+            56: 48,
+            64: 42,
+            65: [1, 43],
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            33: [2, 78],
+            49: 49,
+            65: [2, 78],
+            72: [2, 78],
+            80: [2, 78],
+            81: [2, 78],
+            82: [2, 78],
+            83: [2, 78],
+            84: [2, 78],
+            85: [2, 78],
+          },
+          {
+            23: [2, 33],
+            33: [2, 33],
+            54: [2, 33],
+            65: [2, 33],
+            68: [2, 33],
+            72: [2, 33],
+            75: [2, 33],
+            80: [2, 33],
+            81: [2, 33],
+            82: [2, 33],
+            83: [2, 33],
+            84: [2, 33],
+            85: [2, 33],
+          },
+          {
+            23: [2, 34],
+            33: [2, 34],
+            54: [2, 34],
+            65: [2, 34],
+            68: [2, 34],
+            72: [2, 34],
+            75: [2, 34],
+            80: [2, 34],
+            81: [2, 34],
+            82: [2, 34],
+            83: [2, 34],
+            84: [2, 34],
+            85: [2, 34],
+          },
+          {
+            23: [2, 35],
+            33: [2, 35],
+            54: [2, 35],
+            65: [2, 35],
+            68: [2, 35],
+            72: [2, 35],
+            75: [2, 35],
+            80: [2, 35],
+            81: [2, 35],
+            82: [2, 35],
+            83: [2, 35],
+            84: [2, 35],
+            85: [2, 35],
+          },
+          {
+            23: [2, 36],
+            33: [2, 36],
+            54: [2, 36],
+            65: [2, 36],
+            68: [2, 36],
+            72: [2, 36],
+            75: [2, 36],
+            80: [2, 36],
+            81: [2, 36],
+            82: [2, 36],
+            83: [2, 36],
+            84: [2, 36],
+            85: [2, 36],
+          },
+          {
+            23: [2, 37],
+            33: [2, 37],
+            54: [2, 37],
+            65: [2, 37],
+            68: [2, 37],
+            72: [2, 37],
+            75: [2, 37],
+            80: [2, 37],
+            81: [2, 37],
+            82: [2, 37],
+            83: [2, 37],
+            84: [2, 37],
+            85: [2, 37],
+          },
+          {
+            23: [2, 38],
+            33: [2, 38],
+            54: [2, 38],
+            65: [2, 38],
+            68: [2, 38],
+            72: [2, 38],
+            75: [2, 38],
+            80: [2, 38],
+            81: [2, 38],
+            82: [2, 38],
+            83: [2, 38],
+            84: [2, 38],
+            85: [2, 38],
+          },
+          {
+            23: [2, 39],
+            33: [2, 39],
+            54: [2, 39],
+            65: [2, 39],
+            68: [2, 39],
+            72: [2, 39],
+            75: [2, 39],
+            80: [2, 39],
+            81: [2, 39],
+            82: [2, 39],
+            83: [2, 39],
+            84: [2, 39],
+            85: [2, 39],
+          },
+          {
+            23: [2, 43],
+            33: [2, 43],
+            54: [2, 43],
+            65: [2, 43],
+            68: [2, 43],
+            72: [2, 43],
+            75: [2, 43],
+            80: [2, 43],
+            81: [2, 43],
+            82: [2, 43],
+            83: [2, 43],
+            84: [2, 43],
+            85: [2, 43],
+            87: [1, 50],
+          },
+          { 72: [1, 35], 86: 51 },
+          {
+            23: [2, 45],
+            33: [2, 45],
+            54: [2, 45],
+            65: [2, 45],
+            68: [2, 45],
+            72: [2, 45],
+            75: [2, 45],
+            80: [2, 45],
+            81: [2, 45],
+            82: [2, 45],
+            83: [2, 45],
+            84: [2, 45],
+            85: [2, 45],
+            87: [2, 45],
+          },
+          {
+            52: 52,
+            54: [2, 82],
+            65: [2, 82],
+            72: [2, 82],
+            80: [2, 82],
+            81: [2, 82],
+            82: [2, 82],
+            83: [2, 82],
+            84: [2, 82],
+            85: [2, 82],
+          },
+          {
+            25: 53,
+            38: 55,
+            39: [1, 57],
+            43: 56,
+            44: [1, 58],
+            45: 54,
+            47: [2, 54],
+          },
+          { 28: 59, 43: 60, 44: [1, 58], 47: [2, 56] },
+          { 13: 62, 15: [1, 20], 18: [1, 61] },
+          {
+            33: [2, 86],
+            57: 63,
+            65: [2, 86],
+            72: [2, 86],
+            80: [2, 86],
+            81: [2, 86],
+            82: [2, 86],
+            83: [2, 86],
+            84: [2, 86],
+            85: [2, 86],
+          },
+          {
+            33: [2, 40],
+            65: [2, 40],
+            72: [2, 40],
+            80: [2, 40],
+            81: [2, 40],
+            82: [2, 40],
+            83: [2, 40],
+            84: [2, 40],
+            85: [2, 40],
+          },
+          {
+            33: [2, 41],
+            65: [2, 41],
+            72: [2, 41],
+            80: [2, 41],
+            81: [2, 41],
+            82: [2, 41],
+            83: [2, 41],
+            84: [2, 41],
+            85: [2, 41],
+          },
+          {
+            20: 64,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          { 26: 65, 47: [1, 66] },
+          {
+            30: 67,
+            33: [2, 58],
+            65: [2, 58],
+            72: [2, 58],
+            75: [2, 58],
+            80: [2, 58],
+            81: [2, 58],
+            82: [2, 58],
+            83: [2, 58],
+            84: [2, 58],
+            85: [2, 58],
+          },
+          {
+            33: [2, 64],
+            35: 68,
+            65: [2, 64],
+            72: [2, 64],
+            75: [2, 64],
+            80: [2, 64],
+            81: [2, 64],
+            82: [2, 64],
+            83: [2, 64],
+            84: [2, 64],
+            85: [2, 64],
+          },
+          {
+            21: 69,
+            23: [2, 50],
+            65: [2, 50],
+            72: [2, 50],
+            80: [2, 50],
+            81: [2, 50],
+            82: [2, 50],
+            83: [2, 50],
+            84: [2, 50],
+            85: [2, 50],
+          },
+          {
+            33: [2, 90],
+            61: 70,
+            65: [2, 90],
+            72: [2, 90],
+            80: [2, 90],
+            81: [2, 90],
+            82: [2, 90],
+            83: [2, 90],
+            84: [2, 90],
+            85: [2, 90],
+          },
+          {
+            20: 74,
+            33: [2, 80],
+            50: 71,
+            63: 72,
+            64: 75,
+            65: [1, 43],
+            69: 73,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          { 72: [1, 79] },
+          {
+            23: [2, 42],
+            33: [2, 42],
+            54: [2, 42],
+            65: [2, 42],
+            68: [2, 42],
+            72: [2, 42],
+            75: [2, 42],
+            80: [2, 42],
+            81: [2, 42],
+            82: [2, 42],
+            83: [2, 42],
+            84: [2, 42],
+            85: [2, 42],
+            87: [1, 50],
+          },
+          {
+            20: 74,
+            53: 80,
+            54: [2, 84],
+            63: 81,
+            64: 75,
+            65: [1, 43],
+            69: 82,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          { 26: 83, 47: [1, 66] },
+          { 47: [2, 55] },
+          {
+            4: 84,
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            39: [2, 46],
+            44: [2, 46],
+            47: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          { 47: [2, 20] },
+          {
+            20: 85,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            4: 86,
+            6: 3,
+            14: [2, 46],
+            15: [2, 46],
+            19: [2, 46],
+            29: [2, 46],
+            34: [2, 46],
+            47: [2, 46],
+            48: [2, 46],
+            51: [2, 46],
+            55: [2, 46],
+            60: [2, 46],
+          },
+          { 26: 87, 47: [1, 66] },
+          { 47: [2, 57] },
+          {
+            5: [2, 11],
+            14: [2, 11],
+            15: [2, 11],
+            19: [2, 11],
+            29: [2, 11],
+            34: [2, 11],
+            39: [2, 11],
+            44: [2, 11],
+            47: [2, 11],
+            48: [2, 11],
+            51: [2, 11],
+            55: [2, 11],
+            60: [2, 11],
+          },
+          { 15: [2, 49], 18: [2, 49] },
+          {
+            20: 74,
+            33: [2, 88],
+            58: 88,
+            63: 89,
+            64: 75,
+            65: [1, 43],
+            69: 90,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            65: [2, 94],
+            66: 91,
+            68: [2, 94],
+            72: [2, 94],
+            80: [2, 94],
+            81: [2, 94],
+            82: [2, 94],
+            83: [2, 94],
+            84: [2, 94],
+            85: [2, 94],
+          },
+          {
+            5: [2, 25],
+            14: [2, 25],
+            15: [2, 25],
+            19: [2, 25],
+            29: [2, 25],
+            34: [2, 25],
+            39: [2, 25],
+            44: [2, 25],
+            47: [2, 25],
+            48: [2, 25],
+            51: [2, 25],
+            55: [2, 25],
+            60: [2, 25],
+          },
+          {
+            20: 92,
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 74,
+            31: 93,
+            33: [2, 60],
+            63: 94,
+            64: 75,
+            65: [1, 43],
+            69: 95,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            75: [2, 60],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 74,
+            33: [2, 66],
+            36: 96,
+            63: 97,
+            64: 75,
+            65: [1, 43],
+            69: 98,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            75: [2, 66],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 74,
+            22: 99,
+            23: [2, 52],
+            63: 100,
+            64: 75,
+            65: [1, 43],
+            69: 101,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            20: 74,
+            33: [2, 92],
+            62: 102,
+            63: 103,
+            64: 75,
+            65: [1, 43],
+            69: 104,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          { 33: [1, 105] },
+          {
+            33: [2, 79],
+            65: [2, 79],
+            72: [2, 79],
+            80: [2, 79],
+            81: [2, 79],
+            82: [2, 79],
+            83: [2, 79],
+            84: [2, 79],
+            85: [2, 79],
+          },
+          { 33: [2, 81] },
+          {
+            23: [2, 27],
+            33: [2, 27],
+            54: [2, 27],
+            65: [2, 27],
+            68: [2, 27],
+            72: [2, 27],
+            75: [2, 27],
+            80: [2, 27],
+            81: [2, 27],
+            82: [2, 27],
+            83: [2, 27],
+            84: [2, 27],
+            85: [2, 27],
+          },
+          {
+            23: [2, 28],
+            33: [2, 28],
+            54: [2, 28],
+            65: [2, 28],
+            68: [2, 28],
+            72: [2, 28],
+            75: [2, 28],
+            80: [2, 28],
+            81: [2, 28],
+            82: [2, 28],
+            83: [2, 28],
+            84: [2, 28],
+            85: [2, 28],
+          },
+          {
+            23: [2, 30],
+            33: [2, 30],
+            54: [2, 30],
+            68: [2, 30],
+            71: 106,
+            72: [1, 107],
+            75: [2, 30],
+          },
+          {
+            23: [2, 98],
+            33: [2, 98],
+            54: [2, 98],
+            68: [2, 98],
+            72: [2, 98],
+            75: [2, 98],
+          },
+          {
+            23: [2, 45],
+            33: [2, 45],
+            54: [2, 45],
+            65: [2, 45],
+            68: [2, 45],
+            72: [2, 45],
+            73: [1, 108],
+            75: [2, 45],
+            80: [2, 45],
+            81: [2, 45],
+            82: [2, 45],
+            83: [2, 45],
+            84: [2, 45],
+            85: [2, 45],
+            87: [2, 45],
+          },
+          {
+            23: [2, 44],
+            33: [2, 44],
+            54: [2, 44],
+            65: [2, 44],
+            68: [2, 44],
+            72: [2, 44],
+            75: [2, 44],
+            80: [2, 44],
+            81: [2, 44],
+            82: [2, 44],
+            83: [2, 44],
+            84: [2, 44],
+            85: [2, 44],
+            87: [2, 44],
+          },
+          { 54: [1, 109] },
+          {
+            54: [2, 83],
+            65: [2, 83],
+            72: [2, 83],
+            80: [2, 83],
+            81: [2, 83],
+            82: [2, 83],
+            83: [2, 83],
+            84: [2, 83],
+            85: [2, 83],
+          },
+          { 54: [2, 85] },
+          {
+            5: [2, 13],
+            14: [2, 13],
+            15: [2, 13],
+            19: [2, 13],
+            29: [2, 13],
+            34: [2, 13],
+            39: [2, 13],
+            44: [2, 13],
+            47: [2, 13],
+            48: [2, 13],
+            51: [2, 13],
+            55: [2, 13],
+            60: [2, 13],
+          },
+          {
+            38: 55,
+            39: [1, 57],
+            43: 56,
+            44: [1, 58],
+            45: 111,
+            46: 110,
+            47: [2, 76],
+          },
+          {
+            33: [2, 70],
+            40: 112,
+            65: [2, 70],
+            72: [2, 70],
+            75: [2, 70],
+            80: [2, 70],
+            81: [2, 70],
+            82: [2, 70],
+            83: [2, 70],
+            84: [2, 70],
+            85: [2, 70],
+          },
+          { 47: [2, 18] },
+          {
+            5: [2, 14],
+            14: [2, 14],
+            15: [2, 14],
+            19: [2, 14],
+            29: [2, 14],
+            34: [2, 14],
+            39: [2, 14],
+            44: [2, 14],
+            47: [2, 14],
+            48: [2, 14],
+            51: [2, 14],
+            55: [2, 14],
+            60: [2, 14],
+          },
+          { 33: [1, 113] },
+          {
+            33: [2, 87],
+            65: [2, 87],
+            72: [2, 87],
+            80: [2, 87],
+            81: [2, 87],
+            82: [2, 87],
+            83: [2, 87],
+            84: [2, 87],
+            85: [2, 87],
+          },
+          { 33: [2, 89] },
+          {
+            20: 74,
+            63: 115,
+            64: 75,
+            65: [1, 43],
+            67: 114,
+            68: [2, 96],
+            69: 116,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          { 33: [1, 117] },
+          { 32: 118, 33: [2, 62], 74: 119, 75: [1, 120] },
+          {
+            33: [2, 59],
+            65: [2, 59],
+            72: [2, 59],
+            75: [2, 59],
+            80: [2, 59],
+            81: [2, 59],
+            82: [2, 59],
+            83: [2, 59],
+            84: [2, 59],
+            85: [2, 59],
+          },
+          { 33: [2, 61], 75: [2, 61] },
+          { 33: [2, 68], 37: 121, 74: 122, 75: [1, 120] },
+          {
+            33: [2, 65],
+            65: [2, 65],
+            72: [2, 65],
+            75: [2, 65],
+            80: [2, 65],
+            81: [2, 65],
+            82: [2, 65],
+            83: [2, 65],
+            84: [2, 65],
+            85: [2, 65],
+          },
+          { 33: [2, 67], 75: [2, 67] },
+          { 23: [1, 123] },
+          {
+            23: [2, 51],
+            65: [2, 51],
+            72: [2, 51],
+            80: [2, 51],
+            81: [2, 51],
+            82: [2, 51],
+            83: [2, 51],
+            84: [2, 51],
+            85: [2, 51],
+          },
+          { 23: [2, 53] },
+          { 33: [1, 124] },
+          {
+            33: [2, 91],
+            65: [2, 91],
+            72: [2, 91],
+            80: [2, 91],
+            81: [2, 91],
+            82: [2, 91],
+            83: [2, 91],
+            84: [2, 91],
+            85: [2, 91],
+          },
+          { 33: [2, 93] },
+          {
+            5: [2, 22],
+            14: [2, 22],
+            15: [2, 22],
+            19: [2, 22],
+            29: [2, 22],
+            34: [2, 22],
+            39: [2, 22],
+            44: [2, 22],
+            47: [2, 22],
+            48: [2, 22],
+            51: [2, 22],
+            55: [2, 22],
+            60: [2, 22],
+          },
+          {
+            23: [2, 99],
+            33: [2, 99],
+            54: [2, 99],
+            68: [2, 99],
+            72: [2, 99],
+            75: [2, 99],
+          },
+          { 73: [1, 108] },
+          {
+            20: 74,
+            63: 125,
+            64: 75,
+            65: [1, 43],
+            72: [1, 35],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            5: [2, 23],
+            14: [2, 23],
+            15: [2, 23],
+            19: [2, 23],
+            29: [2, 23],
+            34: [2, 23],
+            39: [2, 23],
+            44: [2, 23],
+            47: [2, 23],
+            48: [2, 23],
+            51: [2, 23],
+            55: [2, 23],
+            60: [2, 23],
+          },
+          { 47: [2, 19] },
+          { 47: [2, 77] },
+          {
+            20: 74,
+            33: [2, 72],
+            41: 126,
+            63: 127,
+            64: 75,
+            65: [1, 43],
+            69: 128,
+            70: 76,
+            71: 77,
+            72: [1, 78],
+            75: [2, 72],
+            78: 26,
+            79: 27,
+            80: [1, 28],
+            81: [1, 29],
+            82: [1, 30],
+            83: [1, 31],
+            84: [1, 32],
+            85: [1, 34],
+            86: 33,
+          },
+          {
+            5: [2, 24],
+            14: [2, 24],
+            15: [2, 24],
+            19: [2, 24],
+            29: [2, 24],
+            34: [2, 24],
+            39: [2, 24],
+            44: [2, 24],
+            47: [2, 24],
+            48: [2, 24],
+            51: [2, 24],
+            55: [2, 24],
+            60: [2, 24],
+          },
+          { 68: [1, 129] },
+          {
+            65: [2, 95],
+            68: [2, 95],
+            72: [2, 95],
+            80: [2, 95],
+            81: [2, 95],
+            82: [2, 95],
+            83: [2, 95],
+            84: [2, 95],
+            85: [2, 95],
+          },
+          { 68: [2, 97] },
+          {
+            5: [2, 21],
+            14: [2, 21],
+            15: [2, 21],
+            19: [2, 21],
+            29: [2, 21],
+            34: [2, 21],
+            39: [2, 21],
+            44: [2, 21],
+            47: [2, 21],
+            48: [2, 21],
+            51: [2, 21],
+            55: [2, 21],
+            60: [2, 21],
+          },
+          { 33: [1, 130] },
+          { 33: [2, 63] },
+          { 72: [1, 132], 76: 131 },
+          { 33: [1, 133] },
+          { 33: [2, 69] },
+          { 15: [2, 12], 18: [2, 12] },
+          {
+            14: [2, 26],
+            15: [2, 26],
+            19: [2, 26],
+            29: [2, 26],
+            34: [2, 26],
+            47: [2, 26],
+            48: [2, 26],
+            51: [2, 26],
+            55: [2, 26],
+            60: [2, 26],
+          },
+          {
+            23: [2, 31],
+            33: [2, 31],
+            54: [2, 31],
+            68: [2, 31],
+            72: [2, 31],
+            75: [2, 31],
+          },
+          { 33: [2, 74], 42: 134, 74: 135, 75: [1, 120] },
+          {
+            33: [2, 71],
+            65: [2, 71],
+            72: [2, 71],
+            75: [2, 71],
+            80: [2, 71],
+            81: [2, 71],
+            82: [2, 71],
+            83: [2, 71],
+            84: [2, 71],
+            85: [2, 71],
+          },
+          { 33: [2, 73], 75: [2, 73] },
+          {
+            23: [2, 29],
+            33: [2, 29],
+            54: [2, 29],
+            65: [2, 29],
+            68: [2, 29],
+            72: [2, 29],
+            75: [2, 29],
+            80: [2, 29],
+            81: [2, 29],
+            82: [2, 29],
+            83: [2, 29],
+            84: [2, 29],
+            85: [2, 29],
+          },
+          {
+            14: [2, 15],
+            15: [2, 15],
+            19: [2, 15],
+            29: [2, 15],
+            34: [2, 15],
+            39: [2, 15],
+            44: [2, 15],
+            47: [2, 15],
+            48: [2, 15],
+            51: [2, 15],
+            55: [2, 15],
+            60: [2, 15],
+          },
+          { 72: [1, 137], 77: [1, 136] },
+          { 72: [2, 100], 77: [2, 100] },
+          {
+            14: [2, 16],
+            15: [2, 16],
+            19: [2, 16],
+            29: [2, 16],
+            34: [2, 16],
+            44: [2, 16],
+            47: [2, 16],
+            48: [2, 16],
+            51: [2, 16],
+            55: [2, 16],
+            60: [2, 16],
+          },
+          { 33: [1, 138] },
+          { 33: [2, 75] },
+          { 33: [2, 32] },
+          { 72: [2, 101], 77: [2, 101] },
+          {
+            14: [2, 17],
+            15: [2, 17],
+            19: [2, 17],
+            29: [2, 17],
+            34: [2, 17],
+            39: [2, 17],
+            44: [2, 17],
+            47: [2, 17],
+            48: [2, 17],
+            51: [2, 17],
+            55: [2, 17],
+            60: [2, 17],
+          },
+        ],
+        defaultActions: {
+          4: [2, 1],
+          54: [2, 55],
+          56: [2, 20],
+          60: [2, 57],
+          73: [2, 81],
+          82: [2, 85],
+          86: [2, 18],
+          90: [2, 89],
+          101: [2, 53],
+          104: [2, 93],
+          110: [2, 19],
+          111: [2, 77],
+          116: [2, 97],
+          119: [2, 63],
+          122: [2, 69],
+          135: [2, 75],
+          136: [2, 32],
+        },
         parseError: function parseError(str, hash) {
           throw new Error(str);
         },
         parse: function parse4(input) {
-          var self2 = this, stack = [0], vstack = [null], lstack = [], table = this.table, yytext = "", yylineno = 0, yyleng = 0, recovering = 0, TERROR = 2, EOF = 1;
+          var self2 = this,
+            stack = [0],
+            vstack = [null],
+            lstack = [],
+            table = this.table,
+            yytext = "",
+            yylineno = 0,
+            yyleng = 0,
+            recovering = 0,
+            TERROR = 2,
+            EOF = 1;
           this.lexer.setInput(input);
           this.lexer.yy = this.yy;
           this.yy.lexer = this.lexer;
@@ -15797,7 +18409,8 @@ var require_parser = __commonJS({
           var yyloc = this.lexer.yylloc;
           lstack.push(yyloc);
           var ranges = this.lexer.options && this.lexer.options.ranges;
-          if (typeof this.yy.parseError === "function") this.parseError = this.yy.parseError;
+          if (typeof this.yy.parseError === "function")
+            this.parseError = this.yy.parseError;
           function popStack(n) {
             stack.length = stack.length - 2 * n;
             vstack.length = vstack.length - n;
@@ -15811,7 +18424,17 @@ var require_parser = __commonJS({
             }
             return token;
           }
-          var symbol, preErrorSymbol, state, action, a, r, yyval = {}, p, len, newState, expected;
+          var symbol,
+            preErrorSymbol,
+            state,
+            action,
+            a,
+            r,
+            yyval = {},
+            p,
+            len,
+            newState,
+            expected;
           while (true) {
             state = stack[stack.length - 1];
             if (this.defaultActions[state]) {
@@ -15826,19 +18449,46 @@ var require_parser = __commonJS({
               var errStr = "";
               if (!recovering) {
                 expected = [];
-                for (p in table[state]) if (this.terminals_[p] && p > 2) {
-                  expected.push("'" + this.terminals_[p] + "'");
-                }
+                for (p in table[state])
+                  if (this.terminals_[p] && p > 2) {
+                    expected.push("'" + this.terminals_[p] + "'");
+                  }
                 if (this.lexer.showPosition) {
-                  errStr = "Parse error on line " + (yylineno + 1) + ":\n" + this.lexer.showPosition() + "\nExpecting " + expected.join(", ") + ", got '" + (this.terminals_[symbol] || symbol) + "'";
+                  errStr =
+                    "Parse error on line " +
+                    (yylineno + 1) +
+                    ":\n" +
+                    this.lexer.showPosition() +
+                    "\nExpecting " +
+                    expected.join(", ") +
+                    ", got '" +
+                    (this.terminals_[symbol] || symbol) +
+                    "'";
                 } else {
-                  errStr = "Parse error on line " + (yylineno + 1) + ": Unexpected " + (symbol == 1 ? "end of input" : "'" + (this.terminals_[symbol] || symbol) + "'");
+                  errStr =
+                    "Parse error on line " +
+                    (yylineno + 1) +
+                    ": Unexpected " +
+                    (symbol == 1
+                      ? "end of input"
+                      : "'" + (this.terminals_[symbol] || symbol) + "'");
                 }
-                this.parseError(errStr, { text: this.lexer.match, token: this.terminals_[symbol] || symbol, line: this.lexer.yylineno, loc: yyloc, expected });
+                this.parseError(errStr, {
+                  text: this.lexer.match,
+                  token: this.terminals_[symbol] || symbol,
+                  line: this.lexer.yylineno,
+                  loc: yyloc,
+                  expected,
+                });
               }
             }
             if (action[0] instanceof Array && action.length > 1) {
-              throw new Error("Parse Error: multiple actions possible at state: " + state + ", token: " + symbol);
+              throw new Error(
+                "Parse Error: multiple actions possible at state: " +
+                  state +
+                  ", token: " +
+                  symbol,
+              );
             }
             switch (action[0]) {
               case 1:
@@ -15861,11 +18511,28 @@ var require_parser = __commonJS({
               case 2:
                 len = this.productions_[action[1]][1];
                 yyval.$ = vstack[vstack.length - len];
-                yyval._$ = { first_line: lstack[lstack.length - (len || 1)].first_line, last_line: lstack[lstack.length - 1].last_line, first_column: lstack[lstack.length - (len || 1)].first_column, last_column: lstack[lstack.length - 1].last_column };
+                yyval._$ = {
+                  first_line: lstack[lstack.length - (len || 1)].first_line,
+                  last_line: lstack[lstack.length - 1].last_line,
+                  first_column: lstack[lstack.length - (len || 1)].first_column,
+                  last_column: lstack[lstack.length - 1].last_column,
+                };
                 if (ranges) {
-                  yyval._$.range = [lstack[lstack.length - (len || 1)].range[0], lstack[lstack.length - 1].range[1]];
+                  yyval._$.range = [
+                    lstack[lstack.length - (len || 1)].range[0],
+                    lstack[lstack.length - 1].range[1],
+                  ];
                 }
-                r = this.performAction.call(yyval, yytext, yyleng, yylineno, this.yy, action[1], vstack, lstack);
+                r = this.performAction.call(
+                  yyval,
+                  yytext,
+                  yyleng,
+                  yylineno,
+                  this.yy,
+                  action[1],
+                  vstack,
+                  lstack,
+                );
                 if (typeof r !== "undefined") {
                   return r;
                 }
@@ -15877,7 +18544,8 @@ var require_parser = __commonJS({
                 stack.push(this.productions_[action[1]][0]);
                 vstack.push(yyval.$);
                 lstack.push(yyval._$);
-                newState = table[stack[stack.length - 2]][stack[stack.length - 1]];
+                newState =
+                  table[stack[stack.length - 2]][stack[stack.length - 1]];
                 stack.push(newState);
                 break;
               case 3:
@@ -15885,9 +18553,9 @@ var require_parser = __commonJS({
             }
           }
           return true;
-        }
+        },
       };
-      var lexer = function() {
+      var lexer = (function () {
         var lexer2 = {
           EOF: 1,
           parseError: function parseError(str, hash) {
@@ -15903,7 +18571,12 @@ var require_parser = __commonJS({
             this.yylineno = this.yyleng = 0;
             this.yytext = this.matched = this.match = "";
             this.conditionStack = ["INITIAL"];
-            this.yylloc = { first_line: 1, first_column: 0, last_line: 1, last_column: 0 };
+            this.yylloc = {
+              first_line: 1,
+              first_column: 0,
+              last_line: 1,
+              last_column: 0,
+            };
             if (this.options.ranges) this.yylloc.range = [0, 0];
             this.offset = 0;
             return this;
@@ -15941,7 +18614,13 @@ var require_parser = __commonJS({
               first_line: this.yylloc.first_line,
               last_line: this.yylineno + 1,
               first_column: this.yylloc.first_column,
-              last_column: lines ? (lines.length === oldLines.length ? this.yylloc.first_column : 0) + oldLines[oldLines.length - lines.length].length - lines[0].length : this.yylloc.first_column - len
+              last_column: lines
+                ? (lines.length === oldLines.length
+                    ? this.yylloc.first_column
+                    : 0) +
+                  oldLines[oldLines.length - lines.length].length -
+                  lines[0].length
+                : this.yylloc.first_column - len,
             };
             if (this.options.ranges) {
               this.yylloc.range = [r[0], r[0] + this.yyleng - len];
@@ -15956,15 +18635,23 @@ var require_parser = __commonJS({
             this.unput(this.match.slice(n));
           },
           pastInput: function pastInput() {
-            var past = this.matched.substr(0, this.matched.length - this.match.length);
-            return (past.length > 20 ? "..." : "") + past.substr(-20).replace(/\n/g, "");
+            var past = this.matched.substr(
+              0,
+              this.matched.length - this.match.length,
+            );
+            return (
+              (past.length > 20 ? "..." : "") +
+              past.substr(-20).replace(/\n/g, "")
+            );
           },
           upcomingInput: function upcomingInput() {
             var next = this.match;
             if (next.length < 20) {
               next += this._input.substr(0, 20 - next.length);
             }
-            return (next.substr(0, 20) + (next.length > 20 ? "..." : "")).replace(/\n/g, "");
+            return (
+              next.substr(0, 20) + (next.length > 20 ? "..." : "")
+            ).replace(/\n/g, "");
           },
           showPosition: function showPosition() {
             var pre = this.pastInput();
@@ -15984,7 +18671,10 @@ var require_parser = __commonJS({
             var rules = this._currentRules();
             for (var i = 0; i < rules.length; i++) {
               tempMatch = this._input.match(this.rules[rules[i]]);
-              if (tempMatch && (!match || tempMatch[0].length > match[0].length)) {
+              if (
+                tempMatch &&
+                (!match || tempMatch[0].length > match[0].length)
+              ) {
                 match = tempMatch;
                 index = i;
                 if (!this.options.flex) break;
@@ -15997,19 +18687,28 @@ var require_parser = __commonJS({
                 first_line: this.yylloc.last_line,
                 last_line: this.yylineno + 1,
                 first_column: this.yylloc.last_column,
-                last_column: lines ? lines[lines.length - 1].length - lines[lines.length - 1].match(/\r?\n?/)[0].length : this.yylloc.last_column + match[0].length
+                last_column: lines
+                  ? lines[lines.length - 1].length -
+                    lines[lines.length - 1].match(/\r?\n?/)[0].length
+                  : this.yylloc.last_column + match[0].length,
               };
               this.yytext += match[0];
               this.match += match[0];
               this.matches = match;
               this.yyleng = this.yytext.length;
               if (this.options.ranges) {
-                this.yylloc.range = [this.offset, this.offset += this.yyleng];
+                this.yylloc.range = [this.offset, (this.offset += this.yyleng)];
               }
               this._more = false;
               this._input = this._input.slice(match[0].length);
               this.matched += match[0];
-              token = this.performAction.call(this, this.yy, this, rules[index], this.conditionStack[this.conditionStack.length - 1]);
+              token = this.performAction.call(
+                this,
+                this.yy,
+                this,
+                rules[index],
+                this.conditionStack[this.conditionStack.length - 1],
+              );
               if (this.done && this._input) this.done = false;
               if (token) return token;
               else return;
@@ -16017,7 +18716,13 @@ var require_parser = __commonJS({
             if (this._input === "") {
               return this.EOF;
             } else {
-              return this.parseError("Lexical error on line " + (this.yylineno + 1) + ". Unrecognized text.\n" + this.showPosition(), { text: "", token: null, line: this.yylineno });
+              return this.parseError(
+                "Lexical error on line " +
+                  (this.yylineno + 1) +
+                  ". Unrecognized text.\n" +
+                  this.showPosition(),
+                { text: "", token: null, line: this.yylineno },
+              );
             }
           },
           lex: function lex() {
@@ -16035,19 +18740,29 @@ var require_parser = __commonJS({
             return this.conditionStack.pop();
           },
           _currentRules: function _currentRules() {
-            return this.conditions[this.conditionStack[this.conditionStack.length - 1]].rules;
+            return this.conditions[
+              this.conditionStack[this.conditionStack.length - 1]
+            ].rules;
           },
           topState: function topState() {
             return this.conditionStack[this.conditionStack.length - 2];
           },
           pushState: function begin(condition) {
             this.begin(condition);
-          }
+          },
         };
         lexer2.options = {};
-        lexer2.performAction = function anonymous(yy, yy_, $avoiding_name_collisions, YY_START) {
+        lexer2.performAction = function anonymous(
+          yy,
+          yy_,
+          $avoiding_name_collisions,
+          YY_START,
+        ) {
           function strip(start, end) {
-            return yy_.yytext = yy_.yytext.substring(start, yy_.yyleng - end + start);
+            return (yy_.yytext = yy_.yytext.substring(
+              start,
+              yy_.yyleng - end + start,
+            ));
           }
           var YYSTATE = YY_START;
           switch ($avoiding_name_collisions) {
@@ -16076,7 +18791,9 @@ var require_parser = __commonJS({
               break;
             case 4:
               this.popState();
-              if (this.conditionStack[this.conditionStack.length - 1] === "raw") {
+              if (
+                this.conditionStack[this.conditionStack.length - 1] === "raw"
+              ) {
                 return 15;
               } else {
                 strip(5, 9);
@@ -16217,10 +18934,69 @@ var require_parser = __commonJS({
               break;
           }
         };
-        lexer2.rules = [/^(?:[^\x00]*?(?=(\{\{)))/, /^(?:[^\x00]+)/, /^(?:[^\x00]{2,}?(?=(\{\{|\\\{\{|\\\\\{\{|$)))/, /^(?:\{\{\{\{(?=[^/]))/, /^(?:\{\{\{\{\/[^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=[=}\s\/.])\}\}\}\})/, /^(?:[^\x00]+?(?=(\{\{\{\{)))/, /^(?:[\s\S]*?--(~)?\}\})/, /^(?:\()/, /^(?:\))/, /^(?:\{\{\{\{)/, /^(?:\}\}\}\})/, /^(?:\{\{(~)?>)/, /^(?:\{\{(~)?#>)/, /^(?:\{\{(~)?#\*?)/, /^(?:\{\{(~)?\/)/, /^(?:\{\{(~)?\^\s*(~)?\}\})/, /^(?:\{\{(~)?\s*else\s*(~)?\}\})/, /^(?:\{\{(~)?\^)/, /^(?:\{\{(~)?\s*else\b)/, /^(?:\{\{(~)?\{)/, /^(?:\{\{(~)?&)/, /^(?:\{\{(~)?!--)/, /^(?:\{\{(~)?![\s\S]*?\}\})/, /^(?:\{\{(~)?\*?)/, /^(?:=)/, /^(?:\.\.)/, /^(?:\.(?=([=~}\s\/.)|])))/, /^(?:[\/.])/, /^(?:\s+)/, /^(?:\}(~)?\}\})/, /^(?:(~)?\}\})/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:@)/, /^(?:true(?=([~}\s)])))/, /^(?:false(?=([~}\s)])))/, /^(?:undefined(?=([~}\s)])))/, /^(?:null(?=([~}\s)])))/, /^(?:-?[0-9]+(?:\.[0-9]+)?(?=([~}\s)])))/, /^(?:as\s+\|)/, /^(?:\|)/, /^(?:([^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=([=~}\s\/.)|]))))/, /^(?:\[(\\\]|[^\]])*\])/, /^(?:.)/, /^(?:$)/];
-        lexer2.conditions = { "mu": { "rules": [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44], "inclusive": false }, "emu": { "rules": [2], "inclusive": false }, "com": { "rules": [6], "inclusive": false }, "raw": { "rules": [3, 4, 5], "inclusive": false }, "INITIAL": { "rules": [0, 1, 44], "inclusive": true } };
+        lexer2.rules = [
+          /^(?:[^\x00]*?(?=(\{\{)))/,
+          /^(?:[^\x00]+)/,
+          /^(?:[^\x00]{2,}?(?=(\{\{|\\\{\{|\\\\\{\{|$)))/,
+          /^(?:\{\{\{\{(?=[^/]))/,
+          /^(?:\{\{\{\{\/[^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=[=}\s\/.])\}\}\}\})/,
+          /^(?:[^\x00]+?(?=(\{\{\{\{)))/,
+          /^(?:[\s\S]*?--(~)?\}\})/,
+          /^(?:\()/,
+          /^(?:\))/,
+          /^(?:\{\{\{\{)/,
+          /^(?:\}\}\}\})/,
+          /^(?:\{\{(~)?>)/,
+          /^(?:\{\{(~)?#>)/,
+          /^(?:\{\{(~)?#\*?)/,
+          /^(?:\{\{(~)?\/)/,
+          /^(?:\{\{(~)?\^\s*(~)?\}\})/,
+          /^(?:\{\{(~)?\s*else\s*(~)?\}\})/,
+          /^(?:\{\{(~)?\^)/,
+          /^(?:\{\{(~)?\s*else\b)/,
+          /^(?:\{\{(~)?\{)/,
+          /^(?:\{\{(~)?&)/,
+          /^(?:\{\{(~)?!--)/,
+          /^(?:\{\{(~)?![\s\S]*?\}\})/,
+          /^(?:\{\{(~)?\*?)/,
+          /^(?:=)/,
+          /^(?:\.\.)/,
+          /^(?:\.(?=([=~}\s\/.)|])))/,
+          /^(?:[\/.])/,
+          /^(?:\s+)/,
+          /^(?:\}(~)?\}\})/,
+          /^(?:(~)?\}\})/,
+          /^(?:"(\\["]|[^"])*")/,
+          /^(?:'(\\[']|[^'])*')/,
+          /^(?:@)/,
+          /^(?:true(?=([~}\s)])))/,
+          /^(?:false(?=([~}\s)])))/,
+          /^(?:undefined(?=([~}\s)])))/,
+          /^(?:null(?=([~}\s)])))/,
+          /^(?:-?[0-9]+(?:\.[0-9]+)?(?=([~}\s)])))/,
+          /^(?:as\s+\|)/,
+          /^(?:\|)/,
+          /^(?:([^\s!"#%-,\.\/;->@\[-\^`\{-~]+(?=([=~}\s\/.)|]))))/,
+          /^(?:\[(\\\]|[^\]])*\])/,
+          /^(?:.)/,
+          /^(?:$)/,
+        ];
+        lexer2.conditions = {
+          mu: {
+            rules: [
+              7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+              24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
+              40, 41, 42, 43, 44,
+            ],
+            inclusive: false,
+          },
+          emu: { rules: [2], inclusive: false },
+          com: { rules: [6], inclusive: false },
+          raw: { rules: [3, 4, 5], inclusive: false },
+          INITIAL: { rules: [0, 1, 44], inclusive: true },
+        };
         return lexer2;
-      }();
+      })();
       parser.lexer = lexer;
       function Parser() {
         this.yy = {};
@@ -16228,19 +19004,22 @@ var require_parser = __commonJS({
       Parser.prototype = parser;
       parser.Parser = Parser;
       return new Parser();
-    }();
+    })();
     exports2["default"] = handlebars;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js
 var require_visitor = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/visitor.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
@@ -16255,7 +19034,14 @@ var require_visitor = __commonJS({
         var value = this.accept(node[name]);
         if (this.mutating) {
           if (value && !Visitor.prototype[value.type]) {
-            throw new _exception2["default"]('Unexpected node type "' + value.type + '" found when accepting ' + name + " on " + node.type);
+            throw new _exception2["default"](
+              'Unexpected node type "' +
+                value.type +
+                '" found when accepting ' +
+                name +
+                " on " +
+                node.type,
+            );
           }
           node[name] = value;
         }
@@ -16285,7 +19071,10 @@ var require_visitor = __commonJS({
           return;
         }
         if (!this[object.type]) {
-          throw new _exception2["default"]("Unknown type: " + object.type, object);
+          throw new _exception2["default"](
+            "Unknown type: " + object.type,
+            object,
+          );
         }
         if (this.current) {
           this.parents.unshift(this.current);
@@ -16311,29 +19100,21 @@ var require_visitor = __commonJS({
         visitPartial.call(this, partial);
         this.acceptKey(partial, "program");
       },
-      ContentStatement: function ContentStatement() {
-      },
-      CommentStatement: function CommentStatement() {
-      },
+      ContentStatement: function ContentStatement() {},
+      CommentStatement: function CommentStatement() {},
       SubExpression: visitSubExpression,
-      PathExpression: function PathExpression() {
-      },
-      StringLiteral: function StringLiteral() {
-      },
-      NumberLiteral: function NumberLiteral() {
-      },
-      BooleanLiteral: function BooleanLiteral() {
-      },
-      UndefinedLiteral: function UndefinedLiteral() {
-      },
-      NullLiteral: function NullLiteral() {
-      },
+      PathExpression: function PathExpression() {},
+      StringLiteral: function StringLiteral() {},
+      NumberLiteral: function NumberLiteral() {},
+      BooleanLiteral: function BooleanLiteral() {},
+      UndefinedLiteral: function UndefinedLiteral() {},
+      NullLiteral: function NullLiteral() {},
       Hash: function Hash(hash) {
         this.acceptArray(hash.pairs);
       },
       HashPair: function HashPair(pair) {
         this.acceptRequired(pair, "value");
-      }
+      },
     };
     function visitSubExpression(mustache) {
       this.acceptRequired(mustache, "path");
@@ -16352,35 +19133,45 @@ var require_visitor = __commonJS({
     }
     exports2["default"] = Visitor;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js
 var require_whitespace_control = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/whitespace-control.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _visitor = require_visitor();
     var _visitor2 = _interopRequireDefault(_visitor);
     function WhitespaceControl() {
-      var options = arguments.length <= 0 || arguments[0] === void 0 ? {} : arguments[0];
+      var options =
+        arguments.length <= 0 || arguments[0] === void 0 ? {} : arguments[0];
       this.options = options;
     }
     WhitespaceControl.prototype = new _visitor2["default"]();
-    WhitespaceControl.prototype.Program = function(program3) {
+    WhitespaceControl.prototype.Program = function (program3) {
       var doStandalone = !this.options.ignoreStandalone;
       var isRoot = !this.isRootSeen;
       this.isRootSeen = true;
       var body = program3.body;
       for (var i = 0, l = body.length; i < l; i++) {
-        var current = body[i], strip = this.accept(current);
+        var current = body[i],
+          strip = this.accept(current);
         if (!strip) {
           continue;
         }
-        var _isPrevWhitespace = isPrevWhitespace(body, i, isRoot), _isNextWhitespace = isNextWhitespace(body, i, isRoot), openStandalone = strip.openStandalone && _isPrevWhitespace, closeStandalone = strip.closeStandalone && _isNextWhitespace, inlineStandalone = strip.inlineStandalone && _isPrevWhitespace && _isNextWhitespace;
+        var _isPrevWhitespace = isPrevWhitespace(body, i, isRoot),
+          _isNextWhitespace = isNextWhitespace(body, i, isRoot),
+          openStandalone = strip.openStandalone && _isPrevWhitespace,
+          closeStandalone = strip.closeStandalone && _isNextWhitespace,
+          inlineStandalone =
+            strip.inlineStandalone && _isPrevWhitespace && _isNextWhitespace;
         if (strip.close) {
           omitRight(body, i, true);
         }
@@ -16406,94 +19197,124 @@ var require_whitespace_control = __commonJS({
       }
       return program3;
     };
-    WhitespaceControl.prototype.BlockStatement = WhitespaceControl.prototype.DecoratorBlock = WhitespaceControl.prototype.PartialBlockStatement = function(block) {
-      this.accept(block.program);
-      this.accept(block.inverse);
-      var program3 = block.program || block.inverse, inverse = block.program && block.inverse, firstInverse = inverse, lastInverse = inverse;
-      if (inverse && inverse.chained) {
-        firstInverse = inverse.body[0].program;
-        while (lastInverse.chained) {
-          lastInverse = lastInverse.body[lastInverse.body.length - 1].program;
-        }
-      }
-      var strip = {
-        open: block.openStrip.open,
-        close: block.closeStrip.close,
-        // Determine the standalone candiacy. Basically flag our content as being possibly standalone
-        // so our parent can determine if we actually are standalone
-        openStandalone: isNextWhitespace(program3.body),
-        closeStandalone: isPrevWhitespace((firstInverse || program3).body)
+    WhitespaceControl.prototype.BlockStatement =
+      WhitespaceControl.prototype.DecoratorBlock =
+      WhitespaceControl.prototype.PartialBlockStatement =
+        function (block) {
+          this.accept(block.program);
+          this.accept(block.inverse);
+          var program3 = block.program || block.inverse,
+            inverse = block.program && block.inverse,
+            firstInverse = inverse,
+            lastInverse = inverse;
+          if (inverse && inverse.chained) {
+            firstInverse = inverse.body[0].program;
+            while (lastInverse.chained) {
+              lastInverse =
+                lastInverse.body[lastInverse.body.length - 1].program;
+            }
+          }
+          var strip = {
+            open: block.openStrip.open,
+            close: block.closeStrip.close,
+            // Determine the standalone candiacy. Basically flag our content as being possibly standalone
+            // so our parent can determine if we actually are standalone
+            openStandalone: isNextWhitespace(program3.body),
+            closeStandalone: isPrevWhitespace((firstInverse || program3).body),
+          };
+          if (block.openStrip.close) {
+            omitRight(program3.body, null, true);
+          }
+          if (inverse) {
+            var inverseStrip = block.inverseStrip;
+            if (inverseStrip.open) {
+              omitLeft(program3.body, null, true);
+            }
+            if (inverseStrip.close) {
+              omitRight(firstInverse.body, null, true);
+            }
+            if (block.closeStrip.open) {
+              omitLeft(lastInverse.body, null, true);
+            }
+            if (
+              !this.options.ignoreStandalone &&
+              isPrevWhitespace(program3.body) &&
+              isNextWhitespace(firstInverse.body)
+            ) {
+              omitLeft(program3.body);
+              omitRight(firstInverse.body);
+            }
+          } else if (block.closeStrip.open) {
+            omitLeft(program3.body, null, true);
+          }
+          return strip;
+        };
+    WhitespaceControl.prototype.Decorator =
+      WhitespaceControl.prototype.MustacheStatement = function (mustache) {
+        return mustache.strip;
       };
-      if (block.openStrip.close) {
-        omitRight(program3.body, null, true);
-      }
-      if (inverse) {
-        var inverseStrip = block.inverseStrip;
-        if (inverseStrip.open) {
-          omitLeft(program3.body, null, true);
-        }
-        if (inverseStrip.close) {
-          omitRight(firstInverse.body, null, true);
-        }
-        if (block.closeStrip.open) {
-          omitLeft(lastInverse.body, null, true);
-        }
-        if (!this.options.ignoreStandalone && isPrevWhitespace(program3.body) && isNextWhitespace(firstInverse.body)) {
-          omitLeft(program3.body);
-          omitRight(firstInverse.body);
-        }
-      } else if (block.closeStrip.open) {
-        omitLeft(program3.body, null, true);
-      }
-      return strip;
-    };
-    WhitespaceControl.prototype.Decorator = WhitespaceControl.prototype.MustacheStatement = function(mustache) {
-      return mustache.strip;
-    };
-    WhitespaceControl.prototype.PartialStatement = WhitespaceControl.prototype.CommentStatement = function(node) {
-      var strip = node.strip || {};
-      return {
-        inlineStandalone: true,
-        open: strip.open,
-        close: strip.close
+    WhitespaceControl.prototype.PartialStatement =
+      WhitespaceControl.prototype.CommentStatement = function (node) {
+        var strip = node.strip || {};
+        return {
+          inlineStandalone: true,
+          open: strip.open,
+          close: strip.close,
+        };
       };
-    };
     function isPrevWhitespace(body, i, isRoot) {
       if (i === void 0) {
         i = body.length;
       }
-      var prev = body[i - 1], sibling = body[i - 2];
+      var prev = body[i - 1],
+        sibling = body[i - 2];
       if (!prev) {
         return isRoot;
       }
       if (prev.type === "ContentStatement") {
-        return (sibling || !isRoot ? /\r?\n\s*?$/ : /(^|\r?\n)\s*?$/).test(prev.original);
+        return (sibling || !isRoot ? /\r?\n\s*?$/ : /(^|\r?\n)\s*?$/).test(
+          prev.original,
+        );
       }
     }
     function isNextWhitespace(body, i, isRoot) {
       if (i === void 0) {
         i = -1;
       }
-      var next = body[i + 1], sibling = body[i + 2];
+      var next = body[i + 1],
+        sibling = body[i + 2];
       if (!next) {
         return isRoot;
       }
       if (next.type === "ContentStatement") {
-        return (sibling || !isRoot ? /^\s*?\r?\n/ : /^\s*?(\r?\n|$)/).test(next.original);
+        return (sibling || !isRoot ? /^\s*?\r?\n/ : /^\s*?(\r?\n|$)/).test(
+          next.original,
+        );
       }
     }
     function omitRight(body, i, multiple) {
       var current = body[i == null ? 0 : i + 1];
-      if (!current || current.type !== "ContentStatement" || !multiple && current.rightStripped) {
+      if (
+        !current ||
+        current.type !== "ContentStatement" ||
+        (!multiple && current.rightStripped)
+      ) {
         return;
       }
       var original = current.value;
-      current.value = current.value.replace(multiple ? /^\s+/ : /^[ \t]*\r?\n?/, "");
+      current.value = current.value.replace(
+        multiple ? /^\s+/ : /^[ \t]*\r?\n?/,
+        "",
+      );
       current.rightStripped = current.value !== original;
     }
     function omitLeft(body, i, multiple) {
       var current = body[i == null ? body.length - 1 : i - 1];
-      if (!current || current.type !== "ContentStatement" || !multiple && current.leftStripped) {
+      if (
+        !current ||
+        current.type !== "ContentStatement" ||
+        (!multiple && current.leftStripped)
+      ) {
         return;
       }
       var original = current.value;
@@ -16503,7 +19324,7 @@ var require_whitespace_control = __commonJS({
     }
     exports2["default"] = WhitespaceControl;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/helpers.js
@@ -16522,7 +19343,7 @@ var require_helpers2 = __commonJS({
     exports2.prepareProgram = prepareProgram;
     exports2.preparePartialBlock = preparePartialBlock;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
@@ -16530,18 +19351,21 @@ var require_helpers2 = __commonJS({
       close = close.path ? close.path.original : close;
       if (open.path.original !== close) {
         var errorNode = { loc: open.path.loc };
-        throw new _exception2["default"](open.path.original + " doesn't match " + close, errorNode);
+        throw new _exception2["default"](
+          open.path.original + " doesn't match " + close,
+          errorNode,
+        );
       }
     }
     function SourceLocation(source, locInfo) {
       this.source = source;
       this.start = {
         line: locInfo.first_line,
-        column: locInfo.first_column
+        column: locInfo.first_column,
       };
       this.end = {
         line: locInfo.last_line,
-        column: locInfo.last_column
+        column: locInfo.last_column,
       };
     }
     function id(token) {
@@ -16554,7 +19378,7 @@ var require_helpers2 = __commonJS({
     function stripFlags(open, close) {
       return {
         open: open.charAt(2) === "~",
-        close: close.charAt(close.length - 3) === "~"
+        close: close.charAt(close.length - 3) === "~",
       };
     }
     function stripComment(comment) {
@@ -16562,13 +19386,18 @@ var require_helpers2 = __commonJS({
     }
     function preparePath(data, parts, loc) {
       loc = this.locInfo(loc);
-      var original = data ? "@" : "", dig = [], depth = 0;
+      var original = data ? "@" : "",
+        dig = [],
+        depth = 0;
       for (var i = 0, l = parts.length; i < l; i++) {
-        var part = parts[i].part, isLiteral = parts[i].original !== part;
+        var part = parts[i].part,
+          isLiteral = parts[i].original !== part;
         original += (parts[i].separator || "") + part;
         if (!isLiteral && (part === ".." || part === "." || part === "this")) {
           if (dig.length > 0) {
-            throw new _exception2["default"]("Invalid path: " + original, { loc });
+            throw new _exception2["default"]("Invalid path: " + original, {
+              loc,
+            });
           } else if (part === "..") {
             depth++;
           }
@@ -16582,11 +19411,12 @@ var require_helpers2 = __commonJS({
         depth,
         parts: dig,
         original,
-        loc
+        loc,
       };
     }
     function prepareMustache(path, params, hash, open, strip, locInfo) {
-      var escapeFlag = open.charAt(3) || open.charAt(2), escaped = escapeFlag !== "{" && escapeFlag !== "&";
+      var escapeFlag = open.charAt(3) || open.charAt(2),
+        escaped = escapeFlag !== "{" && escapeFlag !== "&";
       var decorator = /\*/.test(open);
       return {
         type: decorator ? "Decorator" : "MustacheStatement",
@@ -16595,7 +19425,7 @@ var require_helpers2 = __commonJS({
         hash,
         escaped,
         strip,
-        loc: this.locInfo(locInfo)
+        loc: this.locInfo(locInfo),
       };
     }
     function prepareRawBlock(openRawBlock, contents, close, locInfo) {
@@ -16605,7 +19435,7 @@ var require_helpers2 = __commonJS({
         type: "Program",
         body: contents,
         strip: {},
-        loc: locInfo
+        loc: locInfo,
       };
       return {
         type: "BlockStatement",
@@ -16616,19 +19446,30 @@ var require_helpers2 = __commonJS({
         openStrip: {},
         inverseStrip: {},
         closeStrip: {},
-        loc: locInfo
+        loc: locInfo,
       };
     }
-    function prepareBlock(openBlock, program3, inverseAndProgram, close, inverted, locInfo) {
+    function prepareBlock(
+      openBlock,
+      program3,
+      inverseAndProgram,
+      close,
+      inverted,
+      locInfo,
+    ) {
       if (close && close.path) {
         validateClose(openBlock, close);
       }
       var decorator = /\*/.test(openBlock.open);
       program3.blockParams = openBlock.blockParams;
-      var inverse = void 0, inverseStrip = void 0;
+      var inverse = void 0,
+        inverseStrip = void 0;
       if (inverseAndProgram) {
         if (decorator) {
-          throw new _exception2["default"]("Unexpected inverse block on decorator", inverseAndProgram);
+          throw new _exception2["default"](
+            "Unexpected inverse block on decorator",
+            inverseAndProgram,
+          );
         }
         if (inverseAndProgram.chain) {
           inverseAndProgram.program.body[0].closeStrip = close.strip;
@@ -16651,23 +19492,24 @@ var require_helpers2 = __commonJS({
         openStrip: openBlock.strip,
         inverseStrip,
         closeStrip: close && close.strip,
-        loc: this.locInfo(locInfo)
+        loc: this.locInfo(locInfo),
       };
     }
     function prepareProgram(statements, loc) {
       if (!loc && statements.length) {
-        var firstLoc = statements[0].loc, lastLoc = statements[statements.length - 1].loc;
+        var firstLoc = statements[0].loc,
+          lastLoc = statements[statements.length - 1].loc;
         if (firstLoc && lastLoc) {
           loc = {
             source: firstLoc.source,
             start: {
               line: firstLoc.start.line,
-              column: firstLoc.start.column
+              column: firstLoc.start.column,
             },
             end: {
               line: lastLoc.end.line,
-              column: lastLoc.end.column
-            }
+              column: lastLoc.end.column,
+            },
           };
         }
       }
@@ -16675,7 +19517,7 @@ var require_helpers2 = __commonJS({
         type: "Program",
         body: statements,
         strip: {},
-        loc
+        loc,
       };
     }
     function preparePartialBlock(open, program3, close, locInfo) {
@@ -16688,10 +19530,10 @@ var require_helpers2 = __commonJS({
         program: program3,
         openStrip: open.strip,
         closeStrip: close && close.strip,
-        loc: this.locInfo(locInfo)
+        loc: this.locInfo(locInfo),
       };
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/base.js
@@ -16708,7 +19550,8 @@ var require_base2 = __commonJS({
         var newObj = {};
         if (obj != null) {
           for (var key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            if (Object.prototype.hasOwnProperty.call(obj, key))
+              newObj[key] = obj[key];
           }
         }
         newObj["default"] = obj;
@@ -16716,7 +19559,7 @@ var require_base2 = __commonJS({
       }
     }
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _parser = require_parser();
     var _parser2 = _interopRequireDefault(_parser);
@@ -16733,7 +19576,7 @@ var require_base2 = __commonJS({
         return input;
       }
       _parser2["default"].yy = yy;
-      yy.locInfo = function(locInfo) {
+      yy.locInfo = function (locInfo) {
         return new yy.SourceLocation(options && options.srcName, locInfo);
       };
       var ast = _parser2["default"].parse(input);
@@ -16744,7 +19587,7 @@ var require_base2 = __commonJS({
       var strip = new _whitespaceControl2["default"](options);
       return strip.accept(ast);
     }
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/compiler.js
@@ -16756,7 +19599,7 @@ var require_compiler = __commonJS({
     exports2.precompile = precompile;
     exports2.compile = compile;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _exception = require_exception();
     var _exception2 = _interopRequireDefault(_exception);
@@ -16764,8 +19607,7 @@ var require_compiler = __commonJS({
     var _ast = require_ast();
     var _ast2 = _interopRequireDefault(_ast);
     var slice = [].slice;
-    function Compiler() {
-    }
+    function Compiler() {}
     Compiler.prototype = {
       compiler: Compiler,
       equals: function equals(other) {
@@ -16774,8 +19616,12 @@ var require_compiler = __commonJS({
           return false;
         }
         for (var i = 0; i < len; i++) {
-          var opcode = this.opcodes[i], otherOpcode = other.opcodes[i];
-          if (opcode.opcode !== otherOpcode.opcode || !argEquals(opcode.args, otherOpcode.args)) {
+          var opcode = this.opcodes[i],
+            otherOpcode = other.opcodes[i];
+          if (
+            opcode.opcode !== otherOpcode.opcode ||
+            !argEquals(opcode.args, otherOpcode.args)
+          ) {
             return false;
           }
         }
@@ -16796,20 +19642,26 @@ var require_compiler = __commonJS({
         this.stringParams = options.stringParams;
         this.trackIds = options.trackIds;
         options.blockParams = options.blockParams || [];
-        options.knownHelpers = _utils.extend(/* @__PURE__ */ Object.create(null), {
-          helperMissing: true,
-          blockHelperMissing: true,
-          each: true,
-          "if": true,
-          unless: true,
-          "with": true,
-          log: true,
-          lookup: true
-        }, options.knownHelpers);
+        options.knownHelpers = _utils.extend(
+          /* @__PURE__ */ Object.create(null),
+          {
+            helperMissing: true,
+            blockHelperMissing: true,
+            each: true,
+            if: true,
+            unless: true,
+            with: true,
+            log: true,
+            lookup: true,
+          },
+          options.knownHelpers,
+        );
         return this.accept(program3);
       },
       compileProgram: function compileProgram(program3) {
-        var childCompiler = new this.compiler(), result = childCompiler.compile(program3, this.options), guid = this.guid++;
+        var childCompiler = new this.compiler(),
+          result = childCompiler.compile(program3, this.options),
+          guid = this.guid++;
         this.usePartial = this.usePartial || result.usePartial;
         this.children[guid] = result;
         this.useDepths = this.useDepths || result.useDepths;
@@ -16826,18 +19678,22 @@ var require_compiler = __commonJS({
       },
       Program: function Program(program3) {
         this.options.blockParams.unshift(program3.blockParams);
-        var body = program3.body, bodyLength = body.length;
+        var body = program3.body,
+          bodyLength = body.length;
         for (var i = 0; i < bodyLength; i++) {
           this.accept(body[i]);
         }
         this.options.blockParams.shift();
         this.isSimple = bodyLength === 1;
-        this.blockParams = program3.blockParams ? program3.blockParams.length : 0;
+        this.blockParams = program3.blockParams
+          ? program3.blockParams.length
+          : 0;
         return this;
       },
       BlockStatement: function BlockStatement(block) {
         transformLiteralToPath(block);
-        var program3 = block.program, inverse = block.inverse;
+        var program3 = block.program,
+          inverse = block.inverse;
         program3 = program3 && this.compileProgram(program3);
         inverse = inverse && this.compileProgram(inverse);
         var type = this.classifySexpr(block);
@@ -16859,8 +19715,10 @@ var require_compiler = __commonJS({
         this.opcode("append");
       },
       DecoratorBlock: function DecoratorBlock(decorator) {
-        var program3 = decorator.program && this.compileProgram(decorator.program);
-        var params = this.setupFullMustacheParams(decorator, program3, void 0), path = decorator.path;
+        var program3 =
+          decorator.program && this.compileProgram(decorator.program);
+        var params = this.setupFullMustacheParams(decorator, program3, void 0),
+          path = decorator.path;
         this.useDecorators = true;
         this.opcode("registerDecorator", params.length, path.original);
       },
@@ -16872,7 +19730,10 @@ var require_compiler = __commonJS({
         }
         var params = partial.params;
         if (params.length > 1) {
-          throw new _exception2["default"]("Unsupported number of partial arguments: " + params.length, partial);
+          throw new _exception2["default"](
+            "Unsupported number of partial arguments: " + params.length,
+            partial,
+          );
         } else if (!params.length) {
           if (this.options.explicitPartialContext) {
             this.opcode("pushLiteral", "undefined");
@@ -16880,7 +19741,8 @@ var require_compiler = __commonJS({
             params.push({ type: "PathExpression", parts: [], depth: 0 });
           }
         }
-        var partialName = partial.name.original, isDynamic = partial.name.type === "SubExpression";
+        var partialName = partial.name.original,
+          isDynamic = partial.name.type === "SubExpression";
         if (isDynamic) {
           this.accept(partial.name);
         }
@@ -16912,8 +19774,7 @@ var require_compiler = __commonJS({
           this.opcode("appendContent", content.value);
         }
       },
-      CommentStatement: function CommentStatement() {
-      },
+      CommentStatement: function CommentStatement() {},
       SubExpression: function SubExpression(sexpr) {
         transformLiteralToPath(sexpr);
         var type = this.classifySexpr(sexpr);
@@ -16926,7 +19787,9 @@ var require_compiler = __commonJS({
         }
       },
       ambiguousSexpr: function ambiguousSexpr(sexpr, program3, inverse) {
-        var path = sexpr.path, name = path.parts[0], isBlock = program3 != null || inverse != null;
+        var path = sexpr.path,
+          name = path.parts[0],
+          isBlock = program3 != null || inverse != null;
         this.opcode("getContext", path.depth);
         this.opcode("pushProgram", program3);
         this.opcode("pushProgram", inverse);
@@ -16941,22 +19804,35 @@ var require_compiler = __commonJS({
         this.opcode("resolvePossibleLambda");
       },
       helperSexpr: function helperSexpr(sexpr, program3, inverse) {
-        var params = this.setupFullMustacheParams(sexpr, program3, inverse), path = sexpr.path, name = path.parts[0];
+        var params = this.setupFullMustacheParams(sexpr, program3, inverse),
+          path = sexpr.path,
+          name = path.parts[0];
         if (this.options.knownHelpers[name]) {
           this.opcode("invokeKnownHelper", params.length, name);
         } else if (this.options.knownHelpersOnly) {
-          throw new _exception2["default"]("You specified knownHelpersOnly, but used the unknown helper " + name, sexpr);
+          throw new _exception2["default"](
+            "You specified knownHelpersOnly, but used the unknown helper " +
+              name,
+            sexpr,
+          );
         } else {
           path.strict = true;
           path.falsy = true;
           this.accept(path);
-          this.opcode("invokeHelper", params.length, path.original, _ast2["default"].helpers.simpleId(path));
+          this.opcode(
+            "invokeHelper",
+            params.length,
+            path.original,
+            _ast2["default"].helpers.simpleId(path),
+          );
         }
       },
       PathExpression: function PathExpression(path) {
         this.addDepth(path.depth);
         this.opcode("getContext", path.depth);
-        var name = path.parts[0], scoped = _ast2["default"].helpers.scopedId(path), blockParamId = !path.depth && !scoped && this.blockParamIndex(name);
+        var name = path.parts[0],
+          scoped = _ast2["default"].helpers.scopedId(path),
+          blockParamId = !path.depth && !scoped && this.blockParamIndex(name);
         if (blockParamId) {
           this.opcode("lookupBlockParam", blockParamId, path.parts);
         } else if (!name) {
@@ -16965,7 +19841,13 @@ var require_compiler = __commonJS({
           this.options.data = true;
           this.opcode("lookupData", path.depth, path.parts, path.strict);
         } else {
-          this.opcode("lookupOnContext", path.parts, path.falsy, path.strict, scoped);
+          this.opcode(
+            "lookupOnContext",
+            path.parts,
+            path.falsy,
+            path.strict,
+            scoped,
+          );
         }
       },
       StringLiteral: function StringLiteral(string) {
@@ -16984,7 +19866,9 @@ var require_compiler = __commonJS({
         this.opcode("pushLiteral", "null");
       },
       Hash: function Hash(hash) {
-        var pairs = hash.pairs, i = 0, l = pairs.length;
+        var pairs = hash.pairs,
+          i = 0,
+          l = pairs.length;
         this.opcode("pushHash");
         for (; i < l; i++) {
           this.pushParam(pairs[i].value);
@@ -16999,7 +19883,7 @@ var require_compiler = __commonJS({
         this.opcodes.push({
           opcode: name,
           args: slice.call(arguments, 1),
-          loc: this.sourceNode[0].loc
+          loc: this.sourceNode[0].loc,
         });
       },
       addDepth: function addDepth(depth) {
@@ -17010,11 +19894,14 @@ var require_compiler = __commonJS({
       },
       classifySexpr: function classifySexpr(sexpr) {
         var isSimple = _ast2["default"].helpers.simpleId(sexpr.path);
-        var isBlockParam = isSimple && !!this.blockParamIndex(sexpr.path.parts[0]);
-        var isHelper = !isBlockParam && _ast2["default"].helpers.helperExpression(sexpr);
+        var isBlockParam =
+          isSimple && !!this.blockParamIndex(sexpr.path.parts[0]);
+        var isHelper =
+          !isBlockParam && _ast2["default"].helpers.helperExpression(sexpr);
         var isEligible = !isBlockParam && (isHelper || isSimple);
         if (isEligible && !isHelper) {
-          var _name = sexpr.path.parts[0], options = this.options;
+          var _name = sexpr.path.parts[0],
+            options = this.options;
           if (options.knownHelpers[_name]) {
             isHelper = true;
           } else if (options.knownHelpersOnly) {
@@ -17051,16 +19938,28 @@ var require_compiler = __commonJS({
         } else {
           if (this.trackIds) {
             var blockParamIndex = void 0;
-            if (val.parts && !_ast2["default"].helpers.scopedId(val) && !val.depth) {
+            if (
+              val.parts &&
+              !_ast2["default"].helpers.scopedId(val) &&
+              !val.depth
+            ) {
               blockParamIndex = this.blockParamIndex(val.parts[0]);
             }
             if (blockParamIndex) {
               var blockParamChild = val.parts.slice(1).join(".");
-              this.opcode("pushId", "BlockParam", blockParamIndex, blockParamChild);
+              this.opcode(
+                "pushId",
+                "BlockParam",
+                blockParamIndex,
+                blockParamChild,
+              );
             } else {
               value = val.original || value;
               if (value.replace) {
-                value = value.replace(/^this(?:\.|$)/, "").replace(/^\.\//, "").replace(/^\.$/, "");
+                value = value
+                  .replace(/^this(?:\.|$)/, "")
+                  .replace(/^\.\//, "")
+                  .replace(/^\.$/, "");
               }
               this.opcode("pushId", val.type, value);
             }
@@ -17068,7 +19967,12 @@ var require_compiler = __commonJS({
           this.accept(val);
         }
       },
-      setupFullMustacheParams: function setupFullMustacheParams(sexpr, program3, inverse, omitEmpty) {
+      setupFullMustacheParams: function setupFullMustacheParams(
+        sexpr,
+        program3,
+        inverse,
+        omitEmpty,
+      ) {
         var params = sexpr.params;
         this.pushParams(params);
         this.opcode("pushProgram", program3);
@@ -17081,17 +19985,28 @@ var require_compiler = __commonJS({
         return params;
       },
       blockParamIndex: function blockParamIndex(name) {
-        for (var depth = 0, len = this.options.blockParams.length; depth < len; depth++) {
-          var blockParams = this.options.blockParams[depth], param = blockParams && _utils.indexOf(blockParams, name);
+        for (
+          var depth = 0, len = this.options.blockParams.length;
+          depth < len;
+          depth++
+        ) {
+          var blockParams = this.options.blockParams[depth],
+            param = blockParams && _utils.indexOf(blockParams, name);
           if (blockParams && param >= 0) {
             return [depth, param];
           }
         }
-      }
+      },
     };
     function precompile(input, options, env2) {
-      if (input == null || typeof input !== "string" && input.type !== "Program") {
-        throw new _exception2["default"]("You must pass a string or Handlebars AST to Handlebars.precompile. You passed " + input);
+      if (
+        input == null ||
+        (typeof input !== "string" && input.type !== "Program")
+      ) {
+        throw new _exception2["default"](
+          "You must pass a string or Handlebars AST to Handlebars.precompile. You passed " +
+            input,
+        );
       }
       options = options || {};
       if (!("data" in options)) {
@@ -17100,13 +20015,20 @@ var require_compiler = __commonJS({
       if (options.compat) {
         options.useDepths = true;
       }
-      var ast = env2.parse(input, options), environment = new env2.Compiler().compile(ast, options);
+      var ast = env2.parse(input, options),
+        environment = new env2.Compiler().compile(ast, options);
       return new env2.JavaScriptCompiler().compile(environment, options);
     }
     function compile(input, options, env2) {
       if (options === void 0) options = {};
-      if (input == null || typeof input !== "string" && input.type !== "Program") {
-        throw new _exception2["default"]("You must pass a string or Handlebars AST to Handlebars.compile. You passed " + input);
+      if (
+        input == null ||
+        (typeof input !== "string" && input.type !== "Program")
+      ) {
+        throw new _exception2["default"](
+          "You must pass a string or Handlebars AST to Handlebars.compile. You passed " +
+            input,
+        );
       }
       options = _utils.extend({}, options);
       if (!("data" in options)) {
@@ -17117,7 +20039,14 @@ var require_compiler = __commonJS({
       }
       var compiled = void 0;
       function compileInput() {
-        var ast = env2.parse(input, options), environment = new env2.Compiler().compile(ast, options), templateSpec = new env2.JavaScriptCompiler().compile(environment, options, void 0, true);
+        var ast = env2.parse(input, options),
+          environment = new env2.Compiler().compile(ast, options),
+          templateSpec = new env2.JavaScriptCompiler().compile(
+            environment,
+            options,
+            void 0,
+            true,
+          );
         return env2.template(templateSpec);
       }
       function ret(context, execOptions) {
@@ -17126,13 +20055,13 @@ var require_compiler = __commonJS({
         }
         return compiled.call(this, context, execOptions);
       }
-      ret._setup = function(setupOptions) {
+      ret._setup = function (setupOptions) {
         if (!compiled) {
           compiled = compileInput();
         }
         return compiled._setup(setupOptions);
       };
-      ret._child = function(i, data, blockParams, depths) {
+      ret._child = function (i, data, blockParams, depths) {
         if (!compiled) {
           compiled = compileInput();
         }
@@ -17162,24 +20091,27 @@ var require_compiler = __commonJS({
           depth: 0,
           parts: [literal.original + ""],
           original: literal.original + "",
-          loc: literal.loc
+          loc: literal.loc,
         };
       }
     }
-  }
+  },
 });
 
 // node_modules/source-map/lib/base64.js
 var require_base64 = __commonJS({
   "node_modules/source-map/lib/base64.js"(exports2) {
-    var intToCharMap = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");
-    exports2.encode = function(number) {
+    var intToCharMap =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split(
+        "",
+      );
+    exports2.encode = function (number) {
       if (0 <= number && number < intToCharMap.length) {
         return intToCharMap[number];
       }
       throw new TypeError("Must be between 0 and 63: " + number);
     };
-    exports2.decode = function(charCode) {
+    exports2.decode = function (charCode) {
       var bigA = 65;
       var bigZ = 90;
       var littleA = 97;
@@ -17207,7 +20139,7 @@ var require_base64 = __commonJS({
       }
       return -1;
     };
-  }
+  },
 });
 
 // node_modules/source-map/lib/base64-vlq.js
@@ -17261,7 +20193,7 @@ var require_base64_vlq = __commonJS({
       aOutParam.value = fromVLQSigned(result);
       aOutParam.rest = aIndex;
     };
-  }
+  },
 });
 
 // node_modules/source-map/lib/util.js
@@ -17277,7 +20209,8 @@ var require_util2 = __commonJS({
       }
     }
     exports2.getArg = getArg;
-    var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.-]*)(?::(\d+))?(.*)$/;
+    var urlRegexp =
+      /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.-]*)(?::(\d+))?(.*)$/;
     var dataUrlRegexp = /^data:.+\,.+$/;
     function urlParse(aUrl) {
       var match = aUrl.match(urlRegexp);
@@ -17289,7 +20222,7 @@ var require_util2 = __commonJS({
         auth: match[2],
         host: match[3],
         port: match[4],
-        path: match[5]
+        path: match[5],
       };
     }
     exports2.urlParse = urlParse;
@@ -17377,7 +20310,10 @@ var require_util2 = __commonJS({
         aRootUrl.host = aPath;
         return urlGenerate(aRootUrl);
       }
-      var joined = aPath.charAt(0) === "/" ? aPath : normalize(aRoot.replace(/\/+$/, "") + "/" + aPath);
+      var joined =
+        aPath.charAt(0) === "/"
+          ? aPath
+          : normalize(aRoot.replace(/\/+$/, "") + "/" + aPath);
       if (aRootUrl) {
         aRootUrl.path = joined;
         return urlGenerate(aRootUrl);
@@ -17385,7 +20321,7 @@ var require_util2 = __commonJS({
       return joined;
     }
     exports2.join = join;
-    exports2.isAbsolute = function(aPath) {
+    exports2.isAbsolute = function (aPath) {
       return aPath.charAt(0) === "/" || urlRegexp.test(aPath);
     };
     function relative(aRoot, aPath) {
@@ -17408,10 +20344,10 @@ var require_util2 = __commonJS({
       return Array(level + 1).join("../") + aPath.substr(aRoot.length + 1);
     }
     exports2.relative = relative;
-    var supportsNullProto = function() {
+    var supportsNullProto = (function () {
       var obj = /* @__PURE__ */ Object.create(null);
       return !("__proto__" in obj);
-    }();
+    })();
     function identity(s) {
       return s;
     }
@@ -17437,7 +20373,17 @@ var require_util2 = __commonJS({
       if (length < 9) {
         return false;
       }
-      if (s.charCodeAt(length - 1) !== 95 || s.charCodeAt(length - 2) !== 95 || s.charCodeAt(length - 3) !== 111 || s.charCodeAt(length - 4) !== 116 || s.charCodeAt(length - 5) !== 111 || s.charCodeAt(length - 6) !== 114 || s.charCodeAt(length - 7) !== 112 || s.charCodeAt(length - 8) !== 95 || s.charCodeAt(length - 9) !== 95) {
+      if (
+        s.charCodeAt(length - 1) !== 95 ||
+        s.charCodeAt(length - 2) !== 95 ||
+        s.charCodeAt(length - 3) !== 111 ||
+        s.charCodeAt(length - 4) !== 116 ||
+        s.charCodeAt(length - 5) !== 111 ||
+        s.charCodeAt(length - 6) !== 114 ||
+        s.charCodeAt(length - 7) !== 112 ||
+        s.charCodeAt(length - 8) !== 95 ||
+        s.charCodeAt(length - 9) !== 95
+      ) {
         return false;
       }
       for (var i = length - 10; i >= 0; i--) {
@@ -17447,7 +20393,11 @@ var require_util2 = __commonJS({
       }
       return true;
     }
-    function compareByOriginalPositions(mappingA, mappingB, onlyCompareOriginal) {
+    function compareByOriginalPositions(
+      mappingA,
+      mappingB,
+      onlyCompareOriginal,
+    ) {
       var cmp = strcmp(mappingA.source, mappingB.source);
       if (cmp !== 0) {
         return cmp;
@@ -17471,7 +20421,11 @@ var require_util2 = __commonJS({
       return strcmp(mappingA.name, mappingB.name);
     }
     exports2.compareByOriginalPositions = compareByOriginalPositions;
-    function compareByGeneratedPositionsDeflated(mappingA, mappingB, onlyCompareGenerated) {
+    function compareByGeneratedPositionsDeflated(
+      mappingA,
+      mappingB,
+      onlyCompareGenerated,
+    ) {
       var cmp = mappingA.generatedLine - mappingB.generatedLine;
       if (cmp !== 0) {
         return cmp;
@@ -17494,7 +20448,8 @@ var require_util2 = __commonJS({
       }
       return strcmp(mappingA.name, mappingB.name);
     }
-    exports2.compareByGeneratedPositionsDeflated = compareByGeneratedPositionsDeflated;
+    exports2.compareByGeneratedPositionsDeflated =
+      compareByGeneratedPositionsDeflated;
     function strcmp(aStr1, aStr2) {
       if (aStr1 === aStr2) {
         return 0;
@@ -17533,7 +20488,8 @@ var require_util2 = __commonJS({
       }
       return strcmp(mappingA.name, mappingB.name);
     }
-    exports2.compareByGeneratedPositionsInflated = compareByGeneratedPositionsInflated;
+    exports2.compareByGeneratedPositionsInflated =
+      compareByGeneratedPositionsInflated;
     function parseSourceMapInput(str) {
       return JSON.parse(str.replace(/^\)]}'[^\n]*\n/, ""));
     }
@@ -17562,7 +20518,7 @@ var require_util2 = __commonJS({
       return normalize(sourceURL);
     }
     exports2.computeSourceURL = computeSourceURL;
-  }
+  },
 });
 
 // node_modules/source-map/lib/array-set.js
@@ -17573,7 +20529,9 @@ var require_array_set = __commonJS({
     var hasNativeMap = typeof Map !== "undefined";
     function ArraySet() {
       this._array = [];
-      this._set = hasNativeMap ? /* @__PURE__ */ new Map() : /* @__PURE__ */ Object.create(null);
+      this._set = hasNativeMap
+        ? /* @__PURE__ */ new Map()
+        : /* @__PURE__ */ Object.create(null);
     }
     ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
       var set = new ArraySet();
@@ -17583,11 +20541,15 @@ var require_array_set = __commonJS({
       return set;
     };
     ArraySet.prototype.size = function ArraySet_size() {
-      return hasNativeMap ? this._set.size : Object.getOwnPropertyNames(this._set).length;
+      return hasNativeMap
+        ? this._set.size
+        : Object.getOwnPropertyNames(this._set).length;
     };
     ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
       var sStr = hasNativeMap ? aStr : util2.toSetString(aStr);
-      var isDuplicate = hasNativeMap ? this.has(aStr) : has.call(this._set, sStr);
+      var isDuplicate = hasNativeMap
+        ? this.has(aStr)
+        : has.call(this._set, sStr);
       var idx = this._array.length;
       if (!isDuplicate || aAllowDuplicates) {
         this._array.push(aStr);
@@ -17632,7 +20594,7 @@ var require_array_set = __commonJS({
       return this._array.slice();
     };
     exports2.ArraySet = ArraySet;
-  }
+  },
 });
 
 // node_modules/source-map/lib/mapping-list.js
@@ -17644,14 +20606,21 @@ var require_mapping_list = __commonJS({
       var lineB = mappingB.generatedLine;
       var columnA = mappingA.generatedColumn;
       var columnB = mappingB.generatedColumn;
-      return lineB > lineA || lineB == lineA && columnB >= columnA || util2.compareByGeneratedPositionsInflated(mappingA, mappingB) <= 0;
+      return (
+        lineB > lineA ||
+        (lineB == lineA && columnB >= columnA) ||
+        util2.compareByGeneratedPositionsInflated(mappingA, mappingB) <= 0
+      );
     }
     function MappingList() {
       this._array = [];
       this._sorted = true;
       this._last = { generatedLine: -1, generatedColumn: 0 };
     }
-    MappingList.prototype.unsortedForEach = function MappingList_forEach(aCallback, aThisArg) {
+    MappingList.prototype.unsortedForEach = function MappingList_forEach(
+      aCallback,
+      aThisArg,
+    ) {
       this._array.forEach(aCallback, aThisArg);
     };
     MappingList.prototype.add = function MappingList_add(aMapping) {
@@ -17671,7 +20640,7 @@ var require_mapping_list = __commonJS({
       return this._array;
     };
     exports2.MappingList = MappingList;
-  }
+  },
 });
 
 // node_modules/source-map/lib/source-map-generator.js
@@ -17694,243 +20663,309 @@ var require_source_map_generator = __commonJS({
       this._sourcesContents = null;
     }
     SourceMapGenerator.prototype._version = 3;
-    SourceMapGenerator.fromSourceMap = function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
-      var sourceRoot = aSourceMapConsumer.sourceRoot;
-      var generator = new SourceMapGenerator({
-        file: aSourceMapConsumer.file,
-        sourceRoot
-      });
-      aSourceMapConsumer.eachMapping(function(mapping) {
-        var newMapping = {
-          generated: {
-            line: mapping.generatedLine,
-            column: mapping.generatedColumn
-          }
-        };
-        if (mapping.source != null) {
-          newMapping.source = mapping.source;
-          if (sourceRoot != null) {
-            newMapping.source = util2.relative(sourceRoot, newMapping.source);
-          }
-          newMapping.original = {
-            line: mapping.originalLine,
-            column: mapping.originalColumn
+    SourceMapGenerator.fromSourceMap =
+      function SourceMapGenerator_fromSourceMap(aSourceMapConsumer) {
+        var sourceRoot = aSourceMapConsumer.sourceRoot;
+        var generator = new SourceMapGenerator({
+          file: aSourceMapConsumer.file,
+          sourceRoot,
+        });
+        aSourceMapConsumer.eachMapping(function (mapping) {
+          var newMapping = {
+            generated: {
+              line: mapping.generatedLine,
+              column: mapping.generatedColumn,
+            },
           };
-          if (mapping.name != null) {
-            newMapping.name = mapping.name;
+          if (mapping.source != null) {
+            newMapping.source = mapping.source;
+            if (sourceRoot != null) {
+              newMapping.source = util2.relative(sourceRoot, newMapping.source);
+            }
+            newMapping.original = {
+              line: mapping.originalLine,
+              column: mapping.originalColumn,
+            };
+            if (mapping.name != null) {
+              newMapping.name = mapping.name;
+            }
+          }
+          generator.addMapping(newMapping);
+        });
+        aSourceMapConsumer.sources.forEach(function (sourceFile) {
+          var sourceRelative = sourceFile;
+          if (sourceRoot !== null) {
+            sourceRelative = util2.relative(sourceRoot, sourceFile);
+          }
+          if (!generator._sources.has(sourceRelative)) {
+            generator._sources.add(sourceRelative);
+          }
+          var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+          if (content != null) {
+            generator.setSourceContent(sourceFile, content);
+          }
+        });
+        return generator;
+      };
+    SourceMapGenerator.prototype.addMapping =
+      function SourceMapGenerator_addMapping(aArgs) {
+        var generated = util2.getArg(aArgs, "generated");
+        var original = util2.getArg(aArgs, "original", null);
+        var source = util2.getArg(aArgs, "source", null);
+        var name = util2.getArg(aArgs, "name", null);
+        if (!this._skipValidation) {
+          this._validateMapping(generated, original, source, name);
+        }
+        if (source != null) {
+          source = String(source);
+          if (!this._sources.has(source)) {
+            this._sources.add(source);
           }
         }
-        generator.addMapping(newMapping);
-      });
-      aSourceMapConsumer.sources.forEach(function(sourceFile) {
-        var sourceRelative = sourceFile;
-        if (sourceRoot !== null) {
-          sourceRelative = util2.relative(sourceRoot, sourceFile);
+        if (name != null) {
+          name = String(name);
+          if (!this._names.has(name)) {
+            this._names.add(name);
+          }
         }
-        if (!generator._sources.has(sourceRelative)) {
-          generator._sources.add(sourceRelative);
+        this._mappings.add({
+          generatedLine: generated.line,
+          generatedColumn: generated.column,
+          originalLine: original != null && original.line,
+          originalColumn: original != null && original.column,
+          source,
+          name,
+        });
+      };
+    SourceMapGenerator.prototype.setSourceContent =
+      function SourceMapGenerator_setSourceContent(
+        aSourceFile,
+        aSourceContent,
+      ) {
+        var source = aSourceFile;
+        if (this._sourceRoot != null) {
+          source = util2.relative(this._sourceRoot, source);
         }
-        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-        if (content != null) {
-          generator.setSourceContent(sourceFile, content);
+        if (aSourceContent != null) {
+          if (!this._sourcesContents) {
+            this._sourcesContents = /* @__PURE__ */ Object.create(null);
+          }
+          this._sourcesContents[util2.toSetString(source)] = aSourceContent;
+        } else if (this._sourcesContents) {
+          delete this._sourcesContents[util2.toSetString(source)];
+          if (Object.keys(this._sourcesContents).length === 0) {
+            this._sourcesContents = null;
+          }
         }
-      });
-      return generator;
-    };
-    SourceMapGenerator.prototype.addMapping = function SourceMapGenerator_addMapping(aArgs) {
-      var generated = util2.getArg(aArgs, "generated");
-      var original = util2.getArg(aArgs, "original", null);
-      var source = util2.getArg(aArgs, "source", null);
-      var name = util2.getArg(aArgs, "name", null);
-      if (!this._skipValidation) {
-        this._validateMapping(generated, original, source, name);
-      }
-      if (source != null) {
-        source = String(source);
-        if (!this._sources.has(source)) {
-          this._sources.add(source);
+      };
+    SourceMapGenerator.prototype.applySourceMap =
+      function SourceMapGenerator_applySourceMap(
+        aSourceMapConsumer,
+        aSourceFile,
+        aSourceMapPath,
+      ) {
+        var sourceFile = aSourceFile;
+        if (aSourceFile == null) {
+          if (aSourceMapConsumer.file == null) {
+            throw new Error(
+              `SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, or the source map's "file" property. Both were omitted.`,
+            );
+          }
+          sourceFile = aSourceMapConsumer.file;
         }
-      }
-      if (name != null) {
-        name = String(name);
-        if (!this._names.has(name)) {
-          this._names.add(name);
+        var sourceRoot = this._sourceRoot;
+        if (sourceRoot != null) {
+          sourceFile = util2.relative(sourceRoot, sourceFile);
         }
-      }
-      this._mappings.add({
-        generatedLine: generated.line,
-        generatedColumn: generated.column,
-        originalLine: original != null && original.line,
-        originalColumn: original != null && original.column,
-        source,
-        name
-      });
-    };
-    SourceMapGenerator.prototype.setSourceContent = function SourceMapGenerator_setSourceContent(aSourceFile, aSourceContent) {
-      var source = aSourceFile;
-      if (this._sourceRoot != null) {
-        source = util2.relative(this._sourceRoot, source);
-      }
-      if (aSourceContent != null) {
-        if (!this._sourcesContents) {
-          this._sourcesContents = /* @__PURE__ */ Object.create(null);
-        }
-        this._sourcesContents[util2.toSetString(source)] = aSourceContent;
-      } else if (this._sourcesContents) {
-        delete this._sourcesContents[util2.toSetString(source)];
-        if (Object.keys(this._sourcesContents).length === 0) {
-          this._sourcesContents = null;
-        }
-      }
-    };
-    SourceMapGenerator.prototype.applySourceMap = function SourceMapGenerator_applySourceMap(aSourceMapConsumer, aSourceFile, aSourceMapPath) {
-      var sourceFile = aSourceFile;
-      if (aSourceFile == null) {
-        if (aSourceMapConsumer.file == null) {
-          throw new Error(
-            `SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, or the source map's "file" property. Both were omitted.`
-          );
-        }
-        sourceFile = aSourceMapConsumer.file;
-      }
-      var sourceRoot = this._sourceRoot;
-      if (sourceRoot != null) {
-        sourceFile = util2.relative(sourceRoot, sourceFile);
-      }
-      var newSources = new ArraySet();
-      var newNames = new ArraySet();
-      this._mappings.unsortedForEach(function(mapping) {
-        if (mapping.source === sourceFile && mapping.originalLine != null) {
-          var original = aSourceMapConsumer.originalPositionFor({
-            line: mapping.originalLine,
-            column: mapping.originalColumn
-          });
-          if (original.source != null) {
-            mapping.source = original.source;
+        var newSources = new ArraySet();
+        var newNames = new ArraySet();
+        this._mappings.unsortedForEach(function (mapping) {
+          if (mapping.source === sourceFile && mapping.originalLine != null) {
+            var original = aSourceMapConsumer.originalPositionFor({
+              line: mapping.originalLine,
+              column: mapping.originalColumn,
+            });
+            if (original.source != null) {
+              mapping.source = original.source;
+              if (aSourceMapPath != null) {
+                mapping.source = util2.join(aSourceMapPath, mapping.source);
+              }
+              if (sourceRoot != null) {
+                mapping.source = util2.relative(sourceRoot, mapping.source);
+              }
+              mapping.originalLine = original.line;
+              mapping.originalColumn = original.column;
+              if (original.name != null) {
+                mapping.name = original.name;
+              }
+            }
+          }
+          var source = mapping.source;
+          if (source != null && !newSources.has(source)) {
+            newSources.add(source);
+          }
+          var name = mapping.name;
+          if (name != null && !newNames.has(name)) {
+            newNames.add(name);
+          }
+        }, this);
+        this._sources = newSources;
+        this._names = newNames;
+        aSourceMapConsumer.sources.forEach(function (sourceFile2) {
+          var content = aSourceMapConsumer.sourceContentFor(sourceFile2);
+          if (content != null) {
             if (aSourceMapPath != null) {
-              mapping.source = util2.join(aSourceMapPath, mapping.source);
+              sourceFile2 = util2.join(aSourceMapPath, sourceFile2);
             }
             if (sourceRoot != null) {
-              mapping.source = util2.relative(sourceRoot, mapping.source);
+              sourceFile2 = util2.relative(sourceRoot, sourceFile2);
             }
-            mapping.originalLine = original.line;
-            mapping.originalColumn = original.column;
-            if (original.name != null) {
-              mapping.name = original.name;
-            }
+            this.setSourceContent(sourceFile2, content);
           }
+        }, this);
+      };
+    SourceMapGenerator.prototype._validateMapping =
+      function SourceMapGenerator_validateMapping(
+        aGenerated,
+        aOriginal,
+        aSource,
+        aName,
+      ) {
+        if (
+          aOriginal &&
+          typeof aOriginal.line !== "number" &&
+          typeof aOriginal.column !== "number"
+        ) {
+          throw new Error(
+            "original.line and original.column are not numbers -- you probably meant to omit the original mapping entirely and only map the generated position. If so, pass null for the original mapping instead of an object with empty or null values.",
+          );
         }
-        var source = mapping.source;
-        if (source != null && !newSources.has(source)) {
-          newSources.add(source);
-        }
-        var name = mapping.name;
-        if (name != null && !newNames.has(name)) {
-          newNames.add(name);
-        }
-      }, this);
-      this._sources = newSources;
-      this._names = newNames;
-      aSourceMapConsumer.sources.forEach(function(sourceFile2) {
-        var content = aSourceMapConsumer.sourceContentFor(sourceFile2);
-        if (content != null) {
-          if (aSourceMapPath != null) {
-            sourceFile2 = util2.join(aSourceMapPath, sourceFile2);
-          }
-          if (sourceRoot != null) {
-            sourceFile2 = util2.relative(sourceRoot, sourceFile2);
-          }
-          this.setSourceContent(sourceFile2, content);
-        }
-      }, this);
-    };
-    SourceMapGenerator.prototype._validateMapping = function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource, aName) {
-      if (aOriginal && typeof aOriginal.line !== "number" && typeof aOriginal.column !== "number") {
-        throw new Error(
-          "original.line and original.column are not numbers -- you probably meant to omit the original mapping entirely and only map the generated position. If so, pass null for the original mapping instead of an object with empty or null values."
-        );
-      }
-      if (aGenerated && "line" in aGenerated && "column" in aGenerated && aGenerated.line > 0 && aGenerated.column >= 0 && !aOriginal && !aSource && !aName) {
-        return;
-      } else if (aGenerated && "line" in aGenerated && "column" in aGenerated && aOriginal && "line" in aOriginal && "column" in aOriginal && aGenerated.line > 0 && aGenerated.column >= 0 && aOriginal.line > 0 && aOriginal.column >= 0 && aSource) {
-        return;
-      } else {
-        throw new Error("Invalid mapping: " + JSON.stringify({
-          generated: aGenerated,
-          source: aSource,
-          original: aOriginal,
-          name: aName
-        }));
-      }
-    };
-    SourceMapGenerator.prototype._serializeMappings = function SourceMapGenerator_serializeMappings() {
-      var previousGeneratedColumn = 0;
-      var previousGeneratedLine = 1;
-      var previousOriginalColumn = 0;
-      var previousOriginalLine = 0;
-      var previousName = 0;
-      var previousSource = 0;
-      var result = "";
-      var next;
-      var mapping;
-      var nameIdx;
-      var sourceIdx;
-      var mappings = this._mappings.toArray();
-      for (var i = 0, len = mappings.length; i < len; i++) {
-        mapping = mappings[i];
-        next = "";
-        if (mapping.generatedLine !== previousGeneratedLine) {
-          previousGeneratedColumn = 0;
-          while (mapping.generatedLine !== previousGeneratedLine) {
-            next += ";";
-            previousGeneratedLine++;
-          }
+        if (
+          aGenerated &&
+          "line" in aGenerated &&
+          "column" in aGenerated &&
+          aGenerated.line > 0 &&
+          aGenerated.column >= 0 &&
+          !aOriginal &&
+          !aSource &&
+          !aName
+        ) {
+          return;
+        } else if (
+          aGenerated &&
+          "line" in aGenerated &&
+          "column" in aGenerated &&
+          aOriginal &&
+          "line" in aOriginal &&
+          "column" in aOriginal &&
+          aGenerated.line > 0 &&
+          aGenerated.column >= 0 &&
+          aOriginal.line > 0 &&
+          aOriginal.column >= 0 &&
+          aSource
+        ) {
+          return;
         } else {
-          if (i > 0) {
-            if (!util2.compareByGeneratedPositionsInflated(mapping, mappings[i - 1])) {
-              continue;
+          throw new Error(
+            "Invalid mapping: " +
+              JSON.stringify({
+                generated: aGenerated,
+                source: aSource,
+                original: aOriginal,
+                name: aName,
+              }),
+          );
+        }
+      };
+    SourceMapGenerator.prototype._serializeMappings =
+      function SourceMapGenerator_serializeMappings() {
+        var previousGeneratedColumn = 0;
+        var previousGeneratedLine = 1;
+        var previousOriginalColumn = 0;
+        var previousOriginalLine = 0;
+        var previousName = 0;
+        var previousSource = 0;
+        var result = "";
+        var next;
+        var mapping;
+        var nameIdx;
+        var sourceIdx;
+        var mappings = this._mappings.toArray();
+        for (var i = 0, len = mappings.length; i < len; i++) {
+          mapping = mappings[i];
+          next = "";
+          if (mapping.generatedLine !== previousGeneratedLine) {
+            previousGeneratedColumn = 0;
+            while (mapping.generatedLine !== previousGeneratedLine) {
+              next += ";";
+              previousGeneratedLine++;
             }
-            next += ",";
+          } else {
+            if (i > 0) {
+              if (
+                !util2.compareByGeneratedPositionsInflated(
+                  mapping,
+                  mappings[i - 1],
+                )
+              ) {
+                continue;
+              }
+              next += ",";
+            }
           }
-        }
-        next += base64VLQ.encode(mapping.generatedColumn - previousGeneratedColumn);
-        previousGeneratedColumn = mapping.generatedColumn;
-        if (mapping.source != null) {
-          sourceIdx = this._sources.indexOf(mapping.source);
-          next += base64VLQ.encode(sourceIdx - previousSource);
-          previousSource = sourceIdx;
-          next += base64VLQ.encode(mapping.originalLine - 1 - previousOriginalLine);
-          previousOriginalLine = mapping.originalLine - 1;
-          next += base64VLQ.encode(mapping.originalColumn - previousOriginalColumn);
-          previousOriginalColumn = mapping.originalColumn;
-          if (mapping.name != null) {
-            nameIdx = this._names.indexOf(mapping.name);
-            next += base64VLQ.encode(nameIdx - previousName);
-            previousName = nameIdx;
+          next += base64VLQ.encode(
+            mapping.generatedColumn - previousGeneratedColumn,
+          );
+          previousGeneratedColumn = mapping.generatedColumn;
+          if (mapping.source != null) {
+            sourceIdx = this._sources.indexOf(mapping.source);
+            next += base64VLQ.encode(sourceIdx - previousSource);
+            previousSource = sourceIdx;
+            next += base64VLQ.encode(
+              mapping.originalLine - 1 - previousOriginalLine,
+            );
+            previousOriginalLine = mapping.originalLine - 1;
+            next += base64VLQ.encode(
+              mapping.originalColumn - previousOriginalColumn,
+            );
+            previousOriginalColumn = mapping.originalColumn;
+            if (mapping.name != null) {
+              nameIdx = this._names.indexOf(mapping.name);
+              next += base64VLQ.encode(nameIdx - previousName);
+              previousName = nameIdx;
+            }
           }
+          result += next;
         }
-        result += next;
-      }
-      return result;
-    };
-    SourceMapGenerator.prototype._generateSourcesContent = function SourceMapGenerator_generateSourcesContent(aSources, aSourceRoot) {
-      return aSources.map(function(source) {
-        if (!this._sourcesContents) {
-          return null;
-        }
-        if (aSourceRoot != null) {
-          source = util2.relative(aSourceRoot, source);
-        }
-        var key = util2.toSetString(source);
-        return Object.prototype.hasOwnProperty.call(this._sourcesContents, key) ? this._sourcesContents[key] : null;
-      }, this);
-    };
+        return result;
+      };
+    SourceMapGenerator.prototype._generateSourcesContent =
+      function SourceMapGenerator_generateSourcesContent(
+        aSources,
+        aSourceRoot,
+      ) {
+        return aSources.map(function (source) {
+          if (!this._sourcesContents) {
+            return null;
+          }
+          if (aSourceRoot != null) {
+            source = util2.relative(aSourceRoot, source);
+          }
+          var key = util2.toSetString(source);
+          return Object.prototype.hasOwnProperty.call(
+            this._sourcesContents,
+            key,
+          )
+            ? this._sourcesContents[key]
+            : null;
+        }, this);
+      };
     SourceMapGenerator.prototype.toJSON = function SourceMapGenerator_toJSON() {
       var map = {
         version: this._version,
         sources: this._sources.toArray(),
         names: this._names.toArray(),
-        mappings: this._serializeMappings()
+        mappings: this._serializeMappings(),
       };
       if (this._file != null) {
         map.file = this._file;
@@ -17939,15 +20974,19 @@ var require_source_map_generator = __commonJS({
         map.sourceRoot = this._sourceRoot;
       }
       if (this._sourcesContents) {
-        map.sourcesContent = this._generateSourcesContent(map.sources, map.sourceRoot);
+        map.sourcesContent = this._generateSourcesContent(
+          map.sources,
+          map.sourceRoot,
+        );
       }
       return map;
     };
-    SourceMapGenerator.prototype.toString = function SourceMapGenerator_toString() {
-      return JSON.stringify(this.toJSON());
-    };
+    SourceMapGenerator.prototype.toString =
+      function SourceMapGenerator_toString() {
+        return JSON.stringify(this.toJSON());
+      };
     exports2.SourceMapGenerator = SourceMapGenerator;
-  }
+  },
 });
 
 // node_modules/source-map/lib/binary-search.js
@@ -17962,7 +21001,14 @@ var require_binary_search = __commonJS({
         return mid;
       } else if (cmp > 0) {
         if (aHigh - mid > 1) {
-          return recursiveSearch(mid, aHigh, aNeedle, aHaystack, aCompare, aBias);
+          return recursiveSearch(
+            mid,
+            aHigh,
+            aNeedle,
+            aHaystack,
+            aCompare,
+            aBias,
+          );
         }
         if (aBias == exports2.LEAST_UPPER_BOUND) {
           return aHigh < aHaystack.length ? aHigh : -1;
@@ -17971,7 +21017,14 @@ var require_binary_search = __commonJS({
         }
       } else {
         if (mid - aLow > 1) {
-          return recursiveSearch(aLow, mid, aNeedle, aHaystack, aCompare, aBias);
+          return recursiveSearch(
+            aLow,
+            mid,
+            aNeedle,
+            aHaystack,
+            aCompare,
+            aBias,
+          );
         }
         if (aBias == exports2.LEAST_UPPER_BOUND) {
           return mid;
@@ -17990,7 +21043,7 @@ var require_binary_search = __commonJS({
         aNeedle,
         aHaystack,
         aCompare,
-        aBias || exports2.GREATEST_LOWER_BOUND
+        aBias || exports2.GREATEST_LOWER_BOUND,
       );
       if (index < 0) {
         return -1;
@@ -18003,7 +21056,7 @@ var require_binary_search = __commonJS({
       }
       return index;
     };
-  }
+  },
 });
 
 // node_modules/source-map/lib/quick-sort.js
@@ -18035,10 +21088,10 @@ var require_quick_sort = __commonJS({
         doQuickSort(ary, comparator, q + 1, r);
       }
     }
-    exports2.quickSort = function(ary, comparator) {
+    exports2.quickSort = function (ary, comparator) {
       doQuickSort(ary, comparator, 0, ary.length - 1);
     };
-  }
+  },
 });
 
 // node_modules/source-map/lib/source-map-consumer.js
@@ -18054,9 +21107,11 @@ var require_source_map_consumer = __commonJS({
       if (typeof aSourceMap === "string") {
         sourceMap = util2.parseSourceMapInput(aSourceMap);
       }
-      return sourceMap.sections != null ? new IndexedSourceMapConsumer(sourceMap, aSourceMapURL) : new BasicSourceMapConsumer(sourceMap, aSourceMapURL);
+      return sourceMap.sections != null
+        ? new IndexedSourceMapConsumer(sourceMap, aSourceMapURL)
+        : new BasicSourceMapConsumer(sourceMap, aSourceMapURL);
     }
-    SourceMapConsumer.fromSourceMap = function(aSourceMap, aSourceMapURL) {
+    SourceMapConsumer.fromSourceMap = function (aSourceMap, aSourceMapURL) {
       return BasicSourceMapConsumer.fromSourceMap(aSourceMap, aSourceMapURL);
     };
     SourceMapConsumer.prototype._version = 3;
@@ -18064,109 +21119,124 @@ var require_source_map_consumer = __commonJS({
     Object.defineProperty(SourceMapConsumer.prototype, "_generatedMappings", {
       configurable: true,
       enumerable: true,
-      get: function() {
+      get: function () {
         if (!this.__generatedMappings) {
           this._parseMappings(this._mappings, this.sourceRoot);
         }
         return this.__generatedMappings;
-      }
+      },
     });
     SourceMapConsumer.prototype.__originalMappings = null;
     Object.defineProperty(SourceMapConsumer.prototype, "_originalMappings", {
       configurable: true,
       enumerable: true,
-      get: function() {
+      get: function () {
         if (!this.__originalMappings) {
           this._parseMappings(this._mappings, this.sourceRoot);
         }
         return this.__originalMappings;
-      }
+      },
     });
-    SourceMapConsumer.prototype._charIsMappingSeparator = function SourceMapConsumer_charIsMappingSeparator(aStr, index) {
-      var c = aStr.charAt(index);
-      return c === ";" || c === ",";
-    };
-    SourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
-      throw new Error("Subclasses must implement _parseMappings");
-    };
+    SourceMapConsumer.prototype._charIsMappingSeparator =
+      function SourceMapConsumer_charIsMappingSeparator(aStr, index) {
+        var c = aStr.charAt(index);
+        return c === ";" || c === ",";
+      };
+    SourceMapConsumer.prototype._parseMappings =
+      function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+        throw new Error("Subclasses must implement _parseMappings");
+      };
     SourceMapConsumer.GENERATED_ORDER = 1;
     SourceMapConsumer.ORIGINAL_ORDER = 2;
     SourceMapConsumer.GREATEST_LOWER_BOUND = 1;
     SourceMapConsumer.LEAST_UPPER_BOUND = 2;
-    SourceMapConsumer.prototype.eachMapping = function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
-      var context = aContext || null;
-      var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
-      var mappings;
-      switch (order) {
-        case SourceMapConsumer.GENERATED_ORDER:
-          mappings = this._generatedMappings;
-          break;
-        case SourceMapConsumer.ORIGINAL_ORDER:
-          mappings = this._originalMappings;
-          break;
-        default:
-          throw new Error("Unknown order of iteration.");
-      }
-      var sourceRoot = this.sourceRoot;
-      mappings.map(function(mapping) {
-        var source = mapping.source === null ? null : this._sources.at(mapping.source);
-        source = util2.computeSourceURL(sourceRoot, source, this._sourceMapURL);
-        return {
-          source,
-          generatedLine: mapping.generatedLine,
-          generatedColumn: mapping.generatedColumn,
-          originalLine: mapping.originalLine,
-          originalColumn: mapping.originalColumn,
-          name: mapping.name === null ? null : this._names.at(mapping.name)
-        };
-      }, this).forEach(aCallback, context);
-    };
-    SourceMapConsumer.prototype.allGeneratedPositionsFor = function SourceMapConsumer_allGeneratedPositionsFor(aArgs) {
-      var line = util2.getArg(aArgs, "line");
-      var needle = {
-        source: util2.getArg(aArgs, "source"),
-        originalLine: line,
-        originalColumn: util2.getArg(aArgs, "column", 0)
+    SourceMapConsumer.prototype.eachMapping =
+      function SourceMapConsumer_eachMapping(aCallback, aContext, aOrder) {
+        var context = aContext || null;
+        var order = aOrder || SourceMapConsumer.GENERATED_ORDER;
+        var mappings;
+        switch (order) {
+          case SourceMapConsumer.GENERATED_ORDER:
+            mappings = this._generatedMappings;
+            break;
+          case SourceMapConsumer.ORIGINAL_ORDER:
+            mappings = this._originalMappings;
+            break;
+          default:
+            throw new Error("Unknown order of iteration.");
+        }
+        var sourceRoot = this.sourceRoot;
+        mappings
+          .map(function (mapping) {
+            var source =
+              mapping.source === null ? null : this._sources.at(mapping.source);
+            source = util2.computeSourceURL(
+              sourceRoot,
+              source,
+              this._sourceMapURL,
+            );
+            return {
+              source,
+              generatedLine: mapping.generatedLine,
+              generatedColumn: mapping.generatedColumn,
+              originalLine: mapping.originalLine,
+              originalColumn: mapping.originalColumn,
+              name: mapping.name === null ? null : this._names.at(mapping.name),
+            };
+          }, this)
+          .forEach(aCallback, context);
       };
-      needle.source = this._findSourceIndex(needle.source);
-      if (needle.source < 0) {
-        return [];
-      }
-      var mappings = [];
-      var index = this._findMapping(
-        needle,
-        this._originalMappings,
-        "originalLine",
-        "originalColumn",
-        util2.compareByOriginalPositions,
-        binarySearch.LEAST_UPPER_BOUND
-      );
-      if (index >= 0) {
-        var mapping = this._originalMappings[index];
-        if (aArgs.column === void 0) {
-          var originalLine = mapping.originalLine;
-          while (mapping && mapping.originalLine === originalLine) {
-            mappings.push({
-              line: util2.getArg(mapping, "generatedLine", null),
-              column: util2.getArg(mapping, "generatedColumn", null),
-              lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null)
-            });
-            mapping = this._originalMappings[++index];
-          }
-        } else {
-          var originalColumn = mapping.originalColumn;
-          while (mapping && mapping.originalLine === line && mapping.originalColumn == originalColumn) {
-            mappings.push({
-              line: util2.getArg(mapping, "generatedLine", null),
-              column: util2.getArg(mapping, "generatedColumn", null),
-              lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null)
-            });
-            mapping = this._originalMappings[++index];
+    SourceMapConsumer.prototype.allGeneratedPositionsFor =
+      function SourceMapConsumer_allGeneratedPositionsFor(aArgs) {
+        var line = util2.getArg(aArgs, "line");
+        var needle = {
+          source: util2.getArg(aArgs, "source"),
+          originalLine: line,
+          originalColumn: util2.getArg(aArgs, "column", 0),
+        };
+        needle.source = this._findSourceIndex(needle.source);
+        if (needle.source < 0) {
+          return [];
+        }
+        var mappings = [];
+        var index = this._findMapping(
+          needle,
+          this._originalMappings,
+          "originalLine",
+          "originalColumn",
+          util2.compareByOriginalPositions,
+          binarySearch.LEAST_UPPER_BOUND,
+        );
+        if (index >= 0) {
+          var mapping = this._originalMappings[index];
+          if (aArgs.column === void 0) {
+            var originalLine = mapping.originalLine;
+            while (mapping && mapping.originalLine === originalLine) {
+              mappings.push({
+                line: util2.getArg(mapping, "generatedLine", null),
+                column: util2.getArg(mapping, "generatedColumn", null),
+                lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null),
+              });
+              mapping = this._originalMappings[++index];
+            }
+          } else {
+            var originalColumn = mapping.originalColumn;
+            while (
+              mapping &&
+              mapping.originalLine === line &&
+              mapping.originalColumn == originalColumn
+            ) {
+              mappings.push({
+                line: util2.getArg(mapping, "generatedLine", null),
+                column: util2.getArg(mapping, "generatedColumn", null),
+                lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null),
+              });
+              mapping = this._originalMappings[++index];
+            }
           }
         }
-      }
-      return mappings;
-    };
+        return mappings;
+      };
     exports2.SourceMapConsumer = SourceMapConsumer;
     function BasicSourceMapConsumer(aSourceMap, aSourceMapURL) {
       var sourceMap = aSourceMap;
@@ -18186,12 +21256,19 @@ var require_source_map_consumer = __commonJS({
       if (sourceRoot) {
         sourceRoot = util2.normalize(sourceRoot);
       }
-      sources = sources.map(String).map(util2.normalize).map(function(source) {
-        return sourceRoot && util2.isAbsolute(sourceRoot) && util2.isAbsolute(source) ? util2.relative(sourceRoot, source) : source;
-      });
+      sources = sources
+        .map(String)
+        .map(util2.normalize)
+        .map(function (source) {
+          return sourceRoot &&
+            util2.isAbsolute(sourceRoot) &&
+            util2.isAbsolute(source)
+            ? util2.relative(sourceRoot, source)
+            : source;
+        });
       this._names = ArraySet.fromArray(names.map(String), true);
       this._sources = ArraySet.fromArray(sources, true);
-      this._absoluteSources = this._sources.toArray().map(function(s) {
+      this._absoluteSources = this._sources.toArray().map(function (s) {
         return util2.computeSourceURL(sourceRoot, s, aSourceMapURL);
       });
       this.sourceRoot = sourceRoot;
@@ -18200,9 +21277,11 @@ var require_source_map_consumer = __commonJS({
       this._sourceMapURL = aSourceMapURL;
       this.file = file;
     }
-    BasicSourceMapConsumer.prototype = Object.create(SourceMapConsumer.prototype);
+    BasicSourceMapConsumer.prototype = Object.create(
+      SourceMapConsumer.prototype,
+    );
     BasicSourceMapConsumer.prototype.consumer = SourceMapConsumer;
-    BasicSourceMapConsumer.prototype._findSourceIndex = function(aSource) {
+    BasicSourceMapConsumer.prototype._findSourceIndex = function (aSource) {
       var relativeSource = aSource;
       if (this.sourceRoot != null) {
         relativeSource = util2.relative(this.sourceRoot, relativeSource);
@@ -18218,47 +21297,54 @@ var require_source_map_consumer = __commonJS({
       }
       return -1;
     };
-    BasicSourceMapConsumer.fromSourceMap = function SourceMapConsumer_fromSourceMap(aSourceMap, aSourceMapURL) {
-      var smc = Object.create(BasicSourceMapConsumer.prototype);
-      var names = smc._names = ArraySet.fromArray(aSourceMap._names.toArray(), true);
-      var sources = smc._sources = ArraySet.fromArray(aSourceMap._sources.toArray(), true);
-      smc.sourceRoot = aSourceMap._sourceRoot;
-      smc.sourcesContent = aSourceMap._generateSourcesContent(
-        smc._sources.toArray(),
-        smc.sourceRoot
-      );
-      smc.file = aSourceMap._file;
-      smc._sourceMapURL = aSourceMapURL;
-      smc._absoluteSources = smc._sources.toArray().map(function(s) {
-        return util2.computeSourceURL(smc.sourceRoot, s, aSourceMapURL);
-      });
-      var generatedMappings = aSourceMap._mappings.toArray().slice();
-      var destGeneratedMappings = smc.__generatedMappings = [];
-      var destOriginalMappings = smc.__originalMappings = [];
-      for (var i = 0, length = generatedMappings.length; i < length; i++) {
-        var srcMapping = generatedMappings[i];
-        var destMapping = new Mapping();
-        destMapping.generatedLine = srcMapping.generatedLine;
-        destMapping.generatedColumn = srcMapping.generatedColumn;
-        if (srcMapping.source) {
-          destMapping.source = sources.indexOf(srcMapping.source);
-          destMapping.originalLine = srcMapping.originalLine;
-          destMapping.originalColumn = srcMapping.originalColumn;
-          if (srcMapping.name) {
-            destMapping.name = names.indexOf(srcMapping.name);
+    BasicSourceMapConsumer.fromSourceMap =
+      function SourceMapConsumer_fromSourceMap(aSourceMap, aSourceMapURL) {
+        var smc = Object.create(BasicSourceMapConsumer.prototype);
+        var names = (smc._names = ArraySet.fromArray(
+          aSourceMap._names.toArray(),
+          true,
+        ));
+        var sources = (smc._sources = ArraySet.fromArray(
+          aSourceMap._sources.toArray(),
+          true,
+        ));
+        smc.sourceRoot = aSourceMap._sourceRoot;
+        smc.sourcesContent = aSourceMap._generateSourcesContent(
+          smc._sources.toArray(),
+          smc.sourceRoot,
+        );
+        smc.file = aSourceMap._file;
+        smc._sourceMapURL = aSourceMapURL;
+        smc._absoluteSources = smc._sources.toArray().map(function (s) {
+          return util2.computeSourceURL(smc.sourceRoot, s, aSourceMapURL);
+        });
+        var generatedMappings = aSourceMap._mappings.toArray().slice();
+        var destGeneratedMappings = (smc.__generatedMappings = []);
+        var destOriginalMappings = (smc.__originalMappings = []);
+        for (var i = 0, length = generatedMappings.length; i < length; i++) {
+          var srcMapping = generatedMappings[i];
+          var destMapping = new Mapping();
+          destMapping.generatedLine = srcMapping.generatedLine;
+          destMapping.generatedColumn = srcMapping.generatedColumn;
+          if (srcMapping.source) {
+            destMapping.source = sources.indexOf(srcMapping.source);
+            destMapping.originalLine = srcMapping.originalLine;
+            destMapping.originalColumn = srcMapping.originalColumn;
+            if (srcMapping.name) {
+              destMapping.name = names.indexOf(srcMapping.name);
+            }
+            destOriginalMappings.push(destMapping);
           }
-          destOriginalMappings.push(destMapping);
+          destGeneratedMappings.push(destMapping);
         }
-        destGeneratedMappings.push(destMapping);
-      }
-      quickSort(smc.__originalMappings, util2.compareByOriginalPositions);
-      return smc;
-    };
+        quickSort(smc.__originalMappings, util2.compareByOriginalPositions);
+        return smc;
+      };
     BasicSourceMapConsumer.prototype._version = 3;
     Object.defineProperty(BasicSourceMapConsumer.prototype, "sources", {
-      get: function() {
+      get: function () {
         return this._absoluteSources.slice();
-      }
+      },
     });
     function Mapping() {
       this.generatedLine = 0;
@@ -18268,218 +21354,253 @@ var require_source_map_consumer = __commonJS({
       this.originalColumn = null;
       this.name = null;
     }
-    BasicSourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
-      var generatedLine = 1;
-      var previousGeneratedColumn = 0;
-      var previousOriginalLine = 0;
-      var previousOriginalColumn = 0;
-      var previousSource = 0;
-      var previousName = 0;
-      var length = aStr.length;
-      var index = 0;
-      var cachedSegments = {};
-      var temp = {};
-      var originalMappings = [];
-      var generatedMappings = [];
-      var mapping, str, segment, end, value;
-      while (index < length) {
-        if (aStr.charAt(index) === ";") {
-          generatedLine++;
-          index++;
-          previousGeneratedColumn = 0;
-        } else if (aStr.charAt(index) === ",") {
-          index++;
-        } else {
-          mapping = new Mapping();
-          mapping.generatedLine = generatedLine;
-          for (end = index; end < length; end++) {
-            if (this._charIsMappingSeparator(aStr, end)) {
-              break;
-            }
-          }
-          str = aStr.slice(index, end);
-          segment = cachedSegments[str];
-          if (segment) {
-            index += str.length;
+    BasicSourceMapConsumer.prototype._parseMappings =
+      function SourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+        var generatedLine = 1;
+        var previousGeneratedColumn = 0;
+        var previousOriginalLine = 0;
+        var previousOriginalColumn = 0;
+        var previousSource = 0;
+        var previousName = 0;
+        var length = aStr.length;
+        var index = 0;
+        var cachedSegments = {};
+        var temp = {};
+        var originalMappings = [];
+        var generatedMappings = [];
+        var mapping, str, segment, end, value;
+        while (index < length) {
+          if (aStr.charAt(index) === ";") {
+            generatedLine++;
+            index++;
+            previousGeneratedColumn = 0;
+          } else if (aStr.charAt(index) === ",") {
+            index++;
           } else {
-            segment = [];
-            while (index < end) {
-              base64VLQ.decode(aStr, index, temp);
-              value = temp.value;
-              index = temp.rest;
-              segment.push(value);
+            mapping = new Mapping();
+            mapping.generatedLine = generatedLine;
+            for (end = index; end < length; end++) {
+              if (this._charIsMappingSeparator(aStr, end)) {
+                break;
+              }
             }
-            if (segment.length === 2) {
-              throw new Error("Found a source, but no line and column");
+            str = aStr.slice(index, end);
+            segment = cachedSegments[str];
+            if (segment) {
+              index += str.length;
+            } else {
+              segment = [];
+              while (index < end) {
+                base64VLQ.decode(aStr, index, temp);
+                value = temp.value;
+                index = temp.rest;
+                segment.push(value);
+              }
+              if (segment.length === 2) {
+                throw new Error("Found a source, but no line and column");
+              }
+              if (segment.length === 3) {
+                throw new Error("Found a source and line, but no column");
+              }
+              cachedSegments[str] = segment;
             }
-            if (segment.length === 3) {
-              throw new Error("Found a source and line, but no column");
+            mapping.generatedColumn = previousGeneratedColumn + segment[0];
+            previousGeneratedColumn = mapping.generatedColumn;
+            if (segment.length > 1) {
+              mapping.source = previousSource + segment[1];
+              previousSource += segment[1];
+              mapping.originalLine = previousOriginalLine + segment[2];
+              previousOriginalLine = mapping.originalLine;
+              mapping.originalLine += 1;
+              mapping.originalColumn = previousOriginalColumn + segment[3];
+              previousOriginalColumn = mapping.originalColumn;
+              if (segment.length > 4) {
+                mapping.name = previousName + segment[4];
+                previousName += segment[4];
+              }
             }
-            cachedSegments[str] = segment;
-          }
-          mapping.generatedColumn = previousGeneratedColumn + segment[0];
-          previousGeneratedColumn = mapping.generatedColumn;
-          if (segment.length > 1) {
-            mapping.source = previousSource + segment[1];
-            previousSource += segment[1];
-            mapping.originalLine = previousOriginalLine + segment[2];
-            previousOriginalLine = mapping.originalLine;
-            mapping.originalLine += 1;
-            mapping.originalColumn = previousOriginalColumn + segment[3];
-            previousOriginalColumn = mapping.originalColumn;
-            if (segment.length > 4) {
-              mapping.name = previousName + segment[4];
-              previousName += segment[4];
+            generatedMappings.push(mapping);
+            if (typeof mapping.originalLine === "number") {
+              originalMappings.push(mapping);
             }
-          }
-          generatedMappings.push(mapping);
-          if (typeof mapping.originalLine === "number") {
-            originalMappings.push(mapping);
-          }
-        }
-      }
-      quickSort(generatedMappings, util2.compareByGeneratedPositionsDeflated);
-      this.__generatedMappings = generatedMappings;
-      quickSort(originalMappings, util2.compareByOriginalPositions);
-      this.__originalMappings = originalMappings;
-    };
-    BasicSourceMapConsumer.prototype._findMapping = function SourceMapConsumer_findMapping(aNeedle, aMappings, aLineName, aColumnName, aComparator, aBias) {
-      if (aNeedle[aLineName] <= 0) {
-        throw new TypeError("Line must be greater than or equal to 1, got " + aNeedle[aLineName]);
-      }
-      if (aNeedle[aColumnName] < 0) {
-        throw new TypeError("Column must be greater than or equal to 0, got " + aNeedle[aColumnName]);
-      }
-      return binarySearch.search(aNeedle, aMappings, aComparator, aBias);
-    };
-    BasicSourceMapConsumer.prototype.computeColumnSpans = function SourceMapConsumer_computeColumnSpans() {
-      for (var index = 0; index < this._generatedMappings.length; ++index) {
-        var mapping = this._generatedMappings[index];
-        if (index + 1 < this._generatedMappings.length) {
-          var nextMapping = this._generatedMappings[index + 1];
-          if (mapping.generatedLine === nextMapping.generatedLine) {
-            mapping.lastGeneratedColumn = nextMapping.generatedColumn - 1;
-            continue;
           }
         }
-        mapping.lastGeneratedColumn = Infinity;
-      }
-    };
-    BasicSourceMapConsumer.prototype.originalPositionFor = function SourceMapConsumer_originalPositionFor(aArgs) {
-      var needle = {
-        generatedLine: util2.getArg(aArgs, "line"),
-        generatedColumn: util2.getArg(aArgs, "column")
+        quickSort(generatedMappings, util2.compareByGeneratedPositionsDeflated);
+        this.__generatedMappings = generatedMappings;
+        quickSort(originalMappings, util2.compareByOriginalPositions);
+        this.__originalMappings = originalMappings;
       };
-      var index = this._findMapping(
-        needle,
-        this._generatedMappings,
-        "generatedLine",
-        "generatedColumn",
-        util2.compareByGeneratedPositionsDeflated,
-        util2.getArg(aArgs, "bias", SourceMapConsumer.GREATEST_LOWER_BOUND)
-      );
-      if (index >= 0) {
-        var mapping = this._generatedMappings[index];
-        if (mapping.generatedLine === needle.generatedLine) {
-          var source = util2.getArg(mapping, "source", null);
-          if (source !== null) {
-            source = this._sources.at(source);
-            source = util2.computeSourceURL(this.sourceRoot, source, this._sourceMapURL);
+    BasicSourceMapConsumer.prototype._findMapping =
+      function SourceMapConsumer_findMapping(
+        aNeedle,
+        aMappings,
+        aLineName,
+        aColumnName,
+        aComparator,
+        aBias,
+      ) {
+        if (aNeedle[aLineName] <= 0) {
+          throw new TypeError(
+            "Line must be greater than or equal to 1, got " +
+              aNeedle[aLineName],
+          );
+        }
+        if (aNeedle[aColumnName] < 0) {
+          throw new TypeError(
+            "Column must be greater than or equal to 0, got " +
+              aNeedle[aColumnName],
+          );
+        }
+        return binarySearch.search(aNeedle, aMappings, aComparator, aBias);
+      };
+    BasicSourceMapConsumer.prototype.computeColumnSpans =
+      function SourceMapConsumer_computeColumnSpans() {
+        for (var index = 0; index < this._generatedMappings.length; ++index) {
+          var mapping = this._generatedMappings[index];
+          if (index + 1 < this._generatedMappings.length) {
+            var nextMapping = this._generatedMappings[index + 1];
+            if (mapping.generatedLine === nextMapping.generatedLine) {
+              mapping.lastGeneratedColumn = nextMapping.generatedColumn - 1;
+              continue;
+            }
           }
-          var name = util2.getArg(mapping, "name", null);
-          if (name !== null) {
-            name = this._names.at(name);
+          mapping.lastGeneratedColumn = Infinity;
+        }
+      };
+    BasicSourceMapConsumer.prototype.originalPositionFor =
+      function SourceMapConsumer_originalPositionFor(aArgs) {
+        var needle = {
+          generatedLine: util2.getArg(aArgs, "line"),
+          generatedColumn: util2.getArg(aArgs, "column"),
+        };
+        var index = this._findMapping(
+          needle,
+          this._generatedMappings,
+          "generatedLine",
+          "generatedColumn",
+          util2.compareByGeneratedPositionsDeflated,
+          util2.getArg(aArgs, "bias", SourceMapConsumer.GREATEST_LOWER_BOUND),
+        );
+        if (index >= 0) {
+          var mapping = this._generatedMappings[index];
+          if (mapping.generatedLine === needle.generatedLine) {
+            var source = util2.getArg(mapping, "source", null);
+            if (source !== null) {
+              source = this._sources.at(source);
+              source = util2.computeSourceURL(
+                this.sourceRoot,
+                source,
+                this._sourceMapURL,
+              );
+            }
+            var name = util2.getArg(mapping, "name", null);
+            if (name !== null) {
+              name = this._names.at(name);
+            }
+            return {
+              source,
+              line: util2.getArg(mapping, "originalLine", null),
+              column: util2.getArg(mapping, "originalColumn", null),
+              name,
+            };
           }
+        }
+        return {
+          source: null,
+          line: null,
+          column: null,
+          name: null,
+        };
+      };
+    BasicSourceMapConsumer.prototype.hasContentsOfAllSources =
+      function BasicSourceMapConsumer_hasContentsOfAllSources() {
+        if (!this.sourcesContent) {
+          return false;
+        }
+        return (
+          this.sourcesContent.length >= this._sources.size() &&
+          !this.sourcesContent.some(function (sc) {
+            return sc == null;
+          })
+        );
+      };
+    BasicSourceMapConsumer.prototype.sourceContentFor =
+      function SourceMapConsumer_sourceContentFor(aSource, nullOnMissing) {
+        if (!this.sourcesContent) {
+          return null;
+        }
+        var index = this._findSourceIndex(aSource);
+        if (index >= 0) {
+          return this.sourcesContent[index];
+        }
+        var relativeSource = aSource;
+        if (this.sourceRoot != null) {
+          relativeSource = util2.relative(this.sourceRoot, relativeSource);
+        }
+        var url2;
+        if (
+          this.sourceRoot != null &&
+          (url2 = util2.urlParse(this.sourceRoot))
+        ) {
+          var fileUriAbsPath = relativeSource.replace(/^file:\/\//, "");
+          if (url2.scheme == "file" && this._sources.has(fileUriAbsPath)) {
+            return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)];
+          }
+          if (
+            (!url2.path || url2.path == "/") &&
+            this._sources.has("/" + relativeSource)
+          ) {
+            return this.sourcesContent[
+              this._sources.indexOf("/" + relativeSource)
+            ];
+          }
+        }
+        if (nullOnMissing) {
+          return null;
+        } else {
+          throw new Error('"' + relativeSource + '" is not in the SourceMap.');
+        }
+      };
+    BasicSourceMapConsumer.prototype.generatedPositionFor =
+      function SourceMapConsumer_generatedPositionFor(aArgs) {
+        var source = util2.getArg(aArgs, "source");
+        source = this._findSourceIndex(source);
+        if (source < 0) {
           return {
-            source,
-            line: util2.getArg(mapping, "originalLine", null),
-            column: util2.getArg(mapping, "originalColumn", null),
-            name
+            line: null,
+            column: null,
+            lastColumn: null,
           };
         }
-      }
-      return {
-        source: null,
-        line: null,
-        column: null,
-        name: null
-      };
-    };
-    BasicSourceMapConsumer.prototype.hasContentsOfAllSources = function BasicSourceMapConsumer_hasContentsOfAllSources() {
-      if (!this.sourcesContent) {
-        return false;
-      }
-      return this.sourcesContent.length >= this._sources.size() && !this.sourcesContent.some(function(sc) {
-        return sc == null;
-      });
-    };
-    BasicSourceMapConsumer.prototype.sourceContentFor = function SourceMapConsumer_sourceContentFor(aSource, nullOnMissing) {
-      if (!this.sourcesContent) {
-        return null;
-      }
-      var index = this._findSourceIndex(aSource);
-      if (index >= 0) {
-        return this.sourcesContent[index];
-      }
-      var relativeSource = aSource;
-      if (this.sourceRoot != null) {
-        relativeSource = util2.relative(this.sourceRoot, relativeSource);
-      }
-      var url2;
-      if (this.sourceRoot != null && (url2 = util2.urlParse(this.sourceRoot))) {
-        var fileUriAbsPath = relativeSource.replace(/^file:\/\//, "");
-        if (url2.scheme == "file" && this._sources.has(fileUriAbsPath)) {
-          return this.sourcesContent[this._sources.indexOf(fileUriAbsPath)];
+        var needle = {
+          source,
+          originalLine: util2.getArg(aArgs, "line"),
+          originalColumn: util2.getArg(aArgs, "column"),
+        };
+        var index = this._findMapping(
+          needle,
+          this._originalMappings,
+          "originalLine",
+          "originalColumn",
+          util2.compareByOriginalPositions,
+          util2.getArg(aArgs, "bias", SourceMapConsumer.GREATEST_LOWER_BOUND),
+        );
+        if (index >= 0) {
+          var mapping = this._originalMappings[index];
+          if (mapping.source === needle.source) {
+            return {
+              line: util2.getArg(mapping, "generatedLine", null),
+              column: util2.getArg(mapping, "generatedColumn", null),
+              lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null),
+            };
+          }
         }
-        if ((!url2.path || url2.path == "/") && this._sources.has("/" + relativeSource)) {
-          return this.sourcesContent[this._sources.indexOf("/" + relativeSource)];
-        }
-      }
-      if (nullOnMissing) {
-        return null;
-      } else {
-        throw new Error('"' + relativeSource + '" is not in the SourceMap.');
-      }
-    };
-    BasicSourceMapConsumer.prototype.generatedPositionFor = function SourceMapConsumer_generatedPositionFor(aArgs) {
-      var source = util2.getArg(aArgs, "source");
-      source = this._findSourceIndex(source);
-      if (source < 0) {
         return {
           line: null,
           column: null,
-          lastColumn: null
+          lastColumn: null,
         };
-      }
-      var needle = {
-        source,
-        originalLine: util2.getArg(aArgs, "line"),
-        originalColumn: util2.getArg(aArgs, "column")
       };
-      var index = this._findMapping(
-        needle,
-        this._originalMappings,
-        "originalLine",
-        "originalColumn",
-        util2.compareByOriginalPositions,
-        util2.getArg(aArgs, "bias", SourceMapConsumer.GREATEST_LOWER_BOUND)
-      );
-      if (index >= 0) {
-        var mapping = this._originalMappings[index];
-        if (mapping.source === needle.source) {
-          return {
-            line: util2.getArg(mapping, "generatedLine", null),
-            column: util2.getArg(mapping, "generatedColumn", null),
-            lastColumn: util2.getArg(mapping, "lastGeneratedColumn", null)
-          };
-        }
-      }
-      return {
-        line: null,
-        column: null,
-        lastColumn: null
-      };
-    };
     exports2.BasicSourceMapConsumer = BasicSourceMapConsumer;
     function IndexedSourceMapConsumer(aSourceMap, aSourceMapURL) {
       var sourceMap = aSourceMap;
@@ -18495,17 +21616,22 @@ var require_source_map_consumer = __commonJS({
       this._names = new ArraySet();
       var lastOffset = {
         line: -1,
-        column: 0
+        column: 0,
       };
-      this._sections = sections.map(function(s) {
+      this._sections = sections.map(function (s) {
         if (s.url) {
           throw new Error("Support for url field in sections not implemented.");
         }
         var offset = util2.getArg(s, "offset");
         var offsetLine = util2.getArg(offset, "line");
         var offsetColumn = util2.getArg(offset, "column");
-        if (offsetLine < lastOffset.line || offsetLine === lastOffset.line && offsetColumn < lastOffset.column) {
-          throw new Error("Section offsets must be ordered and non-overlapping.");
+        if (
+          offsetLine < lastOffset.line ||
+          (offsetLine === lastOffset.line && offsetColumn < lastOffset.column)
+        ) {
+          throw new Error(
+            "Section offsets must be ordered and non-overlapping.",
+          );
         }
         lastOffset = offset;
         return {
@@ -18513,17 +21639,22 @@ var require_source_map_consumer = __commonJS({
             // The offset fields are 0-based, but we use 1-based indices when
             // encoding/decoding from VLQ.
             generatedLine: offsetLine + 1,
-            generatedColumn: offsetColumn + 1
+            generatedColumn: offsetColumn + 1,
           },
-          consumer: new SourceMapConsumer(util2.getArg(s, "map"), aSourceMapURL)
+          consumer: new SourceMapConsumer(
+            util2.getArg(s, "map"),
+            aSourceMapURL,
+          ),
         };
       });
     }
-    IndexedSourceMapConsumer.prototype = Object.create(SourceMapConsumer.prototype);
+    IndexedSourceMapConsumer.prototype = Object.create(
+      SourceMapConsumer.prototype,
+    );
     IndexedSourceMapConsumer.prototype.constructor = SourceMapConsumer;
     IndexedSourceMapConsumer.prototype._version = 3;
     Object.defineProperty(IndexedSourceMapConsumer.prototype, "sources", {
-      get: function() {
+      get: function () {
         var sources = [];
         for (var i = 0; i < this._sections.length; i++) {
           for (var j = 0; j < this._sections[i].consumer.sources.length; j++) {
@@ -18531,115 +21662,154 @@ var require_source_map_consumer = __commonJS({
           }
         }
         return sources;
-      }
+      },
     });
-    IndexedSourceMapConsumer.prototype.originalPositionFor = function IndexedSourceMapConsumer_originalPositionFor(aArgs) {
-      var needle = {
-        generatedLine: util2.getArg(aArgs, "line"),
-        generatedColumn: util2.getArg(aArgs, "column")
-      };
-      var sectionIndex = binarySearch.search(
-        needle,
-        this._sections,
-        function(needle2, section2) {
-          var cmp = needle2.generatedLine - section2.generatedOffset.generatedLine;
-          if (cmp) {
-            return cmp;
-          }
-          return needle2.generatedColumn - section2.generatedOffset.generatedColumn;
+    IndexedSourceMapConsumer.prototype.originalPositionFor =
+      function IndexedSourceMapConsumer_originalPositionFor(aArgs) {
+        var needle = {
+          generatedLine: util2.getArg(aArgs, "line"),
+          generatedColumn: util2.getArg(aArgs, "column"),
+        };
+        var sectionIndex = binarySearch.search(
+          needle,
+          this._sections,
+          function (needle2, section2) {
+            var cmp =
+              needle2.generatedLine - section2.generatedOffset.generatedLine;
+            if (cmp) {
+              return cmp;
+            }
+            return (
+              needle2.generatedColumn - section2.generatedOffset.generatedColumn
+            );
+          },
+        );
+        var section = this._sections[sectionIndex];
+        if (!section) {
+          return {
+            source: null,
+            line: null,
+            column: null,
+            name: null,
+          };
         }
-      );
-      var section = this._sections[sectionIndex];
-      if (!section) {
+        return section.consumer.originalPositionFor({
+          line:
+            needle.generatedLine - (section.generatedOffset.generatedLine - 1),
+          column:
+            needle.generatedColumn -
+            (section.generatedOffset.generatedLine === needle.generatedLine
+              ? section.generatedOffset.generatedColumn - 1
+              : 0),
+          bias: aArgs.bias,
+        });
+      };
+    IndexedSourceMapConsumer.prototype.hasContentsOfAllSources =
+      function IndexedSourceMapConsumer_hasContentsOfAllSources() {
+        return this._sections.every(function (s) {
+          return s.consumer.hasContentsOfAllSources();
+        });
+      };
+    IndexedSourceMapConsumer.prototype.sourceContentFor =
+      function IndexedSourceMapConsumer_sourceContentFor(
+        aSource,
+        nullOnMissing,
+      ) {
+        for (var i = 0; i < this._sections.length; i++) {
+          var section = this._sections[i];
+          var content = section.consumer.sourceContentFor(aSource, true);
+          if (content) {
+            return content;
+          }
+        }
+        if (nullOnMissing) {
+          return null;
+        } else {
+          throw new Error('"' + aSource + '" is not in the SourceMap.');
+        }
+      };
+    IndexedSourceMapConsumer.prototype.generatedPositionFor =
+      function IndexedSourceMapConsumer_generatedPositionFor(aArgs) {
+        for (var i = 0; i < this._sections.length; i++) {
+          var section = this._sections[i];
+          if (
+            section.consumer._findSourceIndex(util2.getArg(aArgs, "source")) ===
+            -1
+          ) {
+            continue;
+          }
+          var generatedPosition = section.consumer.generatedPositionFor(aArgs);
+          if (generatedPosition) {
+            var ret = {
+              line:
+                generatedPosition.line +
+                (section.generatedOffset.generatedLine - 1),
+              column:
+                generatedPosition.column +
+                (section.generatedOffset.generatedLine ===
+                generatedPosition.line
+                  ? section.generatedOffset.generatedColumn - 1
+                  : 0),
+            };
+            return ret;
+          }
+        }
         return {
-          source: null,
           line: null,
           column: null,
-          name: null
         };
-      }
-      return section.consumer.originalPositionFor({
-        line: needle.generatedLine - (section.generatedOffset.generatedLine - 1),
-        column: needle.generatedColumn - (section.generatedOffset.generatedLine === needle.generatedLine ? section.generatedOffset.generatedColumn - 1 : 0),
-        bias: aArgs.bias
-      });
-    };
-    IndexedSourceMapConsumer.prototype.hasContentsOfAllSources = function IndexedSourceMapConsumer_hasContentsOfAllSources() {
-      return this._sections.every(function(s) {
-        return s.consumer.hasContentsOfAllSources();
-      });
-    };
-    IndexedSourceMapConsumer.prototype.sourceContentFor = function IndexedSourceMapConsumer_sourceContentFor(aSource, nullOnMissing) {
-      for (var i = 0; i < this._sections.length; i++) {
-        var section = this._sections[i];
-        var content = section.consumer.sourceContentFor(aSource, true);
-        if (content) {
-          return content;
-        }
-      }
-      if (nullOnMissing) {
-        return null;
-      } else {
-        throw new Error('"' + aSource + '" is not in the SourceMap.');
-      }
-    };
-    IndexedSourceMapConsumer.prototype.generatedPositionFor = function IndexedSourceMapConsumer_generatedPositionFor(aArgs) {
-      for (var i = 0; i < this._sections.length; i++) {
-        var section = this._sections[i];
-        if (section.consumer._findSourceIndex(util2.getArg(aArgs, "source")) === -1) {
-          continue;
-        }
-        var generatedPosition = section.consumer.generatedPositionFor(aArgs);
-        if (generatedPosition) {
-          var ret = {
-            line: generatedPosition.line + (section.generatedOffset.generatedLine - 1),
-            column: generatedPosition.column + (section.generatedOffset.generatedLine === generatedPosition.line ? section.generatedOffset.generatedColumn - 1 : 0)
-          };
-          return ret;
-        }
-      }
-      return {
-        line: null,
-        column: null
       };
-    };
-    IndexedSourceMapConsumer.prototype._parseMappings = function IndexedSourceMapConsumer_parseMappings(aStr, aSourceRoot) {
-      this.__generatedMappings = [];
-      this.__originalMappings = [];
-      for (var i = 0; i < this._sections.length; i++) {
-        var section = this._sections[i];
-        var sectionMappings = section.consumer._generatedMappings;
-        for (var j = 0; j < sectionMappings.length; j++) {
-          var mapping = sectionMappings[j];
-          var source = section.consumer._sources.at(mapping.source);
-          source = util2.computeSourceURL(section.consumer.sourceRoot, source, this._sourceMapURL);
-          this._sources.add(source);
-          source = this._sources.indexOf(source);
-          var name = null;
-          if (mapping.name) {
-            name = section.consumer._names.at(mapping.name);
-            this._names.add(name);
-            name = this._names.indexOf(name);
-          }
-          var adjustedMapping = {
-            source,
-            generatedLine: mapping.generatedLine + (section.generatedOffset.generatedLine - 1),
-            generatedColumn: mapping.generatedColumn + (section.generatedOffset.generatedLine === mapping.generatedLine ? section.generatedOffset.generatedColumn - 1 : 0),
-            originalLine: mapping.originalLine,
-            originalColumn: mapping.originalColumn,
-            name
-          };
-          this.__generatedMappings.push(adjustedMapping);
-          if (typeof adjustedMapping.originalLine === "number") {
-            this.__originalMappings.push(adjustedMapping);
+    IndexedSourceMapConsumer.prototype._parseMappings =
+      function IndexedSourceMapConsumer_parseMappings(aStr, aSourceRoot) {
+        this.__generatedMappings = [];
+        this.__originalMappings = [];
+        for (var i = 0; i < this._sections.length; i++) {
+          var section = this._sections[i];
+          var sectionMappings = section.consumer._generatedMappings;
+          for (var j = 0; j < sectionMappings.length; j++) {
+            var mapping = sectionMappings[j];
+            var source = section.consumer._sources.at(mapping.source);
+            source = util2.computeSourceURL(
+              section.consumer.sourceRoot,
+              source,
+              this._sourceMapURL,
+            );
+            this._sources.add(source);
+            source = this._sources.indexOf(source);
+            var name = null;
+            if (mapping.name) {
+              name = section.consumer._names.at(mapping.name);
+              this._names.add(name);
+              name = this._names.indexOf(name);
+            }
+            var adjustedMapping = {
+              source,
+              generatedLine:
+                mapping.generatedLine +
+                (section.generatedOffset.generatedLine - 1),
+              generatedColumn:
+                mapping.generatedColumn +
+                (section.generatedOffset.generatedLine === mapping.generatedLine
+                  ? section.generatedOffset.generatedColumn - 1
+                  : 0),
+              originalLine: mapping.originalLine,
+              originalColumn: mapping.originalColumn,
+              name,
+            };
+            this.__generatedMappings.push(adjustedMapping);
+            if (typeof adjustedMapping.originalLine === "number") {
+              this.__originalMappings.push(adjustedMapping);
+            }
           }
         }
-      }
-      quickSort(this.__generatedMappings, util2.compareByGeneratedPositionsDeflated);
-      quickSort(this.__originalMappings, util2.compareByOriginalPositions);
-    };
+        quickSort(
+          this.__generatedMappings,
+          util2.compareByGeneratedPositionsDeflated,
+        );
+        quickSort(this.__originalMappings, util2.compareByOriginalPositions);
+      };
     exports2.IndexedSourceMapConsumer = IndexedSourceMapConsumer;
-  }
+  },
 });
 
 // node_modules/source-map/lib/source-node.js
@@ -18660,82 +21830,101 @@ var require_source_node = __commonJS({
       this[isSourceNode] = true;
       if (aChunks != null) this.add(aChunks);
     }
-    SourceNode.fromStringWithSourceMap = function SourceNode_fromStringWithSourceMap(aGeneratedCode, aSourceMapConsumer, aRelativePath) {
-      var node = new SourceNode();
-      var remainingLines = aGeneratedCode.split(REGEX_NEWLINE);
-      var remainingLinesIndex = 0;
-      var shiftNextLine = function() {
-        var lineContents = getNextLine();
-        var newLine = getNextLine() || "";
-        return lineContents + newLine;
-        function getNextLine() {
-          return remainingLinesIndex < remainingLines.length ? remainingLines[remainingLinesIndex++] : void 0;
+    SourceNode.fromStringWithSourceMap =
+      function SourceNode_fromStringWithSourceMap(
+        aGeneratedCode,
+        aSourceMapConsumer,
+        aRelativePath,
+      ) {
+        var node = new SourceNode();
+        var remainingLines = aGeneratedCode.split(REGEX_NEWLINE);
+        var remainingLinesIndex = 0;
+        var shiftNextLine = function () {
+          var lineContents = getNextLine();
+          var newLine = getNextLine() || "";
+          return lineContents + newLine;
+          function getNextLine() {
+            return remainingLinesIndex < remainingLines.length
+              ? remainingLines[remainingLinesIndex++]
+              : void 0;
+          }
+        };
+        var lastGeneratedLine = 1,
+          lastGeneratedColumn = 0;
+        var lastMapping = null;
+        aSourceMapConsumer.eachMapping(function (mapping) {
+          if (lastMapping !== null) {
+            if (lastGeneratedLine < mapping.generatedLine) {
+              addMappingWithCode(lastMapping, shiftNextLine());
+              lastGeneratedLine++;
+              lastGeneratedColumn = 0;
+            } else {
+              var nextLine = remainingLines[remainingLinesIndex] || "";
+              var code = nextLine.substr(
+                0,
+                mapping.generatedColumn - lastGeneratedColumn,
+              );
+              remainingLines[remainingLinesIndex] = nextLine.substr(
+                mapping.generatedColumn - lastGeneratedColumn,
+              );
+              lastGeneratedColumn = mapping.generatedColumn;
+              addMappingWithCode(lastMapping, code);
+              lastMapping = mapping;
+              return;
+            }
+          }
+          while (lastGeneratedLine < mapping.generatedLine) {
+            node.add(shiftNextLine());
+            lastGeneratedLine++;
+          }
+          if (lastGeneratedColumn < mapping.generatedColumn) {
+            var nextLine = remainingLines[remainingLinesIndex] || "";
+            node.add(nextLine.substr(0, mapping.generatedColumn));
+            remainingLines[remainingLinesIndex] = nextLine.substr(
+              mapping.generatedColumn,
+            );
+            lastGeneratedColumn = mapping.generatedColumn;
+          }
+          lastMapping = mapping;
+        }, this);
+        if (remainingLinesIndex < remainingLines.length) {
+          if (lastMapping) {
+            addMappingWithCode(lastMapping, shiftNextLine());
+          }
+          node.add(remainingLines.splice(remainingLinesIndex).join(""));
+        }
+        aSourceMapConsumer.sources.forEach(function (sourceFile) {
+          var content = aSourceMapConsumer.sourceContentFor(sourceFile);
+          if (content != null) {
+            if (aRelativePath != null) {
+              sourceFile = util2.join(aRelativePath, sourceFile);
+            }
+            node.setSourceContent(sourceFile, content);
+          }
+        });
+        return node;
+        function addMappingWithCode(mapping, code) {
+          if (mapping === null || mapping.source === void 0) {
+            node.add(code);
+          } else {
+            var source = aRelativePath
+              ? util2.join(aRelativePath, mapping.source)
+              : mapping.source;
+            node.add(
+              new SourceNode(
+                mapping.originalLine,
+                mapping.originalColumn,
+                source,
+                code,
+                mapping.name,
+              ),
+            );
+          }
         }
       };
-      var lastGeneratedLine = 1, lastGeneratedColumn = 0;
-      var lastMapping = null;
-      aSourceMapConsumer.eachMapping(function(mapping) {
-        if (lastMapping !== null) {
-          if (lastGeneratedLine < mapping.generatedLine) {
-            addMappingWithCode(lastMapping, shiftNextLine());
-            lastGeneratedLine++;
-            lastGeneratedColumn = 0;
-          } else {
-            var nextLine = remainingLines[remainingLinesIndex] || "";
-            var code = nextLine.substr(0, mapping.generatedColumn - lastGeneratedColumn);
-            remainingLines[remainingLinesIndex] = nextLine.substr(mapping.generatedColumn - lastGeneratedColumn);
-            lastGeneratedColumn = mapping.generatedColumn;
-            addMappingWithCode(lastMapping, code);
-            lastMapping = mapping;
-            return;
-          }
-        }
-        while (lastGeneratedLine < mapping.generatedLine) {
-          node.add(shiftNextLine());
-          lastGeneratedLine++;
-        }
-        if (lastGeneratedColumn < mapping.generatedColumn) {
-          var nextLine = remainingLines[remainingLinesIndex] || "";
-          node.add(nextLine.substr(0, mapping.generatedColumn));
-          remainingLines[remainingLinesIndex] = nextLine.substr(mapping.generatedColumn);
-          lastGeneratedColumn = mapping.generatedColumn;
-        }
-        lastMapping = mapping;
-      }, this);
-      if (remainingLinesIndex < remainingLines.length) {
-        if (lastMapping) {
-          addMappingWithCode(lastMapping, shiftNextLine());
-        }
-        node.add(remainingLines.splice(remainingLinesIndex).join(""));
-      }
-      aSourceMapConsumer.sources.forEach(function(sourceFile) {
-        var content = aSourceMapConsumer.sourceContentFor(sourceFile);
-        if (content != null) {
-          if (aRelativePath != null) {
-            sourceFile = util2.join(aRelativePath, sourceFile);
-          }
-          node.setSourceContent(sourceFile, content);
-        }
-      });
-      return node;
-      function addMappingWithCode(mapping, code) {
-        if (mapping === null || mapping.source === void 0) {
-          node.add(code);
-        } else {
-          var source = aRelativePath ? util2.join(aRelativePath, mapping.source) : mapping.source;
-          node.add(new SourceNode(
-            mapping.originalLine,
-            mapping.originalColumn,
-            source,
-            code,
-            mapping.name
-          ));
-        }
-      }
-    };
     SourceNode.prototype.add = function SourceNode_add(aChunk) {
       if (Array.isArray(aChunk)) {
-        aChunk.forEach(function(chunk) {
+        aChunk.forEach(function (chunk) {
           this.add(chunk);
         }, this);
       } else if (aChunk[isSourceNode] || typeof aChunk === "string") {
@@ -18744,7 +21933,8 @@ var require_source_node = __commonJS({
         }
       } else {
         throw new TypeError(
-          "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+          "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " +
+            aChunk,
         );
       }
       return this;
@@ -18758,7 +21948,8 @@ var require_source_node = __commonJS({
         this.children.unshift(aChunk);
       } else {
         throw new TypeError(
-          "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " + aChunk
+          "Expected a SourceNode, string, or an array of SourceNodes and strings. Got " +
+            aChunk,
         );
       }
       return this;
@@ -18775,7 +21966,7 @@ var require_source_node = __commonJS({
               source: this.source,
               line: this.line,
               column: this.column,
-              name: this.name
+              name: this.name,
             });
           }
         }
@@ -18796,129 +21987,152 @@ var require_source_node = __commonJS({
       }
       return this;
     };
-    SourceNode.prototype.replaceRight = function SourceNode_replaceRight(aPattern, aReplacement) {
+    SourceNode.prototype.replaceRight = function SourceNode_replaceRight(
+      aPattern,
+      aReplacement,
+    ) {
       var lastChild = this.children[this.children.length - 1];
       if (lastChild[isSourceNode]) {
         lastChild.replaceRight(aPattern, aReplacement);
       } else if (typeof lastChild === "string") {
-        this.children[this.children.length - 1] = lastChild.replace(aPattern, aReplacement);
+        this.children[this.children.length - 1] = lastChild.replace(
+          aPattern,
+          aReplacement,
+        );
       } else {
         this.children.push("".replace(aPattern, aReplacement));
       }
       return this;
     };
-    SourceNode.prototype.setSourceContent = function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
-      this.sourceContents[util2.toSetString(aSourceFile)] = aSourceContent;
-    };
-    SourceNode.prototype.walkSourceContents = function SourceNode_walkSourceContents(aFn) {
-      for (var i = 0, len = this.children.length; i < len; i++) {
-        if (this.children[i][isSourceNode]) {
-          this.children[i].walkSourceContents(aFn);
+    SourceNode.prototype.setSourceContent =
+      function SourceNode_setSourceContent(aSourceFile, aSourceContent) {
+        this.sourceContents[util2.toSetString(aSourceFile)] = aSourceContent;
+      };
+    SourceNode.prototype.walkSourceContents =
+      function SourceNode_walkSourceContents(aFn) {
+        for (var i = 0, len = this.children.length; i < len; i++) {
+          if (this.children[i][isSourceNode]) {
+            this.children[i].walkSourceContents(aFn);
+          }
         }
-      }
-      var sources = Object.keys(this.sourceContents);
-      for (var i = 0, len = sources.length; i < len; i++) {
-        aFn(util2.fromSetString(sources[i]), this.sourceContents[sources[i]]);
-      }
-    };
+        var sources = Object.keys(this.sourceContents);
+        for (var i = 0, len = sources.length; i < len; i++) {
+          aFn(util2.fromSetString(sources[i]), this.sourceContents[sources[i]]);
+        }
+      };
     SourceNode.prototype.toString = function SourceNode_toString() {
       var str = "";
-      this.walk(function(chunk) {
+      this.walk(function (chunk) {
         str += chunk;
       });
       return str;
     };
-    SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(aArgs) {
-      var generated = {
-        code: "",
-        line: 1,
-        column: 0
-      };
-      var map = new SourceMapGenerator(aArgs);
-      var sourceMappingActive = false;
-      var lastOriginalSource = null;
-      var lastOriginalLine = null;
-      var lastOriginalColumn = null;
-      var lastOriginalName = null;
-      this.walk(function(chunk, original) {
-        generated.code += chunk;
-        if (original.source !== null && original.line !== null && original.column !== null) {
-          if (lastOriginalSource !== original.source || lastOriginalLine !== original.line || lastOriginalColumn !== original.column || lastOriginalName !== original.name) {
-            map.addMapping({
-              source: original.source,
-              original: {
-                line: original.line,
-                column: original.column
-              },
-              generated: {
-                line: generated.line,
-                column: generated.column
-              },
-              name: original.name
-            });
-          }
-          lastOriginalSource = original.source;
-          lastOriginalLine = original.line;
-          lastOriginalColumn = original.column;
-          lastOriginalName = original.name;
-          sourceMappingActive = true;
-        } else if (sourceMappingActive) {
-          map.addMapping({
-            generated: {
-              line: generated.line,
-              column: generated.column
-            }
-          });
-          lastOriginalSource = null;
-          sourceMappingActive = false;
-        }
-        for (var idx = 0, length = chunk.length; idx < length; idx++) {
-          if (chunk.charCodeAt(idx) === NEWLINE_CODE) {
-            generated.line++;
-            generated.column = 0;
-            if (idx + 1 === length) {
-              lastOriginalSource = null;
-              sourceMappingActive = false;
-            } else if (sourceMappingActive) {
+    SourceNode.prototype.toStringWithSourceMap =
+      function SourceNode_toStringWithSourceMap(aArgs) {
+        var generated = {
+          code: "",
+          line: 1,
+          column: 0,
+        };
+        var map = new SourceMapGenerator(aArgs);
+        var sourceMappingActive = false;
+        var lastOriginalSource = null;
+        var lastOriginalLine = null;
+        var lastOriginalColumn = null;
+        var lastOriginalName = null;
+        this.walk(function (chunk, original) {
+          generated.code += chunk;
+          if (
+            original.source !== null &&
+            original.line !== null &&
+            original.column !== null
+          ) {
+            if (
+              lastOriginalSource !== original.source ||
+              lastOriginalLine !== original.line ||
+              lastOriginalColumn !== original.column ||
+              lastOriginalName !== original.name
+            ) {
               map.addMapping({
                 source: original.source,
                 original: {
                   line: original.line,
-                  column: original.column
+                  column: original.column,
                 },
                 generated: {
                   line: generated.line,
-                  column: generated.column
+                  column: generated.column,
                 },
-                name: original.name
+                name: original.name,
               });
             }
-          } else {
-            generated.column++;
+            lastOriginalSource = original.source;
+            lastOriginalLine = original.line;
+            lastOriginalColumn = original.column;
+            lastOriginalName = original.name;
+            sourceMappingActive = true;
+          } else if (sourceMappingActive) {
+            map.addMapping({
+              generated: {
+                line: generated.line,
+                column: generated.column,
+              },
+            });
+            lastOriginalSource = null;
+            sourceMappingActive = false;
           }
-        }
-      });
-      this.walkSourceContents(function(sourceFile, sourceContent) {
-        map.setSourceContent(sourceFile, sourceContent);
-      });
-      return { code: generated.code, map };
-    };
+          for (var idx = 0, length = chunk.length; idx < length; idx++) {
+            if (chunk.charCodeAt(idx) === NEWLINE_CODE) {
+              generated.line++;
+              generated.column = 0;
+              if (idx + 1 === length) {
+                lastOriginalSource = null;
+                sourceMappingActive = false;
+              } else if (sourceMappingActive) {
+                map.addMapping({
+                  source: original.source,
+                  original: {
+                    line: original.line,
+                    column: original.column,
+                  },
+                  generated: {
+                    line: generated.line,
+                    column: generated.column,
+                  },
+                  name: original.name,
+                });
+              }
+            } else {
+              generated.column++;
+            }
+          }
+        });
+        this.walkSourceContents(function (sourceFile, sourceContent) {
+          map.setSourceContent(sourceFile, sourceContent);
+        });
+        return { code: generated.code, map };
+      };
     exports2.SourceNode = SourceNode;
-  }
+  },
 });
 
 // node_modules/source-map/source-map.js
 var require_source_map = __commonJS({
   "node_modules/source-map/source-map.js"(exports2) {
-    exports2.SourceMapGenerator = require_source_map_generator().SourceMapGenerator;
-    exports2.SourceMapConsumer = require_source_map_consumer().SourceMapConsumer;
+    exports2.SourceMapGenerator =
+      require_source_map_generator().SourceMapGenerator;
+    exports2.SourceMapConsumer =
+      require_source_map_consumer().SourceMapConsumer;
     exports2.SourceNode = require_source_node().SourceNode;
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js
 var require_code_gen = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/code-gen.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     var _utils = require_utils();
@@ -18928,11 +22142,10 @@ var require_code_gen = __commonJS({
         SourceMap = require_source_map();
         SourceNode = SourceMap.SourceNode;
       }
-    } catch (err) {
-    }
+    } catch (err) {}
     var SourceMap;
     if (!SourceNode) {
-      SourceNode = function(line, column, srcFile, chunks) {
+      SourceNode = function (line, column, srcFile, chunks) {
         this.src = "";
         if (chunks) {
           this.add(chunks);
@@ -18956,7 +22169,7 @@ var require_code_gen = __commonJS({
         },
         toString: function toString3() {
           return this.src;
-        }
+        },
       };
     }
     function castChunk(chunk, codeGen, loc) {
@@ -18987,7 +22200,7 @@ var require_code_gen = __commonJS({
       },
       merge: function merge2() {
         var source = this.empty();
-        this.each(function(line) {
+        this.each(function (line) {
           source.add(["  ", line, "\n"]);
         });
         return source;
@@ -19002,24 +22215,42 @@ var require_code_gen = __commonJS({
         return new SourceNode(loc.start.line, loc.start.column, this.srcFile);
       },
       wrap: function wrap(chunk) {
-        var loc = arguments.length <= 1 || arguments[1] === void 0 ? this.currentLocation || { start: {} } : arguments[1];
+        var loc =
+          arguments.length <= 1 || arguments[1] === void 0
+            ? this.currentLocation || { start: {} }
+            : arguments[1];
         if (chunk instanceof SourceNode) {
           return chunk;
         }
         chunk = castChunk(chunk, this, loc);
-        return new SourceNode(loc.start.line, loc.start.column, this.srcFile, chunk);
+        return new SourceNode(
+          loc.start.line,
+          loc.start.column,
+          this.srcFile,
+          chunk,
+        );
       },
       functionCall: function functionCall(fn, type, params) {
         params = this.generateList(params);
         return this.wrap([fn, type ? "." + type + "(" : "(", params, ")"]);
       },
       quotedString: function quotedString(str) {
-        return '"' + (str + "").replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029") + '"';
+        return (
+          '"' +
+          (str + "")
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "\\r")
+            .replace(/\u2028/g, "\\u2028")
+            .replace(/\u2029/g, "\\u2029") +
+          '"'
+        );
       },
       objectLiteral: function objectLiteral(obj) {
         var _this = this;
         var pairs = [];
-        Object.keys(obj).forEach(function(key) {
+        Object.keys(obj).forEach(function (key) {
           var value = castChunk(obj[key], _this);
           if (value !== "undefined") {
             pairs.push([_this.quotedString(key), ":", value]);
@@ -19045,20 +22276,23 @@ var require_code_gen = __commonJS({
         ret.prepend("[");
         ret.add("]");
         return ret;
-      }
+      },
     };
     exports2["default"] = CodeGen;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js
 var require_javascript_compiler = __commonJS({
-  "node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js"(exports2, module2) {
+  "node_modules/handlebars/dist/cjs/handlebars/compiler/javascript-compiler.js"(
+    exports2,
+    module2,
+  ) {
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _base = require_base();
     var _exception = require_exception();
@@ -19069,8 +22303,7 @@ var require_javascript_compiler = __commonJS({
     function Literal(value) {
       this.value = value;
     }
-    function JavaScriptCompiler() {
-    }
+    function JavaScriptCompiler() {}
     JavaScriptCompiler.prototype = {
       // PUBLIC API: You can override these methods in a subclass to provide
       // alternative compiled forms for name lookup and buffering semantics
@@ -19078,10 +22311,16 @@ var require_javascript_compiler = __commonJS({
         return this.internalNameLookup(parent, name);
       },
       depthedLookup: function depthedLookup(name) {
-        return [this.aliasable("container.lookup"), "(depths, ", JSON.stringify(name), ")"];
+        return [
+          this.aliasable("container.lookup"),
+          "(depths, ",
+          JSON.stringify(name),
+          ")",
+        ];
       },
       compilerInfo: function compilerInfo() {
-        var revision = _base.COMPILER_REVISION, versions = _base.REVISION_CHANGES[revision];
+        var revision = _base.COMPILER_REVISION,
+          versions = _base.REVISION_CHANGES[revision];
         return [revision, versions];
       },
       appendToBuffer: function appendToBuffer(source, location, explicit) {
@@ -19118,7 +22357,7 @@ var require_javascript_compiler = __commonJS({
         this.context = context || {
           decorators: [],
           programs: [],
-          environments: []
+          environments: [],
         };
         this.preamble();
         this.stackSlot = 0;
@@ -19130,9 +22369,17 @@ var require_javascript_compiler = __commonJS({
         this.inlineStack = [];
         this.blockParams = [];
         this.compileChildren(environment, options);
-        this.useDepths = this.useDepths || environment.useDepths || environment.useDecorators || this.options.compat;
+        this.useDepths =
+          this.useDepths ||
+          environment.useDepths ||
+          environment.useDecorators ||
+          this.options.compat;
         this.useBlockParams = this.useBlockParams || environment.useBlockParams;
-        var opcodes = environment.opcodes, opcode = void 0, firstLoc = void 0, i = void 0, l = void 0;
+        var opcodes = environment.opcodes,
+          opcode = void 0,
+          firstLoc = void 0,
+          i = void 0,
+          l = void 0;
         for (i = 0, l = opcodes.length; i < l; i++) {
           opcode = opcodes[i];
           this.source.currentLocation = opcode.loc;
@@ -19141,17 +22388,38 @@ var require_javascript_compiler = __commonJS({
         }
         this.source.currentLocation = firstLoc;
         this.pushSource("");
-        if (this.stackSlot || this.inlineStack.length || this.compileStack.length) {
-          throw new _exception2["default"]("Compile completed with content left on stack");
+        if (
+          this.stackSlot ||
+          this.inlineStack.length ||
+          this.compileStack.length
+        ) {
+          throw new _exception2["default"](
+            "Compile completed with content left on stack",
+          );
         }
         if (!this.decorators.isEmpty()) {
           this.useDecorators = true;
-          this.decorators.prepend(["var decorators = container.decorators, ", this.lookupPropertyFunctionVarDeclaration(), ";\n"]);
+          this.decorators.prepend([
+            "var decorators = container.decorators, ",
+            this.lookupPropertyFunctionVarDeclaration(),
+            ";\n",
+          ]);
           this.decorators.push("return fn;");
           if (asObject) {
-            this.decorators = Function.apply(this, ["fn", "props", "container", "depth0", "data", "blockParams", "depths", this.decorators.merge()]);
+            this.decorators = Function.apply(this, [
+              "fn",
+              "props",
+              "container",
+              "depth0",
+              "data",
+              "blockParams",
+              "depths",
+              this.decorators.merge(),
+            ]);
           } else {
-            this.decorators.prepend("function(fn, props, container, depth0, data, blockParams, depths) {\n");
+            this.decorators.prepend(
+              "function(fn, props, container, depth0, data, blockParams, depths) {\n",
+            );
             this.decorators.push("}\n");
             this.decorators = this.decorators.merge();
           }
@@ -19162,7 +22430,7 @@ var require_javascript_compiler = __commonJS({
         if (!this.isChild) {
           var ret = {
             compiler: this.compilerInfo(),
-            main: fn
+            main: fn,
           };
           if (this.decorators) {
             ret.main_d = this.decorators;
@@ -19226,7 +22494,7 @@ var require_javascript_compiler = __commonJS({
           varDeclarations += ", " + locals.join(", ");
         }
         var aliasCount = 0;
-        Object.keys(this.aliases).forEach(function(alias) {
+        Object.keys(this.aliases).forEach(function (alias) {
           var node = _this.aliases[alias];
           if (node.children && node.referenceCount > 1) {
             varDeclarations += ", alias" + ++aliasCount + "=" + alias;
@@ -19248,12 +22516,23 @@ var require_javascript_compiler = __commonJS({
           params.push(source);
           return Function.apply(this, params);
         } else {
-          return this.source.wrap(["function(", params.join(","), ") {\n  ", source, "}"]);
+          return this.source.wrap([
+            "function(",
+            params.join(","),
+            ") {\n  ",
+            source,
+            "}",
+          ]);
         }
       },
       mergeSource: function mergeSource(varDeclarations) {
-        var isSimple = this.environment.isSimple, appendOnly = !this.forceBuffer, appendFirst = void 0, sourceSeen = void 0, bufferStart = void 0, bufferEnd = void 0;
-        this.source.each(function(line) {
+        var isSimple = this.environment.isSimple,
+          appendOnly = !this.forceBuffer,
+          appendFirst = void 0,
+          sourceSeen = void 0,
+          bufferStart = void 0,
+          bufferEnd = void 0;
+        this.source.each(function (line) {
           if (line.appendToBuffer) {
             if (bufferStart) {
               line.prepend("  + ");
@@ -19285,7 +22564,8 @@ var require_javascript_compiler = __commonJS({
             this.source.push('return "";');
           }
         } else {
-          varDeclarations += ", buffer = " + (appendFirst ? "" : this.initializeBuffer());
+          varDeclarations +=
+            ", buffer = " + (appendFirst ? "" : this.initializeBuffer());
           if (bufferStart) {
             bufferStart.prepend("return buffer + ");
             bufferEnd.add(";");
@@ -19294,13 +22574,16 @@ var require_javascript_compiler = __commonJS({
           }
         }
         if (varDeclarations) {
-          this.source.prepend("var " + varDeclarations.substring(2) + (appendFirst ? "" : ";\n"));
+          this.source.prepend(
+            "var " + varDeclarations.substring(2) + (appendFirst ? "" : ";\n"),
+          );
         }
         return this.source.merge();
       },
-      lookupPropertyFunctionVarDeclaration: function lookupPropertyFunctionVarDeclaration() {
-        return "\n      lookupProperty = container.lookupProperty || function(parent, propertyName) {\n        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {\n          return parent[propertyName];\n        }\n        return undefined\n    }\n    ".trim();
-      },
+      lookupPropertyFunctionVarDeclaration:
+        function lookupPropertyFunctionVarDeclaration() {
+          return "\n      lookupProperty = container.lookupProperty || function(parent, propertyName) {\n        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {\n          return parent[propertyName];\n        }\n        return undefined\n    }\n    ".trim();
+        },
       // [blockValue]
       //
       // On stack, before: hash, inverse, program, value
@@ -19311,7 +22594,10 @@ var require_javascript_compiler = __commonJS({
       // replace it on the stack with the result of properly
       // invoking blockHelperMissing.
       blockValue: function blockValue(name) {
-        var blockHelperMissing = this.aliasable("container.hooks.blockHelperMissing"), params = [this.contextName(0)];
+        var blockHelperMissing = this.aliasable(
+            "container.hooks.blockHelperMissing",
+          ),
+          params = [this.contextName(0)];
         this.setupHelperArgs(name, 0, params);
         var blockName = this.popStack();
         params.splice(1, 0, blockName);
@@ -19324,12 +22610,23 @@ var require_javascript_compiler = __commonJS({
       // On stack, after, if no lastHelper: same as [blockValue]
       // On stack, after, if lastHelper: value
       ambiguousBlockValue: function ambiguousBlockValue() {
-        var blockHelperMissing = this.aliasable("container.hooks.blockHelperMissing"), params = [this.contextName(0)];
+        var blockHelperMissing = this.aliasable(
+            "container.hooks.blockHelperMissing",
+          ),
+          params = [this.contextName(0)];
         this.setupHelperArgs("", 0, params, true);
         this.flushInline();
         var current = this.topStack();
         params.splice(1, 0, current);
-        this.pushSource(["if (!", this.lastHelper, ") { ", current, " = ", this.source.functionCall(blockHelperMissing, "call", params), "}"]);
+        this.pushSource([
+          "if (!",
+          this.lastHelper,
+          ") { ",
+          current,
+          " = ",
+          this.source.functionCall(blockHelperMissing, "call", params),
+          "}",
+        ]);
       },
       // [appendContent]
       //
@@ -19356,15 +22653,25 @@ var require_javascript_compiler = __commonJS({
       // Otherwise, the empty string is appended
       append: function append2() {
         if (this.isInline()) {
-          this.replaceStack(function(current) {
+          this.replaceStack(function (current) {
             return [" != null ? ", current, ' : ""'];
           });
           this.pushSource(this.appendToBuffer(this.popStack()));
         } else {
           var local = this.popStack();
-          this.pushSource(["if (", local, " != null) { ", this.appendToBuffer(local, void 0, true), " }"]);
+          this.pushSource([
+            "if (",
+            local,
+            " != null) { ",
+            this.appendToBuffer(local, void 0, true),
+            " }",
+          ]);
           if (this.environment.isSimple) {
-            this.pushSource(["else { ", this.appendToBuffer("''", void 0, true), " }"]);
+            this.pushSource([
+              "else { ",
+              this.appendToBuffer("''", void 0, true),
+              " }",
+            ]);
           }
         }
       },
@@ -19375,7 +22682,14 @@ var require_javascript_compiler = __commonJS({
       //
       // Escape `value` and append it to the buffer
       appendEscaped: function appendEscaped() {
-        this.pushSource(this.appendToBuffer([this.aliasable("container.escapeExpression"), "(", this.popStack(), ")"]));
+        this.pushSource(
+          this.appendToBuffer([
+            this.aliasable("container.escapeExpression"),
+            "(",
+            this.popStack(),
+            ")",
+          ]),
+        );
       },
       // [getContext]
       //
@@ -19421,7 +22735,13 @@ var require_javascript_compiler = __commonJS({
       // it onto the stack.
       lookupBlockParam: function lookupBlockParam(blockParamId, parts) {
         this.useBlockParams = true;
-        this.push(["blockParams[", blockParamId[0], "][", blockParamId[1], "]"]);
+        this.push([
+          "blockParams[",
+          blockParamId[0],
+          "][",
+          blockParamId[1],
+          "]",
+        ]);
         this.resolvePath("context", parts, 1);
       },
       // [lookupData]
@@ -19441,12 +22761,14 @@ var require_javascript_compiler = __commonJS({
       resolvePath: function resolvePath(type, parts, i, falsy, strict) {
         var _this2 = this;
         if (this.options.strict || this.options.assumeObjects) {
-          this.push(strictLookup(this.options.strict && strict, this, parts, i, type));
+          this.push(
+            strictLookup(this.options.strict && strict, this, parts, i, type),
+          );
           return;
         }
         var len = parts.length;
         for (; i < len; i++) {
-          this.replaceStack(function(current) {
+          this.replaceStack(function (current) {
             var lookup = _this2.nameLookup(current, parts[i], type);
             if (!falsy) {
               return [" != null ? ", lookup, " : ", current];
@@ -19464,7 +22786,14 @@ var require_javascript_compiler = __commonJS({
       // If the `value` is a lambda, replace it on the stack by
       // the return value of the lambda
       resolvePossibleLambda: function resolvePossibleLambda() {
-        this.push([this.aliasable("container.lambda"), "(", this.popStack(), ", ", this.contextName(0), ")"]);
+        this.push([
+          this.aliasable("container.lambda"),
+          "(",
+          this.popStack(),
+          ", ",
+          this.contextName(0),
+          ")",
+        ]);
       },
       // [pushStringParam]
       //
@@ -19556,8 +22885,18 @@ var require_javascript_compiler = __commonJS({
       // Pops off the decorator's parameters, invokes the decorator,
       // and inserts the decorator into the decorators list.
       registerDecorator: function registerDecorator(paramSize, name) {
-        var foundDecorator = this.nameLookup("decorators", name, "decorator"), options = this.setupHelperArgs(name, paramSize);
-        this.decorators.push(["fn = ", this.decorators.functionCall(foundDecorator, "", ["fn", "props", "container", options]), " || fn;"]);
+        var foundDecorator = this.nameLookup("decorators", name, "decorator"),
+          options = this.setupHelperArgs(name, paramSize);
+        this.decorators.push([
+          "fn = ",
+          this.decorators.functionCall(foundDecorator, "", [
+            "fn",
+            "props",
+            "container",
+            options,
+          ]),
+          " || fn;",
+        ]);
       },
       // [invokeHelper]
       //
@@ -19569,17 +22908,28 @@ var require_javascript_compiler = __commonJS({
       //
       // If the helper is not found, `helperMissing` is called.
       invokeHelper: function invokeHelper(paramSize, name, isSimple) {
-        var nonHelper = this.popStack(), helper = this.setupHelper(paramSize, name);
+        var nonHelper = this.popStack(),
+          helper = this.setupHelper(paramSize, name);
         var possibleFunctionCalls = [];
         if (isSimple) {
           possibleFunctionCalls.push(helper.name);
         }
         possibleFunctionCalls.push(nonHelper);
         if (!this.options.strict) {
-          possibleFunctionCalls.push(this.aliasable("container.hooks.helperMissing"));
+          possibleFunctionCalls.push(
+            this.aliasable("container.hooks.helperMissing"),
+          );
         }
-        var functionLookupCode = ["(", this.itemsSeparatedBy(possibleFunctionCalls, "||"), ")"];
-        var functionCall = this.source.functionCall(functionLookupCode, "call", helper.callParams);
+        var functionLookupCode = [
+          "(",
+          this.itemsSeparatedBy(possibleFunctionCalls, "||"),
+          ")",
+        ];
+        var functionCall = this.source.functionCall(
+          functionLookupCode,
+          "call",
+          helper.callParams,
+        );
         this.push(functionCall);
       },
       itemsSeparatedBy: function itemsSeparatedBy(items, separator) {
@@ -19599,7 +22949,9 @@ var require_javascript_compiler = __commonJS({
       // so a `helperMissing` fallback is not required.
       invokeKnownHelper: function invokeKnownHelper(paramSize, name) {
         var helper = this.setupHelper(paramSize, name);
-        this.push(this.source.functionCall(helper.name, "call", helper.callParams));
+        this.push(
+          this.source.functionCall(helper.name, "call", helper.callParams),
+        );
       },
       // [invokeAmbiguous]
       //
@@ -19618,13 +22970,30 @@ var require_javascript_compiler = __commonJS({
         var nonHelper = this.popStack();
         this.emptyHash();
         var helper = this.setupHelper(0, name, helperCall);
-        var helperName = this.lastHelper = this.nameLookup("helpers", name, "helper");
+        var helperName = (this.lastHelper = this.nameLookup(
+          "helpers",
+          name,
+          "helper",
+        ));
         var lookup = ["(", "(helper = ", helperName, " || ", nonHelper, ")"];
         if (!this.options.strict) {
           lookup[0] = "(helper = ";
-          lookup.push(" != null ? helper : ", this.aliasable("container.hooks.helperMissing"));
+          lookup.push(
+            " != null ? helper : ",
+            this.aliasable("container.hooks.helperMissing"),
+          );
         }
-        this.push(["(", lookup, helper.paramsInit ? ["),(", helper.paramsInit] : [], "),", "(typeof helper === ", this.aliasable('"function"'), " ? ", this.source.functionCall("helper", "call", helper.callParams), " : helper))"]);
+        this.push([
+          "(",
+          lookup,
+          helper.paramsInit ? ["),(", helper.paramsInit] : [],
+          "),",
+          "(typeof helper === ",
+          this.aliasable('"function"'),
+          " ? ",
+          this.source.functionCall("helper", "call", helper.callParams),
+          " : helper))",
+        ]);
       },
       // [invokePartial]
       //
@@ -19634,7 +23003,8 @@ var require_javascript_compiler = __commonJS({
       // This operation pops off a context, invokes a partial with that context,
       // and pushes the result of the invocation back.
       invokePartial: function invokePartial(isDynamic, name, indent) {
-        var params = [], options = this.setupParams(name, 1, params);
+        var params = [],
+          options = this.setupParams(name, 1, params);
         if (isDynamic) {
           name = this.popStack();
           delete options.name;
@@ -19655,7 +23025,9 @@ var require_javascript_compiler = __commonJS({
         }
         options = this.objectLiteral(options);
         params.push(options);
-        this.push(this.source.functionCall("container.invokePartial", "", params));
+        this.push(
+          this.source.functionCall("container.invokePartial", "", params),
+        );
       },
       // [assignToHash]
       //
@@ -19664,7 +23036,10 @@ var require_javascript_compiler = __commonJS({
       //
       // Pops a value off the stack and assigns it to the current hash
       assignToHash: function assignToHash(key) {
-        var value = this.popStack(), context = void 0, type = void 0, id = void 0;
+        var value = this.popStack(),
+          context = void 0,
+          type = void 0,
+          id = void 0;
         if (this.trackIds) {
           id = this.popStack();
         }
@@ -19686,7 +23061,14 @@ var require_javascript_compiler = __commonJS({
       },
       pushId: function pushId(type, name, child) {
         if (type === "BlockParam") {
-          this.pushStackLiteral("blockParams[" + name[0] + "].path[" + name[1] + "]" + (child ? " + " + JSON.stringify("." + child) : ""));
+          this.pushStackLiteral(
+            "blockParams[" +
+              name[0] +
+              "].path[" +
+              name[1] +
+              "]" +
+              (child ? " + " + JSON.stringify("." + child) : ""),
+          );
         } else if (type === "PathExpression") {
           this.pushString(name);
         } else if (type === "SubExpression") {
@@ -19698,7 +23080,9 @@ var require_javascript_compiler = __commonJS({
       // HELPERS
       compiler: JavaScriptCompiler,
       compileChildren: function compileChildren(environment, options) {
-        var children = environment.children, child = void 0, compiler = void 0;
+        var children = environment.children,
+          child = void 0,
+          compiler = void 0;
         for (var i = 0, l = children.length; i < l; i++) {
           child = children[i];
           compiler = new this.compiler();
@@ -19708,18 +23092,25 @@ var require_javascript_compiler = __commonJS({
             var index = this.context.programs.length;
             child.index = index;
             child.name = "program" + index;
-            this.context.programs[index] = compiler.compile(child, options, this.context, !this.precompile);
+            this.context.programs[index] = compiler.compile(
+              child,
+              options,
+              this.context,
+              !this.precompile,
+            );
             this.context.decorators[index] = compiler.decorators;
             this.context.environments[index] = child;
             this.useDepths = this.useDepths || compiler.useDepths;
-            this.useBlockParams = this.useBlockParams || compiler.useBlockParams;
+            this.useBlockParams =
+              this.useBlockParams || compiler.useBlockParams;
             child.useDepths = this.useDepths;
             child.useBlockParams = this.useBlockParams;
           } else {
             child.index = existing.index;
             child.name = "program" + existing.index;
             this.useDepths = this.useDepths || existing.useDepths;
-            this.useBlockParams = this.useBlockParams || existing.useBlockParams;
+            this.useBlockParams =
+              this.useBlockParams || existing.useBlockParams;
           }
         }
       },
@@ -19732,7 +23123,8 @@ var require_javascript_compiler = __commonJS({
         }
       },
       programExpression: function programExpression(guid) {
-        var child = this.environment.children[guid], programParams = [child.index, "data", child.blockParams];
+        var child = this.environment.children[guid],
+          programParams = [child.index, "data", child.blockParams];
         if (this.useBlockParams || this.useDepths) {
           programParams.push("blockParams");
         }
@@ -19759,7 +23151,12 @@ var require_javascript_compiler = __commonJS({
       },
       pushSource: function pushSource(source) {
         if (this.pendingContent) {
-          this.source.push(this.appendToBuffer(this.source.quotedString(this.pendingContent), this.pendingLocation));
+          this.source.push(
+            this.appendToBuffer(
+              this.source.quotedString(this.pendingContent),
+              this.pendingLocation,
+            ),
+          );
           this.pendingContent = void 0;
         }
         if (source) {
@@ -19767,7 +23164,10 @@ var require_javascript_compiler = __commonJS({
         }
       },
       replaceStack: function replaceStack(callback) {
-        var prefix = ["("], stack = void 0, createdStack = void 0, usedLiteral = void 0;
+        var prefix = ["("],
+          stack = void 0,
+          createdStack = void 0,
+          usedLiteral = void 0;
         if (!this.isInline()) {
           throw new _exception2["default"]("replaceStack on non-inline");
         }
@@ -19819,7 +23219,8 @@ var require_javascript_compiler = __commonJS({
         return this.inlineStack.length;
       },
       popStack: function popStack(wrapped) {
-        var inline = this.isInline(), item = (inline ? this.inlineStack : this.compileStack).pop();
+        var inline = this.isInline(),
+          item = (inline ? this.inlineStack : this.compileStack).pop();
         if (!wrapped && item instanceof Literal) {
           return item.value;
         } else {
@@ -19833,7 +23234,8 @@ var require_javascript_compiler = __commonJS({
         }
       },
       topStack: function topStack() {
-        var stack = this.isInline() ? this.inlineStack : this.compileStack, item = stack[stack.length - 1];
+        var stack = this.isInline() ? this.inlineStack : this.compileStack,
+          item = stack[stack.length - 1];
         if (item instanceof Literal) {
           return item.value;
         } else {
@@ -19865,17 +23267,34 @@ var require_javascript_compiler = __commonJS({
         return ret;
       },
       setupHelper: function setupHelper(paramSize, name, blockHelper) {
-        var params = [], paramsInit = this.setupHelperArgs(name, paramSize, params, blockHelper);
-        var foundHelper = this.nameLookup("helpers", name, "helper"), callContext = this.aliasable(this.contextName(0) + " != null ? " + this.contextName(0) + " : (container.nullContext || {})");
+        var params = [],
+          paramsInit = this.setupHelperArgs(
+            name,
+            paramSize,
+            params,
+            blockHelper,
+          );
+        var foundHelper = this.nameLookup("helpers", name, "helper"),
+          callContext = this.aliasable(
+            this.contextName(0) +
+              " != null ? " +
+              this.contextName(0) +
+              " : (container.nullContext || {})",
+          );
         return {
           params,
           paramsInit,
           name: foundHelper,
-          callParams: [callContext].concat(params)
+          callParams: [callContext].concat(params),
         };
       },
       setupParams: function setupParams(helper, paramSize, params) {
-        var options = {}, contexts = [], types = [], ids = [], objectArgs = !params, param = void 0;
+        var options = {},
+          contexts = [],
+          types = [],
+          ids = [],
+          objectArgs = !params,
+          param = void 0;
         if (objectArgs) {
           params = [];
         }
@@ -19888,7 +23307,8 @@ var require_javascript_compiler = __commonJS({
           options.hashTypes = this.popStack();
           options.hashContexts = this.popStack();
         }
-        var inverse = this.popStack(), program3 = this.popStack();
+        var inverse = this.popStack(),
+          program3 = this.popStack();
         if (program3 || inverse) {
           options.fn = program3 || "container.noop";
           options.inverse = inverse || "container.noop";
@@ -19923,7 +23343,12 @@ var require_javascript_compiler = __commonJS({
         }
         return options;
       },
-      setupHelperArgs: function setupHelperArgs(helper, paramSize, params, useRegister) {
+      setupHelperArgs: function setupHelperArgs(
+        helper,
+        paramSize,
+        params,
+        useRegister,
+      ) {
         var options = this.setupParams(helper, paramSize, params);
         options.loc = JSON.stringify(this.source.currentLocation);
         options = this.objectLiteral(options);
@@ -19937,20 +23362,27 @@ var require_javascript_compiler = __commonJS({
         } else {
           return options;
         }
-      }
+      },
     };
-    (function() {
-      var reservedWords = "break else new var case finally return void catch for switch while continue function this with default if throw delete in try do instanceof typeof abstract enum int short boolean export interface static byte extends long super char final native synchronized class float package throws const goto private transient debugger implements protected volatile double import public let yield await null true false".split(" ");
-      var compilerWords = JavaScriptCompiler.RESERVED_WORDS = {};
+    (function () {
+      var reservedWords =
+        "break else new var case finally return void catch for switch while continue function this with default if throw delete in try do instanceof typeof abstract enum int short boolean export interface static byte extends long super char final native synchronized class float package throws const goto private transient debugger implements protected volatile double import public let yield await null true false".split(
+          " ",
+        );
+      var compilerWords = (JavaScriptCompiler.RESERVED_WORDS = {});
       for (var i = 0, l = reservedWords.length; i < l; i++) {
         compilerWords[reservedWords[i]] = true;
       }
     })();
-    JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
-      return !JavaScriptCompiler.RESERVED_WORDS[name] && /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(name);
+    JavaScriptCompiler.isValidJavaScriptVariableName = function (name) {
+      return (
+        !JavaScriptCompiler.RESERVED_WORDS[name] &&
+        /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(name)
+      );
     };
     function strictLookup(requireTerminal, compiler, parts, i, type) {
-      var stack = compiler.popStack(), len = parts.length;
+      var stack = compiler.popStack(),
+        len = parts.length;
       if (requireTerminal) {
         len--;
       }
@@ -19958,14 +23390,23 @@ var require_javascript_compiler = __commonJS({
         stack = compiler.nameLookup(stack, parts[i], type);
       }
       if (requireTerminal) {
-        return [compiler.aliasable("container.strict"), "(", stack, ", ", compiler.quotedString(parts[i]), ", ", JSON.stringify(compiler.source.currentLocation), " )"];
+        return [
+          compiler.aliasable("container.strict"),
+          "(",
+          stack,
+          ", ",
+          compiler.quotedString(parts[i]),
+          ", ",
+          JSON.stringify(compiler.source.currentLocation),
+          " )",
+        ];
       } else {
         return stack;
       }
     }
     exports2["default"] = JavaScriptCompiler;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars.js
@@ -19974,27 +23415,33 @@ var require_handlebars = __commonJS({
     "use strict";
     exports2.__esModule = true;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _handlebarsRuntime = require_handlebars_runtime();
     var _handlebarsRuntime2 = _interopRequireDefault(_handlebarsRuntime);
     var _handlebarsCompilerAst = require_ast();
-    var _handlebarsCompilerAst2 = _interopRequireDefault(_handlebarsCompilerAst);
+    var _handlebarsCompilerAst2 = _interopRequireDefault(
+      _handlebarsCompilerAst,
+    );
     var _handlebarsCompilerBase = require_base2();
     var _handlebarsCompilerCompiler = require_compiler();
     var _handlebarsCompilerJavascriptCompiler = require_javascript_compiler();
-    var _handlebarsCompilerJavascriptCompiler2 = _interopRequireDefault(_handlebarsCompilerJavascriptCompiler);
+    var _handlebarsCompilerJavascriptCompiler2 = _interopRequireDefault(
+      _handlebarsCompilerJavascriptCompiler,
+    );
     var _handlebarsCompilerVisitor = require_visitor();
-    var _handlebarsCompilerVisitor2 = _interopRequireDefault(_handlebarsCompilerVisitor);
+    var _handlebarsCompilerVisitor2 = _interopRequireDefault(
+      _handlebarsCompilerVisitor,
+    );
     var _handlebarsNoConflict = require_no_conflict();
     var _handlebarsNoConflict2 = _interopRequireDefault(_handlebarsNoConflict);
     var _create = _handlebarsRuntime2["default"].create;
     function create() {
       var hb = _create();
-      hb.compile = function(input, options) {
+      hb.compile = function (input, options) {
         return _handlebarsCompilerCompiler.compile(input, options, hb);
       };
-      hb.precompile = function(input, options) {
+      hb.precompile = function (input, options) {
         return _handlebarsCompilerCompiler.precompile(input, options, hb);
       };
       hb.AST = _handlebarsCompilerAst2["default"];
@@ -20002,7 +23449,8 @@ var require_handlebars = __commonJS({
       hb.JavaScriptCompiler = _handlebarsCompilerJavascriptCompiler2["default"];
       hb.Parser = _handlebarsCompilerBase.parser;
       hb.parse = _handlebarsCompilerBase.parse;
-      hb.parseWithoutProcessing = _handlebarsCompilerBase.parseWithoutProcessing;
+      hb.parseWithoutProcessing =
+        _handlebarsCompilerBase.parseWithoutProcessing;
       return hb;
     }
     var inst = create();
@@ -20012,7 +23460,7 @@ var require_handlebars = __commonJS({
     inst["default"] = inst;
     exports2["default"] = inst;
     module2.exports = exports2["default"];
-  }
+  },
 });
 
 // node_modules/handlebars/dist/cjs/handlebars/compiler/printer.js
@@ -20023,7 +23471,7 @@ var require_printer = __commonJS({
     exports2.print = print;
     exports2.PrintVisitor = PrintVisitor;
     function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { "default": obj };
+      return obj && obj.__esModule ? obj : { default: obj };
     }
     var _visitor = require_visitor();
     var _visitor2 = _interopRequireDefault(_visitor);
@@ -20034,7 +23482,7 @@ var require_printer = __commonJS({
       this.padding = 0;
     }
     PrintVisitor.prototype = new _visitor2["default"]();
-    PrintVisitor.prototype.pad = function(string) {
+    PrintVisitor.prototype.pad = function (string) {
       var out = "";
       for (var i = 0, l = this.padding; i < l; i++) {
         out += "  ";
@@ -20042,8 +23490,11 @@ var require_printer = __commonJS({
       out += string + "\n";
       return out;
     };
-    PrintVisitor.prototype.Program = function(program3) {
-      var out = "", body = program3.body, i = void 0, l = void 0;
+    PrintVisitor.prototype.Program = function (program3) {
+      var out = "",
+        body = program3.body,
+        i = void 0,
+        l = void 0;
       if (program3.blockParams) {
         var blockParams = "BLOCK PARAMS: [";
         for (i = 0, l = program3.blockParams.length; i < l; i++) {
@@ -20058,39 +23509,42 @@ var require_printer = __commonJS({
       this.padding--;
       return out;
     };
-    PrintVisitor.prototype.MustacheStatement = function(mustache) {
+    PrintVisitor.prototype.MustacheStatement = function (mustache) {
       return this.pad("{{ " + this.SubExpression(mustache) + " }}");
     };
-    PrintVisitor.prototype.Decorator = function(mustache) {
+    PrintVisitor.prototype.Decorator = function (mustache) {
       return this.pad("{{ DIRECTIVE " + this.SubExpression(mustache) + " }}");
     };
-    PrintVisitor.prototype.BlockStatement = PrintVisitor.prototype.DecoratorBlock = function(block) {
-      var out = "";
-      out += this.pad((block.type === "DecoratorBlock" ? "DIRECTIVE " : "") + "BLOCK:");
-      this.padding++;
-      out += this.pad(this.SubExpression(block));
-      if (block.program) {
-        out += this.pad("PROGRAM:");
+    PrintVisitor.prototype.BlockStatement =
+      PrintVisitor.prototype.DecoratorBlock = function (block) {
+        var out = "";
+        out += this.pad(
+          (block.type === "DecoratorBlock" ? "DIRECTIVE " : "") + "BLOCK:",
+        );
         this.padding++;
-        out += this.accept(block.program);
-        this.padding--;
-      }
-      if (block.inverse) {
+        out += this.pad(this.SubExpression(block));
         if (block.program) {
+          out += this.pad("PROGRAM:");
           this.padding++;
-        }
-        out += this.pad("{{^}}");
-        this.padding++;
-        out += this.accept(block.inverse);
-        this.padding--;
-        if (block.program) {
+          out += this.accept(block.program);
           this.padding--;
         }
-      }
-      this.padding--;
-      return out;
-    };
-    PrintVisitor.prototype.PartialStatement = function(partial) {
+        if (block.inverse) {
+          if (block.program) {
+            this.padding++;
+          }
+          out += this.pad("{{^}}");
+          this.padding++;
+          out += this.accept(block.inverse);
+          this.padding--;
+          if (block.program) {
+            this.padding--;
+          }
+        }
+        this.padding--;
+        return out;
+      };
+    PrintVisitor.prototype.PartialStatement = function (partial) {
       var content = "PARTIAL:" + partial.name.original;
       if (partial.params[0]) {
         content += " " + this.accept(partial.params[0]);
@@ -20100,7 +23554,7 @@ var require_printer = __commonJS({
       }
       return this.pad("{{> " + content + " }}");
     };
-    PrintVisitor.prototype.PartialBlockStatement = function(partial) {
+    PrintVisitor.prototype.PartialBlockStatement = function (partial) {
       var content = "PARTIAL BLOCK:" + partial.name.original;
       if (partial.params[0]) {
         content += " " + this.accept(partial.params[0]);
@@ -20114,14 +23568,16 @@ var require_printer = __commonJS({
       this.padding--;
       return this.pad("{{> " + content + " }}");
     };
-    PrintVisitor.prototype.ContentStatement = function(content) {
+    PrintVisitor.prototype.ContentStatement = function (content) {
       return this.pad("CONTENT[ '" + content.value + "' ]");
     };
-    PrintVisitor.prototype.CommentStatement = function(comment) {
+    PrintVisitor.prototype.CommentStatement = function (comment) {
       return this.pad("{{! '" + comment.value + "' }}");
     };
-    PrintVisitor.prototype.SubExpression = function(sexpr) {
-      var params = sexpr.params, paramStrings = [], hash = void 0;
+    PrintVisitor.prototype.SubExpression = function (sexpr) {
+      var params = sexpr.params,
+        paramStrings = [],
+        hash = void 0;
       for (var i = 0, l = params.length; i < l; i++) {
         paramStrings.push(this.accept(params[i]));
       }
@@ -20129,36 +23585,37 @@ var require_printer = __commonJS({
       hash = sexpr.hash ? " " + this.accept(sexpr.hash) : "";
       return this.accept(sexpr.path) + " " + params + hash;
     };
-    PrintVisitor.prototype.PathExpression = function(id) {
+    PrintVisitor.prototype.PathExpression = function (id) {
       var path = id.parts.join("/");
       return (id.data ? "@" : "") + "PATH:" + path;
     };
-    PrintVisitor.prototype.StringLiteral = function(string) {
+    PrintVisitor.prototype.StringLiteral = function (string) {
       return '"' + string.value + '"';
     };
-    PrintVisitor.prototype.NumberLiteral = function(number) {
+    PrintVisitor.prototype.NumberLiteral = function (number) {
       return "NUMBER{" + number.value + "}";
     };
-    PrintVisitor.prototype.BooleanLiteral = function(bool) {
+    PrintVisitor.prototype.BooleanLiteral = function (bool) {
       return "BOOLEAN{" + bool.value + "}";
     };
-    PrintVisitor.prototype.UndefinedLiteral = function() {
+    PrintVisitor.prototype.UndefinedLiteral = function () {
       return "UNDEFINED";
     };
-    PrintVisitor.prototype.NullLiteral = function() {
+    PrintVisitor.prototype.NullLiteral = function () {
       return "NULL";
     };
-    PrintVisitor.prototype.Hash = function(hash) {
-      var pairs = hash.pairs, joinedPairs = [];
+    PrintVisitor.prototype.Hash = function (hash) {
+      var pairs = hash.pairs,
+        joinedPairs = [];
       for (var i = 0, l = pairs.length; i < l; i++) {
         joinedPairs.push(this.accept(pairs[i]));
       }
       return "HASH{" + joinedPairs.join(", ") + "}";
     };
-    PrintVisitor.prototype.HashPair = function(pair) {
+    PrintVisitor.prototype.HashPair = function (pair) {
       return pair.key + "=" + this.accept(pair.value);
     };
-  }
+  },
 });
 
 // node_modules/handlebars/lib/index.js
@@ -20178,17 +23635,17 @@ var require_lib = __commonJS({
       require.extensions[".handlebars"] = extension;
       require.extensions[".hbs"] = extension;
     }
-  }
+  },
 });
 
 // node_modules/dotenv/config.js
-(function() {
+(function () {
   require_main().config(
     Object.assign(
       {},
       require_env_options(),
-      require_cli_options()(process.argv)
-    )
+      require_cli_options()(process.argv),
+    ),
   );
 })();
 
@@ -20206,7 +23663,7 @@ var {
   Command,
   Argument,
   Option,
-  Help
+  Help,
 } = import_index.default;
 
 // package.json
@@ -20214,9 +23671,18 @@ var version = "0.1.0";
 
 // node_modules/chalk/source/vendor/ansi-styles/index.js
 var ANSI_BACKGROUND_OFFSET = 10;
-var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
-var wrapAnsi256 = (offset = 0) => (code) => `\x1B[${38 + offset};5;${code}m`;
-var wrapAnsi16m = (offset = 0) => (red, green, blue) => `\x1B[${38 + offset};2;${red};${green};${blue}m`;
+var wrapAnsi16 =
+  (offset = 0) =>
+  (code) =>
+    `\x1B[${code + offset}m`;
+var wrapAnsi256 =
+  (offset = 0) =>
+  (code) =>
+    `\x1B[${38 + offset};5;${code}m`;
+var wrapAnsi16m =
+  (offset = 0) =>
+  (red, green, blue) =>
+    `\x1B[${38 + offset};2;${red};${green};${blue}m`;
 var styles = {
   modifier: {
     reset: [0, 0],
@@ -20228,7 +23694,7 @@ var styles = {
     overline: [53, 55],
     inverse: [7, 27],
     hidden: [8, 28],
-    strikethrough: [9, 29]
+    strikethrough: [9, 29],
   },
   color: {
     black: [30, 39],
@@ -20251,7 +23717,7 @@ var styles = {
     blueBright: [94, 39],
     magentaBright: [95, 39],
     cyanBright: [96, 39],
-    whiteBright: [97, 39]
+    whiteBright: [97, 39],
   },
   bgColor: {
     bgBlack: [40, 49],
@@ -20274,8 +23740,8 @@ var styles = {
     bgBlueBright: [104, 49],
     bgMagentaBright: [105, 49],
     bgCyanBright: [106, 49],
-    bgWhiteBright: [107, 49]
-  }
+    bgWhiteBright: [107, 49],
+  },
 };
 var modifierNames = Object.keys(styles.modifier);
 var foregroundColorNames = Object.keys(styles.color);
@@ -20287,19 +23753,19 @@ function assembleStyles() {
     for (const [styleName, style] of Object.entries(group)) {
       styles[styleName] = {
         open: `\x1B[${style[0]}m`,
-        close: `\x1B[${style[1]}m`
+        close: `\x1B[${style[1]}m`,
       };
       group[styleName] = styles[styleName];
       codes.set(style[0], style[1]);
     }
     Object.defineProperty(styles, groupName, {
       value: group,
-      enumerable: false
+      enumerable: false,
     });
   }
   Object.defineProperty(styles, "codes", {
     value: codes,
-    enumerable: false
+    enumerable: false,
   });
   styles.color.close = "\x1B[39m";
   styles.bgColor.close = "\x1B[49m";
@@ -20319,11 +23785,16 @@ function assembleStyles() {
           if (red > 248) {
             return 231;
           }
-          return Math.round((red - 8) / 247 * 24) + 232;
+          return Math.round(((red - 8) / 247) * 24) + 232;
         }
-        return 16 + 36 * Math.round(red / 255 * 5) + 6 * Math.round(green / 255 * 5) + Math.round(blue / 255 * 5);
+        return (
+          16 +
+          36 * Math.round((red / 255) * 5) +
+          6 * Math.round((green / 255) * 5) +
+          Math.round((blue / 255) * 5)
+        );
       },
-      enumerable: false
+      enumerable: false,
     },
     hexToRgb: {
       value(hex) {
@@ -20333,22 +23804,24 @@ function assembleStyles() {
         }
         let [colorString] = matches;
         if (colorString.length === 3) {
-          colorString = [...colorString].map((character) => character + character).join("");
+          colorString = [...colorString]
+            .map((character) => character + character)
+            .join("");
         }
         const integer = Number.parseInt(colorString, 16);
         return [
           /* eslint-disable no-bitwise */
-          integer >> 16 & 255,
-          integer >> 8 & 255,
-          integer & 255
+          (integer >> 16) & 255,
+          (integer >> 8) & 255,
+          integer & 255,
           /* eslint-enable no-bitwise */
         ];
       },
-      enumerable: false
+      enumerable: false,
     },
     hexToAnsi256: {
       value: (hex) => styles.rgbToAnsi256(...styles.hexToRgb(hex)),
-      enumerable: false
+      enumerable: false,
     },
     ansi256ToAnsi: {
       value(code) {
@@ -20370,28 +23843,33 @@ function assembleStyles() {
           const remainder = code % 36;
           red = Math.floor(code / 36) / 5;
           green = Math.floor(remainder / 6) / 5;
-          blue = remainder % 6 / 5;
+          blue = (remainder % 6) / 5;
         }
         const value = Math.max(red, green, blue) * 2;
         if (value === 0) {
           return 30;
         }
-        let result = 30 + (Math.round(blue) << 2 | Math.round(green) << 1 | Math.round(red));
+        let result =
+          30 +
+          ((Math.round(blue) << 2) |
+            (Math.round(green) << 1) |
+            Math.round(red));
         if (value === 2) {
           result += 60;
         }
         return result;
       },
-      enumerable: false
+      enumerable: false,
     },
     rgbToAnsi: {
-      value: (red, green, blue) => styles.ansi256ToAnsi(styles.rgbToAnsi256(red, green, blue)),
-      enumerable: false
+      value: (red, green, blue) =>
+        styles.ansi256ToAnsi(styles.rgbToAnsi256(red, green, blue)),
+      enumerable: false,
     },
     hexToAnsi: {
       value: (hex) => styles.ansi256ToAnsi(styles.hexToAnsi256(hex)),
-      enumerable: false
-    }
+      enumerable: false,
+    },
   });
   return styles;
 }
@@ -20402,17 +23880,35 @@ var ansi_styles_default = ansiStyles;
 var import_node_process = __toESM(require("node:process"), 1);
 var import_node_os = __toESM(require("node:os"), 1);
 var import_node_tty = __toESM(require("node:tty"), 1);
-function hasFlag(flag, argv = globalThis.Deno ? globalThis.Deno.args : import_node_process.default.argv) {
+function hasFlag(
+  flag,
+  argv = globalThis.Deno
+    ? globalThis.Deno.args
+    : import_node_process.default.argv,
+) {
   const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
   const position = argv.indexOf(prefix + flag);
   const terminatorPosition = argv.indexOf("--");
-  return position !== -1 && (terminatorPosition === -1 || position < terminatorPosition);
+  return (
+    position !== -1 &&
+    (terminatorPosition === -1 || position < terminatorPosition)
+  );
 }
 var { env } = import_node_process.default;
 var flagForceColor;
-if (hasFlag("no-color") || hasFlag("no-colors") || hasFlag("color=false") || hasFlag("color=never")) {
+if (
+  hasFlag("no-color") ||
+  hasFlag("no-colors") ||
+  hasFlag("color=false") ||
+  hasFlag("color=never")
+) {
   flagForceColor = 0;
-} else if (hasFlag("color") || hasFlag("colors") || hasFlag("color=true") || hasFlag("color=always")) {
+} else if (
+  hasFlag("color") ||
+  hasFlag("colors") ||
+  hasFlag("color=true") ||
+  hasFlag("color=always")
+) {
   flagForceColor = 1;
 }
 function envForceColor() {
@@ -20423,7 +23919,9 @@ function envForceColor() {
     if (env.FORCE_COLOR === "false") {
       return 0;
     }
-    return env.FORCE_COLOR.length === 0 ? 1 : Math.min(Number.parseInt(env.FORCE_COLOR, 10), 3);
+    return env.FORCE_COLOR.length === 0
+      ? 1
+      : Math.min(Number.parseInt(env.FORCE_COLOR, 10), 3);
   }
 }
 function translateLevel(level) {
@@ -20434,7 +23932,7 @@ function translateLevel(level) {
     level,
     hasBasic: true,
     has256: level >= 2,
-    has16m: level >= 3
+    has16m: level >= 3,
   };
 }
 function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
@@ -20447,7 +23945,11 @@ function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
     return 0;
   }
   if (sniffFlags) {
-    if (hasFlag("color=16m") || hasFlag("color=full") || hasFlag("color=truecolor")) {
+    if (
+      hasFlag("color=16m") ||
+      hasFlag("color=full") ||
+      hasFlag("color=truecolor")
+    ) {
       return 3;
     }
     if (hasFlag("color=256")) {
@@ -20475,7 +23977,17 @@ function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
     if ("GITHUB_ACTIONS" in env || "GITEA_ACTIONS" in env) {
       return 3;
     }
-    if (["TRAVIS", "CIRCLECI", "APPVEYOR", "GITLAB_CI", "BUILDKITE", "DRONE"].some((sign) => sign in env) || env.CI_NAME === "codeship") {
+    if (
+      [
+        "TRAVIS",
+        "CIRCLECI",
+        "APPVEYOR",
+        "GITLAB_CI",
+        "BUILDKITE",
+        "DRONE",
+      ].some((sign) => sign in env) ||
+      env.CI_NAME === "codeship"
+    ) {
       return 1;
     }
     return min;
@@ -20490,7 +24002,10 @@ function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
     return 3;
   }
   if ("TERM_PROGRAM" in env) {
-    const version2 = Number.parseInt((env.TERM_PROGRAM_VERSION || "").split(".")[0], 10);
+    const version2 = Number.parseInt(
+      (env.TERM_PROGRAM_VERSION || "").split(".")[0],
+      10,
+    );
     switch (env.TERM_PROGRAM) {
       case "iTerm.app": {
         return version2 >= 3 ? 3 : 2;
@@ -20503,7 +24018,9 @@ function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
   if (/-256(color)?$/i.test(env.TERM)) {
     return 2;
   }
-  if (/^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)) {
+  if (
+    /^screen|^xterm|^vt100|^vt220|^rxvt|color|ansi|cygwin|linux/i.test(env.TERM)
+  ) {
     return 1;
   }
   if ("COLORTERM" in env) {
@@ -20514,13 +24031,13 @@ function _supportsColor(haveStream, { streamIsTTY, sniffFlags = true } = {}) {
 function createSupportsColor(stream4, options = {}) {
   const level = _supportsColor(stream4, {
     streamIsTTY: stream4 && stream4.isTTY,
-    ...options
+    ...options,
   });
   return translateLevel(level);
 }
 var supportsColor = {
   stdout: createSupportsColor({ isTTY: import_node_tty.default.isatty(1) }),
-  stderr: createSupportsColor({ isTTY: import_node_tty.default.isatty(2) })
+  stderr: createSupportsColor({ isTTY: import_node_tty.default.isatty(2) }),
 };
 var supports_color_default = supportsColor;
 
@@ -20546,7 +24063,11 @@ function stringEncaseCRLFWithFirstIndex(string, prefix, postfix, index) {
   let returnValue = "";
   do {
     const gotCR = string[index - 1] === "\r";
-    returnValue += string.slice(endIndex, gotCR ? index - 1 : index) + prefix + (gotCR ? "\r\n" : "\n") + postfix;
+    returnValue +=
+      string.slice(endIndex, gotCR ? index - 1 : index) +
+      prefix +
+      (gotCR ? "\r\n" : "\n") +
+      postfix;
     endIndex = index + 1;
     index = string.indexOf("\n", endIndex);
   } while (index !== -1);
@@ -20559,15 +24080,17 @@ var { stdout: stdoutColor, stderr: stderrColor } = supports_color_default;
 var GENERATOR = Symbol("GENERATOR");
 var STYLER = Symbol("STYLER");
 var IS_EMPTY = Symbol("IS_EMPTY");
-var levelMapping = [
-  "ansi",
-  "ansi",
-  "ansi256",
-  "ansi16m"
-];
+var levelMapping = ["ansi", "ansi", "ansi256", "ansi16m"];
 var styles2 = /* @__PURE__ */ Object.create(null);
 var applyOptions = (object, options = {}) => {
-  if (options.level && !(Number.isInteger(options.level) && options.level >= 0 && options.level <= 3)) {
+  if (
+    options.level &&
+    !(
+      Number.isInteger(options.level) &&
+      options.level >= 0 &&
+      options.level <= 3
+    )
+  ) {
     throw new Error("The `level` option should be an integer from 0 to 3");
   }
   const colorLevel = stdoutColor ? stdoutColor.level : 0;
@@ -20586,10 +24109,14 @@ Object.setPrototypeOf(createChalk.prototype, Function.prototype);
 for (const [styleName, style] of Object.entries(ansi_styles_default)) {
   styles2[styleName] = {
     get() {
-      const builder = createBuilder(this, createStyler(style.open, style.close, this[STYLER]), this[IS_EMPTY]);
+      const builder = createBuilder(
+        this,
+        createStyler(style.open, style.close, this[STYLER]),
+        this[IS_EMPTY],
+      );
       Object.defineProperty(this, styleName, { value: builder });
       return builder;
-    }
+    },
   };
 }
 styles2.visible = {
@@ -20597,7 +24124,7 @@ styles2.visible = {
     const builder = createBuilder(this, this[STYLER], true);
     Object.defineProperty(this, "visible", { value: builder });
     return builder;
-  }
+  },
 };
 var getModelAnsi = (model, level, type, ...arguments_) => {
   if (model === "rgb") {
@@ -20605,12 +24132,21 @@ var getModelAnsi = (model, level, type, ...arguments_) => {
       return ansi_styles_default[type].ansi16m(...arguments_);
     }
     if (level === "ansi256") {
-      return ansi_styles_default[type].ansi256(ansi_styles_default.rgbToAnsi256(...arguments_));
+      return ansi_styles_default[type].ansi256(
+        ansi_styles_default.rgbToAnsi256(...arguments_),
+      );
     }
-    return ansi_styles_default[type].ansi(ansi_styles_default.rgbToAnsi(...arguments_));
+    return ansi_styles_default[type].ansi(
+      ansi_styles_default.rgbToAnsi(...arguments_),
+    );
   }
   if (model === "hex") {
-    return getModelAnsi("rgb", level, type, ...ansi_styles_default.hexToRgb(...arguments_));
+    return getModelAnsi(
+      "rgb",
+      level,
+      type,
+      ...ansi_styles_default.hexToRgb(...arguments_),
+    );
   }
   return ansi_styles_default[type][model](...arguments_);
 };
@@ -20619,25 +24155,32 @@ for (const model of usedModels) {
   styles2[model] = {
     get() {
       const { level } = this;
-      return function(...arguments_) {
-        const styler = createStyler(getModelAnsi(model, levelMapping[level], "color", ...arguments_), ansi_styles_default.color.close, this[STYLER]);
+      return function (...arguments_) {
+        const styler = createStyler(
+          getModelAnsi(model, levelMapping[level], "color", ...arguments_),
+          ansi_styles_default.color.close,
+          this[STYLER],
+        );
         return createBuilder(this, styler, this[IS_EMPTY]);
       };
-    }
+    },
   };
   const bgModel = "bg" + model[0].toUpperCase() + model.slice(1);
   styles2[bgModel] = {
     get() {
       const { level } = this;
-      return function(...arguments_) {
-        const styler = createStyler(getModelAnsi(model, levelMapping[level], "bgColor", ...arguments_), ansi_styles_default.bgColor.close, this[STYLER]);
+      return function (...arguments_) {
+        const styler = createStyler(
+          getModelAnsi(model, levelMapping[level], "bgColor", ...arguments_),
+          ansi_styles_default.bgColor.close,
+          this[STYLER],
+        );
         return createBuilder(this, styler, this[IS_EMPTY]);
       };
-    }
+    },
   };
 }
-var proto = Object.defineProperties(() => {
-}, {
+var proto = Object.defineProperties(() => {}, {
   ...styles2,
   level: {
     enumerable: true,
@@ -20646,8 +24189,8 @@ var proto = Object.defineProperties(() => {
     },
     set(level) {
       this[GENERATOR].level = level;
-    }
-  }
+    },
+  },
 });
 var createStyler = (open, close, parent) => {
   let openAll;
@@ -20664,11 +24207,15 @@ var createStyler = (open, close, parent) => {
     close,
     openAll,
     closeAll,
-    parent
+    parent,
   };
 };
 var createBuilder = (self2, _styler, _isEmpty) => {
-  const builder = (...arguments_) => applyStyle(builder, arguments_.length === 1 ? "" + arguments_[0] : arguments_.join(" "));
+  const builder = (...arguments_) =>
+    applyStyle(
+      builder,
+      arguments_.length === 1 ? "" + arguments_[0] : arguments_.join(" "),
+    );
   Object.setPrototypeOf(builder, proto);
   builder[GENERATOR] = self2;
   builder[STYLER] = _styler;
@@ -20723,7 +24270,14 @@ var typeOfTest = (type) => (thing) => typeof thing === type;
 var { isArray } = Array;
 var isUndefined = typeOfTest("undefined");
 function isBuffer(val) {
-  return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && isFunction(val.constructor.isBuffer) && val.constructor.isBuffer(val);
+  return (
+    val !== null &&
+    !isUndefined(val) &&
+    val.constructor !== null &&
+    !isUndefined(val.constructor) &&
+    isFunction(val.constructor.isBuffer) &&
+    val.constructor.isBuffer(val)
+  );
 }
 var isArrayBuffer = kindOfTest("ArrayBuffer");
 function isArrayBufferView(val) {
@@ -20745,7 +24299,13 @@ var isPlainObject = (val) => {
     return false;
   }
   const prototype3 = getPrototypeOf(val);
-  return (prototype3 === null || prototype3 === Object.prototype || Object.getPrototypeOf(prototype3) === null) && !(Symbol.toStringTag in val) && !(Symbol.iterator in val);
+  return (
+    (prototype3 === null ||
+      prototype3 === Object.prototype ||
+      Object.getPrototypeOf(prototype3) === null) &&
+    !(Symbol.toStringTag in val) &&
+    !(Symbol.iterator in val)
+  );
 };
 var isDate = kindOfTest("Date");
 var isFile = kindOfTest("File");
@@ -20754,12 +24314,25 @@ var isFileList = kindOfTest("FileList");
 var isStream = (val) => isObject(val) && isFunction(val.pipe);
 var isFormData = (thing) => {
   let kind;
-  return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
-  kind === "object" && isFunction(thing.toString) && thing.toString() === "[object FormData]"));
+  return (
+    thing &&
+    ((typeof FormData === "function" && thing instanceof FormData) ||
+      (isFunction(thing.append) &&
+        ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
+          (kind === "object" &&
+            isFunction(thing.toString) &&
+            thing.toString() === "[object FormData]"))))
+  );
 };
 var isURLSearchParams = kindOfTest("URLSearchParams");
-var [isReadableStream, isRequest, isResponse, isHeaders] = ["ReadableStream", "Request", "Response", "Headers"].map(kindOfTest);
-var trim = (str) => str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+var [isReadableStream, isRequest, isResponse, isHeaders] = [
+  "ReadableStream",
+  "Request",
+  "Response",
+  "Headers",
+].map(kindOfTest);
+var trim = (str) =>
+  str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
 function forEach(obj, fn, { allOwnKeys = false } = {}) {
   if (obj === null || typeof obj === "undefined") {
     return;
@@ -20774,7 +24347,9 @@ function forEach(obj, fn, { allOwnKeys = false } = {}) {
       fn.call(null, obj[i], i, obj);
     }
   } else {
-    const keys = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
+    const keys = allOwnKeys
+      ? Object.getOwnPropertyNames(obj)
+      : Object.keys(obj);
     const len = keys.length;
     let key;
     for (i = 0; i < len; i++) {
@@ -20798,14 +24373,19 @@ function findKey(obj, key) {
 }
 var _global = (() => {
   if (typeof globalThis !== "undefined") return globalThis;
-  return typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : global;
+  return typeof self !== "undefined"
+    ? self
+    : typeof window !== "undefined"
+      ? window
+      : global;
 })();
-var isContextDefined = (context) => !isUndefined(context) && context !== _global;
+var isContextDefined = (context) =>
+  !isUndefined(context) && context !== _global;
 function merge() {
-  const { caseless } = isContextDefined(this) && this || {};
+  const { caseless } = (isContextDefined(this) && this) || {};
   const result = {};
   const assignValue = (val, key) => {
-    const targetKey = caseless && findKey(result, key) || key;
+    const targetKey = (caseless && findKey(result, key)) || key;
     if (isPlainObject(result[targetKey]) && isPlainObject(val)) {
       result[targetKey] = merge(result[targetKey], val);
     } else if (isPlainObject(val)) {
@@ -20822,13 +24402,17 @@ function merge() {
   return result;
 }
 var extend = (a, b, thisArg, { allOwnKeys } = {}) => {
-  forEach(b, (val, key) => {
-    if (thisArg && isFunction(val)) {
-      a[key] = bind(val, thisArg);
-    } else {
-      a[key] = val;
-    }
-  }, { allOwnKeys });
+  forEach(
+    b,
+    (val, key) => {
+      if (thisArg && isFunction(val)) {
+        a[key] = bind(val, thisArg);
+      } else {
+        a[key] = val;
+      }
+    },
+    { allOwnKeys },
+  );
   return a;
 };
 var stripBOM = (content) => {
@@ -20838,10 +24422,13 @@ var stripBOM = (content) => {
   return content;
 };
 var inherits = (constructor, superConstructor, props, descriptors2) => {
-  constructor.prototype = Object.create(superConstructor.prototype, descriptors2);
+  constructor.prototype = Object.create(
+    superConstructor.prototype,
+    descriptors2,
+  );
   constructor.prototype.constructor = constructor;
   Object.defineProperty(constructor, "super", {
-    value: superConstructor.prototype
+    value: superConstructor.prototype,
   });
   props && Object.assign(constructor.prototype, props);
 };
@@ -20857,13 +24444,20 @@ var toFlatObject = (sourceObj, destObj, filter2, propFilter) => {
     i = props.length;
     while (i-- > 0) {
       prop = props[i];
-      if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
+      if (
+        (!propFilter || propFilter(prop, sourceObj, destObj)) &&
+        !merged[prop]
+      ) {
         destObj[prop] = sourceObj[prop];
         merged[prop] = true;
       }
     }
     sourceObj = filter2 !== false && getPrototypeOf(sourceObj);
-  } while (sourceObj && (!filter2 || filter2(sourceObj, destObj)) && sourceObj !== Object.prototype);
+  } while (
+    sourceObj &&
+    (!filter2 || filter2(sourceObj, destObj)) &&
+    sourceObj !== Object.prototype
+  );
   return destObj;
 };
 var endsWith = (str, searchString, position) => {
@@ -20910,14 +24504,17 @@ var matchAll = (regExp, str) => {
 };
 var isHTMLForm = kindOfTest("HTMLFormElement");
 var toCamelCase = (str) => {
-  return str.toLowerCase().replace(
-    /[-_\s]([a-z\d])(\w*)/g,
-    function replacer(m, p1, p2) {
+  return str
+    .toLowerCase()
+    .replace(/[-_\s]([a-z\d])(\w*)/g, function replacer(m, p1, p2) {
       return p1.toUpperCase() + p2;
-    }
-  );
+    });
 };
-var hasOwnProperty = (({ hasOwnProperty: hasOwnProperty2 }) => (obj, prop) => hasOwnProperty2.call(obj, prop))(Object.prototype);
+var hasOwnProperty = (
+  ({ hasOwnProperty: hasOwnProperty2 }) =>
+  (obj, prop) =>
+    hasOwnProperty2.call(obj, prop)
+)(Object.prototype);
 var isRegExp = kindOfTest("RegExp");
 var reduceDescriptors = (obj, reducer) => {
   const descriptors2 = Object.getOwnPropertyDescriptors(obj);
@@ -20932,7 +24529,10 @@ var reduceDescriptors = (obj, reducer) => {
 };
 var freezeMethods = (obj) => {
   reduceDescriptors(obj, (descriptor, name) => {
-    if (isFunction(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
+    if (
+      isFunction(obj) &&
+      ["arguments", "caller", "callee"].indexOf(name) !== -1
+    ) {
       return false;
     }
     const value = obj[name];
@@ -20956,31 +24556,39 @@ var toObjectSet = (arrayOrString, delimiter) => {
       obj[value] = true;
     });
   };
-  isArray(arrayOrString) ? define2(arrayOrString) : define2(String(arrayOrString).split(delimiter));
+  isArray(arrayOrString)
+    ? define2(arrayOrString)
+    : define2(String(arrayOrString).split(delimiter));
   return obj;
 };
-var noop = () => {
-};
+var noop = () => {};
 var toFiniteNumber = (value, defaultValue) => {
-  return value != null && Number.isFinite(value = +value) ? value : defaultValue;
+  return value != null && Number.isFinite((value = +value))
+    ? value
+    : defaultValue;
 };
 var ALPHA = "abcdefghijklmnopqrstuvwxyz";
 var DIGIT = "0123456789";
 var ALPHABET = {
   DIGIT,
   ALPHA,
-  ALPHA_DIGIT: ALPHA + ALPHA.toUpperCase() + DIGIT
+  ALPHA_DIGIT: ALPHA + ALPHA.toUpperCase() + DIGIT,
 };
 var generateString = (size = 16, alphabet = ALPHABET.ALPHA_DIGIT) => {
   let str = "";
   const { length } = alphabet;
   while (size--) {
-    str += alphabet[Math.random() * length | 0];
+    str += alphabet[(Math.random() * length) | 0];
   }
   return str;
 };
 function isSpecCompliantForm(thing) {
-  return !!(thing && isFunction(thing.append) && thing[Symbol.toStringTag] === "FormData" && thing[Symbol.iterator]);
+  return !!(
+    thing &&
+    isFunction(thing.append) &&
+    thing[Symbol.toStringTag] === "FormData" &&
+    thing[Symbol.iterator]
+  );
 }
 var toJSONObject = (obj) => {
   const stack = new Array(10);
@@ -21005,7 +24613,11 @@ var toJSONObject = (obj) => {
   return visit(obj, 0);
 };
 var isAsyncFn = kindOfTest("AsyncFunction");
-var isThenable = (thing) => thing && (isObject(thing) || isFunction(thing)) && isFunction(thing.then) && isFunction(thing.catch);
+var isThenable = (thing) =>
+  thing &&
+  (isObject(thing) || isFunction(thing)) &&
+  isFunction(thing.then) &&
+  isFunction(thing.catch);
 var utils_default = {
   isArray,
   isArrayBuffer,
@@ -21062,7 +24674,7 @@ var utils_default = {
   isSpecCompliantForm,
   toJSONObject,
   isAsyncFn,
-  isThenable
+  isThenable,
 };
 
 // node_modules/axios/lib/core/AxiosError.js
@@ -21097,9 +24709,10 @@ utils_default.inherits(AxiosError, Error, {
       // Axios
       config: utils_default.toJSONObject(this.config),
       code: this.code,
-      status: this.response && this.response.status ? this.response.status : null
+      status:
+        this.response && this.response.status ? this.response.status : null,
     };
-  }
+  },
 });
 var prototype = AxiosError.prototype;
 var descriptors = {};
@@ -21115,7 +24728,7 @@ var descriptors = {};
   "ERR_BAD_REQUEST",
   "ERR_CANCELED",
   "ERR_NOT_SUPPORT",
-  "ERR_INVALID_URL"
+  "ERR_INVALID_URL",
   // eslint-disable-next-line func-names
 ].forEach((code) => {
   descriptors[code] = { value: code };
@@ -21124,11 +24737,16 @@ Object.defineProperties(AxiosError, descriptors);
 Object.defineProperty(prototype, "isAxiosError", { value: true });
 AxiosError.from = (error, code, config, request, response, customProps) => {
   const axiosError = Object.create(prototype);
-  utils_default.toFlatObject(error, axiosError, function filter2(obj) {
-    return obj !== Error.prototype;
-  }, (prop) => {
-    return prop !== "isAxiosError";
-  });
+  utils_default.toFlatObject(
+    error,
+    axiosError,
+    function filter2(obj) {
+      return obj !== Error.prototype;
+    },
+    (prop) => {
+      return prop !== "isAxiosError";
+    },
+  );
   AxiosError.call(axiosError, error.message, code, config, request, response);
   axiosError.cause = error;
   axiosError.name = error.name;
@@ -21150,34 +24768,47 @@ function removeBrackets(key) {
 }
 function renderKey(path, key, dots) {
   if (!path) return key;
-  return path.concat(key).map(function each(token, i) {
-    token = removeBrackets(token);
-    return !dots && i ? "[" + token + "]" : token;
-  }).join(dots ? "." : "");
+  return path
+    .concat(key)
+    .map(function each(token, i) {
+      token = removeBrackets(token);
+      return !dots && i ? "[" + token + "]" : token;
+    })
+    .join(dots ? "." : "");
 }
 function isFlatArray(arr) {
   return utils_default.isArray(arr) && !arr.some(isVisitable);
 }
-var predicates = utils_default.toFlatObject(utils_default, {}, null, function filter(prop) {
-  return /^is[A-Z]/.test(prop);
-});
+var predicates = utils_default.toFlatObject(
+  utils_default,
+  {},
+  null,
+  function filter(prop) {
+    return /^is[A-Z]/.test(prop);
+  },
+);
 function toFormData(obj, formData, options) {
   if (!utils_default.isObject(obj)) {
     throw new TypeError("target must be an object");
   }
   formData = formData || new (FormData_default || FormData)();
-  options = utils_default.toFlatObject(options, {
-    metaTokens: true,
-    dots: false,
-    indexes: false
-  }, false, function defined(option, source) {
-    return !utils_default.isUndefined(source[option]);
-  });
+  options = utils_default.toFlatObject(
+    options,
+    {
+      metaTokens: true,
+      dots: false,
+      indexes: false,
+    },
+    false,
+    function defined(option, source) {
+      return !utils_default.isUndefined(source[option]);
+    },
+  );
   const metaTokens = options.metaTokens;
   const visitor = options.visitor || defaultVisitor;
   const dots = options.dots;
   const indexes = options.indexes;
-  const _Blob = options.Blob || typeof Blob !== "undefined" && Blob;
+  const _Blob = options.Blob || (typeof Blob !== "undefined" && Blob);
   const useBlob = _Blob && utils_default.isSpecCompliantForm(formData);
   if (!utils_default.isFunction(visitor)) {
     throw new TypeError("visitor must be a function");
@@ -21188,10 +24819,17 @@ function toFormData(obj, formData, options) {
       return value.toISOString();
     }
     if (!useBlob && utils_default.isBlob(value)) {
-      throw new AxiosError_default("Blob is not supported. Use a Buffer instead.");
+      throw new AxiosError_default(
+        "Blob is not supported. Use a Buffer instead.",
+      );
     }
-    if (utils_default.isArrayBuffer(value) || utils_default.isTypedArray(value)) {
-      return useBlob && typeof Blob === "function" ? new Blob([value]) : Buffer.from(value);
+    if (
+      utils_default.isArrayBuffer(value) ||
+      utils_default.isTypedArray(value)
+    ) {
+      return useBlob && typeof Blob === "function"
+        ? new Blob([value])
+        : Buffer.from(value);
     }
     return value;
   }
@@ -21201,14 +24839,24 @@ function toFormData(obj, formData, options) {
       if (utils_default.endsWith(key, "{}")) {
         key = metaTokens ? key : key.slice(0, -2);
         value = JSON.stringify(value);
-      } else if (utils_default.isArray(value) && isFlatArray(value) || (utils_default.isFileList(value) || utils_default.endsWith(key, "[]")) && (arr = utils_default.toArray(value))) {
+      } else if (
+        (utils_default.isArray(value) && isFlatArray(value)) ||
+        ((utils_default.isFileList(value) ||
+          utils_default.endsWith(key, "[]")) &&
+          (arr = utils_default.toArray(value)))
+      ) {
         key = removeBrackets(key);
         arr.forEach(function each(el, index) {
-          !(utils_default.isUndefined(el) || el === null) && formData.append(
-            // eslint-disable-next-line no-nested-ternary
-            indexes === true ? renderKey([key], index, dots) : indexes === null ? key : key + "[]",
-            convertValue(el)
-          );
+          !(utils_default.isUndefined(el) || el === null) &&
+            formData.append(
+              // eslint-disable-next-line no-nested-ternary
+              indexes === true
+                ? renderKey([key], index, dots)
+                : indexes === null
+                  ? key
+                  : key + "[]",
+              convertValue(el),
+            );
         });
         return false;
       }
@@ -21223,7 +24871,7 @@ function toFormData(obj, formData, options) {
   const exposedHelpers = Object.assign(predicates, {
     defaultVisitor,
     convertValue,
-    isVisitable
+    isVisitable,
   });
   function build(value, path) {
     if (utils_default.isUndefined(value)) return;
@@ -21232,13 +24880,15 @@ function toFormData(obj, formData, options) {
     }
     stack.push(value);
     utils_default.forEach(value, function each(el, key) {
-      const result = !(utils_default.isUndefined(el) || el === null) && visitor.call(
-        formData,
-        el,
-        utils_default.isString(key) ? key.trim() : key,
-        path,
-        exposedHelpers
-      );
+      const result =
+        !(utils_default.isUndefined(el) || el === null) &&
+        visitor.call(
+          formData,
+          el,
+          utils_default.isString(key) ? key.trim() : key,
+          path,
+          exposedHelpers,
+        );
       if (result === true) {
         build(el, path ? path.concat(key) : [key]);
       }
@@ -21262,11 +24912,14 @@ function encode(str) {
     ")": "%29",
     "~": "%7E",
     "%20": "+",
-    "%00": "\0"
+    "%00": "\0",
   };
-  return encodeURIComponent(str).replace(/[!'()~]|%20|%00/g, function replacer(match) {
-    return charMap[match];
-  });
+  return encodeURIComponent(str).replace(
+    /[!'()~]|%20|%00/g,
+    function replacer(match) {
+      return charMap[match];
+    },
+  );
 }
 function AxiosURLSearchParams(params, options) {
   this._pairs = [];
@@ -21277,30 +24930,42 @@ prototype2.append = function append(name, value) {
   this._pairs.push([name, value]);
 };
 prototype2.toString = function toString2(encoder) {
-  const _encode = encoder ? function(value) {
-    return encoder.call(this, value, encode);
-  } : encode;
-  return this._pairs.map(function each(pair) {
-    return _encode(pair[0]) + "=" + _encode(pair[1]);
-  }, "").join("&");
+  const _encode = encoder
+    ? function (value) {
+        return encoder.call(this, value, encode);
+      }
+    : encode;
+  return this._pairs
+    .map(function each(pair) {
+      return _encode(pair[0]) + "=" + _encode(pair[1]);
+    }, "")
+    .join("&");
 };
 var AxiosURLSearchParams_default = AxiosURLSearchParams;
 
 // node_modules/axios/lib/helpers/buildURL.js
 function encode2(val) {
-  return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
+  return encodeURIComponent(val)
+    .replace(/%3A/gi, ":")
+    .replace(/%24/g, "$")
+    .replace(/%2C/gi, ",")
+    .replace(/%20/g, "+")
+    .replace(/%5B/gi, "[")
+    .replace(/%5D/gi, "]");
 }
 function buildURL(url2, params, options) {
   if (!params) {
     return url2;
   }
-  const _encode = options && options.encode || encode2;
+  const _encode = (options && options.encode) || encode2;
   const serializeFn = options && options.serialize;
   let serializedParams;
   if (serializeFn) {
     serializedParams = serializeFn(params, options);
   } else {
-    serializedParams = utils_default.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams_default(params, options).toString(_encode);
+    serializedParams = utils_default.isURLSearchParams(params)
+      ? params.toString()
+      : new AxiosURLSearchParams_default(params, options).toString(_encode);
   }
   if (serializedParams) {
     const hashmarkIndex = url2.indexOf("#");
@@ -21330,7 +24995,7 @@ var InterceptorManager = class {
       fulfilled,
       rejected,
       synchronous: options ? options.synchronous : false,
-      runWhen: options ? options.runWhen : null
+      runWhen: options ? options.runWhen : null,
     });
     return this.handlers.length - 1;
   }
@@ -21380,7 +25045,7 @@ var InterceptorManager_default = InterceptorManager;
 var transitional_default = {
   silentJSONParsing: true,
   forcedJSONParsing: true,
-  clarifyTimeoutError: false
+  clarifyTimeoutError: false,
 };
 
 // node_modules/axios/lib/platform/node/classes/URLSearchParams.js
@@ -21393,9 +25058,9 @@ var node_default = {
   classes: {
     URLSearchParams: URLSearchParams_default,
     FormData: FormData_default,
-    Blob: typeof Blob !== "undefined" && Blob || null
+    Blob: (typeof Blob !== "undefined" && Blob) || null,
   },
-  protocols: ["http", "https", "file", "data"]
+  protocols: ["http", "https", "file", "data"],
 };
 
 // node_modules/axios/lib/platform/common/utils.js
@@ -21404,35 +25069,48 @@ __export(utils_exports, {
   hasBrowserEnv: () => hasBrowserEnv,
   hasStandardBrowserEnv: () => hasStandardBrowserEnv,
   hasStandardBrowserWebWorkerEnv: () => hasStandardBrowserWebWorkerEnv,
-  origin: () => origin
+  origin: () => origin,
 });
-var hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
+var hasBrowserEnv =
+  typeof window !== "undefined" && typeof document !== "undefined";
 var hasStandardBrowserEnv = ((product) => {
-  return hasBrowserEnv && ["ReactNative", "NativeScript", "NS"].indexOf(product) < 0;
+  return (
+    hasBrowserEnv && ["ReactNative", "NativeScript", "NS"].indexOf(product) < 0
+  );
 })(typeof navigator !== "undefined" && navigator.product);
 var hasStandardBrowserWebWorkerEnv = (() => {
-  return typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
-  self instanceof WorkerGlobalScope && typeof self.importScripts === "function";
+  return (
+    typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
+    self instanceof WorkerGlobalScope &&
+    typeof self.importScripts === "function"
+  );
 })();
-var origin = hasBrowserEnv && window.location.href || "http://localhost";
+var origin = (hasBrowserEnv && window.location.href) || "http://localhost";
 
 // node_modules/axios/lib/platform/index.js
 var platform_default = {
   ...utils_exports,
-  ...node_default
+  ...node_default,
 };
 
 // node_modules/axios/lib/helpers/toURLEncodedForm.js
 function toURLEncodedForm(data, options) {
-  return toFormData_default(data, new platform_default.classes.URLSearchParams(), Object.assign({
-    visitor: function(value, key, path, helpers) {
-      if (platform_default.isNode && utils_default.isBuffer(value)) {
-        this.append(key, value.toString("base64"));
-        return false;
-      }
-      return helpers.defaultVisitor.apply(this, arguments);
-    }
-  }, options));
+  return toFormData_default(
+    data,
+    new platform_default.classes.URLSearchParams(),
+    Object.assign(
+      {
+        visitor: function (value, key, path, helpers) {
+          if (platform_default.isNode && utils_default.isBuffer(value)) {
+            this.append(key, value.toString("base64"));
+            return false;
+          }
+          return helpers.defaultVisitor.apply(this, arguments);
+        },
+      },
+      options,
+    ),
+  );
 }
 
 // node_modules/axios/lib/helpers/formDataToJSON.js
@@ -21477,7 +25155,10 @@ function formDataToJSON(formData) {
     }
     return !isNumericKey;
   }
-  if (utils_default.isFormData(formData) && utils_default.isFunction(formData.entries)) {
+  if (
+    utils_default.isFormData(formData) &&
+    utils_default.isFunction(formData.entries)
+  ) {
     const obj = {};
     utils_default.forEachEntry(formData, (name, value) => {
       buildPath(parsePropPath(name), value, obj, 0);
@@ -21505,70 +25186,104 @@ function stringifySafely(rawValue, parser, encoder) {
 var defaults = {
   transitional: transitional_default,
   adapter: ["xhr", "http", "fetch"],
-  transformRequest: [function transformRequest(data, headers) {
-    const contentType = headers.getContentType() || "";
-    const hasJSONContentType = contentType.indexOf("application/json") > -1;
-    const isObjectPayload = utils_default.isObject(data);
-    if (isObjectPayload && utils_default.isHTMLForm(data)) {
-      data = new FormData(data);
-    }
-    const isFormData2 = utils_default.isFormData(data);
-    if (isFormData2) {
-      return hasJSONContentType ? JSON.stringify(formDataToJSON_default(data)) : data;
-    }
-    if (utils_default.isArrayBuffer(data) || utils_default.isBuffer(data) || utils_default.isStream(data) || utils_default.isFile(data) || utils_default.isBlob(data) || utils_default.isReadableStream(data)) {
-      return data;
-    }
-    if (utils_default.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils_default.isURLSearchParams(data)) {
-      headers.setContentType("application/x-www-form-urlencoded;charset=utf-8", false);
-      return data.toString();
-    }
-    let isFileList2;
-    if (isObjectPayload) {
-      if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
-        return toURLEncodedForm(data, this.formSerializer).toString();
+  transformRequest: [
+    function transformRequest(data, headers) {
+      const contentType = headers.getContentType() || "";
+      const hasJSONContentType = contentType.indexOf("application/json") > -1;
+      const isObjectPayload = utils_default.isObject(data);
+      if (isObjectPayload && utils_default.isHTMLForm(data)) {
+        data = new FormData(data);
       }
-      if ((isFileList2 = utils_default.isFileList(data)) || contentType.indexOf("multipart/form-data") > -1) {
-        const _FormData = this.env && this.env.FormData;
-        return toFormData_default(
-          isFileList2 ? { "files[]": data } : data,
-          _FormData && new _FormData(),
-          this.formSerializer
+      const isFormData2 = utils_default.isFormData(data);
+      if (isFormData2) {
+        return hasJSONContentType
+          ? JSON.stringify(formDataToJSON_default(data))
+          : data;
+      }
+      if (
+        utils_default.isArrayBuffer(data) ||
+        utils_default.isBuffer(data) ||
+        utils_default.isStream(data) ||
+        utils_default.isFile(data) ||
+        utils_default.isBlob(data) ||
+        utils_default.isReadableStream(data)
+      ) {
+        return data;
+      }
+      if (utils_default.isArrayBufferView(data)) {
+        return data.buffer;
+      }
+      if (utils_default.isURLSearchParams(data)) {
+        headers.setContentType(
+          "application/x-www-form-urlencoded;charset=utf-8",
+          false,
         );
+        return data.toString();
       }
-    }
-    if (isObjectPayload || hasJSONContentType) {
-      headers.setContentType("application/json", false);
-      return stringifySafely(data);
-    }
-    return data;
-  }],
-  transformResponse: [function transformResponse(data) {
-    const transitional2 = this.transitional || defaults.transitional;
-    const forcedJSONParsing = transitional2 && transitional2.forcedJSONParsing;
-    const JSONRequested = this.responseType === "json";
-    if (utils_default.isResponse(data) || utils_default.isReadableStream(data)) {
-      return data;
-    }
-    if (data && utils_default.isString(data) && (forcedJSONParsing && !this.responseType || JSONRequested)) {
-      const silentJSONParsing = transitional2 && transitional2.silentJSONParsing;
-      const strictJSONParsing = !silentJSONParsing && JSONRequested;
-      try {
-        return JSON.parse(data);
-      } catch (e) {
-        if (strictJSONParsing) {
-          if (e.name === "SyntaxError") {
-            throw AxiosError_default.from(e, AxiosError_default.ERR_BAD_RESPONSE, this, null, this.response);
-          }
-          throw e;
+      let isFileList2;
+      if (isObjectPayload) {
+        if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
+          return toURLEncodedForm(data, this.formSerializer).toString();
+        }
+        if (
+          (isFileList2 = utils_default.isFileList(data)) ||
+          contentType.indexOf("multipart/form-data") > -1
+        ) {
+          const _FormData = this.env && this.env.FormData;
+          return toFormData_default(
+            isFileList2 ? { "files[]": data } : data,
+            _FormData && new _FormData(),
+            this.formSerializer,
+          );
         }
       }
-    }
-    return data;
-  }],
+      if (isObjectPayload || hasJSONContentType) {
+        headers.setContentType("application/json", false);
+        return stringifySafely(data);
+      }
+      return data;
+    },
+  ],
+  transformResponse: [
+    function transformResponse(data) {
+      const transitional2 = this.transitional || defaults.transitional;
+      const forcedJSONParsing =
+        transitional2 && transitional2.forcedJSONParsing;
+      const JSONRequested = this.responseType === "json";
+      if (
+        utils_default.isResponse(data) ||
+        utils_default.isReadableStream(data)
+      ) {
+        return data;
+      }
+      if (
+        data &&
+        utils_default.isString(data) &&
+        ((forcedJSONParsing && !this.responseType) || JSONRequested)
+      ) {
+        const silentJSONParsing =
+          transitional2 && transitional2.silentJSONParsing;
+        const strictJSONParsing = !silentJSONParsing && JSONRequested;
+        try {
+          return JSON.parse(data);
+        } catch (e) {
+          if (strictJSONParsing) {
+            if (e.name === "SyntaxError") {
+              throw AxiosError_default.from(
+                e,
+                AxiosError_default.ERR_BAD_RESPONSE,
+                this,
+                null,
+                this.response,
+              );
+            }
+            throw e;
+          }
+        }
+      }
+      return data;
+    },
+  ],
   /**
    * A timeout in milliseconds to abort a request. If set to 0 (default) a
    * timeout is not created.
@@ -21580,21 +25295,24 @@ var defaults = {
   maxBodyLength: -1,
   env: {
     FormData: platform_default.classes.FormData,
-    Blob: platform_default.classes.Blob
+    Blob: platform_default.classes.Blob,
   },
   validateStatus: function validateStatus(status) {
     return status >= 200 && status < 300;
   },
   headers: {
     common: {
-      "Accept": "application/json, text/plain, */*",
-      "Content-Type": void 0
-    }
-  }
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": void 0,
+    },
+  },
 };
-utils_default.forEach(["delete", "get", "head", "post", "put", "patch"], (method) => {
-  defaults.headers[method] = {};
-});
+utils_default.forEach(
+  ["delete", "get", "head", "post", "put", "patch"],
+  (method) => {
+    defaults.headers[method] = {};
+  },
+);
 var defaults_default = defaults;
 
 // node_modules/axios/lib/helpers/parseHeaders.js
@@ -21615,30 +25333,31 @@ var ignoreDuplicateOf = utils_default.toObjectSet([
   "proxy-authorization",
   "referer",
   "retry-after",
-  "user-agent"
+  "user-agent",
 ]);
 var parseHeaders_default = (rawHeaders) => {
   const parsed = {};
   let key;
   let val;
   let i;
-  rawHeaders && rawHeaders.split("\n").forEach(function parser(line) {
-    i = line.indexOf(":");
-    key = line.substring(0, i).trim().toLowerCase();
-    val = line.substring(i + 1).trim();
-    if (!key || parsed[key] && ignoreDuplicateOf[key]) {
-      return;
-    }
-    if (key === "set-cookie") {
-      if (parsed[key]) {
-        parsed[key].push(val);
-      } else {
-        parsed[key] = [val];
+  rawHeaders &&
+    rawHeaders.split("\n").forEach(function parser(line) {
+      i = line.indexOf(":");
+      key = line.substring(0, i).trim().toLowerCase();
+      val = line.substring(i + 1).trim();
+      if (!key || (parsed[key] && ignoreDuplicateOf[key])) {
+        return;
       }
-    } else {
-      parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
-    }
-  });
+      if (key === "set-cookie") {
+        if (parsed[key]) {
+          parsed[key].push(val);
+        } else {
+          parsed[key] = [val];
+        }
+      } else {
+        parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
+      }
+    });
   return parsed;
 };
 
@@ -21651,18 +25370,21 @@ function normalizeValue(value) {
   if (value === false || value == null) {
     return value;
   }
-  return utils_default.isArray(value) ? value.map(normalizeValue) : String(value);
+  return utils_default.isArray(value)
+    ? value.map(normalizeValue)
+    : String(value);
 }
 function parseTokens(str) {
   const tokens = /* @__PURE__ */ Object.create(null);
   const tokensRE = /([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;
   let match;
-  while (match = tokensRE.exec(str)) {
+  while ((match = tokensRE.exec(str))) {
     tokens[match[1]] = match[2];
   }
   return tokens;
 }
-var isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
+var isValidHeaderName = (str) =>
+  /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
 function matchHeaderValue(context, value, header, filter2, isHeaderNameFilter) {
   if (utils_default.isFunction(filter2)) {
     return filter2.call(this, value, header);
@@ -21679,18 +25401,21 @@ function matchHeaderValue(context, value, header, filter2, isHeaderNameFilter) {
   }
 }
 function formatHeader(header) {
-  return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w, char, str) => {
-    return char.toUpperCase() + str;
-  });
+  return header
+    .trim()
+    .toLowerCase()
+    .replace(/([a-z\d])(\w*)/g, (w, char, str) => {
+      return char.toUpperCase() + str;
+    });
 }
 function buildAccessors(obj, header) {
   const accessorName = utils_default.toCamelCase(" " + header);
   ["get", "set", "has"].forEach((methodName) => {
     Object.defineProperty(obj, methodName + accessorName, {
-      value: function(arg1, arg2, arg3) {
+      value: function (arg1, arg2, arg3) {
         return this[methodName].call(this, header, arg1, arg2, arg3);
       },
-      configurable: true
+      configurable: true,
     });
   });
 }
@@ -21706,14 +25431,29 @@ var AxiosHeaders = class {
         throw new Error("header name must be a non-empty string");
       }
       const key = utils_default.findKey(self2, lHeader);
-      if (!key || self2[key] === void 0 || _rewrite === true || _rewrite === void 0 && self2[key] !== false) {
+      if (
+        !key ||
+        self2[key] === void 0 ||
+        _rewrite === true ||
+        (_rewrite === void 0 && self2[key] !== false)
+      ) {
         self2[key || _header] = normalizeValue(_value);
       }
     }
-    const setHeaders = (headers, _rewrite) => utils_default.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
-    if (utils_default.isPlainObject(header) || header instanceof this.constructor) {
+    const setHeaders = (headers, _rewrite) =>
+      utils_default.forEach(headers, (_value, _header) =>
+        setHeader(_value, _header, _rewrite),
+      );
+    if (
+      utils_default.isPlainObject(header) ||
+      header instanceof this.constructor
+    ) {
       setHeaders(header, valueOrRewrite);
-    } else if (utils_default.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
+    } else if (
+      utils_default.isString(header) &&
+      (header = header.trim()) &&
+      !isValidHeaderName(header)
+    ) {
       setHeaders(parseHeaders_default(header), valueOrRewrite);
     } else if (utils_default.isHeaders(header)) {
       for (const [key, value] of header.entries()) {
@@ -21750,7 +25490,11 @@ var AxiosHeaders = class {
     header = normalizeHeader(header);
     if (header) {
       const key = utils_default.findKey(this, header);
-      return !!(key && this[key] !== void 0 && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
+      return !!(
+        key &&
+        this[key] !== void 0 &&
+        (!matcher || matchHeaderValue(this, this[key], key, matcher))
+      );
     }
     return false;
   }
@@ -21761,7 +25505,10 @@ var AxiosHeaders = class {
       _header = normalizeHeader(_header);
       if (_header) {
         const key = utils_default.findKey(self2, _header);
-        if (key && (!matcher || matchHeaderValue(self2, self2[key], key, matcher))) {
+        if (
+          key &&
+          (!matcher || matchHeaderValue(self2, self2[key], key, matcher))
+        ) {
           delete self2[key];
           deleted = true;
         }
@@ -21812,7 +25559,10 @@ var AxiosHeaders = class {
   toJSON(asStrings) {
     const obj = /* @__PURE__ */ Object.create(null);
     utils_default.forEach(this, (value, header) => {
-      value != null && value !== false && (obj[header] = asStrings && utils_default.isArray(value) ? value.join(", ") : value);
+      value != null &&
+        value !== false &&
+        (obj[header] =
+          asStrings && utils_default.isArray(value) ? value.join(", ") : value);
     });
     return obj;
   }
@@ -21820,7 +25570,9 @@ var AxiosHeaders = class {
     return Object.entries(this.toJSON())[Symbol.iterator]();
   }
   toString() {
-    return Object.entries(this.toJSON()).map(([header, value]) => header + ": " + value).join("\n");
+    return Object.entries(this.toJSON())
+      .map(([header, value]) => header + ": " + value)
+      .join("\n");
   }
   get [Symbol.toStringTag]() {
     return "AxiosHeaders";
@@ -21834,9 +25586,12 @@ var AxiosHeaders = class {
     return computed;
   }
   static accessor(header) {
-    const internals = this[$internals] = this[$internals] = {
-      accessors: {}
-    };
+    const internals =
+      (this[$internals] =
+      this[$internals] =
+        {
+          accessors: {},
+        });
     const accessors = internals.accessors;
     const prototype3 = this.prototype;
     function defineAccessor(_header) {
@@ -21846,18 +25601,27 @@ var AxiosHeaders = class {
         accessors[lHeader] = true;
       }
     }
-    utils_default.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
+    utils_default.isArray(header)
+      ? header.forEach(defineAccessor)
+      : defineAccessor(header);
     return this;
   }
 };
-AxiosHeaders.accessor(["Content-Type", "Content-Length", "Accept", "Accept-Encoding", "User-Agent", "Authorization"]);
+AxiosHeaders.accessor([
+  "Content-Type",
+  "Content-Length",
+  "Accept",
+  "Accept-Encoding",
+  "User-Agent",
+  "Authorization",
+]);
 utils_default.reduceDescriptors(AxiosHeaders.prototype, ({ value }, key) => {
   let mapped = key[0].toUpperCase() + key.slice(1);
   return {
     get: () => value,
     set(headerValue) {
       this[mapped] = headerValue;
-    }
+    },
   };
 });
 utils_default.freezeMethods(AxiosHeaders);
@@ -21870,7 +25634,12 @@ function transformData(fns, response) {
   const headers = AxiosHeaders_default.from(context.headers);
   let data = context.data;
   utils_default.forEach(fns, function transform(fn) {
-    data = fn.call(config, data, headers.normalize(), response ? response.status : void 0);
+    data = fn.call(
+      config,
+      data,
+      headers.normalize(),
+      response ? response.status : void 0,
+    );
   });
   headers.normalize();
   return data;
@@ -21883,27 +25652,42 @@ function isCancel(value) {
 
 // node_modules/axios/lib/cancel/CanceledError.js
 function CanceledError(message, config, request) {
-  AxiosError_default.call(this, message == null ? "canceled" : message, AxiosError_default.ERR_CANCELED, config, request);
+  AxiosError_default.call(
+    this,
+    message == null ? "canceled" : message,
+    AxiosError_default.ERR_CANCELED,
+    config,
+    request,
+  );
   this.name = "CanceledError";
 }
 utils_default.inherits(CanceledError, AxiosError_default, {
-  __CANCEL__: true
+  __CANCEL__: true,
 });
 var CanceledError_default = CanceledError;
 
 // node_modules/axios/lib/core/settle.js
 function settle(resolve, reject, response) {
   const validateStatus2 = response.config.validateStatus;
-  if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
+  if (
+    !response.status ||
+    !validateStatus2 ||
+    validateStatus2(response.status)
+  ) {
     resolve(response);
   } else {
-    reject(new AxiosError_default(
-      "Request failed with status code " + response.status,
-      [AxiosError_default.ERR_BAD_REQUEST, AxiosError_default.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
-      response.config,
-      response.request,
-      response
-    ));
+    reject(
+      new AxiosError_default(
+        "Request failed with status code " + response.status,
+        [
+          AxiosError_default.ERR_BAD_REQUEST,
+          AxiosError_default.ERR_BAD_RESPONSE,
+        ][Math.floor(response.status / 100) - 4],
+        response.config,
+        response.request,
+        response,
+      ),
+    );
   }
 }
 
@@ -21914,7 +25698,9 @@ function isAbsoluteURL(url2) {
 
 // node_modules/axios/lib/helpers/combineURLs.js
 function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
+  return relativeURL
+    ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "")
+    : baseURL;
 }
 
 // node_modules/axios/lib/core/buildFullPath.js
@@ -21939,13 +25725,13 @@ var VERSION = "1.7.2";
 // node_modules/axios/lib/helpers/parseProtocol.js
 function parseProtocol(url2) {
   const match = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url2);
-  return match && match[1] || "";
+  return (match && match[1]) || "";
 }
 
 // node_modules/axios/lib/helpers/fromDataURI.js
 var DATA_URL_PATTERN = /^(?:([^;]+);)?(?:[^;]+;)?(base64|),([\s\S]*)$/;
 function fromDataURI(uri, asBlob, options) {
-  const _Blob = options && options.Blob || platform_default.classes.Blob;
+  const _Blob = (options && options.Blob) || platform_default.classes.Blob;
   const protocol = parseProtocol(uri);
   if (asBlob === void 0 && _Blob) {
     asBlob = true;
@@ -21954,21 +25740,33 @@ function fromDataURI(uri, asBlob, options) {
     uri = protocol.length ? uri.slice(protocol.length + 1) : uri;
     const match = DATA_URL_PATTERN.exec(uri);
     if (!match) {
-      throw new AxiosError_default("Invalid URL", AxiosError_default.ERR_INVALID_URL);
+      throw new AxiosError_default(
+        "Invalid URL",
+        AxiosError_default.ERR_INVALID_URL,
+      );
     }
     const mime = match[1];
     const isBase64 = match[2];
     const body = match[3];
-    const buffer = Buffer.from(decodeURIComponent(body), isBase64 ? "base64" : "utf8");
+    const buffer = Buffer.from(
+      decodeURIComponent(body),
+      isBase64 ? "base64" : "utf8",
+    );
     if (asBlob) {
       if (!_Blob) {
-        throw new AxiosError_default("Blob is not supported", AxiosError_default.ERR_NOT_SUPPORT);
+        throw new AxiosError_default(
+          "Blob is not supported",
+          AxiosError_default.ERR_NOT_SUPPORT,
+        );
       }
       return new _Blob([buffer], { type: mime });
     }
     return buffer;
   }
-  throw new AxiosError_default("Unsupported protocol " + protocol, AxiosError_default.ERR_NOT_SUPPORT);
+  throw new AxiosError_default(
+    "Unsupported protocol " + protocol,
+    AxiosError_default.ERR_NOT_SUPPORT,
+  );
 }
 
 // node_modules/axios/lib/adapters/http.js
@@ -21994,11 +25792,14 @@ function throttle(fn, freq) {
       return fn.apply(null, arguments);
     }
     if (!timer) {
-      timer = setTimeout(() => {
-        timer = null;
-        timestamp = Date.now();
-        return fn.apply(null, arguments);
-      }, threshold - (now - timestamp));
+      timer = setTimeout(
+        () => {
+          timer = null;
+          timestamp = Date.now();
+          return fn.apply(null, arguments);
+        },
+        threshold - (now - timestamp),
+      );
     }
   };
 }
@@ -22035,7 +25836,7 @@ function speedometer(samplesCount, min) {
       return;
     }
     const passed = startedAt && now - startedAt;
-    return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
+    return passed ? Math.round((bytesCount * 1e3) / passed) : void 0;
   };
 }
 var speedometer_default = speedometer;
@@ -22044,21 +25845,26 @@ var speedometer_default = speedometer;
 var kInternals = Symbol("internals");
 var AxiosTransformStream = class extends import_stream.default.Transform {
   constructor(options) {
-    options = utils_default.toFlatObject(options, {
-      maxRate: 0,
-      chunkSize: 64 * 1024,
-      minChunkSize: 100,
-      timeWindow: 500,
-      ticksRate: 2,
-      samplesCount: 15
-    }, null, (prop, source) => {
-      return !utils_default.isUndefined(source[prop]);
-    });
+    options = utils_default.toFlatObject(
+      options,
+      {
+        maxRate: 0,
+        chunkSize: 64 * 1024,
+        minChunkSize: 100,
+        timeWindow: 500,
+        ticksRate: 2,
+        samplesCount: 15,
+      },
+      null,
+      (prop, source) => {
+        return !utils_default.isUndefined(source[prop]);
+      },
+    );
     super({
-      readableHighWaterMark: options.chunkSize
+      readableHighWaterMark: options.chunkSize,
     });
     const self2 = this;
-    const internals = this[kInternals] = {
+    const internals = (this[kInternals] = {
       length: options.length,
       timeWindow: options.timeWindow,
       ticksRate: options.ticksRate,
@@ -22070,9 +25876,12 @@ var AxiosTransformStream = class extends import_stream.default.Transform {
       notifiedBytesLoaded: 0,
       ts: Date.now(),
       bytes: 0,
-      onReadCallback: null
-    };
-    const _speedometer = speedometer_default(internals.ticksRate * options.samplesCount, internals.timeWindow);
+      onReadCallback: null,
+    });
+    const _speedometer = speedometer_default(
+      internals.ticksRate * options.samplesCount,
+      internals.timeWindow,
+    );
     this.on("newListener", (event) => {
       if (event === "progress") {
         if (!internals.isCaptured) {
@@ -22095,8 +25904,11 @@ var AxiosTransformStream = class extends import_stream.default.Transform {
           progress: totalBytes ? bytesTransferred / totalBytes : void 0,
           bytes: progressBytes,
           rate: rate ? rate : void 0,
-          estimated: rate && totalBytes && bytesTransferred <= totalBytes ? (totalBytes - bytesTransferred) / rate : void 0,
-          lengthComputable: totalBytes != null
+          estimated:
+            rate && totalBytes && bytesTransferred <= totalBytes
+              ? (totalBytes - bytesTransferred) / rate
+              : void 0,
+          lengthComputable: totalBytes != null,
         });
       });
     }, internals.ticksRate);
@@ -22121,7 +25933,10 @@ var AxiosTransformStream = class extends import_stream.default.Transform {
     const timeWindow = internals.timeWindow;
     const divider = 1e3 / timeWindow;
     const bytesThreshold = maxRate / divider;
-    const minChunkSize = internals.minChunkSize !== false ? Math.max(internals.minChunkSize, bytesThreshold * 0.01) : 0;
+    const minChunkSize =
+      internals.minChunkSize !== false
+        ? Math.max(internals.minChunkSize, bytesThreshold * 0.01)
+        : 0;
     function pushChunk(_chunk, _callback) {
       const bytes = Buffer.byteLength(_chunk);
       internals.bytesSeen += bytes;
@@ -22164,13 +25979,22 @@ var AxiosTransformStream = class extends import_stream.default.Transform {
           maxChunkSize = bytesLeft;
         }
       }
-      if (maxChunkSize && chunkSize > maxChunkSize && chunkSize - maxChunkSize > minChunkSize) {
+      if (
+        maxChunkSize &&
+        chunkSize > maxChunkSize &&
+        chunkSize - maxChunkSize > minChunkSize
+      ) {
         chunkRemainder = _chunk.subarray(maxChunkSize);
         _chunk = _chunk.subarray(0, maxChunkSize);
       }
-      pushChunk(_chunk, chunkRemainder ? () => {
-        process.nextTick(_callback, null, chunkRemainder);
-      } : _callback);
+      pushChunk(
+        _chunk,
+        chunkRemainder
+          ? () => {
+              process.nextTick(_callback, null, chunkRemainder);
+            }
+          : _callback,
+      );
     };
     transformChunk(chunk, function transformNextChunk(err, _chunk) {
       if (err) {
@@ -22245,18 +26069,24 @@ var FormDataPart = class {
     yield CRLF_BYTES;
   }
   static escapeName(name) {
-    return String(name).replace(/[\r\n"]/g, (match) => ({
-      "\r": "%0D",
-      "\n": "%0A",
-      '"': "%22"
-    })[match]);
+    return String(name).replace(
+      /[\r\n"]/g,
+      (match) =>
+        ({
+          "\r": "%0D",
+          "\n": "%0A",
+          '"': "%22",
+        })[match],
+    );
   }
 };
 var formDataToStream = (form, headersHandler, options) => {
   const {
     tag = "form-data-boundary",
     size = 25,
-    boundary = tag + "-" + utils_default.generateString(size, BOUNDARY_ALPHABET)
+    boundary = tag +
+      "-" +
+      utils_default.generateString(size, BOUNDARY_ALPHABET),
   } = options || {};
   if (!utils_default.isFormData(form)) {
     throw TypeError("FormData instance required");
@@ -22275,19 +26105,21 @@ var formDataToStream = (form, headersHandler, options) => {
   contentLength += boundaryBytes.byteLength * parts.length;
   contentLength = utils_default.toFiniteNumber(contentLength);
   const computedHeaders = {
-    "Content-Type": `multipart/form-data; boundary=${boundary}`
+    "Content-Type": `multipart/form-data; boundary=${boundary}`,
   };
   if (Number.isFinite(contentLength)) {
     computedHeaders["Content-Length"] = contentLength;
   }
   headersHandler && headersHandler(computedHeaders);
-  return import_stream2.Readable.from(async function* () {
-    for (const part of parts) {
-      yield boundaryBytes;
-      yield* part.encode();
-    }
-    yield footerBytes;
-  }());
+  return import_stream2.Readable.from(
+    (async function* () {
+      for (const part of parts) {
+        yield boundaryBytes;
+        yield* part.encode();
+      }
+      yield footerBytes;
+    })(),
+  );
 };
 var formDataToStream_default = formDataToStream;
 
@@ -22315,29 +26147,33 @@ var ZlibHeaderTransformStream_default = ZlibHeaderTransformStream;
 
 // node_modules/axios/lib/helpers/callbackify.js
 var callbackify = (fn, reducer) => {
-  return utils_default.isAsyncFn(fn) ? function(...args) {
-    const cb = args.pop();
-    fn.apply(this, args).then((value) => {
-      try {
-        reducer ? cb(null, ...reducer(value)) : cb(null, value);
-      } catch (err) {
-        cb(err);
+  return utils_default.isAsyncFn(fn)
+    ? function (...args) {
+        const cb = args.pop();
+        fn.apply(this, args).then((value) => {
+          try {
+            reducer ? cb(null, ...reducer(value)) : cb(null, value);
+          } catch (err) {
+            cb(err);
+          }
+        }, cb);
       }
-    }, cb);
-  } : fn;
+    : fn;
 };
 var callbackify_default = callbackify;
 
 // node_modules/axios/lib/adapters/http.js
 var zlibOptions = {
   flush: import_zlib.default.constants.Z_SYNC_FLUSH,
-  finishFlush: import_zlib.default.constants.Z_SYNC_FLUSH
+  finishFlush: import_zlib.default.constants.Z_SYNC_FLUSH,
 };
 var brotliOptions = {
   flush: import_zlib.default.constants.BROTLI_OPERATION_FLUSH,
-  finishFlush: import_zlib.default.constants.BROTLI_OPERATION_FLUSH
+  finishFlush: import_zlib.default.constants.BROTLI_OPERATION_FLUSH,
 };
-var isBrotliSupported = utils_default.isFunction(import_zlib.default.createBrotliDecompress);
+var isBrotliSupported = utils_default.isFunction(
+  import_zlib.default.createBrotliDecompress,
+);
 var { http: httpFollow, https: httpsFollow } = import_follow_redirects.default;
 var isHttps = /https:?/;
 var supportedProtocols = platform_default.protocols.map((protocol) => {
@@ -22365,26 +26201,31 @@ function setProxy(options, configProxy, location) {
     }
     if (proxy.auth) {
       if (proxy.auth.username || proxy.auth.password) {
-        proxy.auth = (proxy.auth.username || "") + ":" + (proxy.auth.password || "");
+        proxy.auth =
+          (proxy.auth.username || "") + ":" + (proxy.auth.password || "");
       }
       const base64 = Buffer.from(proxy.auth, "utf8").toString("base64");
       options.headers["Proxy-Authorization"] = "Basic " + base64;
     }
-    options.headers.host = options.hostname + (options.port ? ":" + options.port : "");
+    options.headers.host =
+      options.hostname + (options.port ? ":" + options.port : "");
     const proxyHost = proxy.hostname || proxy.host;
     options.hostname = proxyHost;
     options.host = proxyHost;
     options.port = proxy.port;
     options.path = location;
     if (proxy.protocol) {
-      options.protocol = proxy.protocol.includes(":") ? proxy.protocol : `${proxy.protocol}:`;
+      options.protocol = proxy.protocol.includes(":")
+        ? proxy.protocol
+        : `${proxy.protocol}:`;
     }
   }
   options.beforeRedirects.proxy = function beforeRedirect(redirectOptions) {
     setProxy(redirectOptions, configProxy, redirectOptions.href);
   };
 }
-var isHttpAdapterSupported = typeof process !== "undefined" && utils_default.kindOf(process) === "process";
+var isHttpAdapterSupported =
+  typeof process !== "undefined" && utils_default.kindOf(process) === "process";
 var wrapAsync = (asyncExecutor) => {
   return new Promise((resolve, reject) => {
     let onDone;
@@ -22402,7 +26243,11 @@ var wrapAsync = (asyncExecutor) => {
       done(reason, true);
       reject(reason);
     };
-    asyncExecutor(_resolve, _reject, (onDoneHandler) => onDone = onDoneHandler).catch(_reject);
+    asyncExecutor(
+      _resolve,
+      _reject,
+      (onDoneHandler) => (onDone = onDoneHandler),
+    ).catch(_reject);
   });
 };
 var resolveFamily = ({ address, family }) => {
@@ -22411,417 +26256,528 @@ var resolveFamily = ({ address, family }) => {
   }
   return {
     address,
-    family: family || (address.indexOf(".") < 0 ? 6 : 4)
+    family: family || (address.indexOf(".") < 0 ? 6 : 4),
   };
 };
-var buildAddressEntry = (address, family) => resolveFamily(utils_default.isObject(address) ? address : { address, family });
-var http_default = isHttpAdapterSupported && function httpAdapter(config) {
-  return wrapAsync(async function dispatchHttpRequest(resolve, reject, onDone) {
-    let { data, lookup, family } = config;
-    const { responseType, responseEncoding } = config;
-    const method = config.method.toUpperCase();
-    let isDone;
-    let rejected = false;
-    let req;
-    if (lookup) {
-      const _lookup = callbackify_default(lookup, (value) => utils_default.isArray(value) ? value : [value]);
-      lookup = (hostname, opt, cb) => {
-        _lookup(hostname, opt, (err, arg0, arg1) => {
-          if (err) {
-            return cb(err);
+var buildAddressEntry = (address, family) =>
+  resolveFamily(
+    utils_default.isObject(address) ? address : { address, family },
+  );
+var http_default =
+  isHttpAdapterSupported &&
+  function httpAdapter(config) {
+    return wrapAsync(
+      async function dispatchHttpRequest(resolve, reject, onDone) {
+        let { data, lookup, family } = config;
+        const { responseType, responseEncoding } = config;
+        const method = config.method.toUpperCase();
+        let isDone;
+        let rejected = false;
+        let req;
+        if (lookup) {
+          const _lookup = callbackify_default(lookup, (value) =>
+            utils_default.isArray(value) ? value : [value],
+          );
+          lookup = (hostname, opt, cb) => {
+            _lookup(hostname, opt, (err, arg0, arg1) => {
+              if (err) {
+                return cb(err);
+              }
+              const addresses = utils_default.isArray(arg0)
+                ? arg0.map((addr) => buildAddressEntry(addr))
+                : [buildAddressEntry(arg0, arg1)];
+              opt.all
+                ? cb(err, addresses)
+                : cb(err, addresses[0].address, addresses[0].family);
+            });
+          };
+        }
+        const emitter = new import_events.EventEmitter();
+        const onFinished = () => {
+          if (config.cancelToken) {
+            config.cancelToken.unsubscribe(abort);
           }
-          const addresses = utils_default.isArray(arg0) ? arg0.map((addr) => buildAddressEntry(addr)) : [buildAddressEntry(arg0, arg1)];
-          opt.all ? cb(err, addresses) : cb(err, addresses[0].address, addresses[0].family);
+          if (config.signal) {
+            config.signal.removeEventListener("abort", abort);
+          }
+          emitter.removeAllListeners();
+        };
+        onDone((value, isRejected) => {
+          isDone = true;
+          if (isRejected) {
+            rejected = true;
+            onFinished();
+          }
         });
-      };
-    }
-    const emitter = new import_events.EventEmitter();
-    const onFinished = () => {
-      if (config.cancelToken) {
-        config.cancelToken.unsubscribe(abort);
-      }
-      if (config.signal) {
-        config.signal.removeEventListener("abort", abort);
-      }
-      emitter.removeAllListeners();
-    };
-    onDone((value, isRejected) => {
-      isDone = true;
-      if (isRejected) {
-        rejected = true;
-        onFinished();
-      }
-    });
-    function abort(reason) {
-      emitter.emit("abort", !reason || reason.type ? new CanceledError_default(null, config, req) : reason);
-    }
-    emitter.once("abort", reject);
-    if (config.cancelToken || config.signal) {
-      config.cancelToken && config.cancelToken.subscribe(abort);
-      if (config.signal) {
-        config.signal.aborted ? abort() : config.signal.addEventListener("abort", abort);
-      }
-    }
-    const fullPath = buildFullPath(config.baseURL, config.url);
-    const parsed = new URL(fullPath, "http://localhost");
-    const protocol = parsed.protocol || supportedProtocols[0];
-    if (protocol === "data:") {
-      let convertedData;
-      if (method !== "GET") {
-        return settle(resolve, reject, {
-          status: 405,
-          statusText: "method not allowed",
-          headers: {},
-          config
-        });
-      }
-      try {
-        convertedData = fromDataURI(config.url, responseType === "blob", {
-          Blob: config.env && config.env.Blob
-        });
-      } catch (err) {
-        throw AxiosError_default.from(err, AxiosError_default.ERR_BAD_REQUEST, config);
-      }
-      if (responseType === "text") {
-        convertedData = convertedData.toString(responseEncoding);
-        if (!responseEncoding || responseEncoding === "utf8") {
-          convertedData = utils_default.stripBOM(convertedData);
+        function abort(reason) {
+          emitter.emit(
+            "abort",
+            !reason || reason.type
+              ? new CanceledError_default(null, config, req)
+              : reason,
+          );
         }
-      } else if (responseType === "stream") {
-        convertedData = import_stream4.default.Readable.from(convertedData);
-      }
-      return settle(resolve, reject, {
-        data: convertedData,
-        status: 200,
-        statusText: "OK",
-        headers: new AxiosHeaders_default(),
-        config
-      });
-    }
-    if (supportedProtocols.indexOf(protocol) === -1) {
-      return reject(new AxiosError_default(
-        "Unsupported protocol " + protocol,
-        AxiosError_default.ERR_BAD_REQUEST,
-        config
-      ));
-    }
-    const headers = AxiosHeaders_default.from(config.headers).normalize();
-    headers.set("User-Agent", "axios/" + VERSION, false);
-    const onDownloadProgress = config.onDownloadProgress;
-    const onUploadProgress = config.onUploadProgress;
-    const maxRate = config.maxRate;
-    let maxUploadRate = void 0;
-    let maxDownloadRate = void 0;
-    if (utils_default.isSpecCompliantForm(data)) {
-      const userBoundary = headers.getContentType(/boundary=([-_\w\d]{10,70})/i);
-      data = formDataToStream_default(data, (formHeaders) => {
-        headers.set(formHeaders);
-      }, {
-        tag: `axios-${VERSION}-boundary`,
-        boundary: userBoundary && userBoundary[1] || void 0
-      });
-    } else if (utils_default.isFormData(data) && utils_default.isFunction(data.getHeaders)) {
-      headers.set(data.getHeaders());
-      if (!headers.hasContentLength()) {
+        emitter.once("abort", reject);
+        if (config.cancelToken || config.signal) {
+          config.cancelToken && config.cancelToken.subscribe(abort);
+          if (config.signal) {
+            config.signal.aborted
+              ? abort()
+              : config.signal.addEventListener("abort", abort);
+          }
+        }
+        const fullPath = buildFullPath(config.baseURL, config.url);
+        const parsed = new URL(fullPath, "http://localhost");
+        const protocol = parsed.protocol || supportedProtocols[0];
+        if (protocol === "data:") {
+          let convertedData;
+          if (method !== "GET") {
+            return settle(resolve, reject, {
+              status: 405,
+              statusText: "method not allowed",
+              headers: {},
+              config,
+            });
+          }
+          try {
+            convertedData = fromDataURI(config.url, responseType === "blob", {
+              Blob: config.env && config.env.Blob,
+            });
+          } catch (err) {
+            throw AxiosError_default.from(
+              err,
+              AxiosError_default.ERR_BAD_REQUEST,
+              config,
+            );
+          }
+          if (responseType === "text") {
+            convertedData = convertedData.toString(responseEncoding);
+            if (!responseEncoding || responseEncoding === "utf8") {
+              convertedData = utils_default.stripBOM(convertedData);
+            }
+          } else if (responseType === "stream") {
+            convertedData = import_stream4.default.Readable.from(convertedData);
+          }
+          return settle(resolve, reject, {
+            data: convertedData,
+            status: 200,
+            statusText: "OK",
+            headers: new AxiosHeaders_default(),
+            config,
+          });
+        }
+        if (supportedProtocols.indexOf(protocol) === -1) {
+          return reject(
+            new AxiosError_default(
+              "Unsupported protocol " + protocol,
+              AxiosError_default.ERR_BAD_REQUEST,
+              config,
+            ),
+          );
+        }
+        const headers = AxiosHeaders_default.from(config.headers).normalize();
+        headers.set("User-Agent", "axios/" + VERSION, false);
+        const onDownloadProgress = config.onDownloadProgress;
+        const onUploadProgress = config.onUploadProgress;
+        const maxRate = config.maxRate;
+        let maxUploadRate = void 0;
+        let maxDownloadRate = void 0;
+        if (utils_default.isSpecCompliantForm(data)) {
+          const userBoundary = headers.getContentType(
+            /boundary=([-_\w\d]{10,70})/i,
+          );
+          data = formDataToStream_default(
+            data,
+            (formHeaders) => {
+              headers.set(formHeaders);
+            },
+            {
+              tag: `axios-${VERSION}-boundary`,
+              boundary: (userBoundary && userBoundary[1]) || void 0,
+            },
+          );
+        } else if (
+          utils_default.isFormData(data) &&
+          utils_default.isFunction(data.getHeaders)
+        ) {
+          headers.set(data.getHeaders());
+          if (!headers.hasContentLength()) {
+            try {
+              const knownLength = await import_util2.default
+                .promisify(data.getLength)
+                .call(data);
+              Number.isFinite(knownLength) &&
+                knownLength >= 0 &&
+                headers.setContentLength(knownLength);
+            } catch (e) {}
+          }
+        } else if (utils_default.isBlob(data)) {
+          data.size &&
+            headers.setContentType(data.type || "application/octet-stream");
+          headers.setContentLength(data.size || 0);
+          data = import_stream4.default.Readable.from(readBlob_default(data));
+        } else if (data && !utils_default.isStream(data)) {
+          if (Buffer.isBuffer(data)) {
+          } else if (utils_default.isArrayBuffer(data)) {
+            data = Buffer.from(new Uint8Array(data));
+          } else if (utils_default.isString(data)) {
+            data = Buffer.from(data, "utf-8");
+          } else {
+            return reject(
+              new AxiosError_default(
+                "Data after transformation must be a string, an ArrayBuffer, a Buffer, or a Stream",
+                AxiosError_default.ERR_BAD_REQUEST,
+                config,
+              ),
+            );
+          }
+          headers.setContentLength(data.length, false);
+          if (config.maxBodyLength > -1 && data.length > config.maxBodyLength) {
+            return reject(
+              new AxiosError_default(
+                "Request body larger than maxBodyLength limit",
+                AxiosError_default.ERR_BAD_REQUEST,
+                config,
+              ),
+            );
+          }
+        }
+        const contentLength = utils_default.toFiniteNumber(
+          headers.getContentLength(),
+        );
+        if (utils_default.isArray(maxRate)) {
+          maxUploadRate = maxRate[0];
+          maxDownloadRate = maxRate[1];
+        } else {
+          maxUploadRate = maxDownloadRate = maxRate;
+        }
+        if (data && (onUploadProgress || maxUploadRate)) {
+          if (!utils_default.isStream(data)) {
+            data = import_stream4.default.Readable.from(data, {
+              objectMode: false,
+            });
+          }
+          data = import_stream4.default.pipeline(
+            [
+              data,
+              new AxiosTransformStream_default({
+                length: contentLength,
+                maxRate: utils_default.toFiniteNumber(maxUploadRate),
+              }),
+            ],
+            utils_default.noop,
+          );
+          onUploadProgress &&
+            data.on("progress", (progress) => {
+              onUploadProgress(
+                Object.assign(progress, {
+                  upload: true,
+                }),
+              );
+            });
+        }
+        let auth = void 0;
+        if (config.auth) {
+          const username = config.auth.username || "";
+          const password = config.auth.password || "";
+          auth = username + ":" + password;
+        }
+        if (!auth && parsed.username) {
+          const urlUsername = parsed.username;
+          const urlPassword = parsed.password;
+          auth = urlUsername + ":" + urlPassword;
+        }
+        auth && headers.delete("authorization");
+        let path;
         try {
-          const knownLength = await import_util2.default.promisify(data.getLength).call(data);
-          Number.isFinite(knownLength) && knownLength >= 0 && headers.setContentLength(knownLength);
-        } catch (e) {
+          path = buildURL(
+            parsed.pathname + parsed.search,
+            config.params,
+            config.paramsSerializer,
+          ).replace(/^\?/, "");
+        } catch (err) {
+          const customErr = new Error(err.message);
+          customErr.config = config;
+          customErr.url = config.url;
+          customErr.exists = true;
+          return reject(customErr);
         }
-      }
-    } else if (utils_default.isBlob(data)) {
-      data.size && headers.setContentType(data.type || "application/octet-stream");
-      headers.setContentLength(data.size || 0);
-      data = import_stream4.default.Readable.from(readBlob_default(data));
-    } else if (data && !utils_default.isStream(data)) {
-      if (Buffer.isBuffer(data)) {
-      } else if (utils_default.isArrayBuffer(data)) {
-        data = Buffer.from(new Uint8Array(data));
-      } else if (utils_default.isString(data)) {
-        data = Buffer.from(data, "utf-8");
-      } else {
-        return reject(new AxiosError_default(
-          "Data after transformation must be a string, an ArrayBuffer, a Buffer, or a Stream",
-          AxiosError_default.ERR_BAD_REQUEST,
-          config
-        ));
-      }
-      headers.setContentLength(data.length, false);
-      if (config.maxBodyLength > -1 && data.length > config.maxBodyLength) {
-        return reject(new AxiosError_default(
-          "Request body larger than maxBodyLength limit",
-          AxiosError_default.ERR_BAD_REQUEST,
-          config
-        ));
-      }
-    }
-    const contentLength = utils_default.toFiniteNumber(headers.getContentLength());
-    if (utils_default.isArray(maxRate)) {
-      maxUploadRate = maxRate[0];
-      maxDownloadRate = maxRate[1];
-    } else {
-      maxUploadRate = maxDownloadRate = maxRate;
-    }
-    if (data && (onUploadProgress || maxUploadRate)) {
-      if (!utils_default.isStream(data)) {
-        data = import_stream4.default.Readable.from(data, { objectMode: false });
-      }
-      data = import_stream4.default.pipeline([data, new AxiosTransformStream_default({
-        length: contentLength,
-        maxRate: utils_default.toFiniteNumber(maxUploadRate)
-      })], utils_default.noop);
-      onUploadProgress && data.on("progress", (progress) => {
-        onUploadProgress(Object.assign(progress, {
-          upload: true
-        }));
-      });
-    }
-    let auth = void 0;
-    if (config.auth) {
-      const username = config.auth.username || "";
-      const password = config.auth.password || "";
-      auth = username + ":" + password;
-    }
-    if (!auth && parsed.username) {
-      const urlUsername = parsed.username;
-      const urlPassword = parsed.password;
-      auth = urlUsername + ":" + urlPassword;
-    }
-    auth && headers.delete("authorization");
-    let path;
-    try {
-      path = buildURL(
-        parsed.pathname + parsed.search,
-        config.params,
-        config.paramsSerializer
-      ).replace(/^\?/, "");
-    } catch (err) {
-      const customErr = new Error(err.message);
-      customErr.config = config;
-      customErr.url = config.url;
-      customErr.exists = true;
-      return reject(customErr);
-    }
-    headers.set(
-      "Accept-Encoding",
-      "gzip, compress, deflate" + (isBrotliSupported ? ", br" : ""),
-      false
-    );
-    const options = {
-      path,
-      method,
-      headers: headers.toJSON(),
-      agents: { http: config.httpAgent, https: config.httpsAgent },
-      auth,
-      protocol,
-      family,
-      beforeRedirect: dispatchBeforeRedirect,
-      beforeRedirects: {}
-    };
-    !utils_default.isUndefined(lookup) && (options.lookup = lookup);
-    if (config.socketPath) {
-      options.socketPath = config.socketPath;
-    } else {
-      options.hostname = parsed.hostname;
-      options.port = parsed.port;
-      setProxy(options, config.proxy, protocol + "//" + parsed.hostname + (parsed.port ? ":" + parsed.port : "") + options.path);
-    }
-    let transport;
-    const isHttpsRequest = isHttps.test(options.protocol);
-    options.agent = isHttpsRequest ? config.httpsAgent : config.httpAgent;
-    if (config.transport) {
-      transport = config.transport;
-    } else if (config.maxRedirects === 0) {
-      transport = isHttpsRequest ? import_https.default : import_http.default;
-    } else {
-      if (config.maxRedirects) {
-        options.maxRedirects = config.maxRedirects;
-      }
-      if (config.beforeRedirect) {
-        options.beforeRedirects.config = config.beforeRedirect;
-      }
-      transport = isHttpsRequest ? httpsFollow : httpFollow;
-    }
-    if (config.maxBodyLength > -1) {
-      options.maxBodyLength = config.maxBodyLength;
-    } else {
-      options.maxBodyLength = Infinity;
-    }
-    if (config.insecureHTTPParser) {
-      options.insecureHTTPParser = config.insecureHTTPParser;
-    }
-    req = transport.request(options, function handleResponse(res) {
-      if (req.destroyed) return;
-      const streams = [res];
-      const responseLength = +res.headers["content-length"];
-      if (onDownloadProgress) {
-        const transformStream = new AxiosTransformStream_default({
-          length: utils_default.toFiniteNumber(responseLength),
-          maxRate: utils_default.toFiniteNumber(maxDownloadRate)
-        });
-        onDownloadProgress && transformStream.on("progress", (progress) => {
-          onDownloadProgress(Object.assign(progress, {
-            download: true
-          }));
-        });
-        streams.push(transformStream);
-      }
-      let responseStream = res;
-      const lastRequest = res.req || req;
-      if (config.decompress !== false && res.headers["content-encoding"]) {
-        if (method === "HEAD" || res.statusCode === 204) {
-          delete res.headers["content-encoding"];
+        headers.set(
+          "Accept-Encoding",
+          "gzip, compress, deflate" + (isBrotliSupported ? ", br" : ""),
+          false,
+        );
+        const options = {
+          path,
+          method,
+          headers: headers.toJSON(),
+          agents: { http: config.httpAgent, https: config.httpsAgent },
+          auth,
+          protocol,
+          family,
+          beforeRedirect: dispatchBeforeRedirect,
+          beforeRedirects: {},
+        };
+        !utils_default.isUndefined(lookup) && (options.lookup = lookup);
+        if (config.socketPath) {
+          options.socketPath = config.socketPath;
+        } else {
+          options.hostname = parsed.hostname;
+          options.port = parsed.port;
+          setProxy(
+            options,
+            config.proxy,
+            protocol +
+              "//" +
+              parsed.hostname +
+              (parsed.port ? ":" + parsed.port : "") +
+              options.path,
+          );
         }
-        switch ((res.headers["content-encoding"] || "").toLowerCase()) {
-          case "gzip":
-          case "x-gzip":
-          case "compress":
-          case "x-compress":
-            streams.push(import_zlib.default.createUnzip(zlibOptions));
-            delete res.headers["content-encoding"];
-            break;
-          case "deflate":
-            streams.push(new ZlibHeaderTransformStream_default());
-            streams.push(import_zlib.default.createUnzip(zlibOptions));
-            delete res.headers["content-encoding"];
-            break;
-          case "br":
-            if (isBrotliSupported) {
-              streams.push(import_zlib.default.createBrotliDecompress(brotliOptions));
+        let transport;
+        const isHttpsRequest = isHttps.test(options.protocol);
+        options.agent = isHttpsRequest ? config.httpsAgent : config.httpAgent;
+        if (config.transport) {
+          transport = config.transport;
+        } else if (config.maxRedirects === 0) {
+          transport = isHttpsRequest
+            ? import_https.default
+            : import_http.default;
+        } else {
+          if (config.maxRedirects) {
+            options.maxRedirects = config.maxRedirects;
+          }
+          if (config.beforeRedirect) {
+            options.beforeRedirects.config = config.beforeRedirect;
+          }
+          transport = isHttpsRequest ? httpsFollow : httpFollow;
+        }
+        if (config.maxBodyLength > -1) {
+          options.maxBodyLength = config.maxBodyLength;
+        } else {
+          options.maxBodyLength = Infinity;
+        }
+        if (config.insecureHTTPParser) {
+          options.insecureHTTPParser = config.insecureHTTPParser;
+        }
+        req = transport.request(options, function handleResponse(res) {
+          if (req.destroyed) return;
+          const streams = [res];
+          const responseLength = +res.headers["content-length"];
+          if (onDownloadProgress) {
+            const transformStream = new AxiosTransformStream_default({
+              length: utils_default.toFiniteNumber(responseLength),
+              maxRate: utils_default.toFiniteNumber(maxDownloadRate),
+            });
+            onDownloadProgress &&
+              transformStream.on("progress", (progress) => {
+                onDownloadProgress(
+                  Object.assign(progress, {
+                    download: true,
+                  }),
+                );
+              });
+            streams.push(transformStream);
+          }
+          let responseStream = res;
+          const lastRequest = res.req || req;
+          if (config.decompress !== false && res.headers["content-encoding"]) {
+            if (method === "HEAD" || res.statusCode === 204) {
               delete res.headers["content-encoding"];
             }
-        }
-      }
-      responseStream = streams.length > 1 ? import_stream4.default.pipeline(streams, utils_default.noop) : streams[0];
-      const offListeners = import_stream4.default.finished(responseStream, () => {
-        offListeners();
-        onFinished();
-      });
-      const response = {
-        status: res.statusCode,
-        statusText: res.statusMessage,
-        headers: new AxiosHeaders_default(res.headers),
-        config,
-        request: lastRequest
-      };
-      if (responseType === "stream") {
-        response.data = responseStream;
-        settle(resolve, reject, response);
-      } else {
-        const responseBuffer = [];
-        let totalResponseBytes = 0;
-        responseStream.on("data", function handleStreamData(chunk) {
-          responseBuffer.push(chunk);
-          totalResponseBytes += chunk.length;
-          if (config.maxContentLength > -1 && totalResponseBytes > config.maxContentLength) {
-            rejected = true;
-            responseStream.destroy();
-            reject(new AxiosError_default(
-              "maxContentLength size of " + config.maxContentLength + " exceeded",
-              AxiosError_default.ERR_BAD_RESPONSE,
-              config,
-              lastRequest
-            ));
+            switch ((res.headers["content-encoding"] || "").toLowerCase()) {
+              case "gzip":
+              case "x-gzip":
+              case "compress":
+              case "x-compress":
+                streams.push(import_zlib.default.createUnzip(zlibOptions));
+                delete res.headers["content-encoding"];
+                break;
+              case "deflate":
+                streams.push(new ZlibHeaderTransformStream_default());
+                streams.push(import_zlib.default.createUnzip(zlibOptions));
+                delete res.headers["content-encoding"];
+                break;
+              case "br":
+                if (isBrotliSupported) {
+                  streams.push(
+                    import_zlib.default.createBrotliDecompress(brotliOptions),
+                  );
+                  delete res.headers["content-encoding"];
+                }
+            }
           }
+          responseStream =
+            streams.length > 1
+              ? import_stream4.default.pipeline(streams, utils_default.noop)
+              : streams[0];
+          const offListeners = import_stream4.default.finished(
+            responseStream,
+            () => {
+              offListeners();
+              onFinished();
+            },
+          );
+          const response = {
+            status: res.statusCode,
+            statusText: res.statusMessage,
+            headers: new AxiosHeaders_default(res.headers),
+            config,
+            request: lastRequest,
+          };
+          if (responseType === "stream") {
+            response.data = responseStream;
+            settle(resolve, reject, response);
+          } else {
+            const responseBuffer = [];
+            let totalResponseBytes = 0;
+            responseStream.on("data", function handleStreamData(chunk) {
+              responseBuffer.push(chunk);
+              totalResponseBytes += chunk.length;
+              if (
+                config.maxContentLength > -1 &&
+                totalResponseBytes > config.maxContentLength
+              ) {
+                rejected = true;
+                responseStream.destroy();
+                reject(
+                  new AxiosError_default(
+                    "maxContentLength size of " +
+                      config.maxContentLength +
+                      " exceeded",
+                    AxiosError_default.ERR_BAD_RESPONSE,
+                    config,
+                    lastRequest,
+                  ),
+                );
+              }
+            });
+            responseStream.on("aborted", function handlerStreamAborted() {
+              if (rejected) {
+                return;
+              }
+              const err = new AxiosError_default(
+                "maxContentLength size of " +
+                  config.maxContentLength +
+                  " exceeded",
+                AxiosError_default.ERR_BAD_RESPONSE,
+                config,
+                lastRequest,
+              );
+              responseStream.destroy(err);
+              reject(err);
+            });
+            responseStream.on("error", function handleStreamError(err) {
+              if (req.destroyed) return;
+              reject(AxiosError_default.from(err, null, config, lastRequest));
+            });
+            responseStream.on("end", function handleStreamEnd() {
+              try {
+                let responseData =
+                  responseBuffer.length === 1
+                    ? responseBuffer[0]
+                    : Buffer.concat(responseBuffer);
+                if (responseType !== "arraybuffer") {
+                  responseData = responseData.toString(responseEncoding);
+                  if (!responseEncoding || responseEncoding === "utf8") {
+                    responseData = utils_default.stripBOM(responseData);
+                  }
+                }
+                response.data = responseData;
+              } catch (err) {
+                return reject(
+                  AxiosError_default.from(
+                    err,
+                    null,
+                    config,
+                    response.request,
+                    response,
+                  ),
+                );
+              }
+              settle(resolve, reject, response);
+            });
+          }
+          emitter.once("abort", (err) => {
+            if (!responseStream.destroyed) {
+              responseStream.emit("error", err);
+              responseStream.destroy();
+            }
+          });
         });
-        responseStream.on("aborted", function handlerStreamAborted() {
-          if (rejected) {
+        emitter.once("abort", (err) => {
+          reject(err);
+          req.destroy(err);
+        });
+        req.on("error", function handleRequestError(err) {
+          reject(AxiosError_default.from(err, null, config, req));
+        });
+        req.on("socket", function handleRequestSocket(socket) {
+          socket.setKeepAlive(true, 1e3 * 60);
+        });
+        if (config.timeout) {
+          const timeout = parseInt(config.timeout, 10);
+          if (Number.isNaN(timeout)) {
+            reject(
+              new AxiosError_default(
+                "error trying to parse `config.timeout` to int",
+                AxiosError_default.ERR_BAD_OPTION_VALUE,
+                config,
+                req,
+              ),
+            );
             return;
           }
-          const err = new AxiosError_default(
-            "maxContentLength size of " + config.maxContentLength + " exceeded",
-            AxiosError_default.ERR_BAD_RESPONSE,
-            config,
-            lastRequest
-          );
-          responseStream.destroy(err);
-          reject(err);
-        });
-        responseStream.on("error", function handleStreamError(err) {
-          if (req.destroyed) return;
-          reject(AxiosError_default.from(err, null, config, lastRequest));
-        });
-        responseStream.on("end", function handleStreamEnd() {
-          try {
-            let responseData = responseBuffer.length === 1 ? responseBuffer[0] : Buffer.concat(responseBuffer);
-            if (responseType !== "arraybuffer") {
-              responseData = responseData.toString(responseEncoding);
-              if (!responseEncoding || responseEncoding === "utf8") {
-                responseData = utils_default.stripBOM(responseData);
-              }
+          req.setTimeout(timeout, function handleRequestTimeout() {
+            if (isDone) return;
+            let timeoutErrorMessage = config.timeout
+              ? "timeout of " + config.timeout + "ms exceeded"
+              : "timeout exceeded";
+            const transitional2 = config.transitional || transitional_default;
+            if (config.timeoutErrorMessage) {
+              timeoutErrorMessage = config.timeoutErrorMessage;
             }
-            response.data = responseData;
-          } catch (err) {
-            return reject(AxiosError_default.from(err, null, config, response.request, response));
-          }
-          settle(resolve, reject, response);
-        });
-      }
-      emitter.once("abort", (err) => {
-        if (!responseStream.destroyed) {
-          responseStream.emit("error", err);
-          responseStream.destroy();
+            reject(
+              new AxiosError_default(
+                timeoutErrorMessage,
+                transitional2.clarifyTimeoutError
+                  ? AxiosError_default.ETIMEDOUT
+                  : AxiosError_default.ECONNABORTED,
+                config,
+                req,
+              ),
+            );
+            abort();
+          });
         }
-      });
-    });
-    emitter.once("abort", (err) => {
-      reject(err);
-      req.destroy(err);
-    });
-    req.on("error", function handleRequestError(err) {
-      reject(AxiosError_default.from(err, null, config, req));
-    });
-    req.on("socket", function handleRequestSocket(socket) {
-      socket.setKeepAlive(true, 1e3 * 60);
-    });
-    if (config.timeout) {
-      const timeout = parseInt(config.timeout, 10);
-      if (Number.isNaN(timeout)) {
-        reject(new AxiosError_default(
-          "error trying to parse `config.timeout` to int",
-          AxiosError_default.ERR_BAD_OPTION_VALUE,
-          config,
-          req
-        ));
-        return;
-      }
-      req.setTimeout(timeout, function handleRequestTimeout() {
-        if (isDone) return;
-        let timeoutErrorMessage = config.timeout ? "timeout of " + config.timeout + "ms exceeded" : "timeout exceeded";
-        const transitional2 = config.transitional || transitional_default;
-        if (config.timeoutErrorMessage) {
-          timeoutErrorMessage = config.timeoutErrorMessage;
+        if (utils_default.isStream(data)) {
+          let ended = false;
+          let errored = false;
+          data.on("end", () => {
+            ended = true;
+          });
+          data.once("error", (err) => {
+            errored = true;
+            req.destroy(err);
+          });
+          data.on("close", () => {
+            if (!ended && !errored) {
+              abort(
+                new CanceledError_default(
+                  "Request stream has been aborted",
+                  config,
+                  req,
+                ),
+              );
+            }
+          });
+          data.pipe(req);
+        } else {
+          req.end(data);
         }
-        reject(new AxiosError_default(
-          timeoutErrorMessage,
-          transitional2.clarifyTimeoutError ? AxiosError_default.ETIMEDOUT : AxiosError_default.ECONNABORTED,
-          config,
-          req
-        ));
-        abort();
-      });
-    }
-    if (utils_default.isStream(data)) {
-      let ended = false;
-      let errored = false;
-      data.on("end", () => {
-        ended = true;
-      });
-      data.once("error", (err) => {
-        errored = true;
-        req.destroy(err);
-      });
-      data.on("close", () => {
-        if (!ended && !errored) {
-          abort(new CanceledError_default("Request stream has been aborted", config, req));
-        }
-      });
-      data.pipe(req);
-    } else {
-      req.end(data);
-    }
-  });
-};
+      },
+    );
+  };
 
 // node_modules/axios/lib/helpers/progressEventReducer.js
 var progressEventReducer_default = (listener, isDownloadStream, freq = 3) => {
@@ -22842,7 +26798,7 @@ var progressEventReducer_default = (listener, isDownloadStream, freq = 3) => {
       rate: rate ? rate : void 0,
       estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
       event: e,
-      lengthComputable: total != null
+      lengthComputable: total != null,
     };
     data[isDownloadStream ? "download" : "upload"] = true;
     listener(data);
@@ -22850,86 +26806,101 @@ var progressEventReducer_default = (listener, isDownloadStream, freq = 3) => {
 };
 
 // node_modules/axios/lib/helpers/isURLSameOrigin.js
-var isURLSameOrigin_default = platform_default.hasStandardBrowserEnv ? (
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  function standardBrowserEnv() {
-    const msie = /(msie|trident)/i.test(navigator.userAgent);
-    const urlParsingNode = document.createElement("a");
-    let originURL;
-    function resolveURL(url2) {
-      let href = url2;
-      if (msie) {
+var isURLSameOrigin_default = platform_default.hasStandardBrowserEnv
+  ? // Standard browser envs have full support of the APIs needed to test
+    // whether the request URL is of the same origin as current location.
+    (function standardBrowserEnv() {
+      const msie = /(msie|trident)/i.test(navigator.userAgent);
+      const urlParsingNode = document.createElement("a");
+      let originURL;
+      function resolveURL(url2) {
+        let href = url2;
+        if (msie) {
+          urlParsingNode.setAttribute("href", href);
+          href = urlParsingNode.href;
+        }
         urlParsingNode.setAttribute("href", href);
-        href = urlParsingNode.href;
+        return {
+          href: urlParsingNode.href,
+          protocol: urlParsingNode.protocol
+            ? urlParsingNode.protocol.replace(/:$/, "")
+            : "",
+          host: urlParsingNode.host,
+          search: urlParsingNode.search
+            ? urlParsingNode.search.replace(/^\?/, "")
+            : "",
+          hash: urlParsingNode.hash
+            ? urlParsingNode.hash.replace(/^#/, "")
+            : "",
+          hostname: urlParsingNode.hostname,
+          port: urlParsingNode.port,
+          pathname:
+            urlParsingNode.pathname.charAt(0) === "/"
+              ? urlParsingNode.pathname
+              : "/" + urlParsingNode.pathname,
+        };
       }
-      urlParsingNode.setAttribute("href", href);
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, "") : "",
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, "") : "",
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, "") : "",
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: urlParsingNode.pathname.charAt(0) === "/" ? urlParsingNode.pathname : "/" + urlParsingNode.pathname
+      originURL = resolveURL(window.location.href);
+      return function isURLSameOrigin(requestURL) {
+        const parsed = utils_default.isString(requestURL)
+          ? resolveURL(requestURL)
+          : requestURL;
+        return (
+          parsed.protocol === originURL.protocol &&
+          parsed.host === originURL.host
+        );
       };
-    }
-    originURL = resolveURL(window.location.href);
-    return function isURLSameOrigin(requestURL) {
-      const parsed = utils_default.isString(requestURL) ? resolveURL(requestURL) : requestURL;
-      return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
-    };
-  }()
-) : (
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  /* @__PURE__ */ function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  }()
-);
+    })()
+  : // Non standard browser envs (web workers, react-native) lack needed support.
+    /* @__PURE__ */ (function nonStandardBrowserEnv() {
+      return function isURLSameOrigin() {
+        return true;
+      };
+    })();
 
 // node_modules/axios/lib/helpers/cookies.js
-var cookies_default = platform_default.hasStandardBrowserEnv ? (
-  // Standard browser envs support document.cookie
-  {
-    write(name, value, expires, path, domain, secure) {
-      const cookie = [name + "=" + encodeURIComponent(value)];
-      utils_default.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
-      utils_default.isString(path) && cookie.push("path=" + path);
-      utils_default.isString(domain) && cookie.push("domain=" + domain);
-      secure === true && cookie.push("secure");
-      document.cookie = cookie.join("; ");
-    },
-    read(name) {
-      const match = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
-      return match ? decodeURIComponent(match[3]) : null;
-    },
-    remove(name) {
-      this.write(name, "", Date.now() - 864e5);
+var cookies_default = platform_default.hasStandardBrowserEnv
+  ? // Standard browser envs support document.cookie
+    {
+      write(name, value, expires, path, domain, secure) {
+        const cookie = [name + "=" + encodeURIComponent(value)];
+        utils_default.isNumber(expires) &&
+          cookie.push("expires=" + new Date(expires).toGMTString());
+        utils_default.isString(path) && cookie.push("path=" + path);
+        utils_default.isString(domain) && cookie.push("domain=" + domain);
+        secure === true && cookie.push("secure");
+        document.cookie = cookie.join("; ");
+      },
+      read(name) {
+        const match = document.cookie.match(
+          new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"),
+        );
+        return match ? decodeURIComponent(match[3]) : null;
+      },
+      remove(name) {
+        this.write(name, "", Date.now() - 864e5);
+      },
     }
-  }
-) : (
-  // Non-standard browser env (web workers, react-native) lack needed support.
-  {
-    write() {
-    },
-    read() {
-      return null;
-    },
-    remove() {
-    }
-  }
-);
+  : // Non-standard browser env (web workers, react-native) lack needed support.
+    {
+      write() {},
+      read() {
+        return null;
+      },
+      remove() {},
+    };
 
 // node_modules/axios/lib/core/mergeConfig.js
-var headersToObject = (thing) => thing instanceof AxiosHeaders_default ? { ...thing } : thing;
+var headersToObject = (thing) =>
+  thing instanceof AxiosHeaders_default ? { ...thing } : thing;
 function mergeConfig(config1, config2) {
   config2 = config2 || {};
   const config = {};
   function getMergedValue(target, source, caseless) {
-    if (utils_default.isPlainObject(target) && utils_default.isPlainObject(source)) {
+    if (
+      utils_default.isPlainObject(target) &&
+      utils_default.isPlainObject(source)
+    ) {
       return utils_default.merge.call({ caseless }, target, source);
     } else if (utils_default.isPlainObject(source)) {
       return utils_default.merge({}, source);
@@ -22993,41 +26964,74 @@ function mergeConfig(config1, config2) {
     socketPath: defaultToConfig2,
     responseEncoding: defaultToConfig2,
     validateStatus: mergeDirectKeys,
-    headers: (a, b) => mergeDeepProperties(headersToObject(a), headersToObject(b), true)
+    headers: (a, b) =>
+      mergeDeepProperties(headersToObject(a), headersToObject(b), true),
   };
-  utils_default.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
-    const merge2 = mergeMap[prop] || mergeDeepProperties;
-    const configValue = merge2(config1[prop], config2[prop], prop);
-    utils_default.isUndefined(configValue) && merge2 !== mergeDirectKeys || (config[prop] = configValue);
-  });
+  utils_default.forEach(
+    Object.keys(Object.assign({}, config1, config2)),
+    function computeConfigValue(prop) {
+      const merge2 = mergeMap[prop] || mergeDeepProperties;
+      const configValue = merge2(config1[prop], config2[prop], prop);
+      (utils_default.isUndefined(configValue) && merge2 !== mergeDirectKeys) ||
+        (config[prop] = configValue);
+    },
+  );
   return config;
 }
 
 // node_modules/axios/lib/helpers/resolveConfig.js
 var resolveConfig_default = (config) => {
   const newConfig = mergeConfig({}, config);
-  let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } = newConfig;
+  let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } =
+    newConfig;
   newConfig.headers = headers = AxiosHeaders_default.from(headers);
-  newConfig.url = buildURL(buildFullPath(newConfig.baseURL, newConfig.url), config.params, config.paramsSerializer);
+  newConfig.url = buildURL(
+    buildFullPath(newConfig.baseURL, newConfig.url),
+    config.params,
+    config.paramsSerializer,
+  );
   if (auth) {
     headers.set(
       "Authorization",
-      "Basic " + btoa((auth.username || "") + ":" + (auth.password ? unescape(encodeURIComponent(auth.password)) : ""))
+      "Basic " +
+        btoa(
+          (auth.username || "") +
+            ":" +
+            (auth.password ? unescape(encodeURIComponent(auth.password)) : ""),
+        ),
     );
   }
   let contentType;
   if (utils_default.isFormData(data)) {
-    if (platform_default.hasStandardBrowserEnv || platform_default.hasStandardBrowserWebWorkerEnv) {
+    if (
+      platform_default.hasStandardBrowserEnv ||
+      platform_default.hasStandardBrowserWebWorkerEnv
+    ) {
       headers.setContentType(void 0);
     } else if ((contentType = headers.getContentType()) !== false) {
-      const [type, ...tokens] = contentType ? contentType.split(";").map((token) => token.trim()).filter(Boolean) : [];
-      headers.setContentType([type || "multipart/form-data", ...tokens].join("; "));
+      const [type, ...tokens] = contentType
+        ? contentType
+            .split(";")
+            .map((token) => token.trim())
+            .filter(Boolean)
+        : [];
+      headers.setContentType(
+        [type || "multipart/form-data", ...tokens].join("; "),
+      );
     }
   }
   if (platform_default.hasStandardBrowserEnv) {
-    withXSRFToken && utils_default.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(newConfig));
-    if (withXSRFToken || withXSRFToken !== false && isURLSameOrigin_default(newConfig.url)) {
-      const xsrfValue = xsrfHeaderName && xsrfCookieName && cookies_default.read(xsrfCookieName);
+    withXSRFToken &&
+      utils_default.isFunction(withXSRFToken) &&
+      (withXSRFToken = withXSRFToken(newConfig));
+    if (
+      withXSRFToken ||
+      (withXSRFToken !== false && isURLSameOrigin_default(newConfig.url))
+    ) {
+      const xsrfValue =
+        xsrfHeaderName &&
+        xsrfCookieName &&
+        cookies_default.read(xsrfCookieName);
       if (xsrfValue) {
         headers.set(xsrfHeaderName, xsrfValue);
       }
@@ -23038,160 +27042,237 @@ var resolveConfig_default = (config) => {
 
 // node_modules/axios/lib/adapters/xhr.js
 var isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
-var xhr_default = isXHRAdapterSupported && function(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    const _config = resolveConfig_default(config);
-    let requestData = _config.data;
-    const requestHeaders = AxiosHeaders_default.from(_config.headers).normalize();
-    let { responseType } = _config;
-    let onCanceled;
-    function done() {
-      if (_config.cancelToken) {
-        _config.cancelToken.unsubscribe(onCanceled);
-      }
-      if (_config.signal) {
-        _config.signal.removeEventListener("abort", onCanceled);
-      }
-    }
-    let request = new XMLHttpRequest();
-    request.open(_config.method.toUpperCase(), _config.url, true);
-    request.timeout = _config.timeout;
-    function onloadend() {
-      if (!request) {
-        return;
-      }
-      const responseHeaders = AxiosHeaders_default.from(
-        "getAllResponseHeaders" in request && request.getAllResponseHeaders()
-      );
-      const responseData = !responseType || responseType === "text" || responseType === "json" ? request.responseText : request.response;
-      const response = {
-        data: responseData,
-        status: request.status,
-        statusText: request.statusText,
-        headers: responseHeaders,
-        config,
-        request
-      };
-      settle(function _resolve(value) {
-        resolve(value);
-        done();
-      }, function _reject(err) {
-        reject(err);
-        done();
-      }, response);
-      request = null;
-    }
-    if ("onloadend" in request) {
-      request.onloadend = onloadend;
-    } else {
-      request.onreadystatechange = function handleLoad() {
-        if (!request || request.readyState !== 4) {
-          return;
+var xhr_default =
+  isXHRAdapterSupported &&
+  function (config) {
+    return new Promise(function dispatchXhrRequest(resolve, reject) {
+      const _config = resolveConfig_default(config);
+      let requestData = _config.data;
+      const requestHeaders = AxiosHeaders_default.from(
+        _config.headers,
+      ).normalize();
+      let { responseType } = _config;
+      let onCanceled;
+      function done() {
+        if (_config.cancelToken) {
+          _config.cancelToken.unsubscribe(onCanceled);
         }
-        if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf("file:") === 0)) {
-          return;
+        if (_config.signal) {
+          _config.signal.removeEventListener("abort", onCanceled);
         }
-        setTimeout(onloadend);
-      };
-    }
-    request.onabort = function handleAbort() {
-      if (!request) {
-        return;
       }
-      reject(new AxiosError_default("Request aborted", AxiosError_default.ECONNABORTED, _config, request));
-      request = null;
-    };
-    request.onerror = function handleError() {
-      reject(new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, _config, request));
-      request = null;
-    };
-    request.ontimeout = function handleTimeout() {
-      let timeoutErrorMessage = _config.timeout ? "timeout of " + _config.timeout + "ms exceeded" : "timeout exceeded";
-      const transitional2 = _config.transitional || transitional_default;
-      if (_config.timeoutErrorMessage) {
-        timeoutErrorMessage = _config.timeoutErrorMessage;
-      }
-      reject(new AxiosError_default(
-        timeoutErrorMessage,
-        transitional2.clarifyTimeoutError ? AxiosError_default.ETIMEDOUT : AxiosError_default.ECONNABORTED,
-        _config,
-        request
-      ));
-      request = null;
-    };
-    requestData === void 0 && requestHeaders.setContentType(null);
-    if ("setRequestHeader" in request) {
-      utils_default.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
-        request.setRequestHeader(key, val);
-      });
-    }
-    if (!utils_default.isUndefined(_config.withCredentials)) {
-      request.withCredentials = !!_config.withCredentials;
-    }
-    if (responseType && responseType !== "json") {
-      request.responseType = _config.responseType;
-    }
-    if (typeof _config.onDownloadProgress === "function") {
-      request.addEventListener("progress", progressEventReducer_default(_config.onDownloadProgress, true));
-    }
-    if (typeof _config.onUploadProgress === "function" && request.upload) {
-      request.upload.addEventListener("progress", progressEventReducer_default(_config.onUploadProgress));
-    }
-    if (_config.cancelToken || _config.signal) {
-      onCanceled = (cancel) => {
+      let request = new XMLHttpRequest();
+      request.open(_config.method.toUpperCase(), _config.url, true);
+      request.timeout = _config.timeout;
+      function onloadend() {
         if (!request) {
           return;
         }
-        reject(!cancel || cancel.type ? new CanceledError_default(null, config, request) : cancel);
-        request.abort();
+        const responseHeaders = AxiosHeaders_default.from(
+          "getAllResponseHeaders" in request && request.getAllResponseHeaders(),
+        );
+        const responseData =
+          !responseType || responseType === "text" || responseType === "json"
+            ? request.responseText
+            : request.response;
+        const response = {
+          data: responseData,
+          status: request.status,
+          statusText: request.statusText,
+          headers: responseHeaders,
+          config,
+          request,
+        };
+        settle(
+          function _resolve(value) {
+            resolve(value);
+            done();
+          },
+          function _reject(err) {
+            reject(err);
+            done();
+          },
+          response,
+        );
+        request = null;
+      }
+      if ("onloadend" in request) {
+        request.onloadend = onloadend;
+      } else {
+        request.onreadystatechange = function handleLoad() {
+          if (!request || request.readyState !== 4) {
+            return;
+          }
+          if (
+            request.status === 0 &&
+            !(request.responseURL && request.responseURL.indexOf("file:") === 0)
+          ) {
+            return;
+          }
+          setTimeout(onloadend);
+        };
+      }
+      request.onabort = function handleAbort() {
+        if (!request) {
+          return;
+        }
+        reject(
+          new AxiosError_default(
+            "Request aborted",
+            AxiosError_default.ECONNABORTED,
+            _config,
+            request,
+          ),
+        );
         request = null;
       };
-      _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
-      if (_config.signal) {
-        _config.signal.aborted ? onCanceled() : _config.signal.addEventListener("abort", onCanceled);
+      request.onerror = function handleError() {
+        reject(
+          new AxiosError_default(
+            "Network Error",
+            AxiosError_default.ERR_NETWORK,
+            _config,
+            request,
+          ),
+        );
+        request = null;
+      };
+      request.ontimeout = function handleTimeout() {
+        let timeoutErrorMessage = _config.timeout
+          ? "timeout of " + _config.timeout + "ms exceeded"
+          : "timeout exceeded";
+        const transitional2 = _config.transitional || transitional_default;
+        if (_config.timeoutErrorMessage) {
+          timeoutErrorMessage = _config.timeoutErrorMessage;
+        }
+        reject(
+          new AxiosError_default(
+            timeoutErrorMessage,
+            transitional2.clarifyTimeoutError
+              ? AxiosError_default.ETIMEDOUT
+              : AxiosError_default.ECONNABORTED,
+            _config,
+            request,
+          ),
+        );
+        request = null;
+      };
+      requestData === void 0 && requestHeaders.setContentType(null);
+      if ("setRequestHeader" in request) {
+        utils_default.forEach(
+          requestHeaders.toJSON(),
+          function setRequestHeader(val, key) {
+            request.setRequestHeader(key, val);
+          },
+        );
       }
-    }
-    const protocol = parseProtocol(_config.url);
-    if (protocol && platform_default.protocols.indexOf(protocol) === -1) {
-      reject(new AxiosError_default("Unsupported protocol " + protocol + ":", AxiosError_default.ERR_BAD_REQUEST, config));
-      return;
-    }
-    request.send(requestData || null);
-  });
-};
+      if (!utils_default.isUndefined(_config.withCredentials)) {
+        request.withCredentials = !!_config.withCredentials;
+      }
+      if (responseType && responseType !== "json") {
+        request.responseType = _config.responseType;
+      }
+      if (typeof _config.onDownloadProgress === "function") {
+        request.addEventListener(
+          "progress",
+          progressEventReducer_default(_config.onDownloadProgress, true),
+        );
+      }
+      if (typeof _config.onUploadProgress === "function" && request.upload) {
+        request.upload.addEventListener(
+          "progress",
+          progressEventReducer_default(_config.onUploadProgress),
+        );
+      }
+      if (_config.cancelToken || _config.signal) {
+        onCanceled = (cancel) => {
+          if (!request) {
+            return;
+          }
+          reject(
+            !cancel || cancel.type
+              ? new CanceledError_default(null, config, request)
+              : cancel,
+          );
+          request.abort();
+          request = null;
+        };
+        _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
+        if (_config.signal) {
+          _config.signal.aborted
+            ? onCanceled()
+            : _config.signal.addEventListener("abort", onCanceled);
+        }
+      }
+      const protocol = parseProtocol(_config.url);
+      if (protocol && platform_default.protocols.indexOf(protocol) === -1) {
+        reject(
+          new AxiosError_default(
+            "Unsupported protocol " + protocol + ":",
+            AxiosError_default.ERR_BAD_REQUEST,
+            config,
+          ),
+        );
+        return;
+      }
+      request.send(requestData || null);
+    });
+  };
 
 // node_modules/axios/lib/helpers/composeSignals.js
 var composeSignals = (signals, timeout) => {
   let controller = new AbortController();
   let aborted;
-  const onabort = function(cancel) {
+  const onabort = function (cancel) {
     if (!aborted) {
       aborted = true;
       unsubscribe();
       const err = cancel instanceof Error ? cancel : this.reason;
-      controller.abort(err instanceof AxiosError_default ? err : new CanceledError_default(err instanceof Error ? err.message : err));
+      controller.abort(
+        err instanceof AxiosError_default
+          ? err
+          : new CanceledError_default(err instanceof Error ? err.message : err),
+      );
     }
   };
-  let timer = timeout && setTimeout(() => {
-    onabort(new AxiosError_default(`timeout ${timeout} of ms exceeded`, AxiosError_default.ETIMEDOUT));
-  }, timeout);
+  let timer =
+    timeout &&
+    setTimeout(() => {
+      onabort(
+        new AxiosError_default(
+          `timeout ${timeout} of ms exceeded`,
+          AxiosError_default.ETIMEDOUT,
+        ),
+      );
+    }, timeout);
   const unsubscribe = () => {
     if (signals) {
       timer && clearTimeout(timer);
       timer = null;
       signals.forEach((signal2) => {
-        signal2 && (signal2.removeEventListener ? signal2.removeEventListener("abort", onabort) : signal2.unsubscribe(onabort));
+        signal2 &&
+          (signal2.removeEventListener
+            ? signal2.removeEventListener("abort", onabort)
+            : signal2.unsubscribe(onabort));
       });
       signals = null;
     }
   };
-  signals.forEach((signal2) => signal2 && signal2.addEventListener && signal2.addEventListener("abort", onabort));
+  signals.forEach(
+    (signal2) =>
+      signal2 &&
+      signal2.addEventListener &&
+      signal2.addEventListener("abort", onabort),
+  );
   const { signal } = controller;
   signal.unsubscribe = unsubscribe;
-  return [signal, () => {
-    timer && clearTimeout(timer);
-    timer = null;
-  }];
+  return [
+    signal,
+    () => {
+      timer && clearTimeout(timer);
+      timer = null;
+    },
+  ];
 };
 var composeSignals_default = composeSignals;
 
@@ -23212,75 +27293,106 @@ var streamChunk = function* (chunk, chunkSize) {
 };
 var readBytes = async function* (iterable, chunkSize, encode3) {
   for await (const chunk of iterable) {
-    yield* streamChunk(ArrayBuffer.isView(chunk) ? chunk : await encode3(String(chunk)), chunkSize);
+    yield* streamChunk(
+      ArrayBuffer.isView(chunk) ? chunk : await encode3(String(chunk)),
+      chunkSize,
+    );
   }
 };
 var trackStream = (stream4, chunkSize, onProgress, onFinish, encode3) => {
   const iterator = readBytes(stream4, chunkSize, encode3);
   let bytes = 0;
-  return new ReadableStream({
-    type: "bytes",
-    async pull(controller) {
-      const { done, value } = await iterator.next();
-      if (done) {
-        controller.close();
-        onFinish();
-        return;
-      }
-      let len = value.byteLength;
-      onProgress && onProgress(bytes += len);
-      controller.enqueue(new Uint8Array(value));
+  return new ReadableStream(
+    {
+      type: "bytes",
+      async pull(controller) {
+        const { done, value } = await iterator.next();
+        if (done) {
+          controller.close();
+          onFinish();
+          return;
+        }
+        let len = value.byteLength;
+        onProgress && onProgress((bytes += len));
+        controller.enqueue(new Uint8Array(value));
+      },
+      cancel(reason) {
+        onFinish(reason);
+        return iterator.return();
+      },
     },
-    cancel(reason) {
-      onFinish(reason);
-      return iterator.return();
-    }
-  }, {
-    highWaterMark: 2
-  });
+    {
+      highWaterMark: 2,
+    },
+  );
 };
 
 // node_modules/axios/lib/adapters/fetch.js
 var fetchProgressDecorator = (total, fn) => {
   const lengthComputable = total != null;
-  return (loaded) => setTimeout(() => fn({
-    lengthComputable,
-    total,
-    loaded
-  }));
+  return (loaded) =>
+    setTimeout(() =>
+      fn({
+        lengthComputable,
+        total,
+        loaded,
+      }),
+    );
 };
-var isFetchSupported = typeof fetch === "function" && typeof Request === "function" && typeof Response === "function";
-var isReadableStreamSupported = isFetchSupported && typeof ReadableStream === "function";
-var encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @__PURE__ */ ((encoder) => (str) => encoder.encode(str))(new TextEncoder()) : async (str) => new Uint8Array(await new Response(str).arrayBuffer()));
-var supportsRequestStream = isReadableStreamSupported && (() => {
-  let duplexAccessed = false;
-  const hasContentType = new Request(platform_default.origin, {
-    body: new ReadableStream(),
-    method: "POST",
-    get duplex() {
-      duplexAccessed = true;
-      return "half";
-    }
-  }).headers.has("Content-Type");
-  return duplexAccessed && !hasContentType;
-})();
+var isFetchSupported =
+  typeof fetch === "function" &&
+  typeof Request === "function" &&
+  typeof Response === "function";
+var isReadableStreamSupported =
+  isFetchSupported && typeof ReadableStream === "function";
+var encodeText =
+  isFetchSupported &&
+  (typeof TextEncoder === "function"
+    ? /* @__PURE__ */ (
+        (encoder) => (str) =>
+          encoder.encode(str)
+      )(new TextEncoder())
+    : async (str) => new Uint8Array(await new Response(str).arrayBuffer()));
+var supportsRequestStream =
+  isReadableStreamSupported &&
+  (() => {
+    let duplexAccessed = false;
+    const hasContentType = new Request(platform_default.origin, {
+      body: new ReadableStream(),
+      method: "POST",
+      get duplex() {
+        duplexAccessed = true;
+        return "half";
+      },
+    }).headers.has("Content-Type");
+    return duplexAccessed && !hasContentType;
+  })();
 var DEFAULT_CHUNK_SIZE = 64 * 1024;
-var supportsResponseStream = isReadableStreamSupported && !!(() => {
-  try {
-    return utils_default.isReadableStream(new Response("").body);
-  } catch (err) {
-  }
-})();
+var supportsResponseStream =
+  isReadableStreamSupported &&
+  !!(() => {
+    try {
+      return utils_default.isReadableStream(new Response("").body);
+    } catch (err) {}
+  })();
 var resolvers = {
-  stream: supportsResponseStream && ((res) => res.body)
+  stream: supportsResponseStream && ((res) => res.body),
 };
-isFetchSupported && ((res) => {
-  ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
-    !resolvers[type] && (resolvers[type] = utils_default.isFunction(res[type]) ? (res2) => res2[type]() : (_, config) => {
-      throw new AxiosError_default(`Response type '${type}' is not supported`, AxiosError_default.ERR_NOT_SUPPORT, config);
+isFetchSupported &&
+  ((res) => {
+    ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
+      !resolvers[type] &&
+        (resolvers[type] = utils_default.isFunction(res[type])
+          ? (res2) => res2[type]()
+          : (_, config) => {
+              throw new AxiosError_default(
+                `Response type '${type}' is not supported`,
+                AxiosError_default.ERR_NOT_SUPPORT,
+                config,
+              );
+            });
     });
-  });
-})(new Response());
+  })(new Response());
 var getBodyLength = async (body) => {
   if (body == null) {
     return 0;
@@ -23305,122 +27417,161 @@ var resolveBodyLength = async (headers, body) => {
   const length = utils_default.toFiniteNumber(headers.getContentLength());
   return length == null ? getBodyLength(body) : length;
 };
-var fetch_default = isFetchSupported && (async (config) => {
-  let {
-    url: url2,
-    method,
-    data,
-    signal,
-    cancelToken,
-    timeout,
-    onDownloadProgress,
-    onUploadProgress,
-    responseType,
-    headers,
-    withCredentials = "same-origin",
-    fetchOptions
-  } = resolveConfig_default(config);
-  responseType = responseType ? (responseType + "").toLowerCase() : "text";
-  let [composedSignal, stopTimeout] = signal || cancelToken || timeout ? composeSignals_default([signal, cancelToken], timeout) : [];
-  let finished, request;
-  const onFinish = () => {
-    !finished && setTimeout(() => {
-      composedSignal && composedSignal.unsubscribe();
-    });
-    finished = true;
-  };
-  let requestContentLength;
-  try {
-    if (onUploadProgress && supportsRequestStream && method !== "get" && method !== "head" && (requestContentLength = await resolveBodyLength(headers, data)) !== 0) {
-      let _request = new Request(url2, {
-        method: "POST",
-        body: data,
-        duplex: "half"
-      });
-      let contentTypeHeader;
-      if (utils_default.isFormData(data) && (contentTypeHeader = _request.headers.get("content-type"))) {
-        headers.setContentType(contentTypeHeader);
-      }
-      if (_request.body) {
-        data = trackStream(_request.body, DEFAULT_CHUNK_SIZE, fetchProgressDecorator(
-          requestContentLength,
-          progressEventReducer_default(onUploadProgress)
-        ), null, encodeText);
-      }
-    }
-    if (!utils_default.isString(withCredentials)) {
-      withCredentials = withCredentials ? "cors" : "omit";
-    }
-    request = new Request(url2, {
-      ...fetchOptions,
-      signal: composedSignal,
-      method: method.toUpperCase(),
-      headers: headers.normalize().toJSON(),
-      body: data,
-      duplex: "half",
-      withCredentials
-    });
-    let response = await fetch(request);
-    const isStreamResponse = supportsResponseStream && (responseType === "stream" || responseType === "response");
-    if (supportsResponseStream && (onDownloadProgress || isStreamResponse)) {
-      const options = {};
-      ["status", "statusText", "headers"].forEach((prop) => {
-        options[prop] = response[prop];
-      });
-      const responseContentLength = utils_default.toFiniteNumber(response.headers.get("content-length"));
-      response = new Response(
-        trackStream(response.body, DEFAULT_CHUNK_SIZE, onDownloadProgress && fetchProgressDecorator(
-          responseContentLength,
-          progressEventReducer_default(onDownloadProgress, true)
-        ), isStreamResponse && onFinish, encodeText),
-        options
-      );
-    }
-    responseType = responseType || "text";
-    let responseData = await resolvers[utils_default.findKey(resolvers, responseType) || "text"](response, config);
-    !isStreamResponse && onFinish();
-    stopTimeout && stopTimeout();
-    return await new Promise((resolve, reject) => {
-      settle(resolve, reject, {
-        data: responseData,
-        headers: AxiosHeaders_default.from(response.headers),
-        status: response.status,
-        statusText: response.statusText,
-        config,
-        request
-      });
-    });
-  } catch (err) {
-    onFinish();
-    if (err && err.name === "TypeError" && /fetch/i.test(err.message)) {
-      throw Object.assign(
-        new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, config, request),
-        {
-          cause: err.cause || err
+var fetch_default =
+  isFetchSupported &&
+  (async (config) => {
+    let {
+      url: url2,
+      method,
+      data,
+      signal,
+      cancelToken,
+      timeout,
+      onDownloadProgress,
+      onUploadProgress,
+      responseType,
+      headers,
+      withCredentials = "same-origin",
+      fetchOptions,
+    } = resolveConfig_default(config);
+    responseType = responseType ? (responseType + "").toLowerCase() : "text";
+    let [composedSignal, stopTimeout] =
+      signal || cancelToken || timeout
+        ? composeSignals_default([signal, cancelToken], timeout)
+        : [];
+    let finished, request;
+    const onFinish = () => {
+      !finished &&
+        setTimeout(() => {
+          composedSignal && composedSignal.unsubscribe();
+        });
+      finished = true;
+    };
+    let requestContentLength;
+    try {
+      if (
+        onUploadProgress &&
+        supportsRequestStream &&
+        method !== "get" &&
+        method !== "head" &&
+        (requestContentLength = await resolveBodyLength(headers, data)) !== 0
+      ) {
+        let _request = new Request(url2, {
+          method: "POST",
+          body: data,
+          duplex: "half",
+        });
+        let contentTypeHeader;
+        if (
+          utils_default.isFormData(data) &&
+          (contentTypeHeader = _request.headers.get("content-type"))
+        ) {
+          headers.setContentType(contentTypeHeader);
         }
-      );
+        if (_request.body) {
+          data = trackStream(
+            _request.body,
+            DEFAULT_CHUNK_SIZE,
+            fetchProgressDecorator(
+              requestContentLength,
+              progressEventReducer_default(onUploadProgress),
+            ),
+            null,
+            encodeText,
+          );
+        }
+      }
+      if (!utils_default.isString(withCredentials)) {
+        withCredentials = withCredentials ? "cors" : "omit";
+      }
+      request = new Request(url2, {
+        ...fetchOptions,
+        signal: composedSignal,
+        method: method.toUpperCase(),
+        headers: headers.normalize().toJSON(),
+        body: data,
+        duplex: "half",
+        withCredentials,
+      });
+      let response = await fetch(request);
+      const isStreamResponse =
+        supportsResponseStream &&
+        (responseType === "stream" || responseType === "response");
+      if (supportsResponseStream && (onDownloadProgress || isStreamResponse)) {
+        const options = {};
+        ["status", "statusText", "headers"].forEach((prop) => {
+          options[prop] = response[prop];
+        });
+        const responseContentLength = utils_default.toFiniteNumber(
+          response.headers.get("content-length"),
+        );
+        response = new Response(
+          trackStream(
+            response.body,
+            DEFAULT_CHUNK_SIZE,
+            onDownloadProgress &&
+              fetchProgressDecorator(
+                responseContentLength,
+                progressEventReducer_default(onDownloadProgress, true),
+              ),
+            isStreamResponse && onFinish,
+            encodeText,
+          ),
+          options,
+        );
+      }
+      responseType = responseType || "text";
+      let responseData = await resolvers[
+        utils_default.findKey(resolvers, responseType) || "text"
+      ](response, config);
+      !isStreamResponse && onFinish();
+      stopTimeout && stopTimeout();
+      return await new Promise((resolve, reject) => {
+        settle(resolve, reject, {
+          data: responseData,
+          headers: AxiosHeaders_default.from(response.headers),
+          status: response.status,
+          statusText: response.statusText,
+          config,
+          request,
+        });
+      });
+    } catch (err) {
+      onFinish();
+      if (err && err.name === "TypeError" && /fetch/i.test(err.message)) {
+        throw Object.assign(
+          new AxiosError_default(
+            "Network Error",
+            AxiosError_default.ERR_NETWORK,
+            config,
+            request,
+          ),
+          {
+            cause: err.cause || err,
+          },
+        );
+      }
+      throw AxiosError_default.from(err, err && err.code, config, request);
     }
-    throw AxiosError_default.from(err, err && err.code, config, request);
-  }
-});
+  });
 
 // node_modules/axios/lib/adapters/adapters.js
 var knownAdapters = {
   http: http_default,
   xhr: xhr_default,
-  fetch: fetch_default
+  fetch: fetch_default,
 };
 utils_default.forEach(knownAdapters, (fn, value) => {
   if (fn) {
     try {
       Object.defineProperty(fn, "name", { value });
-    } catch (e) {
-    }
+    } catch (e) {}
     Object.defineProperty(fn, "adapterName", { value });
   }
 });
 var renderReason = (reason) => `- ${reason}`;
-var isResolvedHandle = (adapter) => utils_default.isFunction(adapter) || adapter === null || adapter === false;
+var isResolvedHandle = (adapter) =>
+  utils_default.isFunction(adapter) || adapter === null || adapter === false;
 var adapters_default = {
   getAdapter: (adapters) => {
     adapters = utils_default.isArray(adapters) ? adapters : [adapters];
@@ -23445,17 +27596,25 @@ var adapters_default = {
     }
     if (!adapter) {
       const reasons = Object.entries(rejectedReasons).map(
-        ([id, state]) => `adapter ${id} ` + (state === false ? "is not supported by the environment" : "is not available in the build")
+        ([id, state]) =>
+          `adapter ${id} ` +
+          (state === false
+            ? "is not supported by the environment"
+            : "is not available in the build"),
       );
-      let s = length ? reasons.length > 1 ? "since :\n" + reasons.map(renderReason).join("\n") : " " + renderReason(reasons[0]) : "as no adapter specified";
+      let s = length
+        ? reasons.length > 1
+          ? "since :\n" + reasons.map(renderReason).join("\n")
+          : " " + renderReason(reasons[0])
+        : "as no adapter specified";
       throw new AxiosError_default(
         `There is no suitable adapter to dispatch the request ` + s,
-        "ERR_NOT_SUPPORT"
+        "ERR_NOT_SUPPORT",
       );
     }
     return adapter;
   },
-  adapters: knownAdapters
+  adapters: knownAdapters,
 };
 
 // node_modules/axios/lib/core/dispatchRequest.js
@@ -23470,56 +27629,73 @@ function throwIfCancellationRequested(config) {
 function dispatchRequest(config) {
   throwIfCancellationRequested(config);
   config.headers = AxiosHeaders_default.from(config.headers);
-  config.data = transformData.call(
-    config,
-    config.transformRequest
-  );
+  config.data = transformData.call(config, config.transformRequest);
   if (["post", "put", "patch"].indexOf(config.method) !== -1) {
     config.headers.setContentType("application/x-www-form-urlencoded", false);
   }
-  const adapter = adapters_default.getAdapter(config.adapter || defaults_default.adapter);
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-    response.data = transformData.call(
-      config,
-      config.transformResponse,
-      response
-    );
-    response.headers = AxiosHeaders_default.from(response.headers);
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
+  const adapter = adapters_default.getAdapter(
+    config.adapter || defaults_default.adapter,
+  );
+  return adapter(config).then(
+    function onAdapterResolution(response) {
       throwIfCancellationRequested(config);
-      if (reason && reason.response) {
-        reason.response.data = transformData.call(
-          config,
-          config.transformResponse,
-          reason.response
-        );
-        reason.response.headers = AxiosHeaders_default.from(reason.response.headers);
+      response.data = transformData.call(
+        config,
+        config.transformResponse,
+        response,
+      );
+      response.headers = AxiosHeaders_default.from(response.headers);
+      return response;
+    },
+    function onAdapterRejection(reason) {
+      if (!isCancel(reason)) {
+        throwIfCancellationRequested(config);
+        if (reason && reason.response) {
+          reason.response.data = transformData.call(
+            config,
+            config.transformResponse,
+            reason.response,
+          );
+          reason.response.headers = AxiosHeaders_default.from(
+            reason.response.headers,
+          );
+        }
       }
-    }
-    return Promise.reject(reason);
-  });
+      return Promise.reject(reason);
+    },
+  );
 }
 
 // node_modules/axios/lib/helpers/validator.js
 var validators = {};
-["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
-  validators[type] = function validator(thing) {
-    return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
-  };
-});
+["object", "boolean", "number", "function", "string", "symbol"].forEach(
+  (type, i) => {
+    validators[type] = function validator(thing) {
+      return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
+    };
+  },
+);
 var deprecatedWarnings = {};
 validators.transitional = function transitional(validator, version2, message) {
   function formatMessage(opt, desc) {
-    return "[Axios v" + VERSION + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
+    return (
+      "[Axios v" +
+      VERSION +
+      "] Transitional option '" +
+      opt +
+      "'" +
+      desc +
+      (message ? ". " + message : "")
+    );
   }
   return (value, opt, opts) => {
     if (validator === false) {
       throw new AxiosError_default(
-        formatMessage(opt, " has been removed" + (version2 ? " in " + version2 : "")),
-        AxiosError_default.ERR_DEPRECATED
+        formatMessage(
+          opt,
+          " has been removed" + (version2 ? " in " + version2 : ""),
+        ),
+        AxiosError_default.ERR_DEPRECATED,
       );
     }
     if (version2 && !deprecatedWarnings[opt]) {
@@ -23527,8 +27703,10 @@ validators.transitional = function transitional(validator, version2, message) {
       console.warn(
         formatMessage(
           opt,
-          " has been deprecated since v" + version2 + " and will be removed in the near future"
-        )
+          " has been deprecated since v" +
+            version2 +
+            " and will be removed in the near future",
+        ),
       );
     }
     return validator ? validator(value, opt, opts) : true;
@@ -23536,7 +27714,10 @@ validators.transitional = function transitional(validator, version2, message) {
 };
 function assertOptions(options, schema, allowUnknown) {
   if (typeof options !== "object") {
-    throw new AxiosError_default("options must be an object", AxiosError_default.ERR_BAD_OPTION_VALUE);
+    throw new AxiosError_default(
+      "options must be an object",
+      AxiosError_default.ERR_BAD_OPTION_VALUE,
+    );
   }
   const keys = Object.keys(options);
   let i = keys.length;
@@ -23547,18 +27728,24 @@ function assertOptions(options, schema, allowUnknown) {
       const value = options[opt];
       const result = value === void 0 || validator(value, opt, options);
       if (result !== true) {
-        throw new AxiosError_default("option " + opt + " must be " + result, AxiosError_default.ERR_BAD_OPTION_VALUE);
+        throw new AxiosError_default(
+          "option " + opt + " must be " + result,
+          AxiosError_default.ERR_BAD_OPTION_VALUE,
+        );
       }
       continue;
     }
     if (allowUnknown !== true) {
-      throw new AxiosError_default("Unknown option " + opt, AxiosError_default.ERR_BAD_OPTION);
+      throw new AxiosError_default(
+        "Unknown option " + opt,
+        AxiosError_default.ERR_BAD_OPTION,
+      );
     }
   }
 }
 var validator_default = {
   assertOptions,
-  validators
+  validators,
 };
 
 // node_modules/axios/lib/core/Axios.js
@@ -23568,7 +27755,7 @@ var Axios = class {
     this.defaults = instanceConfig;
     this.interceptors = {
       request: new InterceptorManager_default(),
-      response: new InterceptorManager_default()
+      response: new InterceptorManager_default(),
     };
   }
   /**
@@ -23585,16 +27772,20 @@ var Axios = class {
     } catch (err) {
       if (err instanceof Error) {
         let dummy;
-        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : dummy = new Error();
+        Error.captureStackTrace
+          ? Error.captureStackTrace((dummy = {}))
+          : (dummy = new Error());
         const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, "") : "";
         try {
           if (!err.stack) {
             err.stack = stack;
-          } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
+          } else if (
+            stack &&
+            !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))
+          ) {
             err.stack += "\n" + stack;
           }
-        } catch (e) {
-        }
+        } catch (e) {}
       }
       throw err;
     }
@@ -23609,49 +27800,74 @@ var Axios = class {
     config = mergeConfig(this.defaults, config);
     const { transitional: transitional2, paramsSerializer, headers } = config;
     if (transitional2 !== void 0) {
-      validator_default.assertOptions(transitional2, {
-        silentJSONParsing: validators2.transitional(validators2.boolean),
-        forcedJSONParsing: validators2.transitional(validators2.boolean),
-        clarifyTimeoutError: validators2.transitional(validators2.boolean)
-      }, false);
+      validator_default.assertOptions(
+        transitional2,
+        {
+          silentJSONParsing: validators2.transitional(validators2.boolean),
+          forcedJSONParsing: validators2.transitional(validators2.boolean),
+          clarifyTimeoutError: validators2.transitional(validators2.boolean),
+        },
+        false,
+      );
     }
     if (paramsSerializer != null) {
       if (utils_default.isFunction(paramsSerializer)) {
         config.paramsSerializer = {
-          serialize: paramsSerializer
+          serialize: paramsSerializer,
         };
       } else {
-        validator_default.assertOptions(paramsSerializer, {
-          encode: validators2.function,
-          serialize: validators2.function
-        }, true);
+        validator_default.assertOptions(
+          paramsSerializer,
+          {
+            encode: validators2.function,
+            serialize: validators2.function,
+          },
+          true,
+        );
       }
     }
-    config.method = (config.method || this.defaults.method || "get").toLowerCase();
-    let contextHeaders = headers && utils_default.merge(
-      headers.common,
-      headers[config.method]
-    );
-    headers && utils_default.forEach(
-      ["delete", "get", "head", "post", "put", "patch", "common"],
-      (method) => {
-        delete headers[method];
-      }
-    );
+    config.method = (
+      config.method ||
+      this.defaults.method ||
+      "get"
+    ).toLowerCase();
+    let contextHeaders =
+      headers && utils_default.merge(headers.common, headers[config.method]);
+    headers &&
+      utils_default.forEach(
+        ["delete", "get", "head", "post", "put", "patch", "common"],
+        (method) => {
+          delete headers[method];
+        },
+      );
     config.headers = AxiosHeaders_default.concat(contextHeaders, headers);
     const requestInterceptorChain = [];
     let synchronousRequestInterceptors = true;
-    this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-      if (typeof interceptor.runWhen === "function" && interceptor.runWhen(config) === false) {
-        return;
-      }
-      synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
-      requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
-    });
+    this.interceptors.request.forEach(
+      function unshiftRequestInterceptors(interceptor) {
+        if (
+          typeof interceptor.runWhen === "function" &&
+          interceptor.runWhen(config) === false
+        ) {
+          return;
+        }
+        synchronousRequestInterceptors =
+          synchronousRequestInterceptors && interceptor.synchronous;
+        requestInterceptorChain.unshift(
+          interceptor.fulfilled,
+          interceptor.rejected,
+        );
+      },
+    );
     const responseInterceptorChain = [];
-    this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-      responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
-    });
+    this.interceptors.response.forEach(
+      function pushResponseInterceptors(interceptor) {
+        responseInterceptorChain.push(
+          interceptor.fulfilled,
+          interceptor.rejected,
+        );
+      },
+    );
     let promise;
     let i = 0;
     let len;
@@ -23687,7 +27903,10 @@ var Axios = class {
     i = 0;
     len = responseInterceptorChain.length;
     while (i < len) {
-      promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
+      promise = promise.then(
+        responseInterceptorChain[i++],
+        responseInterceptorChain[i++],
+      );
     }
     return promise;
   }
@@ -23697,31 +27916,43 @@ var Axios = class {
     return buildURL(fullPath, config.params, config.paramsSerializer);
   }
 };
-utils_default.forEach(["delete", "get", "head", "options"], function forEachMethodNoData(method) {
-  Axios.prototype[method] = function(url2, config) {
-    return this.request(mergeConfig(config || {}, {
-      method,
-      url: url2,
-      data: (config || {}).data
-    }));
-  };
-});
-utils_default.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
-  function generateHTTPMethod(isForm) {
-    return function httpMethod(url2, data, config) {
-      return this.request(mergeConfig(config || {}, {
-        method,
-        headers: isForm ? {
-          "Content-Type": "multipart/form-data"
-        } : {},
-        url: url2,
-        data
-      }));
+utils_default.forEach(
+  ["delete", "get", "head", "options"],
+  function forEachMethodNoData(method) {
+    Axios.prototype[method] = function (url2, config) {
+      return this.request(
+        mergeConfig(config || {}, {
+          method,
+          url: url2,
+          data: (config || {}).data,
+        }),
+      );
     };
-  }
-  Axios.prototype[method] = generateHTTPMethod();
-  Axios.prototype[method + "Form"] = generateHTTPMethod(true);
-});
+  },
+);
+utils_default.forEach(
+  ["post", "put", "patch"],
+  function forEachMethodWithData(method) {
+    function generateHTTPMethod(isForm) {
+      return function httpMethod(url2, data, config) {
+        return this.request(
+          mergeConfig(config || {}, {
+            method,
+            headers: isForm
+              ? {
+                  "Content-Type": "multipart/form-data",
+                }
+              : {},
+            url: url2,
+            data,
+          }),
+        );
+      };
+    }
+    Axios.prototype[method] = generateHTTPMethod();
+    Axios.prototype[method + "Form"] = generateHTTPMethod(true);
+  },
+);
 var Axios_default = Axios;
 
 // node_modules/axios/lib/cancel/CancelToken.js
@@ -23807,7 +28038,7 @@ var CancelToken = class _CancelToken {
     });
     return {
       token,
-      cancel
+      cancel,
     };
   }
 };
@@ -23889,7 +28120,7 @@ var HttpStatusCode = {
   InsufficientStorage: 507,
   LoopDetected: 508,
   NotExtended: 510,
-  NetworkAuthenticationRequired: 511
+  NetworkAuthenticationRequired: 511,
 };
 Object.entries(HttpStatusCode).forEach(([key, value]) => {
   HttpStatusCode[value] = key;
@@ -23900,7 +28131,9 @@ var HttpStatusCode_default = HttpStatusCode;
 function createInstance(defaultConfig) {
   const context = new Axios_default(defaultConfig);
   const instance = bind(Axios_default.prototype.request, context);
-  utils_default.extend(instance, Axios_default.prototype, context, { allOwnKeys: true });
+  utils_default.extend(instance, Axios_default.prototype, context, {
+    allOwnKeys: true,
+  });
   utils_default.extend(instance, context, null, { allOwnKeys: true });
   instance.create = function create(instanceConfig) {
     return createInstance(mergeConfig(defaultConfig, instanceConfig));
@@ -23923,7 +28156,10 @@ axios.spread = spread;
 axios.isAxiosError = isAxiosError;
 axios.mergeConfig = mergeConfig;
 axios.AxiosHeaders = AxiosHeaders_default;
-axios.formToJSON = (thing) => formDataToJSON_default(utils_default.isHTMLForm(thing) ? new FormData(thing) : thing);
+axios.formToJSON = (thing) =>
+  formDataToJSON_default(
+    utils_default.isHTMLForm(thing) ? new FormData(thing) : thing,
+  );
 axios.getAdapter = adapters_default.getAdapter;
 axios.HttpStatusCode = HttpStatusCode_default;
 axios.default = axios;
@@ -23946,7 +28182,7 @@ var {
   HttpStatusCode: HttpStatusCode2,
   formToJSON,
   getAdapter,
-  mergeConfig: mergeConfig2
+  mergeConfig: mergeConfig2,
 } = axios_default;
 
 // src/http.ts
@@ -23954,8 +28190,8 @@ function getModrinthClient() {
   return axios_default.create({
     baseURL: "https://api.modrinth.com/",
     headers: {
-      "User-Agent": `anthonyporthouse/packwiz-renderer/${version} (anthony@porthou.se)`
-    }
+      "User-Agent": `anthonyporthouse/packwiz-renderer/${version} (anthony@porthou.se)`,
+    },
   });
 }
 function getCurseforgeClient() {
@@ -23963,8 +28199,8 @@ function getCurseforgeClient() {
     baseURL: "https://api.curseforge.com/",
     headers: {
       "User-Agent": `anthonyporthouse/packwiz-renderer/${version} (anthony@porthou.se)`,
-      "x-api-key": process.env.CURSEFORGE_KEY
-    }
+      "x-api-key": process.env.CURSEFORGE_KEY,
+    },
   });
 }
 
@@ -23974,8 +28210,8 @@ async function getClasses() {
   const res = await client.get("/v1/categories", {
     params: {
       gameId: 432,
-      classesOnly: true
-    }
+      classesOnly: true,
+    },
   });
   return res.data.data;
 }
@@ -23985,9 +28221,12 @@ async function getFiles(fileIds) {
   const client = getCurseforgeClient();
   try {
     const res = await client.post("/v1/mods/files", {
-      fileIds
+      fileIds,
     });
-    return res.data.data.reduce((obj, current) => (obj[current.modId] = current.displayName, obj), {});
+    return res.data.data.reduce(
+      (obj, current) => ((obj[current.modId] = current.displayName), obj),
+      {},
+    );
   } catch (e) {
     if (axios_default.isAxiosError(e)) {
       console.error(e.response);
@@ -24003,7 +28242,7 @@ async function getMods(modIds) {
   const client = getCurseforgeClient();
   try {
     const res = await client.post("/v1/mods", {
-      modIds
+      modIds,
     });
     return res.data.data;
   } catch (e) {
@@ -24014,14 +28253,18 @@ async function getMods(modIds) {
 
 // src/curseforge/normalizeCurseforgeModData.ts
 async function normalizeCurseforgeModData(mods) {
-  const modData = await getMods(mods.map((mod) => mod.update.curseforge["project-id"]));
-  const versions = await getFiles(mods.map((mod) => mod.update.curseforge["file-id"]));
+  const modData = await getMods(
+    mods.map((mod) => mod.update.curseforge["project-id"]),
+  );
+  const versions = await getFiles(
+    mods.map((mod) => mod.update.curseforge["file-id"]),
+  );
   const curseforgeCategories = await getClasses();
   return modData.map((mod) => {
-    console.log(`${source_default.green("Mod:")} ${mod.name} ${source_default.gray(versions[mod.id])}`);
-    const category = curseforgeCategories.find(
-      (cat) => cat.id === mod.classId
+    console.log(
+      `${source_default.green("Mod:")} ${mod.name} ${source_default.gray(versions[mod.id])}`,
     );
+    const category = curseforgeCategories.find((cat) => cat.id === mod.classId);
     return {
       source: "curseforge",
       title: mod.name,
@@ -24042,7 +28285,7 @@ async function normalizeCurseforgeModData(mods) {
             return "mod";
         }
       })(),
-      version: versions[mod.id]
+      version: versions[mod.id],
     };
   });
 }
@@ -24057,7 +28300,7 @@ function normalizeExternalModData(mods) {
       summary: "",
       url: mod.download.url,
       logoUrl: "",
-      type: "mod"
+      type: "mod",
     };
   });
 }
@@ -24069,7 +28312,10 @@ function isIndex(data) {
   return "files" in data;
 }
 function getIndexFile(path, name) {
-  const indexData = (0, import_node_fs.readFileSync)(`${path}/${name}`, "utf-8");
+  const indexData = (0, import_node_fs.readFileSync)(
+    `${path}/${name}`,
+    "utf-8",
+  );
   const pack = (0, import_smol_toml.parse)(indexData);
   if (!isIndex(pack)) {
     throw "Invalid index file";
@@ -24084,7 +28330,10 @@ function isModFile(data) {
   return "side" in data;
 }
 function getModFile(packPath, filePath) {
-  const data = (0, import_node_fs2.readFileSync)(`${packPath}/${filePath}`, "utf-8");
+  const data = (0, import_node_fs2.readFileSync)(
+    `${packPath}/${filePath}`,
+    "utf-8",
+  );
   const modFile = (0, import_smol_toml2.parse)(data);
   if (!isModFile(modFile)) {
     throw Error("Not a valid mod file");
@@ -24108,7 +28357,10 @@ function isPack(pack) {
   return "pack-format" in pack;
 }
 function getPackFile(path) {
-  const indexData = (0, import_node_fs3.readFileSync)(`${path}/pack.toml`, "utf-8");
+  const indexData = (0, import_node_fs3.readFileSync)(
+    `${path}/pack.toml`,
+    "utf-8",
+  );
   const pack = (0, import_smol_toml3.parse)(indexData);
   if (!isPack(pack)) {
     throw "Invalid pack";
@@ -24122,8 +28374,8 @@ async function getProjects(projectIds) {
   try {
     const res = await client.get("/v2/projects", {
       params: {
-        ids: JSON.stringify(projectIds)
-      }
+        ids: JSON.stringify(projectIds),
+      },
     });
     return res.data;
   } catch (e) {
@@ -24138,10 +28390,15 @@ async function getVersions(versions) {
   try {
     const res = await client.get("/v2/versions", {
       params: {
-        ids: JSON.stringify(versions)
-      }
+        ids: JSON.stringify(versions),
+      },
     });
-    return res.data.reduce((obj, current) => (obj[current.project_id] = current.version_number, obj), {});
+    return res.data.reduce(
+      (obj, current) => (
+        (obj[current.project_id] = current.version_number), obj
+      ),
+      {},
+    );
   } catch (e) {
     console.error(e);
     throw e;
@@ -24150,10 +28407,16 @@ async function getVersions(versions) {
 
 // src/modrinth/normalizeModrinthModData.ts
 async function normalizeModrinthModData(mods) {
-  const modData = await getProjects(mods.map((mod) => mod.update.modrinth["mod-id"]));
-  const versions = await getVersions(mods.map((mod) => mod.update.modrinth["version"]));
+  const modData = await getProjects(
+    mods.map((mod) => mod.update.modrinth["mod-id"]),
+  );
+  const versions = await getVersions(
+    mods.map((mod) => mod.update.modrinth["version"]),
+  );
   return modData.map((mod) => {
-    console.log(`${source_default.green("Mod:")} ${mod.title} ${source_default.gray(versions[mod.id])}`);
+    console.log(
+      `${source_default.green("Mod:")} ${mod.title} ${source_default.gray(versions[mod.id])}`,
+    );
     return {
       source: "modrinth",
       title: mod.title,
@@ -24161,7 +28424,7 @@ async function normalizeModrinthModData(mods) {
       logoUrl: mod.icon_url ?? "",
       url: `https://modrinth.com/mod/${mod.id}`,
       type: mod.project_type,
-      version: versions[mod.id]
+      version: versions[mod.id],
     };
   });
 }
@@ -24169,91 +28432,385 @@ async function normalizeModrinthModData(mods) {
 // templates/templates.js
 var Handlebars = require_lib();
 var template = Handlebars.template;
-var templates = Handlebars.templates = Handlebars.templates || {};
-templates["index"] = template({ "1": function(container, depth0, helpers, partials, data) {
-  var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return (stack1 = container.invokePartial(lookupProperty(partials, "item"), depth0, { "name": "item", "data": data, "indent": "            ", "helpers": helpers, "partials": partials, "decorators": container.decorators })) != null ? stack1 : "";
-}, "compiler": [8, ">= 4.3.0"], "main": function(container, depth0, helpers, partials, data) {
-  var stack1, alias1 = container.lambda, alias2 = container.escapeExpression, alias3 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <meta name="description" content="A packwiz minecraft modpack" />\n    <meta name="generator" content="packwiz-renderer 0.1.0" />\n\n    <title>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</title>\n  </head>\n  <body>\n    <main style="max-width: 960px; margin: 0 auto">\n\n      <h1>' + alias2(alias1((stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) != null ? lookupProperty(stack1, "name") : stack1, depth0)) + '</h1>\n\n      <p>\n        To install this modpack use packwiz, and point at this url with\n        <a href="/pack.toml">pack.toml</a>\n        at the end.\n      </p>\n\n      <div>\n\n        <h2>Mods</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "mods") : depth0, { "name": "each", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 27, "column": 10 }, "end": { "line": 29, "column": 19 } } })) != null ? stack1 : "") + '\n        </ul>\n\n        <h2>Resource Packs</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' + ((stack1 = lookupProperty(helpers, "each").call(alias3, depth0 != null ? lookupProperty(depth0, "resourcePacks") : depth0, { "name": "each", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 37, "column": 10 }, "end": { "line": 39, "column": 19 } } })) != null ? stack1 : "") + "\n        </ul>\n      </div>\n    </main>\n\n  </body>\n</html>\n";
-}, "usePartial": true, "useData": true });
-templates["item"] = template({ "1": function(container, depth0, helpers, partials, data) {
-  var stack1, alias1 = depth0 != null ? depth0 : container.nullContext || {}, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return ((stack1 = lookupProperty(helpers, "if").call(alias1, (lookupProperty(helpers, "gte") || depth0 && lookupProperty(depth0, "gte") || container.hooks.helperMissing).call(alias1, data && lookupProperty(data, "index"), 8, { "name": "gte", "hash": {}, "data": data, "loc": { "start": { "line": 3, "column": 10 }, "end": { "line": 3, "column": 24 } } }), { "name": "if", "hash": {}, "fn": container.program(2, data, 0), "inverse": container.program(4, data, 0), "data": data, "loc": { "start": { "line": 3, "column": 4 }, "end": { "line": 20, "column": 11 } } })) != null ? stack1 : "") + "\n";
-}, "2": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 8, "column": 13 }, "end": { "line": 8, "column": 24 } } }) : helper)) + '"\n        alt=""\n        loading="lazy"\n      />\n';
-}, "4": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' + container.escapeExpression((helper = (helper = lookupProperty(helpers, "logoUrl") || (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "logoUrl", "hash": {}, "data": data, "loc": { "start": { "line": 17, "column": 13 }, "end": { "line": 17, "column": 24 } } }) : helper)) + '"\n        alt=""\n      />\n';
-}, "6": function(container, depth0, helpers, partials, data) {
-  return '    <div style="width: 128px; height: 128px"></div>\n';
-}, "8": function(container, depth0, helpers, partials, data) {
-  var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return container.escapeExpression((helper = (helper = lookupProperty(helpers, "version") || (depth0 != null ? lookupProperty(depth0, "version") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, { "name": "version", "hash": {}, "data": data, "loc": { "start": { "line": 29, "column": 28 }, "end": { "line": 29, "column": 41 } } }) : helper));
-}, "compiler": [8, ">= 4.3.0"], "main": function(container, depth0, helpers, partials, data) {
-  var stack1, helper, alias1 = depth0 != null ? depth0 : container.nullContext || {}, alias2 = container.hooks.helperMissing, alias3 = "function", alias4 = container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
-    if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-      return parent[propertyName];
-    }
-    return void 0;
-  };
-  return '<li style="display: flex; align-items: center; gap: 1rem">\n' + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0, { "name": "if", "hash": {}, "fn": container.program(1, data, 0), "inverse": container.program(6, data, 0), "data": data, "loc": { "start": { "line": 2, "column": 2 }, "end": { "line": 24, "column": 9 } } })) != null ? stack1 : "") + '  <div>\n    <h3>\n      <a href="' + alias4((helper = (helper = lookupProperty(helpers, "url") || (depth0 != null ? lookupProperty(depth0, "url") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "url", "hash": {}, "data": data, "loc": { "start": { "line": 27, "column": 15 }, "end": { "line": 27, "column": 22 } } }) : helper)) + '" rel="noreferrer noopener" target="_blank">' + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "title", "hash": {}, "data": data, "loc": { "start": { "line": 27, "column": 66 }, "end": { "line": 27, "column": 75 } } }) : helper)) + "</a>\n\n      <small>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "version") : depth0, { "name": "if", "hash": {}, "fn": container.program(8, data, 0), "inverse": container.noop, "data": data, "loc": { "start": { "line": 29, "column": 13 }, "end": { "line": 29, "column": 48 } } })) != null ? stack1 : "") + "</small>\n    </h3>\n    <p>" + alias4((helper = (helper = lookupProperty(helpers, "summary") || (depth0 != null ? lookupProperty(depth0, "summary") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, { "name": "summary", "hash": {}, "data": data, "loc": { "start": { "line": 31, "column": 7 }, "end": { "line": 31, "column": 18 } } }) : helper)) + "</p>\n  </div>\n</li>\n";
-}, "useData": true });
+var templates = (Handlebars.templates = Handlebars.templates || {});
+templates["index"] = template({
+  1: function (container, depth0, helpers, partials, data) {
+    var stack1,
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (stack1 = container.invokePartial(
+      lookupProperty(partials, "item"),
+      depth0,
+      {
+        name: "item",
+        data: data,
+        indent: "            ",
+        helpers: helpers,
+        partials: partials,
+        decorators: container.decorators,
+      },
+    )) != null
+      ? stack1
+      : "";
+  },
+  compiler: [8, ">= 4.3.0"],
+  main: function (container, depth0, helpers, partials, data) {
+    var stack1,
+      alias1 = container.lambda,
+      alias2 = container.escapeExpression,
+      alias3 = depth0 != null ? depth0 : container.nullContext || {},
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (
+      '<html lang="en">\n  <head>\n    <meta charset="UTF-8" />\n    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n    <meta name="description" content="A packwiz minecraft modpack" />\n    <meta name="generator" content="packwiz-renderer 0.1.0" />\n\n    <title>' +
+      alias2(
+        alias1(
+          (stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) !=
+            null
+            ? lookupProperty(stack1, "name")
+            : stack1,
+          depth0,
+        ),
+      ) +
+      '</title>\n  </head>\n  <body>\n    <main style="max-width: 960px; margin: 0 auto">\n\n      <h1>' +
+      alias2(
+        alias1(
+          (stack1 = depth0 != null ? lookupProperty(depth0, "pack") : depth0) !=
+            null
+            ? lookupProperty(stack1, "name")
+            : stack1,
+          depth0,
+        ),
+      ) +
+      '</h1>\n\n      <p>\n        To install this modpack use packwiz, and point at this url with\n        <a href="/pack.toml">pack.toml</a>\n        at the end.\n      </p>\n\n      <div>\n\n        <h2>Mods</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' +
+      ((stack1 = lookupProperty(helpers, "each").call(
+        alias3,
+        depth0 != null ? lookupProperty(depth0, "mods") : depth0,
+        {
+          name: "each",
+          hash: {},
+          fn: container.program(1, data, 0),
+          inverse: container.noop,
+          data: data,
+          loc: {
+            start: { line: 27, column: 10 },
+            end: { line: 29, column: 19 },
+          },
+        },
+      )) != null
+        ? stack1
+        : "") +
+      '\n        </ul>\n\n        <h2>Resource Packs</h2>\n        <ul\n          style="display: flex; flex-direction: column; gap: 1rem; padding: 0"\n        >\n' +
+      ((stack1 = lookupProperty(helpers, "each").call(
+        alias3,
+        depth0 != null ? lookupProperty(depth0, "resourcePacks") : depth0,
+        {
+          name: "each",
+          hash: {},
+          fn: container.program(1, data, 0),
+          inverse: container.noop,
+          data: data,
+          loc: {
+            start: { line: 37, column: 10 },
+            end: { line: 39, column: 19 },
+          },
+        },
+      )) != null
+        ? stack1
+        : "") +
+      "\n        </ul>\n      </div>\n    </main>\n\n  </body>\n</html>\n"
+    );
+  },
+  usePartial: true,
+  useData: true,
+});
+templates["item"] = template({
+  1: function (container, depth0, helpers, partials, data) {
+    var stack1,
+      alias1 = depth0 != null ? depth0 : container.nullContext || {},
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (
+      ((stack1 = lookupProperty(helpers, "if").call(
+        alias1,
+        (
+          lookupProperty(helpers, "gte") ||
+          (depth0 && lookupProperty(depth0, "gte")) ||
+          container.hooks.helperMissing
+        ).call(alias1, data && lookupProperty(data, "index"), 8, {
+          name: "gte",
+          hash: {},
+          data: data,
+          loc: { start: { line: 3, column: 10 }, end: { line: 3, column: 24 } },
+        }),
+        {
+          name: "if",
+          hash: {},
+          fn: container.program(2, data, 0),
+          inverse: container.program(4, data, 0),
+          data: data,
+          loc: { start: { line: 3, column: 4 }, end: { line: 20, column: 11 } },
+        },
+      )) != null
+        ? stack1
+        : "") + "\n"
+    );
+  },
+  2: function (container, depth0, helpers, partials, data) {
+    var helper,
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (
+      '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' +
+      container.escapeExpression(
+        ((helper =
+          (helper =
+            lookupProperty(helpers, "logoUrl") ||
+            (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) !=
+          null
+            ? helper
+            : container.hooks.helperMissing),
+        typeof helper === "function"
+          ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+              name: "logoUrl",
+              hash: {},
+              data: data,
+              loc: {
+                start: { line: 8, column: 13 },
+                end: { line: 8, column: 24 },
+              },
+            })
+          : helper),
+      ) +
+      '"\n        alt=""\n        loading="lazy"\n      />\n'
+    );
+  },
+  4: function (container, depth0, helpers, partials, data) {
+    var helper,
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (
+      '      <img\n        style="aspect-ratio: 1"\n        width="128"\n        height="128"\n        src="' +
+      container.escapeExpression(
+        ((helper =
+          (helper =
+            lookupProperty(helpers, "logoUrl") ||
+            (depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0)) !=
+          null
+            ? helper
+            : container.hooks.helperMissing),
+        typeof helper === "function"
+          ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+              name: "logoUrl",
+              hash: {},
+              data: data,
+              loc: {
+                start: { line: 17, column: 13 },
+                end: { line: 17, column: 24 },
+              },
+            })
+          : helper),
+      ) +
+      '"\n        alt=""\n      />\n'
+    );
+  },
+  6: function (container, depth0, helpers, partials, data) {
+    return '    <div style="width: 128px; height: 128px"></div>\n';
+  },
+  8: function (container, depth0, helpers, partials, data) {
+    var helper,
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return container.escapeExpression(
+      ((helper =
+        (helper =
+          lookupProperty(helpers, "version") ||
+          (depth0 != null ? lookupProperty(depth0, "version") : depth0)) != null
+          ? helper
+          : container.hooks.helperMissing),
+      typeof helper === "function"
+        ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+            name: "version",
+            hash: {},
+            data: data,
+            loc: {
+              start: { line: 29, column: 28 },
+              end: { line: 29, column: 41 },
+            },
+          })
+        : helper),
+    );
+  },
+  compiler: [8, ">= 4.3.0"],
+  main: function (container, depth0, helpers, partials, data) {
+    var stack1,
+      helper,
+      alias1 = depth0 != null ? depth0 : container.nullContext || {},
+      alias2 = container.hooks.helperMissing,
+      alias3 = "function",
+      alias4 = container.escapeExpression,
+      lookupProperty =
+        container.lookupProperty ||
+        function (parent, propertyName) {
+          if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+            return parent[propertyName];
+          }
+          return void 0;
+        };
+    return (
+      '<li style="display: flex; align-items: center; gap: 1rem">\n' +
+      ((stack1 = lookupProperty(helpers, "if").call(
+        alias1,
+        depth0 != null ? lookupProperty(depth0, "logoUrl") : depth0,
+        {
+          name: "if",
+          hash: {},
+          fn: container.program(1, data, 0),
+          inverse: container.program(6, data, 0),
+          data: data,
+          loc: { start: { line: 2, column: 2 }, end: { line: 24, column: 9 } },
+        },
+      )) != null
+        ? stack1
+        : "") +
+      '  <div>\n    <h3>\n      <a href="' +
+      alias4(
+        ((helper =
+          (helper =
+            lookupProperty(helpers, "url") ||
+            (depth0 != null ? lookupProperty(depth0, "url") : depth0)) != null
+            ? helper
+            : alias2),
+        typeof helper === alias3
+          ? helper.call(alias1, {
+              name: "url",
+              hash: {},
+              data: data,
+              loc: {
+                start: { line: 27, column: 15 },
+                end: { line: 27, column: 22 },
+              },
+            })
+          : helper),
+      ) +
+      '" rel="noreferrer noopener" target="_blank">' +
+      alias4(
+        ((helper =
+          (helper =
+            lookupProperty(helpers, "title") ||
+            (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null
+            ? helper
+            : alias2),
+        typeof helper === alias3
+          ? helper.call(alias1, {
+              name: "title",
+              hash: {},
+              data: data,
+              loc: {
+                start: { line: 27, column: 66 },
+                end: { line: 27, column: 75 },
+              },
+            })
+          : helper),
+      ) +
+      "</a>\n\n      <small>" +
+      ((stack1 = lookupProperty(helpers, "if").call(
+        alias1,
+        depth0 != null ? lookupProperty(depth0, "version") : depth0,
+        {
+          name: "if",
+          hash: {},
+          fn: container.program(8, data, 0),
+          inverse: container.noop,
+          data: data,
+          loc: {
+            start: { line: 29, column: 13 },
+            end: { line: 29, column: 48 },
+          },
+        },
+      )) != null
+        ? stack1
+        : "") +
+      "</small>\n    </h3>\n    <p>" +
+      alias4(
+        ((helper =
+          (helper =
+            lookupProperty(helpers, "summary") ||
+            (depth0 != null ? lookupProperty(depth0, "summary") : depth0)) !=
+          null
+            ? helper
+            : alias2),
+        typeof helper === alias3
+          ? helper.call(alias1, {
+              name: "summary",
+              hash: {},
+              data: data,
+              loc: {
+                start: { line: 31, column: 7 },
+                end: { line: 31, column: 18 },
+              },
+            })
+          : helper),
+      ) +
+      "</p>\n  </div>\n</li>\n"
+    );
+  },
+  useData: true,
+});
 
 // src/renderer.ts
 var import_handlebars = __toESM(require_lib(), 1);
 function render(pack, sortedProjects) {
-  import_handlebars.default.registerHelper(
-    "lte",
-    (val1, val2) => val1 <= val2
-  );
-  import_handlebars.default.registerHelper(
-    "gte",
-    (val1, val2) => val1 >= val2
-  );
+  import_handlebars.default.registerHelper("lte", (val1, val2) => val1 <= val2);
+  import_handlebars.default.registerHelper("gte", (val1, val2) => val1 >= val2);
   import_handlebars.default.registerPartial(
     "item",
-    import_handlebars.default.templates["item"]
+    import_handlebars.default.templates["item"],
   );
   const template2 = import_handlebars.default.templates["index"];
   return template2({
     pack,
     mods: sortedProjects.filter((project) => project.type === "mod"),
     resourcePacks: sortedProjects.filter(
-      (project) => project.type === "resourcepack"
+      (project) => project.type === "resourcepack",
     ),
-    versions: {}
+    versions: {},
   });
 }
 
@@ -24267,18 +28824,24 @@ async function buildAction(packPath, options) {
   const mods = index.files.map((file) => getModFile(packPath, file.file));
   const projects = [];
   console.log(`${source_default.blue("Info: ")} Fetching Modrinth Metadata`);
-  projects.push(...await normalizeModrinthModData(mods.filter(isModrinthFile)));
+  projects.push(
+    ...(await normalizeModrinthModData(mods.filter(isModrinthFile))),
+  );
   console.log(`${source_default.blue("Info: ")} Fetching Cursforge Metadata`);
-  projects.push(...await normalizeCurseforgeModData(mods.filter(isCurseforgeFile)));
-  console.log(`${source_default.blue("Info: ")} Fetching External File Metadata`);
+  projects.push(
+    ...(await normalizeCurseforgeModData(mods.filter(isCurseforgeFile))),
+  );
+  console.log(
+    `${source_default.blue("Info: ")} Fetching External File Metadata`,
+  );
   projects.push(...normalizeExternalModData(mods.filter(isExternalFile)));
-  const sortedProjects = projects.sort(
-    (a, b) => a.title.localeCompare(b.title)
+  const sortedProjects = projects.sort((a, b) =>
+    a.title.localeCompare(b.title),
   );
   console.log(`${source_default.blue("Info: ")} Rendering Template`);
   const output = render(pack, sortedProjects);
   console.log(
-    `${source_default.blue("Info: ")} Outputting to ${options.output}/index.html`
+    `${source_default.blue("Info: ")} Outputting to ${options.output}/index.html`,
   );
   (0, import_fs.mkdirSync)(options.output, { recursive: true });
   (0, import_fs.writeFileSync)(`${options.output}/index.html`, output);
@@ -24288,15 +28851,23 @@ async function buildAction(packPath, options) {
 var program2 = new Command();
 program2.name("packwiz-renderer");
 program2.version(version);
-program2.command("build").description("Build the static assets for the given pack").argument("<pack>", "The path to the pack to build").option("-o, --output <dir>", "output directory", ".").action(buildAction);
+program2
+  .command("build")
+  .description("Build the static assets for the given pack")
+  .argument("<pack>", "The path to the pack to build")
+  .option("-o, --output <dir>", "output directory", ".")
+  .action(buildAction);
 var cli_default = program2;
 
 // bin/build.ts
-cli_default.parseAsync().then(() => {
-  console.log("Complete");
-}).catch((e) => {
-  console.error(e);
-});
+cli_default
+  .parseAsync()
+  .then(() => {
+    console.log("Complete");
+  })
+  .catch((e) => {
+    console.error(e);
+  });
 /*! Bundled license information:
 
 mime-db/index.js:

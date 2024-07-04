@@ -16,9 +16,7 @@ export function render(
     (val1: number, val2: number) => val1 >= val2,
   );
 
-  Handlebars.registerPartial(
-    'item', Handlebars.templates['item']
-  )
+  Handlebars.registerPartial("item", Handlebars.templates["item"]);
 
   const template = Handlebars.templates["index"];
 

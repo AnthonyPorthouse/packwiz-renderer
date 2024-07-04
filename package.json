@@ -1,20 +1,27 @@
 {
   "name": "packwiz-renderer",
   "version": "0.1.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
   "main": "index.js",
   "bin": {
     "packwiz-renderer": "./dist/packwiz-renderer.cjs"
   },
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild --format=cjs  --platform=node --bundle --outfile=dist/packwiz-renderer.cjs bin/build.ts",
     "prebuild": "handlebars -e hbs -c 'handlebars' ./templates -f 'templates/templates.js'",
-    "format": "prettier --write ."
+    "build": "esbuild --format=cjs  --platform=node --bundle --outfile=dist/packwiz-renderer.cjs bin/build.ts",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "lint-staged": {
+    "package.json": "npx -y sort-package-json",
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
   "dependencies": {
     "@commander-js/extra-typings": "^12.1.0",
     "axios": "^1.7.2",
@@ -26,9 +33,15 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.16.0",
     "typescript": "^5.5.2"
-  }
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "engineStrict": true
 }
