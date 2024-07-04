@@ -1,5 +1,6 @@
-import "@templates/templates.js";
-import Handlebars from "handlebars";
+import { Eta } from "eta";
+import path from "path";
+import { version } from "../package.json";
 import type { PackFile } from "./getPackFile.js";
 import { NormalizedModData } from "./types.js";
 
@@ -7,25 +8,14 @@ export function render(
   pack: PackFile,
   sortedProjects: NormalizedModData[],
 ): string {
-  Handlebars.registerHelper(
-    "lte",
-    (val1: number, val2: number) => val1 <= val2,
-  );
-  Handlebars.registerHelper(
-    "gte",
-    (val1: number, val2: number) => val1 >= val2,
-  );
+  const eta = new Eta({ views: path.join(__dirname, "..", "templates") });
 
-  Handlebars.registerPartial("item", Handlebars.templates["item"]);
-
-  const template = Handlebars.templates["index"];
-
-  return template({
-    pack: pack,
+  return eta.render("./index", {
+    pack,
     mods: sortedProjects.filter((project) => project.type === "mod"),
     resourcePacks: sortedProjects.filter(
       (project) => project.type === "resourcepack",
     ),
-    versions: {},
+    version,
   });
 }

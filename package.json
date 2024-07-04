@@ -10,7 +10,6 @@
     "packwiz-renderer": "./dist/packwiz-renderer.cjs"
   },
   "scripts": {
-    "prebuild": "handlebars -e hbs -c 'handlebars' ./templates -f 'templates/templates.js'",
     "build": "esbuild --format=cjs  --platform=node --bundle --outfile=dist/packwiz-renderer.cjs bin/build.ts",
     "format": "prettier --write .",
     "prepare": "husky",
@@ -28,6 +27,7 @@
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
+    "eta": "^3.4.0",
     "handlebars": "^4.7.8",
     "smol-toml": "^1.2.2"
   },
