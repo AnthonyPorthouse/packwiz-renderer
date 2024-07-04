@@ -12,7 +12,7 @@ interface BaseModFile {
     hash: string;
   };
 
-  update?: {};
+  update?: object;
 }
 
 export interface ExternalFile extends BaseModFile {
