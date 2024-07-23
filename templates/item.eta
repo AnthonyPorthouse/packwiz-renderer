@@ -14,13 +14,13 @@
   <div>
     <h3>
       <a href="<%= it.mod.url %>" rel="noreferrer noopener" target="_blank">
-        <%= it.mod.title %>
+        <%_ = it.mod.title _%>
       </a>
 
       <small>
-        <% if (it.mod.version) {%>
-        <%= it.mod.version %>
-        <% } %>
+        <%_ if (it.mod.version) { _%>
+        <%_ = it.mod.version _%>
+        <%_ } _%>
       </small>
     </h3>
     <p><%= it.mod.summary %></p>
