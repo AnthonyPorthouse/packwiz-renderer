@@ -21152,7 +21152,9 @@ async function buildAction(packPath, options) {
   const pack = getPackFile(packPath);
   const index = getIndexFile(packPath, pack.index.file);
   console.log(`${source_default.blue("Info: ")} Parsing Mod Files`);
-  const mods = index.files.map((file) => getModFile(packPath, file.file));
+  const mods = index.files
+    .filter((file) => file.metafile)
+    .map((file) => getModFile(packPath, file.file));
   const projects = [];
   console.log(`${source_default.blue("Info: ")} Fetching Modrinth Metadata`);
   projects.push(
